@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { CdkTableModule } from '@angular/cdk/table';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material/material.module';
+import { RecaptchaModule } from 'ng2-recaptcha';
 
 import { AppComponent } from './app.component';
 import { UsuariosModule } from './pages/usuarios/usuarios.module';
@@ -14,6 +15,8 @@ import { ProyectosModule } from './pages/proyectos/proyectos.module';
 
 import { InicioComponent } from './pages/inicio/inicio.component';
 import { OrganizacionesComponent } from './pages/organizaciones/organizaciones.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegistroComponent } from './pages/login/registro/registro.component';
 
 
 // import { AdicionarComponent } from './pages/usuarios/adicionar/adicionar.component';
@@ -24,7 +27,9 @@ import { OrganizacionesComponent } from './pages/organizaciones/organizaciones.c
   declarations: [
     AppComponent,
     InicioComponent,
-    OrganizacionesComponent
+    OrganizacionesComponent,
+    LoginComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,8 @@ import { OrganizacionesComponent } from './pages/organizaciones/organizaciones.c
     HttpModule,
     MaterialModule,
     UsuariosModule,
-    ProyectosModule
+    ProyectosModule,
+    RecaptchaModule.forRoot(), // Keep in mind the "forRoot"-magic nuances!
   ],
   exports: [
     CdkTableModule

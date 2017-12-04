@@ -21,7 +21,8 @@
             "styles.css",
             "../node_modules/bootstrap/dist/css/bootstrap.min.css",
             "../node_modules/font-awesome/css/font-awesome.css",
-            "../node_modules/angular-star-rating/assets/scss/star-rating.scss"
+            "../node_modules/angular-star-rating/assets/scss/star-rating.scss",
+            "../node_modules/bootstrap-social/bootstrap-social.css"
         ],
         "scripts": [
             "../node_modules/jquery/dist/jquery.min.js",
