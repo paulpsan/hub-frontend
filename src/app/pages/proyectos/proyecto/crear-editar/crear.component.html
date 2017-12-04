@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="row justify-content-md-center m-1">
+        <div class="card bg-light col-md-6 col-sm-12" style="padding: 0;">
+            <div class="card-header">Crear Nuevo Proyecto
+            </div>
+            <div class="card-body">
+                <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                    <fieldset>
+                        <legend></legend>
+                        <div class="form-group">
+                            <label class="col-form-label required">Nombre de Proyecto</label>
+                            <br>
+                            <mat-form-field class="col">
+                                <input matInput placeholder="" formControlName="nombre">
+                            </mat-form-field>
+                            <p>
+                                Este nombre debe ser único en todos los proyectos
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label ">Dirección del proyecto</label>
+                            <br>
+                            <mat-form-field class="col">
+                                <input matInput placeholder="">
+                            </mat-form-field>
+                            <p>
+                                Este debe contener el path del proyecto Addicionar
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label ">Descripcion</label>
+                            <br>
+                            <mat-form-field class="col">
+                                <textarea matInput placeholder=""></textarea>
+                            </mat-form-field>
+                            <p>
+                                Detalle una descripción del proyecto centrado en las caracteristicas <br> Máximo 800 caracteres
+                            </p>
+                        </div>
+                    </fieldset>
+
+                    <button mat-button [disabled]="!userForm.valid" type="submit" color="primary">
+                      <mat-icon mat-list-icon>done</mat-icon>
+                      Guardar
+                    </button>
+                    <button mat-button routerLink="/proyectos" color="warn">
+                      <mat-icon mat-list-icon>cancel</mat-icon>
+                      Cancelar
+                    </button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>

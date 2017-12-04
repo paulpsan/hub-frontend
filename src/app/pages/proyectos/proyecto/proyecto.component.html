@@ -1,0 +1,123 @@
+<div class="container-fluid p-0" *ngIf='show'>
+    <div class="col titulo_proyecto">
+        <div class="">
+            <i class="fa fa-folder" aria-hidden="true"><span style="text-transform: uppercase;">  {{proyecto.nombre}}</span></i>
+        </div>
+        <div class="">
+            <i class="fa fa-cogs" aria-hidden="true"></i> <span class="enlaces" (click)="editarProyecto(proyecto)">Editar</span>
+        </div>
+    </div>
+
+    <div class="col mb-3">
+        <div class="card-deck">
+            <div class="card">
+                <div class="card-header">
+                    <span>Resumen</span>
+                </div>
+                <div class="card-body">
+                    <span>{{proyecto.descripcion}}</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span>Referencia</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <span>Enlace del proyecto:</span>
+                        </div>
+                        <div class="col-sm-7">
+                            <a href="">{{proyecto.web_url}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <span>Ubicacion:</span>
+                        </div>
+                        <div class="col-sm-7">
+                            <a href="">{{proyecto.http_url_repo}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+
+                        </div>
+                        <div class="col-sm-7">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col mb-3">
+        <h4>Licencias</h4>
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-5">
+                <div class="card bg-light">
+                    <!-- <div class="card-header">GNU General Public Licence v2.0</div> -->
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Light card title</h4> -->
+                        <p class="card-text">GNU General Public Licence v2.0</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col mb-3">
+        <h4>Seguridad del Proyecto</h4>
+        <div class="card-deck">
+            <div class="card">
+                <div class="card-header">
+                    <span>Vulnerabilidades por Version</span>
+                </div>
+                <div class="card-body">
+                    <span></span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span>Reporte de Vulnerabilidades</span>
+                </div>
+                <div class="card-body">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3 ml-0">
+        <div class="col pl-4">
+            <h4>Codigo</h4>
+            <chart-codigo>
+            </chart-codigo>
+        </div>
+        <div class="col pl-4">
+            <h4>Actividad</h4>
+            GRAFICO DE COMMITS
+            <chart-commits>
+            </chart-commits>
+        </div>
+        <div class="col pl-4">
+            <h4>Codigo</h4>
+        </div>
+    </div>
+    <div class="row mb-3 ml-0">
+        <div class="col pl-4">
+            <h4>Lenguajes de programacion</h4>
+            <chart-lenguajes>
+            </chart-lenguajes>
+        </div>
+        <div class="col pl-4">
+            <h4>Resumen de Actividad</h4>
+            resumen mensual resumen anual
+        </div>
+        <div class="col pl-4">
+            <h4>Recientes Contribuciones</h4>
+            raiting *****
+        </div>
+    </div>
+</div>

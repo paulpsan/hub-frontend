@@ -1,0 +1,15 @@
+.titulo_proyecto {
+    padding: 15px;
+    font-size: 16px;
+}
+
+.contenedor_box {
+    display: flex;
+    margin-top: 15;
+    border-bottom: 1px solid #000;
+}
+
+.box_detalle {
+    margin: 10px;
+    word-wrap: break-word;
+}

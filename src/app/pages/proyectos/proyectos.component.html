@@ -1,0 +1,225 @@
+<!-- <section class="container">
+  <div class="col-md-12">
+      <button mat-button (click)="adicionar()" color="primary">
+          <mat-icon mat-list-icon>add</mat-icon>adicionar
+      </button>
+  </div>
+  <div class="sidebar col-lg-3 col-md-2">
+    <div>
+      <h3>Buscar</h3>
+      <mat-form-field class="example-form-field">
+          <input matInput type="text" placeholder="Nombre del Proyecto"/>     
+          <button mat-button matSuffix mat-icon-button aria-label="Search">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field> 
+    </div>
+    <div>
+      <h3>
+        Explorar 
+      </h3> 
+      <span class="badge badge-default">Javascript</span>
+      <span class="badge badge-default">Java</span>
+      <span class="badge badge-default">PHP</span>
+      <span class="badge badge-default">NodeJs</span>
+      <span class="badge badge-default">TypeScript</span>
+
+    </div>
+            
+    
+  </div>
+  <div class="col-lg-9 col-md-10 ">
+      
+      <table class="table">
+        <tbody>
+        <tr *ngFor="let proyecto of proyectos">
+          <td >
+            <div class="row">
+              <div class="col-md-7">
+                <a class="titulo_proyecto" (click)="irProyecto(proyecto)">
+                  <h4 matLine>{{proyecto.nombre}}</h4>
+                </a>
+                <p matLine>{{proyecto.descripcion}}
+                </p>
+                <div class="">
+                  <div class="col-md-6">
+                    <span>Categoria: </span> 
+                  </div>
+                  <div class="col-md-6">
+                    <span>Licencias: </span> 
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-5">
+                    <i class="fa fa-user-circle"></i>
+                    <span> Usuarios: </span>
+                </div>
+                <div class="col-md-7">
+                    {{proyecto.usuarios}} 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <i class="fa fa-code"></i>
+                  <span>Commits: </span> 
+                </div>
+                <div class="col-md-7">
+                    {{proyecto.totalCommits}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                    <i class="fa fa-calendar"></i>
+                    <span>Fecha Creacion: </span>
+                </div>
+                <div class="col-md-7">
+                    {{proyecto.fecha_creacion}}
+                </div>
+              </div>
+                <div class="row">
+                  <div class="col-md-5">
+                    <i class="fa fa-calendar"></i>
+                  <span>  Ultima actividad: </span>
+                </div>
+                  <div class="col-md-7">
+                    {{proyecto.fecha_ultima_actividad}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-5">
+                    <i class="fa fa-gitlab"></i>
+                    <span>Url:</span>
+                  </div>
+                  <div class="col-md-7">
+                    <a href="{{proyecto.http_url_repo}}" target="#" >{{proyecto.http_url_repo}}</a>
+                  </div>
+                </div>
+                  <div class="col-md-5"><span>Clasificación</span></div>
+                  <div class="col-md-7"><star-rating-comp [starType]="'svg'"></star-rating-comp></div>
+                  
+            </div>
+          </div>
+            <div class="secundario" *ngIf="mostrarToggle && proyecto.id==idSelect">
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <mat-paginator [length]="length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="pageEvent($event)">
+    </mat-paginator>
+  </div>
+</section> -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8" style="text-align: center">
+            <span>Buscar:</span>
+            <mat-form-field class="example-form-field">
+                <input matInput type="text" placeholder="Nombre del Proyecto" />
+                <!-- <input matInput type="text" placeholder="Buscar" [(ngModel)]="buscar"/> -->
+                <button mat-button matSuffix mat-icon-button aria-label="Search">
+                <mat-icon>search</mat-icon>
+              </button>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4" style="text-align: right">
+            <button mat-button (click)="adicionar()" color="primary">
+              <mat-icon mat-list-icon>add</mat-icon>adicionar
+          </button>
+        </div>
+    </div>
+
+    <div class="card bg-light contenedor_proyectos" *ngFor="let proyecto of proyectos">
+        <div class="card-header">
+            <span class="titulo_proyecto" (click)="irProyecto(proyecto)">{{proyecto.nombre}}</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-1">
+                    icono
+                </div>
+                <div class="col-md-6">
+                    <p matLine>{{proyecto.descripcion}}
+                    </p>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <i class="fa fa-user-circle"></i>
+                            <span> Usuarios: </span>
+                        </div>
+                        <div class="col-md-7">
+                            {{proyecto.usuarios}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <i class="fa fa-code"></i>
+                            <span>Commits: </span>
+                        </div>
+                        <div class="col-md-7">
+                            {{proyecto.totalCommits}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <i class="fa fa-calendar"></i>
+                            <span>Fecha Creacion: </span>
+                        </div>
+                        <div class="col-md-7">
+                            {{proyecto.fecha_creacion}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <i class="fa fa-calendar"></i>
+                            <span>  Ultima actividad: </span>
+                        </div>
+                        <div class="col-md-7">
+                            {{proyecto.fecha_ultima_actividad}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <i class="fa fa-gitlab"></i>
+                            <span>Url:</span>
+                        </div>
+                        <div class="col-md-7" style=" word-wrap: break-word;">
+                            <a href="{{proyecto.http_url_repo}}" target="#">{{proyecto.http_url_repo}}</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span>Categoria: </span>
+                        </div>
+                        <div class="col-md-6">
+                            <span>Licencias: </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-5"><span>Clasificación</span></div>
+                        <div class="col-md-7">
+                            <star-rating-comp [starType]="'svg'"></star-rating-comp>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent($event)">
+    </mat-paginator>
+</div>

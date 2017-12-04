@@ -1,0 +1,88 @@
+<!-- <section class="main">
+    <button mat-button (click)="adicionarUsuario()" color="warn">
+        <mat-icon mat-list-icon>person_add</mat-icon>
+    </button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Nombre</th>
+                <th>email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let usuario of usuarios">
+                <th scope="row">
+                    <img alt="avatar" src="assets/images/avatar-user.png" style="width: 50px !important">
+                </th>
+                <td>{{usuario.nombre}}</td>
+                <td>{{usuario.email}}</td>
+                <td class="acciones">
+                    <button mat-button (click)="editarUsuario(usuario)" color="primary">
+            <mat-icon mat-list-icon>mode_edit</mat-icon>
+          </button>
+                    <button mat-button (click)="eliminarUsuario(usuario)" color="warn">
+            <mat-icon mat-list-icon>delete</mat-icon>
+          </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section> -->
+
+
+<div class="container">
+    <div class="row">
+        <!-- <h3>Usuarios</h3> -->
+        <div class="col-md-8" style="text-align: center">
+            <span>Buscar:</span>
+            <mat-form-field class="example-form-field">
+                <input matInput type="text" placeholder="Buscar Personas" />
+                <button mat-button matSuffix mat-icon-button aria-label="Search">
+                  <mat-icon>search</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4" style="text-align: right">
+            <button mat-button (click)="adicionarUsuario()" color="primary">
+                <mat-icon mat-list-icon>add</mat-icon>adicionar
+            </button>
+        </div>
+    </div>
+
+
+    <div class="card bg-light contenedor_usuarios" *ngFor="let usuario of usuarios">
+        <div class="card-header">
+            <span class="titulo_usuario" (click)="irUsuario(usuario)">{{usuario.nombre}}</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-1">
+                    <img alt="avatar" src="assets/images/avatar-user.png" style="width: 50px !important">
+                </div>
+                <div class="col-md-5">
+
+                    <p>
+                        {{usuario.email}}
+                    </p>
+                    <p>
+                        Descripcion del Usuario
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <p>Commits</p>
+                    <p>Lenguajes de programacion</p>
+                </div>
+                <div class="col-md-2">
+                    <div><span>Clasificación</span></div>
+                    <div>
+                        <!-- <star-rating-comp [starType]="'svg'"></star-rating-comp> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent($event)">
+    </mat-paginator> -->
+</div>
