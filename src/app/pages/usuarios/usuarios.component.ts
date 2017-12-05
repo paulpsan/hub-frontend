@@ -15,11 +15,11 @@ import { HttpService } from '../../services/http.service';
 
 export class UsuariosComponent implements OnInit {
 
-  usuarios:Usuario[];
+  usuarios: Usuario[];
   private respuesta: any;
 
-  constructor(private _httpService: HttpService,private router : Router) {
-    
+  constructor(private _httpService: HttpService, private router : Router) {
+
    }
 
   ngOnInit() {
@@ -38,25 +38,25 @@ export class UsuariosComponent implements OnInit {
   //   )
   // }
   // Recibe de respuesta un objeto de tipo Usuarios
-  obtenerUsuarios(){
+  obtenerUsuarios() {
     this._httpService.obtener('usuarios').subscribe(
-      result =>{
-        this.respuesta=result;
-        this.usuarios=this.respuesta.datos;
+      result => {
+        this.respuesta = result;
+        this.usuarios = this.respuesta.datos;
         console.log (this.respuesta.datos);
       },
-      err =>{
+      err => {
         console.log(err);
       }
-    )
+    );
   }
-  irUsuario(usuario){
+  irUsuario(usuario) {
     if (usuario) {
       this.router.navigate(['/usuarios/', usuario._id]);
-    } 
+    }
   }
- 
-  adicionarUsuario(){
+
+  adicionarUsuario() {
       this.router.navigate(['/usuarios/adicionar']);
   }
 }

@@ -10,9 +10,9 @@
                 <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
                 <p id="profile-name" class="profile-name-card"></p>
                 <div class="col pb-3">
-                    <a href="#" class="btn btn-block btn-social btn-github"><i class="fa fa-github"></i> Entrar Con <strong>Github</strong></a>
-                    <a href="#" class="btn btn-block btn-social btn-odnoklassniki"><i class="fa fa-gitlab"></i>Entrar Con <strong>Gitlab</strong></a>
-                    <a href="#" class="btn btn-block btn-social btn-bitbucket"><i class="fa fa-bitbucket"></i>Entrar Con <strong>Bitbucket</strong></a>
+                    <a (click)="loginGH()" class="btn btn-block btn-social btn-github"><i class="fa fa-github"></i> Entrar Con <strong>Github</strong></a>
+                    <a (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki"><i class="fa fa-gitlab"></i>Entrar Con <strong>Gitlab</strong></a>
+                    <a (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket"><i class="fa fa-bitbucket"></i>Entrar Con <strong>Bitbucket</strong></a>
                 </div>
                 <form novalidate (ngSubmit)="onSubmit()">
                     <fieldset>
@@ -24,13 +24,14 @@
 
                         <div class="form-group">
                             <mat-form-field class="col">
-                                <input matInput placeholder="Email">
+                                <input type="password" matInput placeholder="Contraseña">
                             </mat-form-field>
                         </div>
                     </fieldset>
                     <div class="col checkbox">
+
                         <label>
-                            <input type="checkbox" value="remember-me"> Remember me
+                            <input type="checkbox" value="remember-me"> Recuérdame
                         </label>
                     </div>
                     <div class="col">

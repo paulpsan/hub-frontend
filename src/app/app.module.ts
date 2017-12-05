@@ -18,6 +18,8 @@ import { OrganizacionesComponent } from './pages/organizaciones/organizaciones.c
 import { LoginComponent } from './pages/login/login.component';
 import { RegistroComponent } from './pages/login/registro/registro.component';
 
+import { LoginService } from './services/login.service';
+
 
 // import { AdicionarComponent } from './pages/usuarios/adicionar/adicionar.component';
 // import { EditarComponent } from './pages/usuarios/editar/editar.component';
@@ -45,6 +47,7 @@ import { RegistroComponent } from './pages/login/registro/registro.component';
     CdkTableModule
   ],
   providers: [
+    LoginService
   ],
   bootstrap: [AppComponent]
 })
