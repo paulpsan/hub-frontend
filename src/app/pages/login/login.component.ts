@@ -1,4 +1,4 @@
-import { LoginService } from './../../services/login.service';
+
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   private GITHUB_CLIENT_ID: string = 'becb33a39e525721517c';
   private GITHUB_CLIENT_SECRET: string= '36338cdf7057d2086495a241fa3d053766da55c1'
 
-  constructor(private router: Router,private _loginService: LoginService) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
   loginGH() {
