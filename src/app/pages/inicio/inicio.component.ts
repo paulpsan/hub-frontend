@@ -1,3 +1,4 @@
+import { GLOBAL } from './../../services/global';
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LoginService } from './../../services/login.service';
@@ -9,9 +10,7 @@ import { LoginService } from './../../services/login.service';
 })
 export class InicioComponent implements OnInit {
   private url: string;
-
-  private GITHUB_CLIENT_ID: string = 'becb33a39e525721517c';
-  private GITHUB_CLIENT_SECRET: string= '36338cdf7057d2086495a241fa3d053766da55c1'
+  private code:string;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private _loginServise: LoginService) {}
@@ -23,13 +22,22 @@ export class InicioComponent implements OnInit {
     // });
 
     this.url = this.router.url;
-    const code = this.url.split("=")[1];
-    if (code) {
-      console.log("params");
-      this._loginServise.getTokenGithub(code).subscribe(resp=>{
-        console.log(resp);
+    console.log(this.url);
+    this.code = this.url.split("=")[1];
+    this.code=this.code.split('&')[0];
+    console.log(GLOBAL.GITHUB_TOKEN);
+    if (this.code!=''&&GLOBAL.TOGGLE) {
+      console.log(this.code);
+      this._loginServise.getTokenGithub(this.code).subscribe(resp=>{
+        if(resp.error){
+          this.router.navigate(['/inicio']);
+        }
+        else{
+          this.router.navigate(['/inicio/bienvenido', resp.token]);
+         resp.token;
+        }
       });
+      GLOBAL.TOGGLE=false;
     }
-
   }
 }
