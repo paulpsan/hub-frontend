@@ -41,7 +41,7 @@ export class CrearEditarComponent implements OnInit {
         Validators.pattern("[^ @]*@[^ @]*")
       ])
     });
- 
+
     if (this.id) { //edit form
       this.userService.buscarId(this.id).subscribe(
         user => {
@@ -60,21 +60,21 @@ export class CrearEditarComponent implements OnInit {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
- 
+
   onSubmit() {
     if (this.userForm.valid) {
       if (this.id) {
         let user: Usuario = new Usuario(this.id,
           this.userForm.controls['nombre'].value,
-          this.userForm.controls['email'].value,'','','','');
+          this.userForm.controls['email'].value,'','','');
         this.userService.editar(user).subscribe();
       } else {
         let user: Usuario = new Usuario(null,
           this.userForm.controls['nombre'].value,
-          this.userForm.controls['email'].value,'','','','');
+          this.userForm.controls['email'].value,'','','');
         this.userService.adicionar(user).subscribe();
       }
- 
+
       this.userForm.reset();
       this.router.navigate(['/usuarios']);
     }

@@ -8,6 +8,7 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material/material.module';
 import { RecaptchaModule } from 'ng2-recaptcha';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { UsuariosModule } from './pages/usuarios/usuarios.module';
@@ -38,6 +39,8 @@ import { LoginService } from './services/login.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpModule,
+    FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     UsuariosModule,
     ProyectosModule,

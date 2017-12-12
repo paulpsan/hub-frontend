@@ -42,7 +42,7 @@ export class EditarComponent implements OnInit {
         Validators.pattern("[^ @]*@[^ @]*")
       ])
     });
- 
+
     if (this.id) { //edit form
       this._httpService.buscarId('usuarios',this.id).subscribe(
         usuario => {
@@ -67,15 +67,15 @@ export class EditarComponent implements OnInit {
       if (this.id) {
         let usuario: Usuario = new Usuario(this.id,
           this.userForm.controls['nombre'].value,
-          this.userForm.controls['email'].value,'','','','');
+          this.userForm.controls['email'].value,'','','');
         this._httpService.editar('usuarios',usuario).subscribe();
       } else {
         let usuario: Usuario = new Usuario(null,
           this.userForm.controls['nombre'].value,
-          this.userForm.controls['email'].value,'','','','');
+          this.userForm.controls['email'].value,'','','');
         this._httpService.adicionar('usuarios',usuario).subscribe();
       }
- 
+
       this.userForm.reset();
       this.router.navigate(['/usuarios/', this.id]);
     }

@@ -1,50 +1,71 @@
 <div class="container">
-    <div class="row justify-content-md-center m-1">
-        <div class="card bg-light col-md-6 col-sm-12" style="padding: 0;">
-            <div class="card-header">
-                <div class="row justify-content-center">
-                    <span>Iniciar Sesión</span>
-                </div>
-            </div>
-            <div class="card-body">
-                <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
-                <p id="profile-name" class="profile-name-card"></p>
-                <div class="col pb-3">
-                    <a (click)="loginGH()" class="btn btn-block btn-social btn-github"><i class="fa fa-github"></i> Entrar Con <strong>Github</strong></a>
-                    <a (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki"><i class="fa fa-gitlab"></i>Entrar Con <strong>Gitlab</strong></a>
-                    <a (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket"><i class="fa fa-bitbucket"></i>Entrar Con <strong>Bitbucket</strong></a>
-                </div>
-                <form novalidate (ngSubmit)="onSubmit()">
-                    <fieldset>
-                        <div class="form-group">
-                            <mat-form-field class="col">
-                                <input matInput placeholder="Nombre">
-                            </mat-form-field>
-                        </div>
+  <div *ngIf="identity" class="row">
+    <p>Estas logeado</p>
+  </div>
 
-                        <div class="form-group">
-                            <mat-form-field class="col">
-                                <input type="password" matInput placeholder="Contraseña">
-                            </mat-form-field>
-                        </div>
-                    </fieldset>
-                    <div class="col checkbox">
-
-                        <label>
-                            <input type="checkbox" value="remember-me"> Recuérdame
-                        </label>
-                    </div>
-                    <div class="col">
-                        <a href="#" class="">He olvidado mi contraseña</a>
-                    </div>
-                    <div class="row justify-content-center">
-                        <button mat-button type="submit" color="primary">
-                            <mat-icon mat-list-icon>done</mat-icon>
-                            Acceder
-                        </button>
-                    </div>
-                </form>
-            </div>
+  <div class="row justify-content-md-center m-1" *ngIf="!identity">
+    <div class="card bg-light col-md-6 col-sm-12" style="padding: 0;">
+      <div class="card-header">
+        <div class="row justify-content-center">
+          <span>Iniciar Sesión</span>
         </div>
+      </div>
+      <div class="card-body">
+        <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+        <p id="profile-name" class="profile-name-card"></p>
+        <div class="col pb-3">
+          <a (click)="loginGH()" class="btn btn-block btn-social btn-github">
+            <i class="fa fa-github"></i> Entrar Con
+            <strong>Github</strong>
+          </a>
+          <a (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki">
+            <i class="fa fa-gitlab"></i>Entrar Con
+            <strong>Gitlab</strong>
+          </a>
+          <a (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket">
+            <i class="fa fa-bitbucket"></i>Entrar Con
+            <strong>Bitbucket</strong>
+          </a>
+        </div>
+
+        <form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <fieldset>
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input matInput placeholder="email" formControlName="email">
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input type="password" matInput placeholder="Contraseña" formControlName="password">
+              </mat-form-field>
+            </div>
+          </fieldset>
+          <div class="col checkbox">
+
+            <label>
+              <input type="checkbox" value="remember-me"> Recuérdame
+            </label>
+          </div>
+          <div class="col">
+            <a href="#" class="">He olvidado mi contraseña</a>
+          </div>
+
+          <div *ngIf="errorMessage">
+            <div class="alert alert-info" role="alert">
+              <strong>Info</strong> debes cambiar}
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <button mat-button [disabled]="!loginForm.valid" type="submit" color="primary">
+              <mat-icon mat-list-icon>done</mat-icon>
+              Acceder
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

@@ -1,64 +1,105 @@
-import { Component, Injectable} from '@angular/core';
-import { Response } from '@angular/http';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import 'rxjs/Rx';
-import { Observable } from 'rxjs/Rx';
-import { GLOBAL } from './global';
+import { Component, Injectable } from "@angular/core";
+import { Response } from "@angular/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import "rxjs/Rx";
+import { Observable } from "rxjs/Rx";
+import { GLOBAL } from "./global";
 
 @Injectable()
 export class HttpService {
+  public identity;
+  public token;
   private url: string;
-  constructor(private _http: HttpClient) { 
+  constructor(private _http: HttpClient) {
     this.url = GLOBAL.url;
     // this.url ='https://test.adsib.gob.bo/api_backend/api/usuarios';
-    
   }
   //obtiene datos de forma general
-  obtener(nombre:string):Observable<any[]>{
+  obtener(nombre: string): Observable<any[]> {
     // let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this._http.get(this.url+nombre+'?tsp='+Date.now())
-    .map((res:Response)=>{
-      return res;
-    })
-    .catch((error:any)=>Observable.throw(error || 'Server error'))
+    return this._http
+      .get(this.url + nombre + "?tsp=" + Date.now())
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Server error"));
   }
   //obtiene datos de forma general
-  obtenerPaginado(nombre:string,obj):Observable<any[]>{
+  obtenerPaginado(nombre: string, obj): Observable<any[]> {
     let myParams = new HttpParams();
-    myParams=myParams.append('pagina',obj.pagina);
-    myParams=myParams.append('limite',obj.limite);
+    myParams = myParams.append("pagina", obj.pagina);
+    myParams = myParams.append("limite", obj.limite);
     // let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this._http.get(this.url+nombre+'?tsp='+Date.now(),{params:myParams})
-    .map((res:Response)=>{
-      return res;
-    })
-    .catch((error:any)=>Observable.throw(error || 'Server error'))
+    return this._http
+      .get(this.url + nombre + "?tsp=" + Date.now(), { params: myParams })
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Server error"));
   }
 
-  buscarId(nombre:string,id:number):Observable<any>{
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this._http.get(this.url+nombre+'/'+id+'?tsp='+Date.now())
-    .map((res:Response) => {return res})
-    .catch((error:any) => Observable.throw(error || 'Error'));
+  buscarId(nombre: string, id: number): Observable<any> {
+    let headers = new Headers({ "Content-Type": "application/json" });
+    return this._http
+      .get(this.url + nombre + "/" + id + "?tsp=" + Date.now())
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Error"));
   }
 
-
-  adicionar(nombre:string, objeto:any):Observable<any>{
-    return this._http.post(this.url+nombre, objeto)
-    .map((res:Response) => {return res})
-    .catch((error:any) => Observable.throw(error || 'Server error'));
+  adicionar(nombre: string, objeto: any): Observable<any> {
+    return this._http
+      .post(this.url + nombre, objeto)
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Server error"));
   }
 
-  editar(nombre:string, objeto:any):Observable<any[]>{
-    return this._http.put(this.url+nombre+'/'+objeto._id , objeto)
-    .map((res:Response) => {return res})
-    .catch((error:any) => Observable.throw(error || 'Server error'));
+  editar(nombre: string, objeto: any): Observable<any[]> {
+    return this._http
+      .put(this.url + nombre + "/" + objeto._id, objeto)
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Server error"));
   }
-  
-  eliminarId(nombre:string, id: number): Observable<boolean> {
-    return this._http.delete(this.url+nombre+'/' + id)
-      .map((res:Response) =>{return res})
-      .catch((error:any) => Observable.throw(error || 'Server error'));
+
+  eliminarId(nombre: string, id: number): Observable<boolean> {
+    return this._http
+      .delete(this.url + nombre + "/" + id)
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Server error"));
+  }
+
+  login(nombre: string, objeto: any) {
+    return this._http
+      .post(this.url + nombre, objeto)
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Server error"));
+  }
+  getIdentity() {
+    let identity = JSON.parse(localStorage.getItem('identity'))
+    if(identity!="undefined"){
+      this.identity=identity;
+    }else{
+      this.identity=null;
+    }
+    return this.identity;
+  }
+  getToken() {
+    let token = localStorage.getItem('token')
+    if(token!="undefined"){
+      this.token=token;
+    }else{
+      this.token=null;
+    }
+    return this.token;
   }
 
   // obtener(){
