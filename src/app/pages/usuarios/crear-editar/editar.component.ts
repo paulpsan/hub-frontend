@@ -1,33 +1,34 @@
-import { slideInDownAnimation } from '../../../../animations';
+import { HttpService } from '../../../services/http.service';
+import { slideInDownAnimation } from '../../../animations';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormControl,FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Usuario }from '../../../../models/usuario'
-import { UsuariosService } from '../../../../services/usuarios.service';
-import { UsuariosComponent } from '../../usuarios.component';
+import { Usuario }from '../../../models/usuario'
+import { UsuariosService } from '../../../services/usuarios.service';
+import { UsuariosComponent } from '../usuarios.component';
 
 
 @Component({
-  selector: 'hub-crear-editar',
-  templateUrl: './crear-editar.component.html',
-  styleUrls: ['./crear-editar.component.css'],
+  selector: 'hub-editar',
+  templateUrl: './editar.component.html',
+  styleUrls: ['./editar.component.css'],
   // animations: [ slideInDownAnimation ]
 })
-export class CrearEditarComponent implements OnInit {
+export class EditarComponent implements OnInit {
   // @HostBinding('@routeAnimation') routeAnimation = false;
   // @HostBinding('style.display')   display = 'block';
   // @HostBinding('style.position')  position = 'absolute';
 
   id: number;
   acciones:string;
-  user: Usuario;
+  usuario: Usuario;
   private sub:any;
   userForm: FormGroup;
   show:boolean=true;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private userService: UsuariosService) { }
+    private _httpService: HttpService) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -43,12 +44,12 @@ export class CrearEditarComponent implements OnInit {
     });
 
     if (this.id) { //edit form
-      this.userService.buscarId(this.id).subscribe(
-        user => {
-            this.id = user._id;
+      this._httpService.buscarId('usuarios',this.id).subscribe(
+        usuario => {
+            this.id = usuario._id;
             this.userForm.patchValue({
-            nombre: user.nombre,
-            email: user.email,
+            nombre: usuario.nombre,
+            email: usuario.email,
           });
          },error => {
           console.log(error);
@@ -64,22 +65,27 @@ export class CrearEditarComponent implements OnInit {
   onSubmit() {
     if (this.userForm.valid) {
       if (this.id) {
-        let user: Usuario = new Usuario(this.id,
+        let usuario: Usuario = new Usuario(this.id,
           this.userForm.controls['nombre'].value,
           this.userForm.controls['email'].value,'','','');
-        this.userService.editar(user).subscribe();
+        this._httpService.editar('usuarios',usuario).subscribe();
       } else {
-        let user: Usuario = new Usuario(null,
+        let usuario: Usuario = new Usuario(null,
           this.userForm.controls['nombre'].value,
           this.userForm.controls['email'].value,'','','');
-        this.userService.adicionar(user).subscribe();
+        this._httpService.adicionar('usuarios',usuario).subscribe();
       }
 
       this.userForm.reset();
-      this.router.navigate(['/usuarios']);
+      this.router.navigate(['/usuarios/', this.id]);
     }
   }
-  redirectUserPage() {
-    this.router.navigate(['/usuarios']);
+
+  irUsuario(){
+    this.router.navigate(['/usuarios/', this.id]);
   }
+
+  // redirectUserPage() {
+  //   this.router.navigate(['/usuarios/', this.id]);
+  // }
 }

@@ -10,18 +10,19 @@ import { StarRatingModule } from 'angular-star-rating';
 
 import { ChartsModule } from "ng2-charts/ng2-charts";
 
-import { EditarComponent } from './proyecto/crear-editar/editar.component';
-import { CrearComponent } from './proyecto/crear-editar/crear.component';
-import { ModalEliminarProyecto, ProyectosComponent } from './proyectos.component';
+import { EditarComponent } from './crear-editar/editar.component';
+import { CrearComponent } from './crear-editar/crear.component';
+import { ProyectosComponent } from './proyectos.component';
 import { ProyectosRoutingModule } from './proyectos-routing.module';
 import { ProyectosService } from '../../services/proyectos.service';
 import { ProyectoComponent } from './proyecto/proyecto.component';
 import { CodigoComponent } from './proyecto/charts/codigo.component';
 import { CommitsComponent } from './proyecto/charts/commits.component';
 import { LenguajesComponent } from './proyecto/charts/lenguajes.component';
+import { ComunModule } from '../../common/comun.module';
+import { ListarComponent ,ModalEliminarProyecto } from './listar/listar.component';
 
-
-@NgModule({ 
+@NgModule({
   declarations:[
     ModalEliminarProyecto,
     CrearComponent,
@@ -30,7 +31,8 @@ import { LenguajesComponent } from './proyecto/charts/lenguajes.component';
     ProyectoComponent,
     CodigoComponent,
     CommitsComponent,
-    LenguajesComponent
+    LenguajesComponent,
+    ListarComponent
   ],
   imports:[
     CommonModule,
@@ -40,8 +42,9 @@ import { LenguajesComponent } from './proyecto/charts/lenguajes.component';
     ReactiveFormsModule,
     HttpClientModule,
     ChartsModule,
+    ComunModule,
     StarRatingModule.forRoot(),
-    
+
   ],
   exports:[
   ],

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpService } from '../../../../services/http.service';
+import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'hub-crear',
@@ -12,7 +12,7 @@ export class CrearComponent implements OnInit {
   id: number;
   acciones:string;
   private sub:any;
- 
+
   userForm: FormGroup;
 
   constructor(private route: ActivatedRoute,private router: Router,private _httpService:HttpService) { }
@@ -29,7 +29,7 @@ export class CrearComponent implements OnInit {
         //   this.userForm.controls['nombre'].value,
         //   this.userForm.controls['email'].value,'','','','');
         // this.userService.adicionar(user).subscribe();
- 
+
       this.userForm.reset();
       this.router.navigate(['/proyectos']);
     }

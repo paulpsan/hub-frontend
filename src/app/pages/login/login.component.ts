@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -5,6 +6,8 @@ import { HttpService } from "../../services/http.service";
 import { error } from "selenium-webdriver";
 import { Usuario } from "../../models/usuario";
 import { BooleanLiteral } from "typescript";
+import { Console } from '@angular/core/src/console';
+import { setTimeout } from 'timers';
 
 @Component({
   selector: "hub-login",
@@ -25,15 +28,17 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private _httpService: HttpService
+    private _authService: AuthService
   ) {}
 
   ngOnInit() {
     console.log(localStorage);
+    this._authService.logout();
 
-    this.identity=this._httpService.getIdentity();
-    this.token=this._httpService.getToken();
-    console.log(this.identity,this.token);
+    // this.identity=this._authService.getIdentity();
+    // this.token=this._authService.getToken();
+    // console.log(this.identity,this.token);
+
     this.loginForm = new FormGroup({
       email: new FormControl("", [
         Validators.required,
@@ -64,34 +69,25 @@ export class LoginComponent implements OnInit {
     this.router.navigate(["/auth/bitbucket"]);
   }
   onSubmit() {
-    let obj={
-      email:this.loginForm.controls["email"].value,
-      password: this.loginForm.controls["password"].value
-    }
-    this._httpService.login('usuarios/login',obj).subscribe(
-      response =>{
-        console.log(response);
-        let identity= response.usuario;
-        this.identity=true;
-        let token = response.token;
-        this.token = token;
-        if(this.token.length <=0){
-          alert("el token se ha generado");
-          localStorage.setItem('token',token)
-        }
-        localStorage.setItem('identity',JSON.stringify(identity))
+    let email = this.loginForm.controls["email"].value;
+    let password = this.loginForm.controls["password"].value;
 
+    this._authService.login('usuarios/login',{email:email,password:password}).subscribe(
+      response =>{
+        this.identity=response;
+        localStorage.setItem('identity',JSON.stringify(this.identity))
+        this.router.navigate(['/inicio']);
+        // setTimeout(()=>{
+        //   this.router.navigate(['/proyectos']);
+        // },300);
       },
       error=>{
         let errorMessage=<any>error;
-        console.log(errorMessage);
+        console.log(errorMessage.error);
         if (errorMessage!=null){
-          this.errorMessage=error;
+          this.errorMessage=errorMessage.error.message;
         }
       }
     )
-    // console.log(this.loginForm.controls["email"].value);
-    // console.log(this.loginForm.controls["password"].value);
-
   }
 }

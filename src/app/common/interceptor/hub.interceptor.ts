@@ -14,7 +14,7 @@ export class HubInterceptor implements HttpInterceptor {
   intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // debugger;
-    console.log("modificando ");
+    // console.log("modificando ");
     req = req.clone({
     setHeaders: {
       "Content-Type": "application/json",

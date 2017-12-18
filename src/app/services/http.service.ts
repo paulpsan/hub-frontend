@@ -75,32 +75,7 @@ export class HttpService {
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
 
-  login(nombre: string, objeto: any) {
-    return this._http
-      .post(this.url + nombre, objeto)
-      .map((res: Response) => {
-        return res;
-      })
-      .catch((error: any) => Observable.throw(error || "Server error"));
-  }
-  getIdentity() {
-    let identity = JSON.parse(localStorage.getItem('identity'))
-    if(identity!="undefined"){
-      this.identity=identity;
-    }else{
-      this.identity=null;
-    }
-    return this.identity;
-  }
-  getToken() {
-    let token = localStorage.getItem('token')
-    if(token!="undefined"){
-      this.token=token;
-    }else{
-      this.token=null;
-    }
-    return this.token;
-  }
+
 
   // obtener(){
   //   let headers = new Headers({ 'Content-Type': 'application/json' });

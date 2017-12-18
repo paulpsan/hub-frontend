@@ -2,8 +2,8 @@ import { UsePipeTransformInterfaceRule } from 'codelyzer';
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { HttpService } from "../../../../services/http.service";
-import { Proyecto } from "../../../../models/proyecto";
+import { HttpService } from "../../../services/http.service";
+import { Proyecto } from "../../../models/proyecto";
 
 @Component({
   selector: "hub-editar",
@@ -42,7 +42,7 @@ export class EditarComponent implements OnInit {
       // licencias :new FormControl(),
 
       // nombre: new FormControl('', Validators.required)
-    }); 
+    });
   }
   obtenerProyecto(){
     this._httpService.buscarId('proyectos',this.id).subscribe(
@@ -74,6 +74,6 @@ export class EditarComponent implements OnInit {
     }
   }
   eliminarLicencia(){
-    
+
   }
 }

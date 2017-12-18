@@ -1,20 +1,26 @@
-import { CrearEditarComponent } from './usuario/crear-editar/crear-editar.component';
-import { EditarComponent } from './usuario/crear-editar/editar.component';
-import { UsuariosComponent } from './usuarios.component';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { UsuarioComponent } from './usuario/usuario.component';
-
+import { CrearEditarComponent } from "./crear-editar/crear-editar.component";
+import { EditarComponent } from "./crear-editar/editar.component";
+import { UsuariosComponent } from "./usuarios.component";
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { UsuarioComponent } from "./usuario/usuario.component";
+import { ListarComponent } from "./listar/listar.component";
 
 const routes: Routes = [
-  {path: 'usuarios', component: UsuariosComponent},
-  {path: 'usuarios/adicionar', component: CrearEditarComponent},
-  {path: 'usuarios/editar/:id', component: EditarComponent},
-  {path: 'usuarios/:id', component: UsuarioComponent}
+  {
+    path: '',
+    component: UsuariosComponent,
+    children: [
+      { path: "", component: ListarComponent },
+      { path: "adicionar", component: CrearEditarComponent },
+      { path: "editar/:id", component: EditarComponent },
+      { path: ":id", component: UsuarioComponent }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class UsuariosRoutingModule { }
+export class UsuariosRoutingModule {}

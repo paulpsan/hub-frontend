@@ -1,23 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'hub-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'hub';
-  navLinks : any[] =[
-    {
-      label:'Proyectos',
-      path:'/proyectos'
-    },
-    {
-      label:'Usuarios',
-      path:'/usuarios'
-    },
-    // {
-    //   label:'Organizaciones',
-    //   path:'/organizaciones'
-    // },
-  ];
+export class AppComponent implements OnInit {
+  ngOnInit(){
+    console.log("pucha");
+  }
+
 }
