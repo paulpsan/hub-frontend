@@ -43,8 +43,14 @@ export class LoginService {
 
     return this._http.get('http://localhost:3000/api/auth/github/'+code)
     .map((res:Response)=>{
-    console.log(res);
-      return res.json();
+      let token= res.json().token;
+      if(res.json().token){
+        localStorage.setItem('token',token);
+        localStorage.setItem('identity',"nombre:paul");
+        console.log(localStorage.getItem('identity'));
+      }
+    return res.json();
+
     })
     .catch((error:any)=>{
       console.log(error);

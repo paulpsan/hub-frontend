@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,) {}
 
   ngOnInit() {
+    console.log("construye nav")
     if (localStorage.getItem("identity")) {
       this.identity = localStorage.getItem("identity");
       console.log(this.identity);
