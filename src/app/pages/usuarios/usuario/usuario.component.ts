@@ -15,8 +15,13 @@ export class UsuarioComponent implements OnInit {
   acciones:string;
   usuario: Usuario;
   private sub:any;
+  commitsTotal:number=0;
+  leguajes;
+  commitProyecto;
+  commitlenguaje;
+
   show:boolean=false;
-  
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private _httpService: HttpService,
@@ -26,13 +31,15 @@ export class UsuarioComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
     });
- 
+
     if (this.id) { //edit form
       this._httpService.buscarId('usuarios',this.id).subscribe(
         resp => {
             this.id = resp._id;
             this.usuario=resp;
             this.show=true;
+            this.calculaComits(this.usuario);
+            this.listaProyectos(this.usuario);
             console.log(this.usuario);
          },error => {
           console.log(error);
@@ -40,18 +47,30 @@ export class UsuarioComponent implements OnInit {
       );
     }
   }
+  calculaComits(usuario){
+    for(let value of usuario.datos){
+      this.commitsTotal+=value.commits;
+    }
+  }
+
+  listaProyectos(usuario){
+    for(let value of usuario.datos){
+      // this.commitsTotal+=value.commits;
+    }
+  }
+
   editarUsuario(usuario:Usuario){
     console.log(usuario);
     if (usuario) {
       this.router.navigate(['/usuarios/editar', usuario._id]);
-    } 
+    }
   }
 
   eliminarUsuario(usuario:Usuario):void{
     console.log(usuario);
     let dialogRef = this.dialog.open(ModalEliminarUsuario, {
       width: '350px',
-      data: usuario 
+      data: usuario
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -60,7 +79,7 @@ export class UsuarioComponent implements OnInit {
               res => {
               //AQUI colocamos las notificaciones!!
               // setTimeout(()=>
-              // { 
+              // {
               //   this.obtenerUsuarios();
               // }, 1000);
               // console.log('done');

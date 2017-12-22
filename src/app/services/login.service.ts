@@ -57,4 +57,25 @@ export class LoginService {
       return Observable.throw(error || 'Server error');
     })
   }
+  getTokenGitlab(code:string){
+
+    return this._http.get('http://localhost:3000/api/auth/gitlab/'+code)
+    .map((res:Response)=>{
+      console.log(res.json());
+      let token= res.json().token;
+      if(res.json().token){
+        localStorage.setItem('token',token);
+        localStorage.setItem('identity',"nombre:paul");
+        console.log(localStorage.getItem('identity'));
+      }
+    return res.json();
+
+    })
+    .catch((error:any)=>{
+      console.log(error);
+      return Observable.throw(error || 'Server error');
+    })
+  }
+
+
 }

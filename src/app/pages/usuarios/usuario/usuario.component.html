@@ -25,10 +25,11 @@
                     </p>
                     <p>
                         Descripcion del Usuario
+
                     </p>
                 </div>
                 <div class="col-md-4">
-                    <p>Commits</p>
+                    <p>Commits: {{commitsTotal}}</p>
                     <p>Lenguajes de programacion</p>
                 </div>
                 <div class="col-md-2">
@@ -46,7 +47,11 @@
         <div class="card-deck">
             <div class="card">
                 <div class="card-body">
-                    <span>{{usuario.descripcion}}</span>
+
+                  <span *ngFor="let proy of usuario.datos">
+                    {{proy.repo}} <br>
+                  </span>
+
                 </div>
             </div>
             <div class="card">

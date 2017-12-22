@@ -18,7 +18,15 @@ export class LoginComponent implements OnInit {
   private urlGithub: string = "https://github.com/login/oauth/authorize?client_id=";
   private GITHUB_CLIENT_ID: string = "becb33a39e525721517c";
   private GITHUB_CLIENT_SECRET: string = "36338cdf7057d2086495a241fa3d053766da55c1";
-  private STATE: string = "hub-software";
+  private STATE_GITHUB: string = "hub-software-github";
+
+  // https://gitlab.com/oauth/authorize?client_id=APP_ID&redirect_uri=REDIRECT_URI&response_type=code&state=YOUR_UNIQUE_STATE_HASH
+
+  private urlGitlab: string = "https://gitlab.com/oauth/authorize?client_id=";
+  private GITLAB_CLIENT_ID: string = "68b23d8cc8bdf2e9414f2b486456596bbd23e9d44e1c56c16e91298747b94485";
+  private GITLAB_CLIENT_SECRET: string = "99cca0cab45bf79a844763ec81db38e34915cbb8e8a5f6006a097707c4278d5b";
+  private STATE_GITLAB: string = "hub-software-gitlab";
+  private CALLBACK_GITLAB:string ="http://localhost:4200/inicio";
 
   loginForm: FormGroup;
   public usuario: Usuario;
@@ -50,7 +58,7 @@ export class LoginComponent implements OnInit {
 
   loginGH() {
     window.location.href =
-      this.urlGithub + this.GITHUB_CLIENT_ID + "&state=" + this.STATE;
+      this.urlGithub + this.GITHUB_CLIENT_ID + "&state=" + this.STATE_GITHUB;
 
     // this._loginService.github().subscribe(
     //   result => {
@@ -63,7 +71,7 @@ export class LoginComponent implements OnInit {
   }
   loginGL() {
     // this.router.navigateByUrl("http://www.cnn.com/");
-    window.location.href = "https://www.google.com";
+    window.location.href = this.urlGitlab + this.GITLAB_CLIENT_ID +"&redirect_uri="+this.CALLBACK_GITLAB+ "&response_type=code"+"&state=" + this.STATE_GITLAB;
   }
   loginBB() {
     this.router.navigate(["/auth/bitbucket"]);
