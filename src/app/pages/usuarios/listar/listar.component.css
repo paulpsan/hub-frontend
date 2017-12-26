@@ -1,0 +1,10 @@
+.titulo_usuario {
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #3f51b5
+}
+
+.contenedor_usuarios {
+  margin-bottom: 15px;
+}

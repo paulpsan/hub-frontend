@@ -22,9 +22,18 @@ export class LoginComponent implements OnInit {
 
   // https://gitlab.com/oauth/authorize?client_id=APP_ID&redirect_uri=REDIRECT_URI&response_type=code&state=YOUR_UNIQUE_STATE_HASH
 
-  private urlGitlab: string = "https://gitlab.com/oauth/authorize?client_id=";
-  private GITLAB_CLIENT_ID: string = "68b23d8cc8bdf2e9414f2b486456596bbd23e9d44e1c56c16e91298747b94485";
-  private GITLAB_CLIENT_SECRET: string = "99cca0cab45bf79a844763ec81db38e34915cbb8e8a5f6006a097707c4278d5b";
+  private urlGitlab: string = "https://gitlab.geo.gob.bo/oauth/authorize?client_id=";
+  // private urlGitlab: string = "https://gitlab.com/oauth/authorize?client_id=";
+  private GITLAB_CLIENT_ID: string = "5fd3c547dbc17e2d3f77a0c81a4fae588d3f31007f626a64489814d3900a315d";
+  // aplicacion en gitlab.com
+  // private GITLAB_CLIENT_ID: string = "68b23d8cc8bdf2e9414f2b486456596bbd23e9d44e1c56c16e91298747b94485";
+
+
+  private GITLAB_CLIENT_SECRET: string = "f08b68a537601fa7e0aab9d013c4f312d64adfc8d2967a1445cac741229c0a2f";
+   // aplicacion en gitlab.com
+  // private GITLAB_CLIENT_SECRET: string = "99cca0cab45bf79a844763ec81db38e34915cbb8e8a5f6006a097707c4278d5b";
+
+
   private STATE_GITLAB: string = "hub-software-gitlab";
   private CALLBACK_GITLAB:string ="http://localhost:4200/inicio";
 
