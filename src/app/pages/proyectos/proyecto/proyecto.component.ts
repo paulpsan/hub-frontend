@@ -12,13 +12,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProyectoComponent implements OnInit {
 
-  
+
   id: number;
   private sub:any;
-  private proyecto:Proyecto;
+  proyecto:Proyecto;
   show : boolean = false;
 
-  
+
   constructor(private route:ActivatedRoute,private router:Router,private _httpService:HttpService) { }
 
   ngOnInit() {
@@ -40,6 +40,6 @@ export class ProyectoComponent implements OnInit {
   editarProyecto(proyecto){
     if (proyecto) {
       this.router.navigate(['/proyectos/editar', proyecto.id]);
-    } 
+    }
   }
 }

@@ -47,7 +47,7 @@ export class RegistroComponent implements OnInit {
       this.usuarioForm.controls["email"].value,
       this.usuarioForm.controls["password"].value,
       "admin",
-      ""
+      "","",""
     );
     this._httpService.adicionar("usuarios", user).subscribe();
     this.usuarioForm.reset();

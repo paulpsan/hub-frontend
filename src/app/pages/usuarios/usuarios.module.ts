@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpService } from '../../services/http.service';
 
+import { ChartsModule } from "ng2-charts/ng2-charts";
+
 import { CrearEditarComponent } from './crear-editar/crear-editar.component';
 import { EditarComponent } from './crear-editar/editar.component';
 import { UsuariosComponent } from './usuarios.component';
@@ -16,6 +18,7 @@ import { UsuariosService } from '../../services/usuarios.service';
 import { UsuarioComponent, ModalEliminarUsuario} from './usuario/usuario.component';
 import { InicioModule } from '../inicio/inicio.module';
 import { ListarComponent } from './listar/listar.component';
+import { CommitsComponent } from './charts/commits.component';
 
 @NgModule({
   declarations:[
@@ -26,6 +29,7 @@ import { ListarComponent } from './listar/listar.component';
     UsuariosComponent,
     UsuarioComponent,
     ListarComponent,
+    CommitsComponent
   ],
   imports:[
     CommonModule,
@@ -35,6 +39,7 @@ import { ListarComponent } from './listar/listar.component';
     ReactiveFormsModule,
     HttpClientModule,
     ComunModule,
+    ChartsModule,
 
   ],
   exports:[

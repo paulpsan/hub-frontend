@@ -66,12 +66,12 @@ export class CrearEditarComponent implements OnInit {
       if (this.id) {
         let user: Usuario = new Usuario(this.id,
           this.userForm.controls['nombre'].value,
-          this.userForm.controls['email'].value,'','','');
+          this.userForm.controls['email'].value,'','','','','');
         this.userService.editar(user).subscribe();
       } else {
         let user: Usuario = new Usuario(null,
           this.userForm.controls['nombre'].value,
-          this.userForm.controls['email'].value,'','','');
+          this.userForm.controls['email'].value,'','','','','');
         this.userService.adicionar(user).subscribe();
       }
 

@@ -5,12 +5,16 @@ export class Usuario {
     public password: string;
     public role: string;
     public datos: string;
+    public tipo:string;
+    public login:string;
     constructor(
         _id: number,
         nombre: string,
         email: string,
         password: string,
         role: string,
+        login:string,
+        tipo:string,
         datos: string,
 
     ) {
@@ -19,6 +23,7 @@ export class Usuario {
         this.email=email;
         this.password=password;
         this.role=role;
+        this.tipo=tipo;
         this.datos=datos;
     }
 }

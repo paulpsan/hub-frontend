@@ -1,13 +1,15 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { Usuario } from '../../../models/usuario';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../../../services/http.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Chart } from 'chart.js'
 
 @Component({
   selector: 'hub-usuario',
   templateUrl: './usuario.component.html',
-  styleUrls: ['./usuario.component.css']
+  styleUrls: ['./usuario.component.css'],
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsuarioComponent implements OnInit {
 
@@ -19,6 +21,9 @@ export class UsuarioComponent implements OnInit {
   leguajes;
   commitProyecto;
   commitlenguaje;
+  primerCommit;
+  UltimoCommit;
+  data$;
 
   show:boolean=false;
 
@@ -37,8 +42,11 @@ export class UsuarioComponent implements OnInit {
         resp => {
             this.id = resp._id;
             this.usuario=resp;
+            this.data$=resp.datos;
             this.show=true;
-            this.calculaComits(this.usuario);
+            this.getPrimerCommit(this.usuario);
+            this.getUltimoCommit(this.usuario)
+            this.calculaCommits(this.usuario);
             this.listaProyectos(this.usuario);
             console.log(this.usuario);
          },error => {
@@ -47,9 +55,32 @@ export class UsuarioComponent implements OnInit {
       );
     }
   }
-  calculaComits(usuario){
+  getPrimerCommit(usuario){
+    if (usuario.datos[0]){
+      let tamano=usuario.datos[0].commits.length;
+      this.primerCommit=usuario.datos[0].commits[tamano-1].created_at
+      console.log(this.primerCommit);
+    }else{
+      this.primerCommit='no existe';
+    }
+  }
+  getUltimoCommit(usuario){
+    this.UltimoCommit = "";
     for(let value of usuario.datos){
-      this.commitsTotal+=value.commits;
+      let fecha = new Date(value.commits[0].committed_date);
+      if(value.commits[0].committed_date>=this.UltimoCommit ){
+        this.UltimoCommit =value.commits[0].committed_date;
+      }else{
+        this.UltimoCommit ="no existe"
+      }
+
+      this.commitsTotal+=value.commits.length;
+    }
+  }
+
+  calculaCommits(usuario){
+    for(let value of usuario.datos){
+      this.commitsTotal+=value.commits.length;
     }
   }
 

@@ -1,87 +1,101 @@
 <div *ngIf='show'>
-    <div class="container">
-        <div class="card bg-light contenedor_usuarios mb-3">
-            <div class="card-header">
-                <span class="row justify-content-between">
-                        <div class="col-4">
-                                <span class="titulo_usuario" (click)="irUsuario(usuario)">{{usuario.nombre}}</span>
-            </div>
-            <div class="col-4">
-                <span><i class="fa fa-cogs" aria-hidden="true"></i> <span class="enlaces" (click)="editarUsuario(usuario)">Editar</span></span>
-                <span><i class="fa fa-trash" aria-hidden="true"></i> <span class="enlaces" (click)="eliminarUsuario(usuario)">Eliminar</span></span>
-            </div>
-
+  <div class="container">
+    <div class="card bg-light contenedor_usuarios mb-3">
+      <div class="card-header">
+        <span class="row justify-content-between">
+          <div class="col-4">
+            <span class="titulo_usuario">{{usuario.nombre}}</span>
+          </div>
+          <div class="col-4">
+            <span>
+              <i class="fa fa-cogs" aria-hidden="true"></i>
+              <span class="enlaces" (click)="editarUsuario(usuario)">Editar</span>
             </span>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-1">
-                    <img alt="avatar" src="assets/images/avatar-user.png" style="width: 50px !important">
-                </div>
-                <div class="col-md-5">
+            <span>
+              <i class="fa fa-trash" aria-hidden="true"></i>
+              <span class="enlaces" (click)="eliminarUsuario(usuario)">Eliminar</span>
+            </span>
+          </div>
 
-                    <p>
-                        {{usuario.email}}
-                    </p>
-                    <p>
-                        Descripcion del Usuario
+        </span>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-1">
+            <img alt="avatar" src="assets/images/avatar-user.png" style="width: 50px !important">
+          </div>
+          <div class="col-md-5">
 
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <p>Commits: {{commitsTotal}}</p>
-                    <p>Lenguajes de programacion</p>
-                </div>
-                <div class="col-md-2">
-                    <div><span>Clasificación</span></div>
-                    <div>
-                        <!-- <star-rating-comp [starType]="'svg'"></star-rating-comp> -->
-                    </div>
-                </div>
+            <p>
+              {{usuario.email}}
+            </p>
+            <p>
+              Descripcion del Usuario
+
+            </p>
+          </div>
+          <div class="col-md-4">
+            <p>Commits: {{commitsTotal}}</p>
+            <p *ngIf="usuario.tipo!='gitlab'" >Lenguajes de programacion</p>
+          </div>
+          <div class="col-md-2">
+            <div>
+              <span>Clasificación</span>
             </div>
+            <div>
+              <!-- <star-rating-comp [starType]="'svg'"></star-rating-comp> -->
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <div class="mb-3">
-        <h4>Resumen</h4>
-        <div class="card-deck">
-            <div class="card">
-                <div class="card-body">
+      <h4>Resumen</h4>
+      <div class="card-deck">
+        <div class="card">
+          <div class="card-body">
 
-                  <span *ngFor="let proy of usuario.datos">
-                    {{proy.repo}} <br>
-                  </span>
+            <span *ngFor="let proy of usuario.datos">
+              <div>
+                <a href="{{proy.repo.web_url}}" target="#">{{proy.repo.name}} </a>
+              </div>
+            </span>
 
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <p>Primer commit:</p>
-                    <p>Reciente Commit:</p>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="card">
+          <div class="card-body">
+            <p>Primer commit: {{primerCommit}}</p>
+            <p>Reciente Commit: {{UltimoCommit}}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="mb-3">
-        <h4>Historial de Desarrollo:</h4>
-        <div class="card-deck">
-            <div class="card">
-                <div class="card-body">
-                    <span>Commits por proyecto</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    Gráfico de commits
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    Commits por Lenguajes
-                </div>
-            </div>
+      <h4>Historial de Desarrollo:</h4>
+      <div class="card-deck">
+        <div class="card">
+          <div class="card-body">
+            <span>Commits por proyecto</span>
+            <chart-commits [data]="data$">
+            </chart-commits>
+          </div>
         </div>
+        <div class="card">
+          <div class="card-body">
+            Gráfico de commits
+          </div>
+
+        </div>
+        <div class="card" *ngIf="usuario.tipo!='gitlab'">
+          <div class="card-body">
+            Commits por Lenguajes
+          </div>
+        </div>
+        {{data$}}
+      </div>
     </div>
-</div>
+  </div>
 </div>
