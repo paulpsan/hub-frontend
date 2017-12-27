@@ -15,7 +15,7 @@ export class CommitsComponent {
   id;
 
   public barChartOptions:any = {
-    scaleShowVerticalLines: false,
+    scaleShowVerticalLines: true,
     responsive: true
   };
 
@@ -66,23 +66,26 @@ export class CommitsComponent {
     console.log(this.data);
 
     let repositorio;
-    let vec=[]
+    let date;
+    let vecData=[];
+    let vecLabel=[]
     for(let i in this.data){
       let commits=[] ;
-      console.log(i);
       commits.push(this.data[i].commits.length);
       repositorio= this.data[i].repo.name;
-      vec.push({data:commits,label: repositorio});
+      let fecha = new Date(this.data[i].repo.created_at);
+      vecData.push({data:commits,label: repositorio});
+      vecLabel.push(fecha.getFullYear());
       // this.barChartData[i].label=this.data[i].repo.name;
       // repositorio.push(value.repo.name);
       // commits.push(value.commits.length)
     }
-    let clone = JSON.parse(JSON.stringify(vec));
+    let clone = JSON.parse(JSON.stringify(vecData));
     // clone[0].data = data;
     this.barChartData = clone;
 
-    console.log(vec)
-    this.barChartLabels=vec;
+    console.log(vecData)
+    this.barChartLabels=vecLabel;
 
 
     // this.route.params.subscribe(params => {

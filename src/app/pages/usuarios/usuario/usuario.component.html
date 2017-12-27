@@ -36,8 +36,9 @@
           </div>
           <div class="col-md-4">
             <p>Commits: {{commitsTotal}}</p>
-            {{usuario.tipo}}
-            <p *ngIf="usuario.tipo!='gitlab'" >Lenguajes de programacion</p>
+            <div *ngIf="usuario.tipo!='gitlab'">
+              <p>Lenguajes de programacion</p>
+            </div>
           </div>
           <div class="col-md-2">
             <div>
@@ -87,15 +88,18 @@
             </chart-commits>
           </div>
         </div>
-        <div class="card">
+        <!-- <div class="card">
           <div class="card-body">
             Gráfico de commits
           </div>
 
-        </div>
+        </div> -->
         <div class="card" *ngIf="usuario.tipo!='gitlab'">
           <div class="card-body">
             Commits por Lenguajes
+            <chart-lenguajes>
+
+            </chart-lenguajes>
           </div>
         </div>
       </div>

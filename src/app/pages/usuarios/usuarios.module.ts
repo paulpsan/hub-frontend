@@ -19,6 +19,7 @@ import { UsuarioComponent, ModalEliminarUsuario} from './usuario/usuario.compone
 import { InicioModule } from '../inicio/inicio.module';
 import { ListarComponent } from './listar/listar.component';
 import { CommitsComponent } from './charts/commits.component';
+import { LenguajesComponent } from './charts/lenguajes.component';
 
 @NgModule({
   declarations:[
@@ -29,7 +30,8 @@ import { CommitsComponent } from './charts/commits.component';
     UsuariosComponent,
     UsuarioComponent,
     ListarComponent,
-    CommitsComponent
+    CommitsComponent,
+    LenguajesComponent,
   ],
   imports:[
     CommonModule,

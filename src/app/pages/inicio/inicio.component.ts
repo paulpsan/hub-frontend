@@ -80,11 +80,6 @@ export class InicioComponent implements OnInit {
           console.log("gitlab",this.params.state);
         }
       }
-
-
-
-
-
     }
 
     if (localStorage.getItem("token") != null) {

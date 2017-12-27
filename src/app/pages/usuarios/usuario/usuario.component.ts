@@ -56,12 +56,31 @@ export class UsuarioComponent implements OnInit {
             this.calculaCommits(this.usuario);
             this.listaProyectos(this.usuario);
           }
+          else{
+            if(this.usuario.tipo == "github"){
+            this.getPrimerCommit(this.usuario);
+            this.getUltimoCommit(this.usuario);
+            this.calculaCommits(this.usuario);
+            this.listaProyectos(this.usuario);
+            this.getLenguajes(this.usuario);
+            }
+          }
           console.log(this.usuario);
         },
         error => {
           console.log(error);
         }
       );
+    }
+  }
+  getLenguajes(usuario){
+    for(let value of usuario.datos){
+      let leng=JSON.stringify(value.lenguajes)
+      console.log(leng)
+      let array=leng.split(',')
+      for(let val of array){
+        console.log(val.replace(/[{}]/g,""))
+      }
     }
   }
   getPrimerCommit(usuario) {
@@ -115,7 +134,8 @@ export class UsuarioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this._httpService.eliminarId("usuarios", result.id).subscribe(res => {
+        console.log(result)
+        this._httpService.eliminarId("usuarios", result._id).subscribe(res => {
           //AQUI colocamos las notificaciones!!
           // setTimeout(()=>
           // {
