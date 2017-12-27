@@ -41,7 +41,7 @@ export class LoginService {
     // .map((res:Response) => {return res})
     // .catch((error:any) => Observable.throw(error || 'Server error'));
 
-    return this._http.get('http://localhost:3000/api/auth/github/'+code)
+    return this._http.get(this.url+'/auth/github/'+code)
     .map((res:Response)=>{
       let token= res.json().token;
       if(res.json().token){
@@ -59,7 +59,7 @@ export class LoginService {
   }
   getTokenGitlab(code:string){
 
-    return this._http.get('http://localhost:3000/api/auth/gitlab/'+code)
+    return this._http.get(this.url+'/auth/gitlab/'+code)
     .map((res:Response)=>{
       let token= res.json().token;
       if(res.json().token){

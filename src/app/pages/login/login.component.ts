@@ -36,8 +36,9 @@ export class LoginComponent implements OnInit {
 
 
   private STATE_GITLAB: string = "hub-software-gitlab";
-  private CALLBACK_GITLAB:string ="http://localhost:4200/inicio";
-
+  private CALLBACK_GITLAB:string ="ttps://test.adsib.gob.bo/softwarelibre/inicio";
+  // private CALLBACK_GITLAB:string ="http://localhost:4200/inicio";
+h
   loginForm: FormGroup;
   public usuario: Usuario;
   public token;
