@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,) {}
 
   ngOnInit() {
-    console.log("construye nav")
+    console.log(localStorage.getItem("identity"))
     if (localStorage.getItem("identity")) {
       this.identity = localStorage.getItem("identity");
       console.log(this.identity);
@@ -41,6 +41,14 @@ export class HeaderComponent implements OnInit {
   logout(){
     this._authService.logout();
     console.log(localStorage.getItem("identity"));
-    this.router.navigate(["/login"]);
+    if(localStorage.getItem("identity")=="gitlab"){
+      window.location.href ="https://gitlab.geo.gob.bo/users/sign_out"
+    }else{
+      if(localStorage.getItem("identity")=="github"){
+        window.location.href ="https://github.com/logout"
+      }else{
+        this.router.navigate(["/login"]);
+      }
+    }
   }
 }

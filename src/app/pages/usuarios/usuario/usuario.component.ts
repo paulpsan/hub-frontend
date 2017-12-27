@@ -24,7 +24,6 @@ export class UsuarioComponent implements OnInit {
   primerCommit;
   UltimoCommit;
   data$;
-
   show:boolean=false;
 
   constructor(private route: ActivatedRoute,

@@ -8,6 +8,7 @@ import { Usuario } from "../../models/usuario";
 import { BooleanLiteral } from "typescript";
 import { Console } from '@angular/core/src/console';
 import { setTimeout } from 'timers';
+import { GLOBAL } from "./../../services/global";
 
 @Component({
   selector: "hub-login",
@@ -66,6 +67,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginGH() {
+    GLOBAL.TOGGLE=true;
     window.location.href =
       this.urlGithub + this.GITHUB_CLIENT_ID + "&state=" + this.STATE_GITHUB;
 
@@ -80,7 +82,9 @@ export class LoginComponent implements OnInit {
   }
   loginGL() {
     // this.router.navigateByUrl("http://www.cnn.com/");
+    GLOBAL.TOGGLE=true;
     window.location.href = this.urlGitlab + this.GITLAB_CLIENT_ID +"&redirect_uri="+this.CALLBACK_GITLAB+ "&response_type=code"+"&state=" + this.STATE_GITLAB;
+
   }
   loginBB() {
     this.router.navigate(["/auth/bitbucket"]);

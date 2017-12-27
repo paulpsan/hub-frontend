@@ -24,7 +24,7 @@ export class CommitsComponent {
   public barChartLegend:boolean = true;
 
   public barChartData:any[] = [
-    {data: [], label: ''}
+    {data: [0], label: ''}
   ];
 
 
@@ -64,18 +64,23 @@ export class CommitsComponent {
 
   ngOnInit() {
     console.log(this.data);
-    let commits=[] ;
+
     let repositorio;
     let vec=[]
     for(let i in this.data){
+      let commits=[] ;
       console.log(i);
-      commits=this.data[i].commits.length;
+      commits.push(this.data[i].commits.length);
       repositorio= this.data[i].repo.name;
       vec.push({data:commits,label: repositorio});
       // this.barChartData[i].label=this.data[i].repo.name;
       // repositorio.push(value.repo.name);
       // commits.push(value.commits.length)
     }
+    let clone = JSON.parse(JSON.stringify(vec));
+    // clone[0].data = data;
+    this.barChartData = clone;
+
     console.log(vec)
     this.barChartLabels=vec;
 

@@ -53,7 +53,7 @@ export class InicioComponent implements OnInit {
                 // resp.token;
               }
               // this.router.navigate(["/inicio"]);
-              GLOBAL.TOGGLE=true;
+
             });
             GLOBAL.TOGGLE=false;
           }
@@ -74,7 +74,6 @@ export class InicioComponent implements OnInit {
                   // resp.token;
                 }
                 // this.router.navigate(["/inicio"]);
-                GLOBAL.TOGGLE=true;
               });
               GLOBAL.TOGGLE=false;
             }
