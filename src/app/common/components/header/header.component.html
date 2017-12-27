@@ -25,7 +25,15 @@
                 <a class="dropdown-item">Perfil</a>
                 <a class="dropdown-item">Ajustes</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" (click)="logout()">Cerrar Sesion</a>
+                <div *ngIf="identity.tipo=='gitlab'">
+                  <a class="dropdown-item" (click)="logout()" data-method="delete" href="https://gitlab.geo.gob.bo/users/sign_out" target="_blank">Cerrar Sesion</a>
+                </div>
+                <div *ngIf="identity.tipo=='github'">
+                  <a class="dropdown-item" (click)="logout()" href="https://github.com/logout" target="_blank">Cerrar Sesion</a>
+                </div>
+                <div *ngIf="identity.tipo=='local'">
+                  <a class="dropdown-item" (click)="logout()" target="_blank">Cerrar Sesion</a>
+                </div>
               </div>
             </div>
           </li>

@@ -93,8 +93,9 @@ export class LoginComponent implements OnInit {
     let email = this.loginForm.controls["email"].value;
     let password = this.loginForm.controls["password"].value;
 
-    this._authService.login('usuarios/login',{email:email,password:password}).subscribe(
+    this._authService.login('usuarios/login',{email:email,password:password,tipo:'local'}).subscribe(
       response =>{
+        console.log(response);
         this.identity=response;
         localStorage.setItem('identity',JSON.stringify(this.identity))
         this.router.navigate(['/inicio']);

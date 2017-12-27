@@ -33,22 +33,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     console.log(localStorage.getItem("identity"))
     if (localStorage.getItem("identity")) {
-      this.identity = localStorage.getItem("identity");
+      this.identity = JSON.parse(localStorage.getItem("identity"));
       console.log(this.identity);
     }
 
   }
   logout(){
     this._authService.logout();
-    console.log(localStorage.getItem("identity"));
-    if(localStorage.getItem("identity")=="gitlab"){
-      window.location.href ="https://gitlab.geo.gob.bo/users/sign_out"
-    }else{
-      if(localStorage.getItem("identity")=="github"){
-        window.location.href ="https://github.com/logout"
-      }else{
-        this.router.navigate(["/login"]);
-      }
-    }
+    console.log(this.identity);
+    this.router.navigate(["/login"]);
   }
 }

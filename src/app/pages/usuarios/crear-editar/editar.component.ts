@@ -67,12 +67,12 @@ export class EditarComponent implements OnInit {
       if (this.id) {
         let usuario: Usuario = new Usuario(this.id,
           this.userForm.controls['nombre'].value,
-          this.userForm.controls['email'].value,'','','','','');
+          this.userForm.controls['email'].value,'','usuario','','',[]);
         this._httpService.editar('usuarios',usuario).subscribe();
       } else {
         let usuario: Usuario = new Usuario(null,
           this.userForm.controls['nombre'].value,
-          this.userForm.controls['email'].value,'','','','','');
+          this.userForm.controls['email'].value,'','usuario','','',[]);
         this._httpService.adicionar('usuarios',usuario).subscribe();
       }
 

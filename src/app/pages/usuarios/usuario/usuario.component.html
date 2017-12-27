@@ -36,6 +36,7 @@
           </div>
           <div class="col-md-4">
             <p>Commits: {{commitsTotal}}</p>
+            {{usuario.tipo}}
             <p *ngIf="usuario.tipo!='gitlab'" >Lenguajes de programacion</p>
           </div>
           <div class="col-md-2">
@@ -51,14 +52,17 @@
     </div>
 
     <div class="mb-3">
-      <h4>Resumen</h4>
+      <h4>Proyectos</h4>
       <div class="card-deck">
         <div class="card">
           <div class="card-body">
 
             <span *ngFor="let proy of usuario.datos">
-              <div>
+              <div *ngIf="usuario.tipo=='gitlab'">
                 <a href="{{proy.repo.web_url}}" target="#">{{proy.repo.name}} </a>
+              </div>
+              <div *ngIf="usuario.tipo=='github'">
+                <a href="{{proy.repo.html_url}}" target="#">{{proy.repo.name}} </a>
               </div>
             </span>
 

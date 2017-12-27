@@ -22,7 +22,7 @@ export class AuthService {
       .post(this.url + nombre, objeto)
       .map((res: Response) => {
         localStorage.setItem('token',res['token']);
-        return res['id'];
+        return res['usuario'];
       })
       .catch((error: any) => Observable.throw(error || "Server error"));
   }

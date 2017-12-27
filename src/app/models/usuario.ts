@@ -4,9 +4,9 @@ export class Usuario {
     public email: string;
     public password: string;
     public role: string;
-    public datos: string;
     public tipo:string;
     public login:string;
+    public datos: any[];
     constructor(
         _id: number,
         nombre: string,
@@ -15,7 +15,7 @@ export class Usuario {
         role: string,
         login:string,
         tipo:string,
-        datos: string,
+        datos: any[],
 
     ) {
         this._id = _id;
