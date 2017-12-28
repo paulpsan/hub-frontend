@@ -60,10 +60,10 @@
 
             <span *ngFor="let proy of usuario.datos">
               <div *ngIf="usuario.tipo=='gitlab'">
-                <a href="{{proy.repo.web_url}}" target="#">{{proy.repo.name}} </a>
+                <a (click)="getUsuarios(proy)" target="#">{{proy.repo.name}} </a>
               </div>
               <div *ngIf="usuario.tipo=='github'">
-                <a href="{{proy.repo.html_url}}" target="#">{{proy.repo.name}} </a>
+                <a (click)="getUsuarios(proy)" target="#">{{proy.repo.name}} </a>
               </div>
             </span>
 

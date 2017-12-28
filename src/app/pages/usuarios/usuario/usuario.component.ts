@@ -73,6 +73,14 @@ export class UsuarioComponent implements OnInit {
       );
     }
   }
+  getUsuarios(proyecto){
+    let token=localStorage.getItem("token");
+    console.log(proyecto,token)
+    this._httpService.obtenerUsuarios("gitlab", proyecto.repo,token).subscribe(
+      resp => {
+        console.log(resp);
+      });
+  }
   getLenguajes(usuario){
     for(let value of usuario.datos){
       let leng=JSON.stringify(value.lenguajes)

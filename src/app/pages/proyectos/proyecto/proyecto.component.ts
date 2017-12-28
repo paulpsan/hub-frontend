@@ -39,7 +39,7 @@ export class ProyectoComponent implements OnInit {
   }
   editarProyecto(proyecto){
     if (proyecto) {
-      this.router.navigate(['/proyectos/editar', proyecto.id]);
+      this.router.navigate(['/proyectos/editar', proyecto._id]);
     }
   }
 }

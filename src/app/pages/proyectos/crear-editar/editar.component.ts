@@ -56,9 +56,7 @@ export class EditarComponent implements OnInit {
     console.log(this.proyecto);
     this.userForm.setValue({
       nombre:this.proyecto.nombre,
-      direccion:this.proyecto.web_url,
-      descripcion:this.proyecto.descripcion,
-      logotipo:this.proyecto.icono,
+      descripcion:this.proyecto.descripcion
       // licencias:this.proyecto.licencia
     });
   }

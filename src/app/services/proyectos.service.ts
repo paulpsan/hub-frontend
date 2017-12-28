@@ -10,13 +10,13 @@ import { Proyecto } from '../models/proyecto';
 export class ProyectosService {
   public url: string;
 
-  constructor(private _http: HttpClient) { 
+  constructor(private _http: HttpClient) {
     this.url = GLOBAL.url;
     // this.url = 'https://gitlab.geo.gob.bo/api/v4/projects/';
-    
+
   }
   getProyectos(){
-    let myParams = new HttpParams();  
+    let myParams = new HttpParams();
     myParams=myParams.append('pagina','1');
     myParams=myParams.append('limite','2');
     console.log(myParams);
@@ -28,7 +28,7 @@ export class ProyectosService {
       return res;
     })
     .catch((error:any)=>Observable.throw(error || 'Server error'))
-    
+
   }
   buscarId(id:number):Observable<Proyecto>{
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -44,7 +44,7 @@ export class ProyectosService {
   }
 
   editar(proyecto:Proyecto):Observable<Proyecto[]>{
-    return this._http.put(this.url+'proyectos/'+proyecto.id , proyecto)
+    return this._http.put(this.url+'proyectos/'+proyecto._id , proyecto)
     .map((res:Response) => {return res})
     .catch((error:any) => Observable.throw(error || 'Server error'));
   }

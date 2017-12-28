@@ -37,6 +37,14 @@ export class HttpService {
       })
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
+  obtenerUsuarios(nombre: string, repo: any,token:any): Observable<any> {
+    return this._http
+      .post(this.url + nombre+"/usuarios/"+repo.id, {repo,token})
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Server error"));
+  }
 
   buscarId(nombre: string, id: number): Observable<any> {
     let headers = new Headers({ "Content-Type": "application/json" });
@@ -47,6 +55,8 @@ export class HttpService {
       })
       .catch((error: any) => Observable.throw(error || "Error"));
   }
+
+
 
   adicionar(nombre: string, objeto: any): Observable<any> {
     return this._http

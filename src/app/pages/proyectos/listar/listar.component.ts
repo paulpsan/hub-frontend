@@ -34,6 +34,7 @@ export class ListarComponent implements OnInit {
     };
    }
   ngOnInit() {
+    console.log("listando proyectos");
     this.obtenerProyectos();
   }
   obtenerProyectos(){
@@ -41,28 +42,28 @@ export class ListarComponent implements OnInit {
       result =>{
         this.respuesta=result;
         this.proyectos=this.respuesta.datos;
-        console.log (this.respuesta.datos);
+        console.log (this.proyectos);
       },
       err =>{
         console.log(err);
       }
     )
   }
-  obtenerProyectosPag(){
-    console.log(this.paginacion.pagina);
-    this._httpService.obtenerPaginado('proyectos',this.paginacion).subscribe(
-      result =>{
-        this.respuesta=result;
-        this.proyectos=this.respuesta.datos;
-        console.log (this.respuesta.datos);
-      },
-      err =>{
-        console.log(err);
-      }
-    )
-  }
+  // obtenerProyectosPag(){
+  //   console.log(this.paginacion.pagina);
+  //   this._httpService.obtenerPaginado('proyectos',this.paginacion).subscribe(
+  //     result =>{
+  //       this.respuesta=result;
+  //       this.proyectos=this.respuesta.datos;
+  //       console.log (this.respuesta.datos);
+  //     },
+  //     err =>{
+  //       console.log(err);
+  //     }
+  //   )
+  // }
   mostrar(proyecto:Proyecto){
-    this.idSelect=proyecto.id;
+    this.idSelect=proyecto._id;
     this.mostrarToggle=!this.mostrarToggle;
   }
   //funcion dela paginacion
@@ -71,7 +72,7 @@ export class ListarComponent implements OnInit {
   }
   irProyecto(proyecto:Proyecto){
     if (proyecto) {
-      this.router.navigate(['/proyectos', proyecto.id]);
+      this.router.navigate(['/proyectos', proyecto._id]);
     }
   }
 
