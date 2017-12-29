@@ -23,22 +23,15 @@ export class InicioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.sub = this.route.params.subscribe(params => {
-    //   console.log(params);
-    // });
-
     this.url = this.router.url;
     console.log(this.url);
     if (this.url != "/inicio") {
       this.urlCallback = this.url.split("?");
-
-     console.log(this.urlCallback)
       this.params = qs.parse(this.urlCallback[1]);
       console.log(this.params);
+      this.router.navigate(["/inicio"]);
       if (this.params.state === "hub-software-github") {
-
         console.log(this.params.code);
-
           if (this.params.code != ""&& GLOBAL.TOGGLE) {
           // if (this.code != "") {
             this._loginServise.getTokenGithub(this.params.code).subscribe(resp => {
@@ -81,9 +74,8 @@ export class InicioComponent implements OnInit {
         }
       }
     }
-
-    if (localStorage.getItem("token") != null) {
-      this.router.navigate(["/proyectos"]);
-    }
+    // if (localStorage.getItem("token") != null) {
+    //   this.router.navigate(["/proyectos"]);
+    // }
   }
 }

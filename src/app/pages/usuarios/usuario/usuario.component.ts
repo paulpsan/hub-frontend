@@ -28,7 +28,8 @@ export class UsuarioComponent implements OnInit {
   primerCommit;
   UltimoCommit;
   data$;
-  showUsuarios:boolean=false;
+  dataLenguajes$;
+  showUsuarios: boolean = false;
   usuarioProyecto;
   proyectoSelect;
   show: boolean = false;
@@ -56,12 +57,11 @@ export class UsuarioComponent implements OnInit {
           if (this.usuario.tipo == "gitlab") {
             this.calculaCommits(this.usuario);
             this.listaProyectos(this.usuario);
-          }
-          else{
-            if(this.usuario.tipo == "github"){
-            this.calculaCommits(this.usuario);
-            this.listaProyectos(this.usuario);
-            this.getLenguajes(this.usuario);
+          } else {
+            if (this.usuario.tipo == "github") {
+              this.calculaCommits(this.usuario);
+              this.listaProyectos(this.usuario);
+              this.getLenguajes(this.usuario);
             }
           }
           console.log(this.usuario);
@@ -72,42 +72,92 @@ export class UsuarioComponent implements OnInit {
       );
     }
   }
-  getUsuarios(proyecto){
-    let token=localStorage.getItem("token");
-    console.log(proyecto,token)
-    this.proyectoSelect=proyecto;
-    this.getPrimerCommit(proyecto);
-    this.getUltimoCommit(proyecto);
-    this._httpService.obtenerUsuarios("gitlab", proyecto.repo,token).subscribe(
-      resp => {
-        this.showUsuarios=true;
-        this.usuarioProyecto=resp;
+  getUsuarios(proyecto, tipo) {
 
-        console.log(resp);
-      });
-  }
-  getLenguajes(usuario){
-    for(let value of usuario.datos){
-      let leng=JSON.stringify(value.lenguajes)
-      console.log(leng)
-      let array=leng.split(',')
-      for(let val of array){
-        console.log(val.replace(/[{}]/g,""))
+    let token = localStorage.getItem("token");
+    console.log(proyecto, token);
+    this.dataLenguajes$ = proyecto.lenguajes;
+    if (tipo == "gitlab") {
+      this.proyectoSelect = proyecto;
+      this.getPrimerCommit(proyecto);
+      this.getUltimoCommit(proyecto);
+      this.usuarioProyecto = proyecto.members;
+      this.showUsuarios = true;
+      // this._httpService
+      //   .obtenerUsuarios("gitlab", proyecto.repo, token)
+      //   .subscribe(resp => {
+      //     this.showUsuarios = true;
+      //     this.usuarioProyecto = resp;
+      //     console.log(this.usuarioProyecto);
+      //   });
+    } else {
+      if (tipo == "github") {
+        this.proyectoSelect = proyecto;
+        this.getPrimerCommit(proyecto);
+        this.getUltimoCommit(proyecto);
+        // obtenemos usuarios de los commits
+        let datos = [];
+        for (let commits of proyecto.commits) {
+          if (commits.committer)
+            datos.push({
+              name: commits.commit.author.name,
+              avatar_url: commits.committer.avatar_url,
+              web_url: commits.committer.url
+            });
+          else
+            datos.push({
+              name: commits.commit.author.name,
+              avatar_url: "",
+              web_url: ""
+            });
+        }
+        var hash = {};
+        datos = datos.filter(function(current) {
+          var exists = !hash[current.name] || false;
+          hash[current.name] = true;
+          return exists;
+        });
+        this.usuarioProyecto = datos;
+        this.showUsuarios = true;
+        // console.log(this.usuarioProyecto);
+      } else {
+        //local
       }
     }
   }
+  getLenguajes(usuario) {
+    console.log(usuario);
+    let arrarResp = [];
+    for (let value of usuario.datos) {
+      let leng = JSON.stringify(value.lenguajes);
+      let array = leng.split(",");
+      let lengProyectos = [];
+      for (let val of array) {
+        let cadena = val.replace(/[{""}]/g, "").split(":");
+        lengProyectos.push({
+          lenguaje: cadena[0],
+          codigo: cadena[1]
+        });
+      }
+      arrarResp.push(lengProyectos);
+    }
+    console.log(arrarResp);
+  }
   getPrimerCommit(proyecto) {
-    if (proyecto.commits.length>=1) {
+    if (proyecto.commits.length >= 1) {
       let tamano = proyecto.commits.length;
-      this.UltimoCommit = proyecto.commits[tamano - 1].committed_date;
+      this.UltimoCommit =
+        proyecto.commits[tamano - 1].committed_date ||
+        proyecto.commits[tamano - 1].commit.author.date;
     } else {
       this.UltimoCommit = "no existe";
     }
   }
   getUltimoCommit(proyecto) {
-    if (proyecto.commits.length>=1) {
-      this.primerCommit = proyecto.commits[0].committed_date;
-
+    if (proyecto.commits.length >= 1) {
+      this.primerCommit =
+        proyecto.commits[0].committed_date ||
+        proyecto.commits[0].commit.author.date;
     } else {
       this.primerCommit = "no existe";
     }
@@ -141,7 +191,7 @@ export class UsuarioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result)
+        console.log(result);
         this._httpService.eliminarId("usuarios", result._id).subscribe(res => {
           //AQUI colocamos las notificaciones!!
           // setTimeout(()=>

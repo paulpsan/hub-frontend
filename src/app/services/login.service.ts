@@ -47,7 +47,6 @@ export class LoginService {
       if(res.json().token){
         localStorage.setItem('token',token);
         localStorage.setItem('identity',JSON.stringify(res.json().usuario));
-        console.log(localStorage.getItem('identity'));
       }
     return res.json();
 
