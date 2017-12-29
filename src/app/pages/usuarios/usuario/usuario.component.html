@@ -22,16 +22,13 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-1">
-            <img alt="avatar" src="assets/images/avatar-user.png" style="width: 50px !important">
+            <img alt="avatar" src="{{usuario.avatar}}"  style="width: 50px !important" *ngIf="usuario.avatar">
+            <img alt="avatar" src="assets/images/avatar-user.png"  style="width: 50px !important" *ngIf="!usuario.avatar">
           </div>
           <div class="col-md-5">
 
             <p>
               {{usuario.email}}
-            </p>
-            <p>
-              Descripcion del Usuario
-
             </p>
           </div>
           <div class="col-md-4">
@@ -53,24 +50,52 @@
     </div>
 
     <div class="mb-3">
-      <h4>Proyectos</h4>
       <div class="card-deck">
         <div class="card">
           <div class="card-body">
-
-            <span *ngFor="let proy of usuario.datos">
-              <div *ngIf="usuario.tipo=='gitlab'">
-                <a (click)="getUsuarios(proy)" target="#">{{proy.repo.name}} </a>
-              </div>
-              <div *ngIf="usuario.tipo=='github'">
-                <a (click)="getUsuarios(proy)" target="#">{{proy.repo.name}} </a>
-              </div>
-            </span>
+              <h4 class="card-title">Proyectos</h4>
+            <table class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'">
+              <thead class="thead-inverse">
+                <tr>
+                  <th></th>
+                  <th>Proyectos</th>
+                  <th>Url</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let proy of usuario.datos" (click)="getUsuarios(proy)" style="cursor: pointer">
+                  <td scope="row"><img src="{{proy.repo.avatar_url}}" alt="" height="30" width="30"> </td>
+                  <td><a target="#">{{proy.repo.name}} </a></td>
+                  <td><a href="{{proy.repo.http_url_to_repo}}" target="#">{{proy.repo.http_url_to_repo}} </a></td>
+                </tr>
+              </tbody>
+            </table>
 
           </div>
         </div>
-        <div class="card">
+        <div class="card" *ngIf="showUsuarios">
           <div class="card-body">
+              <h4>{{proyectoSelect.repo.name}}</h4>
+            <table class="table table-hover table-inverse table-responsive">
+              <thead class="thead-inverse">
+                <tr>
+                  <th></th>
+                  <th>Usuario</th>
+                  <th>Url</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let value of usuarioProyecto">
+                  <td scope="row">
+                    <img src="{{value.avatar_url}}" alt="" height="30" width="30">
+                  </td>
+                  <td>{{value.name}}</td>
+                  <td>
+                    <a href="{{value.web_url}}" target="#">{{value.web_url}}</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
             <p>Primer commit: {{primerCommit}}</p>
             <p>Reciente Commit: {{UltimoCommit}}</p>
           </div>

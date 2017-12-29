@@ -5,10 +5,14 @@
         <span style="text-transform: uppercase;"> {{proyecto.nombre}}</span>
       </i>
     </div>
-    <div class="">
+    <!-- <div class="">
       <i class="fa fa-cogs" aria-hidden="true"></i>
       <span class="enlaces" (click)="editarProyecto(proyecto)">Editar</span>
-    </div>
+    </div> -->
+    <span>
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        <span class="enlaces" (click)="eliminarProyecto(proyecto)">Eliminar</span>
+      </span>
   </div>
 
   <div class="col mb-3">

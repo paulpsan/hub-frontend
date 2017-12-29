@@ -28,6 +28,9 @@ export class UsuarioComponent implements OnInit {
   primerCommit;
   UltimoCommit;
   data$;
+  showUsuarios:boolean=false;
+  usuarioProyecto;
+  proyectoSelect;
   show: boolean = false;
 
   constructor(
@@ -51,15 +54,11 @@ export class UsuarioComponent implements OnInit {
           this.data$ = resp.datos;
           this.show = true;
           if (this.usuario.tipo == "gitlab") {
-            this.getPrimerCommit(this.usuario);
-            this.getUltimoCommit(this.usuario);
             this.calculaCommits(this.usuario);
             this.listaProyectos(this.usuario);
           }
           else{
             if(this.usuario.tipo == "github"){
-            this.getPrimerCommit(this.usuario);
-            this.getUltimoCommit(this.usuario);
             this.calculaCommits(this.usuario);
             this.listaProyectos(this.usuario);
             this.getLenguajes(this.usuario);
@@ -76,8 +75,14 @@ export class UsuarioComponent implements OnInit {
   getUsuarios(proyecto){
     let token=localStorage.getItem("token");
     console.log(proyecto,token)
+    this.proyectoSelect=proyecto;
+    this.getPrimerCommit(proyecto);
+    this.getUltimoCommit(proyecto);
     this._httpService.obtenerUsuarios("gitlab", proyecto.repo,token).subscribe(
       resp => {
+        this.showUsuarios=true;
+        this.usuarioProyecto=resp;
+
         console.log(resp);
       });
   }
@@ -91,26 +96,20 @@ export class UsuarioComponent implements OnInit {
       }
     }
   }
-  getPrimerCommit(usuario) {
-    if (usuario.datos[0]) {
-      let tamano = usuario.datos[0].commits.length;
-      this.primerCommit = usuario.datos[0].commits[tamano - 1].created_at;
-      console.log(this.primerCommit);
+  getPrimerCommit(proyecto) {
+    if (proyecto.commits.length>=1) {
+      let tamano = proyecto.commits.length;
+      this.UltimoCommit = proyecto.commits[tamano - 1].committed_date;
     } else {
-      this.primerCommit = "no existe";
+      this.UltimoCommit = "no existe";
     }
   }
-  getUltimoCommit(usuario) {
-    this.UltimoCommit = "";
-    for (let value of usuario.datos) {
-      let fecha = new Date(value.commits[0].committed_date);
-      if (value.commits[0].committed_date >= this.UltimoCommit) {
-        this.UltimoCommit = value.commits[0].committed_date;
-      } else {
-        this.UltimoCommit = "no existe";
-      }
+  getUltimoCommit(proyecto) {
+    if (proyecto.commits.length>=1) {
+      this.primerCommit = proyecto.commits[0].committed_date;
 
-      this.commitsTotal += value.commits.length;
+    } else {
+      this.primerCommit = "no existe";
     }
   }
 

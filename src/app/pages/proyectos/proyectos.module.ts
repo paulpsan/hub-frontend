@@ -15,12 +15,12 @@ import { CrearComponent } from './crear-editar/crear.component';
 import { ProyectosComponent } from './proyectos.component';
 import { ProyectosRoutingModule } from './proyectos-routing.module';
 import { ProyectosService } from '../../services/proyectos.service';
-import { ProyectoComponent } from './proyecto/proyecto.component';
+import { ProyectoComponent,ModalEliminarProyecto } from './proyecto/proyecto.component';
 import { CodigoComponent } from './proyecto/charts/codigo.component';
 import { CommitsComponent } from './proyecto/charts/commits.component';
 import { LenguajesComponent } from './proyecto/charts/lenguajes.component';
 import { ComunModule } from '../../common/comun.module';
-import { ListarComponent ,ModalEliminarProyecto } from './listar/listar.component';
+import { ListarComponent } from './listar/listar.component';
 
 @NgModule({
   declarations:[

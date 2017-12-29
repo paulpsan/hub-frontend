@@ -79,41 +79,4 @@ export class ListarComponent implements OnInit {
   adicionar(){
       this.router.navigate(['/proyectos/adicionar']);
   }
-
-  eliminar(proyecto:Proyecto):void{
-    console.log(proyecto);
-    let dialogRef = this.dialog.open(ModalEliminarProyecto, {
-      width: '350px',
-      data: proyecto
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-      // this._proyectosService.eliminarId(result._id).subscribe(
-      //       res => {
-      //         //AQUI colocamos las notificaciones!!
-      //         // setTimeout(()=>
-      //         // {
-      //         //   this.obtenerProyectos();
-      //         // }, 1000);
-      //         // console.log('done');
-      //       }
-      // );
-    });
-  }
 }
-@Component({
-  selector: 'modal-eliminar-proyecto',
-  templateUrl: 'modal-eliminar-proyecto.html',
-})
-export class ModalEliminarProyecto {
-
-    constructor(
-      public dialogRef: MatDialogRef<ModalEliminarProyecto>,
-      @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-    cancelarClick(): void {
-      this.dialogRef.close();
-    }
-
-  }

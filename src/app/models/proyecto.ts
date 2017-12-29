@@ -4,8 +4,8 @@ export class Proyecto {
         public nombre: string,
         public descripcion: string,
         public urlRepositorio: string,
-        public fecha_creacion: string,
-        public fecha_modificacion: string,
+        public id_usuario:number,
+        public tipo:string,
         public datos: any[]
     ) { }
 }
