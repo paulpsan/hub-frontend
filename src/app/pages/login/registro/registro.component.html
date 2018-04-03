@@ -1,4 +1,25 @@
-<hub-header></hub-header>
+<!-- <hub-header></hub-header> -->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(54, 22, 24);">
+    <div class="container-fluid">
+        <p class="navbar-brand">CATALOGO SOFTWARE LIBRE</p>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="nav-link" [routerLink]="['/login']">Acceder</a>
+                </li>
+                <li>
+                    <a class="nav-link" [routerLink]="['/registro']">Regístrate</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <div class="container">
     <div class="row justify-content-md-center m-1">
         <div class="card bg-light col-md-6 col-sm-12" style="padding: 0;">
@@ -19,18 +40,18 @@
                     <fieldset>
                         <div class="form-group">
                             <mat-form-field class="col">
-                                <input matInput placeholder="Nombre" formControlName="nombre" >
+                                <input matInput placeholder="Nombre" formControlName="nombre">
                             </mat-form-field>
                         </div>
                         <div class="form-group">
-                          <mat-form-field class="col">
-                              <input matInput placeholder="Correo Electronico" formControlName="email">
-                          </mat-form-field>
+                            <mat-form-field class="col">
+                                <input matInput placeholder="Correo Electronico" formControlName="email">
+                            </mat-form-field>
                         </div>
                         <div class="form-group">
-                          <mat-form-field class="col">
-                              <input matInput placeholder="Verifique Correo Electronico" formControlName="confirmarEmail">
-                          </mat-form-field>
+                            <mat-form-field class="col">
+                                <input matInput placeholder="Verifique Correo Electronico" formControlName="confirmarEmail">
+                            </mat-form-field>
                         </div>
                         <div class="form-group">
                             <mat-form-field class="col">
@@ -47,7 +68,7 @@
                     <!-- <recaptcha (resolved)="resolved($event)" siteKey="6Ld3oTsUAAAAAJvkrQ5uCc8JZ5nO3yVVkXB9fiTu"></recaptcha> -->
 
                     <div class="row justify-content-center">
-                        <button mat-button type="submit" [disabled]="!usuarioForm.valid"  color="primary">
+                        <button mat-button type="submit" [disabled]="!usuarioForm.valid" color="primary">
                             <mat-icon mat-list-icon>done</mat-icon>
                             Aceptar
                         </button>

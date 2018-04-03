@@ -1,35 +1,22 @@
-<!-- <mat-toolbar>
-    <button mat-icon-button>
-    </button>
-    <a [routerLink]="['/inicio']">
-      <span >CATALOGO SOFTWARE LIBRE</span>
-    </a>
-    <nav>
-        <button mat-button color="primary" routerLinkActive="actvive" [routerLink]="['/proyectos']">
-          <span>Proyectos</span>
+<!-- <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(54, 22, 24);">
+    <div class="container-fluid">
+        <p class="navbar-brand">CATALOGO SOFTWARE LIBRE</p>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
-        <button mat-button color="primary" routerLinkActive="actvive" [routerLink]="['/usuarios']">
-            <span>Usuarios</span>
-        </button>
-        <button mat-button color="primary" routerLinkActive="actvive" [routerLink]="['/organizaciones']">
-            <span>Organizaciones</span>
-        </button>
-    </nav>
-</mat-toolbar> -->
 
-<!-- <mat-toolbar>
-    <button mat-icon-button>
-            <mat-icon></mat-icon>
-    </button>
-    <a [routerLink]="['/inicio']">
-        <span>CATALOGO SOFTWARE LIBRE</span>
-    </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="nav-link" [routerLink]="['/login']">Acceder</a>
+                </li>
+                <li>
+                    <a class="nav-link" [routerLink]="['/registro']">Regístrate</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav> -->
 
-    <nav mat-tab-nav-bar>
-        <a mat-tab-link dynamicHeight=t rue *ngFor="let link of navLinks" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
-        {{link.label}}
-    </a>
-    </nav>
-</mat-toolbar> -->
-<!-- <hub-inicio></hub-inicio> -->
 <router-outlet></router-outlet>

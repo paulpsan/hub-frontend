@@ -12,11 +12,12 @@ import { RegistroComponent } from "./pages/login/registro/registro.component";
 import { AuthGuard } from "./common/guard/auth.guard";
 import { InicioComponent } from "./pages/inicio/inicio.component";
 import { UsuariosComponent } from "./pages/usuarios/usuarios.component";
+import { NopagefoundComponent } from "./common/components/nopagefound/nopagefound.component";
 
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "inicio",
+    redirectTo: "login",
     pathMatch: "full"
   },
   // {
@@ -41,14 +42,14 @@ const routes: Routes = [
   {
     path: "usuarios",
     loadChildren: "./pages/usuarios/usuarios.module#UsuariosModule",
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard]
     // component: UsuariosComponent
   },
   {
     path: "proyectos",
-    loadChildren:"./pages/proyectos/proyectos.module#ProyectosModule",
+    loadChildren: "./pages/proyectos/proyectos.module#ProyectosModule",
     // component: ProyectosComponent,
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: "organizaciones",
@@ -63,10 +64,7 @@ const routes: Routes = [
     component: RegistroComponent
   },
 
-  {
-    path: "**",
-    redirectTo: "inicio",
-  }
+  { path: "**", component: NopagefoundComponent }
 ];
 
 @NgModule({

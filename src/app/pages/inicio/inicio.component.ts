@@ -3,7 +3,8 @@ import { GLOBAL } from "./../../services/global";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LoginService } from "./../../services/login.service";
-import qs from "querystringify";
+// import qs from "querystringify";
+let qs = require("querystringify");
 @Component({
   selector: "hub-inicio",
   templateUrl: "./inicio.component.html",
@@ -25,16 +26,20 @@ export class InicioComponent implements OnInit {
   ngOnInit() {
     this.url = this.router.url;
     console.log(this.url);
-    if (this.url != "/inicio") {
+    console.log(this.params);
+    if (this.url !== "/inicio") {
+      console.log("entro para autenticar");
       this.urlCallback = this.url.split("?");
       this.params = qs.parse(this.urlCallback[1]);
       console.log(this.params);
       this.router.navigate(["/inicio"]);
       if (this.params.state === "hub-software-github") {
-        console.log(this.params.code);
-          if (this.params.code != ""&& GLOBAL.TOGGLE) {
+        if (this.params.code != "" && GLOBAL.TOGGLE) {
+          console.log(this.params.code);
           // if (this.code != "") {
-            this._loginServise.getTokenGithub(this.params.code).subscribe(resp => {
+          this._loginServise
+            .getTokenGithub(this.params.code)
+            .subscribe(resp => {
               if (resp.error) {
                 console.log(resp.error);
                 this.router.navigate(["/login"]);
@@ -46,16 +51,16 @@ export class InicioComponent implements OnInit {
                 // resp.token;
               }
               // this.router.navigate(["/inicio"]);
-
             });
-            GLOBAL.TOGGLE=false;
-          }
-      }else{
-        if(this.params.state === "hub-software-gitlab"){
-
-          if (this.params.code != ""&& GLOBAL.TOGGLE) {
+          GLOBAL.TOGGLE = false;
+        }
+      } else {
+        if (this.params.state === "hub-software-gitlab") {
+          if (this.params.code != "" && GLOBAL.TOGGLE) {
             // if (this.code != "") {
-              this._loginServise.getTokenGitlab(this.params.code).subscribe(resp => {
+            this._loginServise
+              .getTokenGitlab(this.params.code)
+              .subscribe(resp => {
                 if (resp.error) {
                   console.log(resp.error);
                   this.router.navigate(["/login"]);
@@ -68,9 +73,9 @@ export class InicioComponent implements OnInit {
                 }
                 // this.router.navigate(["/inicio"]);
               });
-              GLOBAL.TOGGLE=false;
-            }
-          console.log("gitlab",this.params.state);
+            GLOBAL.TOGGLE = false;
+          }
+          console.log("gitlab", this.params.state);
         }
       }
     }

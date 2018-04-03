@@ -21,6 +21,9 @@ import { CommitsComponent } from './proyecto/charts/commits.component';
 import { LenguajesComponent } from './proyecto/charts/lenguajes.component';
 import { ComunModule } from '../../common/comun.module';
 import { ListarComponent } from './listar/listar.component';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 @NgModule({
   declarations:[
@@ -43,6 +46,9 @@ import { ListarComponent } from './listar/listar.component';
     HttpClientModule,
     ChartsModule,
     ComunModule,
+    LoadingBarHttpClientModule,
+    LoadingBarRouterModule,
+    LoadingBarModule,
     StarRatingModule.forRoot(),
 
   ],

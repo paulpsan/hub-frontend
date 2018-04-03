@@ -14,6 +14,9 @@ import { UsuariosModule } from '../usuarios/usuarios.module';
 import { ProyectosModule } from '../proyectos/proyectos.module';
 import { HeaderComponent } from '../../common/components/header/header.component';
 import { ComunModule } from '../../common/comun.module';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 
 @NgModule({
@@ -31,6 +34,9 @@ import { ComunModule } from '../../common/comun.module';
     ReactiveFormsModule,
     HttpClientModule,
     InicioRoutingModule,
+    LoadingBarHttpClientModule,
+    LoadingBarRouterModule,
+    LoadingBarModule,
 
     ComunModule,
 
