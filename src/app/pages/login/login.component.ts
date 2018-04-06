@@ -76,16 +76,24 @@ export class LoginComponent implements OnInit {
     // this.router.navigateByUrl("http://www.cnn.com/");
     GLOBAL.TOGGLE = true;
     window.location.href =
-      this.urlGitlab +
-      this.GITLAB_CLIENT_ID +
+      environment.gitlabGeo.domain +
+      environment.gitlabGeo.clientId +
       "&redirect_uri=" +
-      this.CALLBACK_GITLAB +
+      environment.gitlabGeo.callbackURL +
       "&response_type=code" +
       "&state=" +
-      this.STATE_GITLAB;
+      environment.gitlabGeo.state;
   }
   loginBB() {
-    this.router.navigate(["/auth/bitbucket"]);
+    GLOBAL.TOGGLE = true;
+    window.location.href =
+      environment.bitbucket.domain +
+      environment.bitbucket.clientId +
+      "&redirect_uri=" +
+      environment.bitbucket.callbackURL +
+      "&response_type=code" +
+      "&state=" +
+      environment.bitbucket.state;
   }
   onSubmit() {
     let email = this.loginForm.controls["email"].value;

@@ -26,7 +26,6 @@ export class InicioComponent implements OnInit {
   ngOnInit() {
     this.url = this.router.url;
     console.log(this.url);
-    console.log(this.params);
     if (this.url !== "/inicio") {
       console.log("entro para autenticar");
       this.urlCallback = this.url.split("?");
@@ -76,6 +75,32 @@ export class InicioComponent implements OnInit {
             GLOBAL.TOGGLE = false;
           }
           console.log("gitlab", this.params.state);
+        } else {
+          if (this.params.state === "hub-software-bitbucket") {
+            if (this.params.code != "" && GLOBAL.TOGGLE) {
+              // if (this.code != "") {
+              this._loginServise.getTokenBitbucket(this.params.code).subscribe(
+                resp => {
+                  console.log(resp);
+                  if (resp.error) {
+                    this.router.navigate(["/login"]);
+                  } else {
+                    console.log(localStorage.getItem("token"));
+                    this.router.navigate(["/proyectos"]);
+                    // console.log(resp.token);
+                    // this.router.navigate(["/inicio", resp.token]);
+                    // resp.token;
+                  }
+                  // this.router.navigate(["/inicio"]);
+                },
+                err => {
+                  console.log(err);
+                }
+              );
+              GLOBAL.TOGGLE = false;
+            }
+            console.log("gitlab", this.params.state);
+          }
         }
       }
     }
