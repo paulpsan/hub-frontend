@@ -2,9 +2,20 @@
   cursor: pointer;
   text-decoration: none;
   text-transform: uppercase;
-  color: #3f51b5
+  color: #3f51b5;
 }
 
 .contenedor_usuarios {
   margin-bottom: 15px;
+}
+.btn-social-icon {
+  color: white;
+}
+.fa-star {
+  color:#FFC058;
+  font-size: 1.5em;
+}
+.fa-star-o {
+  color:#FFC058;
+  font-size: 1.5em;
 }
