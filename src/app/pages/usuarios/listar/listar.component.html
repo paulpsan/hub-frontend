@@ -47,7 +47,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-1">
-                    <img alt="avatar" src="assets/images/avatar-user.png" style="width: 50px !important">
+                    <!-- <img alt="avatar" src="assets/images/avatar-user.png" style="width: 50px !important"> -->
+                    <img src="{{usuario.avatar}}" style="width: 50px !important">
                 </div>
                 <div class="col-md-5">
 
@@ -57,9 +58,13 @@
                     <p>
                         Descripcion del Usuario
                     </p>
+                    <p>
+                        {{usuario.descripcion}}
+                    </p>
                 </div>
                 <div class="col-md-4">
-                    <p>Commits</p>
+                    <span>Commits : </span>
+                    <span>{{usuario.commits}}</span>
                     <p>Lenguajes de programacion</p>
                 </div>
                 <div class="col-md-2">

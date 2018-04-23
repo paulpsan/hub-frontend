@@ -26,15 +26,24 @@
             <img alt="avatar" src="assets/images/avatar-user.png" style="width: 50px !important" *ngIf="!usuario.avatar">
           </div>
           <div class="col-md-5">
-
-            <p id="correo">
-              {{usuario.email}}
-            </p>
+            <div id="correo">
+              <p>
+                Correo: {{usuario.email}}
+              </p>
+            </div>
+            <div id="web">
+              <p> Sitio Web:
+                <!-- {{web}} -->
+              </p>
+            </div>
           </div>
           <div class="col-md-4">
             <p id="commit">Commits: {{commitsTotal}}</p>
-            <div *ngIf="usuario.tipo!='gitlab'">
-              <p>Lenguajes de programacion</p>
+            <div id="lenguajes">
+              <p>Lenguajes de programacion:</p>
+              <span *ngFor="let item of lenguajes">
+                {{item}}
+              </span>
             </div>
           </div>
           <div class="col-md-2">
@@ -68,14 +77,12 @@
               <tbody>
                 <tr *ngFor="let proy of usuario.datos" (click)="getUsuarios(proy,usuario.tipo)" style="cursor: pointer">
                   <td scope="row">
-                    <img src="{{proy.repo.avatar_url}}" alt="" height="30" width="30"> </td>
+                    <img src="{{proy.repo.links.avatar.href}}" alt="" height="30" width="30"> </td>
                   <td>
                     <a target="#">{{proy.repo.name}} </a>
                   </td>
                   <td>
-                    <a *ngIf="usuario.tipo=='gitlab'" href="{{proy.repo.http_url_to_repo}}" target="#">{{proy.repo.http_url_to_repo}} </a>
-                    <a *ngIf="usuario.tipo=='github'" href="{{proy.repo.url}}" target="#">{{proy.repo.url}} </a>
-                  </td>
+                    <a  href="{{proy.repo.links.html.href}}" target="#">{{proy.repo.links.html.href}} </a>
                 </tr>
               </tbody>
             </table>
@@ -117,6 +124,7 @@
         <div class="card">
           <div class="card-body">
             <span>Commits por proyecto</span>
+            <!-- enviamos data$ para que llene el chart -->
             <chart-commits [data]="data$">
             </chart-commits>
           </div>

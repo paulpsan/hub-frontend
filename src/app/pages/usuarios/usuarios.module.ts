@@ -16,6 +16,7 @@ import { UsuariosComponent } from './usuarios.component';
 import { UsuariosRoutingModule } from './usuarios-routing.module';
 import { UsuariosService } from '../../services/usuarios.service';
 import { UsuarioComponent, ModalEliminarUsuario} from './usuario/usuario.component';
+import { UsuarioBbComponent } from './usuario/usuarioBb.component';
 import { InicioModule } from '../inicio/inicio.module';
 import { ListarComponent } from './listar/listar.component';
 import { CommitsComponent } from './charts/commits.component';
@@ -29,6 +30,7 @@ import { LenguajesComponent } from './charts/lenguajes.component';
     EditarComponent,
     UsuariosComponent,
     UsuarioComponent,
+    UsuarioBbComponent,
     ListarComponent,
     CommitsComponent,
     LenguajesComponent,

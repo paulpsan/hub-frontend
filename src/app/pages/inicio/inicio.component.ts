@@ -16,7 +16,7 @@ export class InicioComponent implements OnInit {
   private code: string;
   private sub;
   private params;
-  private cargando:Boolean=true;
+  private cargando: Boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -65,8 +65,8 @@ export class InicioComponent implements OnInit {
                   console.log(resp.error);
                   this.router.navigate(["/login"]);
                 } else {
-                  console.log(localStorage.getItem("token"));
-                  this.cargando=false;
+                  console.log(resp);
+                  this.cargando = false;
                   this.router.navigate(["/proyectos"]);
                   // console.log(resp.token);
                   // this.router.navigate(["/inicio", resp.token]);

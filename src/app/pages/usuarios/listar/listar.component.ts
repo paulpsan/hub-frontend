@@ -13,9 +13,10 @@ import { HttpService } from "../../../services/http.service";
   styleUrls: ["./listar.component.css"]
 })
 export class ListarComponent implements OnInit {
-  usuarios: Usuario[];
-  private respuesta: any;
-  title = "Star Rating";
+  public respuesta: any;
+  public title = "Star Rating";
+  public avatar;
+  usuarios: any[];
   starList: boolean[] = [true, true, true, true, true]; // create a list which contains status of 5 stars
 
   constructor(private _httpService: HttpService, private router: Router) {}
@@ -48,12 +49,37 @@ export class ListarComponent implements OnInit {
   //     }
   //   }
   // }
+  obtenerCommits() {
+    for (const usuario of this.usuarios) {
+      let commits = 0;
+      if (usuario.tipo === "bitbucket") {
+        for (const repo of usuario.datos) {
+          commits += repo.commits.length;
+        }
+        usuario.commits = commits;
+      }
+      if (usuario.tipo === "github") {
+        for (const repo of usuario.datos) {
+          commits += repo.commits.length;
+        }
+        usuario.commits = commits;
+      }
+      if (usuario.tipo === "gitlab") {
+        for (const repo of usuario.datos) {
+          commits += repo.commits;
+        }
+        usuario.commits = commits;
+      }
+    }
+    console.log(this.usuarios);
+  }
 
   obtenerUsuarios() {
     this._httpService.obtener("usuarios").subscribe(
       result => {
         this.respuesta = result;
         this.usuarios = this.respuesta.datos;
+        this.obtenerCommits();
         console.log(result);
       },
       err => {
@@ -62,8 +88,26 @@ export class ListarComponent implements OnInit {
     );
   }
   irUsuario(usuario) {
-    if (usuario) {
-      this.router.navigate(["/usuarios/", usuario._id]);
+    switch (usuario.tipo) {
+      case "github": {
+        this.router.navigate(["/usuarios/", usuario._id]);
+        //statements;
+        break;
+      }
+      case "gitlab": {
+        this.router.navigate(["/usuarios/", usuario._id]);
+        //statements;
+        break;
+      }
+      case "bitbucket": {
+        this.router.navigate(["/usuarios/bitbucket", usuario._id]);
+        //statements;
+        break;
+      }
+      default: {
+        this.router.navigate(["/usuarios/", usuario._id]);
+        break;
+      }
     }
   }
 
