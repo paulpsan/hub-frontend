@@ -76,7 +76,15 @@ export class UsuarioBbComponent implements OnInit {
   }
   chartCommitsRender(usuario) {
     console.log(usuario);
-    
+    let nombreRepo
+    for (const repositorio of usuario.datos) {
+      let commits = [];
+      commits.push(repositorio.commits.length);
+      nombreRepo = repositorio.repo.name;
+
+      
+
+    }
     this.data$ = usuario.datos;
   }
 

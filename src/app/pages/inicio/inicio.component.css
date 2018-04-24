@@ -1,0 +1,14 @@
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #3fb53f !important;
+}
+.contenedor {
+  height: 450px;
+  /*IMPORTANTE*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.centro {
+  text-align: center;
+}

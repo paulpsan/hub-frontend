@@ -50,60 +50,85 @@
             Cancelar
           </button>
         </form>
-          <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='gitlab'">
+        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='gitlab'">
           <fieldset>
-              <div class="form-group">
-                <label class="col-form-label ">Nombre de Proyecto</label>
-                <br>
-                <mat-form-field  class="col">
-                  <mat-select placeholder="Selecione uno de sus repositorios" formControlName="nombre">
-                    <mat-option *ngFor="let data of usuario.datos" [value]="data">
-                      {{ data.repo.name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <p>
-                  Selecione un proyecto de su repositorio
-                </p>
-              </div>
-            </fieldset>
-            <button mat-button [disabled]="!userForm.valid" type="submit" color="primary">
-                <mat-icon mat-list-icon>done</mat-icon>
-                Guardar
-              </button>
-              <button mat-button routerLink="/proyectos" color="warn">
-                <mat-icon mat-list-icon>cancel</mat-icon>
-                Cancelar
-              </button>
+            <div class="form-group">
+              <label class="col-form-label ">Nombre de Proyecto</label>
+              <br>
+              <mat-form-field class="col">
+                <mat-select placeholder="Selecione uno de sus repositorios" formControlName="nombre">
+                  <mat-option *ngFor="let data of usuario.datos" [value]="data">
+                    {{ data.repo.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <p>
+                Selecione un proyecto de su repositorio
+              </p>
+            </div>
+          </fieldset>
+          <button mat-button [disabled]="!userForm.valid" type="submit" color="primary">
+            <mat-icon mat-list-icon>done</mat-icon>
+            Guardar
+          </button>
+          <button mat-button routerLink="/proyectos" color="warn">
+            <mat-icon mat-list-icon>cancel</mat-icon>
+            Cancelar
+          </button>
         </form>
         <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='github'">
-            <fieldset>
-                <div class="form-group">
-                  <label class="col-form-label ">Nombre de Proyecto</label>
-                  <br>
-                  <mat-form-field  class="col">
-                    <mat-select placeholder="Selecione uno de sus repositorios" formControlName="nombre">
-                      <mat-option *ngFor="let data of usuario.datos" [value]="data">
-                        {{ data.repo.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <p>
-                    Selecione un proyecto de su repositorio
-                  </p>
-                </div>
-              </fieldset>
-              <button mat-button [disabled]="!userForm.valid" type="submit" color="primary">
-                  <mat-icon mat-list-icon>done</mat-icon>
-                  Guardar
-                </button>
-                <button mat-button routerLink="/proyectos" color="warn">
-                  <mat-icon mat-list-icon>cancel</mat-icon>
-                  Cancelar
-                </button>
-          </form>
+          <fieldset>
+            <div class="form-group">
+              <label class="col-form-label ">Nombre de Proyecto</label>
+              <br>
+              <mat-form-field class="col">
+                <mat-select placeholder="Selecione uno de sus repositorios" formControlName="nombre">
+                  <mat-option *ngFor="let data of usuario.datos" [value]="data">
+                    {{ data.repo.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <p>
+                Selecione un proyecto de su repositorio
+              </p>
+            </div>
+          </fieldset>
+          <button mat-button [disabled]="!userForm.valid" type="submit" color="primary">
+            <mat-icon mat-list-icon>done</mat-icon>
+            Guardar
+          </button>
+          <button mat-button routerLink="/proyectos" color="warn">
+            <mat-icon mat-list-icon>cancel</mat-icon>
+            Cancelar
+          </button>
+        </form>
+        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='bitbucket'">
+          <fieldset>
+            <div class="form-group">
+              <label class="col-form-label ">Nombre de Proyecto</label>
+              <br>
+              <mat-form-field class="col">
+                <mat-select placeholder="Selecione uno de sus repositorios" formControlName="nombre">
+                  <mat-option *ngFor="let data of usuario.datos" [value]="data">
+                    {{ data.repo.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <p>
+                Selecione un proyecto de su repositorio
+              </p>
+            </div>
+          </fieldset>
+          <button mat-button [disabled]="!userForm.valid" type="submit" color="primary">
+            <mat-icon mat-list-icon>done</mat-icon>
+            Guardar
+          </button>
+          <button mat-button routerLink="/proyectos" color="warn">
+            <mat-icon mat-list-icon>cancel</mat-icon>
+            Cancelar
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </div>
-

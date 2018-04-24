@@ -1,6 +1,14 @@
 <ngx-loading-bar></ngx-loading-bar>
 <hub-header></hub-header>
-<div *ngIf="cargando">
-    <h4>Cargando los datos del Usuario..............</h4>
-    <mat-spinner color="warn" ></mat-spinner>
+<div class="contenedor row" *ngIf="cargando">
+    <div class="centro col-md-10">
+        <div class="col-md-8 offset-md-2">
+            <h4>Cargando los datos del Usuario..............</h4>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <i class="fa fa-spinner fa-spin" style="font-size:35px"></i>
+            <img src="../../../assets/images/adsib.png" alt="adsib">
+            <!-- <mat-spinner diameter="50"></mat-spinner> -->
+        </div>
+    </div>
 </div>

@@ -110,6 +110,7 @@ export class LoginComponent implements OnInit {
           console.log(response);
           this.identity = response;
           localStorage.setItem("identity", JSON.stringify(this.identity));
+          localStorage.setItem("token", JSON.stringify(this.identity));
           this.router.navigate(["/inicio"]);
           // setTimeout(()=>{
           //   this.router.navigate(['/proyectos']);

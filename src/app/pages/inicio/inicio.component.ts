@@ -106,8 +106,10 @@ export class InicioComponent implements OnInit {
         }
       }
     }
-    // if (localStorage.getItem("token") != null) {
-    //   this.router.navigate(["/proyectos"]);
-    // }
+    console.log(localStorage.getItem("identity"));
+
+    if (localStorage.getItem("token") != null) {
+      this.router.navigate(["/proyectos"]);
+    }
   }
 }

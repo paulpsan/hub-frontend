@@ -4,6 +4,10 @@ export class Proyecto {
         public nombre: string,
         public descripcion: string,
         public urlRepositorio: string,
+        public avatar:string,
+        public categoria:string,
+        public licencias:string,
+        public clasificacion:string,
         public id_usuario:number,
         public tipo:string,
         public datos: any[]

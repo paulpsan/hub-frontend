@@ -27,6 +27,24 @@ export class CrearComponent implements OnInit {
   ngOnInit() {
     this.identity = JSON.parse(localStorage.getItem("identity"));
     console.log(this.identity);
+    this._httpService
+      .buscarId("usuarios", this.identity._id)
+      .subscribe(response => {
+        console.log(response);
+        this.usuario = response;
+        if (this.usuario.tipo == "local") {
+          this.userForm = new FormGroup({
+            nombre: new FormControl("", Validators.required),
+            urlRepositorio: new FormControl("", Validators.required),
+            descripcion: new FormControl("", Validators.required)
+          });
+        } else {
+          this.userForm = new FormGroup({
+            nombre: new FormControl("", Validators.required)
+          });
+        }
+      });
+
     //cambiar el 6 por el id
     if (this.identity.tipo == "gitlab") {
       this._httpService
@@ -49,24 +67,6 @@ export class CrearComponent implements OnInit {
               nombre: new FormControl("", Validators.required)
             });
           });
-      } else {
-        this._httpService
-          .buscarId("usuarios", this.identity._id)
-          .subscribe(response => {
-            console.log(response);
-            this.usuario = response;
-            if (this.usuario.tipo == "local") {
-              this.userForm = new FormGroup({
-                nombre: new FormControl("", Validators.required),
-                urlRepositorio: new FormControl("", Validators.required),
-                descripcion: new FormControl("", Validators.required)
-              });
-            } else {
-              this.userForm = new FormGroup({
-                nombre: new FormControl("", Validators.required)
-              });
-            }
-          });
       }
     }
   }
@@ -75,26 +75,54 @@ export class CrearComponent implements OnInit {
       let datos = this.userForm.controls["nombre"].value;
       console.log(datos);
       let proyecto: Proyecto;
-      if (this.usuario.tipo == "gitlab") {
-         proyecto = new Proyecto(
-          null,
-          datos.repo.name,
-          datos.repo.description,
-          datos.repo.http_url_to_repo,
-          this.usuario._id,
-          this.usuario.tipo,
-          datos
-        );
-      }else{
-         proyecto = new Proyecto(
-          null,
-          datos.repo.name,
-          datos.repo.description,
-          datos.repo.url,
-          this.usuario._id,
-          this.usuario.tipo,
-          datos
-        );
+      switch (this.usuario.tipo) {
+        case "gitlab":
+          proyecto = new Proyecto(
+            null,
+            datos.repo.name,
+            datos.repo.description,
+            datos.repo.http_url_to_repo,
+            "avatar",
+            "categoria",
+            "licencias",
+            "clasificacion",
+            this.usuario._id,
+            this.usuario.tipo,
+            datos
+          );
+          break;
+        case "github":
+          proyecto = new Proyecto(
+            null,
+            datos.repo.name,
+            datos.repo.description,
+            datos.repo.url,
+            "avatar",
+            "categoria",
+            "licencias",
+            "clasificacion",
+            this.usuario._id,
+            this.usuario.tipo,
+            datos
+          );
+          break;
+        case "bitbucket":
+          proyecto = new Proyecto(
+            null,
+            datos.repo.name,
+            datos.repo.description,
+            datos.repo.links.html.href,
+            datos.repo.links.html.avatar,
+            "categoria",
+            "licencias",
+            "clasificacion",
+            this.usuario._id,
+            this.usuario.tipo,
+            datos
+          );
+          break;
+        default:
+          break;
       }
 
       this._httpService.adicionar("proyectos", proyecto).subscribe(response => {
