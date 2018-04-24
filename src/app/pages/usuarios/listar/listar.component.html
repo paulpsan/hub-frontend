@@ -73,8 +73,8 @@
                     </div>
                     <div>
                         <a *ngFor="let item of starList; let i=index ">
-                            <i *ngIf="i < usuario.clasificacion" class="fa" [ngClass]="{'fa-star':true}"></i>
-                            <i *ngIf="i >= usuario.clasificacion" class="fa" [ngClass]="{'fa-star-o':true}"></i>
+                            <i *ngIf="i < usuario.clasificacion.valor" class="fa" [ngClass]="{'fa-star':true}"></i>
+                            <i *ngIf="i >= usuario.clasificacion.valor" class="fa" [ngClass]="{'fa-star-o':true}"></i>
                         </a>
                     </div>
                 </div>

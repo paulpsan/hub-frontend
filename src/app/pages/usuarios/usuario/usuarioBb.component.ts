@@ -17,11 +17,12 @@ import { Chart } from "chart.js";
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsuarioBbComponent implements OnInit {
+  private sub: any;
   id: number;
   acciones: string;
   usuario: Usuario;
-  private sub: any;
   commitsTotal: number = 0;
+  clasificacion: number = 0;
   lenguajes = [];
   commitProyecto;
   commitlenguaje;
@@ -30,6 +31,7 @@ export class UsuarioBbComponent implements OnInit {
   data$ = {};
   dataLenguajes$;
   showUsuarios: boolean = false;
+  buttonClasi: boolean = true;
   usuarioProyecto;
   proyectoSelect;
   show: boolean = false;
@@ -44,7 +46,6 @@ export class UsuarioBbComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log("controlador");
     this.sub = this.route.params.subscribe(params => {
       this.id = params["id"];
     });
@@ -76,15 +77,40 @@ export class UsuarioBbComponent implements OnInit {
   }
   chartCommitsRender(usuario) {
     console.log(usuario);
-    let nombreRepo
+    let nombreRepo = [];
+    let datos = [];
+    let commitsArray = [];
+    let años = [];
     for (const repositorio of usuario.datos) {
-      let commits = [];
-      commits.push(repositorio.commits.length);
-      nombreRepo = repositorio.repo.name;
-
+      nombreRepo.push(repositorio.repo.name);
+      let año = 0;
+      let commit = 0;
+      let sw = true;
       
+      for (const commits of repositorio.commits) {
+        let fecha = new Date(commits.date);
+        // let año = fecha.getFullYear();
+        if (año != fecha.getFullYear() && sw) {
+          console.log("entro");
+          año = fecha.getFullYear();
+          sw = false;
+        }
+        if (año == fecha.getFullYear()) {
+          commit++;
+        } else {
+          console.log(año, commit);
+          años.push(año);
+          commitsArray.push(commit);
+          año = fecha.getFullYear();
+          commit = 0;
+        }
+      }
+
+      // commits.push(repositorio.commits.length);
+
 
     }
+    console.log(años, commitsArray, nombreRepo);
     this.data$ = usuario.datos;
   }
 
@@ -155,6 +181,23 @@ export class UsuarioBbComponent implements OnInit {
     if (usuario) {
       this.router.navigate(["/usuarios/editar", usuario._id]);
     }
+  }
+  //  Setea estrellas haciendo click
+  setStar(data: any) {
+    this.buttonClasi = false;
+    // this.rating = data + 1;
+    for (var i = 0; i <= 4; i++) {
+      if (i <= data) {
+        this.starList[i] = false;
+      } else {
+        this.starList[i] = true;
+      }
+    }
+    this.clasificacion = data + 1;
+    console.log(data + 1);
+  }
+  guardarClasificacion() {
+    this.buttonClasi = true;
   }
 
   eliminarUsuario(usuario: Usuario): void {

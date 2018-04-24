@@ -1,5 +1,5 @@
 <!-- <hub-header></hub-header> -->
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(54, 22, 24);">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(54, 22, 24); margin-bottom: 50px">
     <div class="container-fluid">
         <p class="navbar-brand">CATALOGO SOFTWARE LIBRE</p>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -21,7 +21,7 @@
 </nav>
 
 <div class="container">
-    <div class="row justify-content-md-center m-1" style="padding-top: 50px;">
+    <div class="row justify-content-md-center m-1">
         <div class="card-login card bg-light col-md-6 col-sm-12" style="padding: 0;">
             <div class="card-header card-header-login">
                 <div class="row justify-content-center">
@@ -72,7 +72,7 @@
                             <mat-icon mat-list-icon>done</mat-icon>
                             Aceptar
                         </button>
-                        <button mat-button color="warn">
+                        <button mat-button [routerLink]="['/login']" color="warn">
                             <mat-icon mat-list-icon>cancel</mat-icon>
                             Cancelar
                         </button>

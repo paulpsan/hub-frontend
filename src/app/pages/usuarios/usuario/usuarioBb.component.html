@@ -4,9 +4,9 @@
       <div class="card-header">
         <span class="row justify-content-between">
           <div class="col-4">
-            <span id="titulo_usuario" class="titulo_usuario">{{usuario.nombre}}</span>
+            <span class="titulo-usuario">{{usuario.nombre}}</span>
           </div>
-          <div class="col-4">
+          <!-- <div class="col-4">
             <span>
               <i class="fa fa-cogs" aria-hidden="true"></i>
               <span class="enlaces" (click)="editarUsuario(usuario)">Editar</span>
@@ -15,6 +15,12 @@
               <i class="fa fa-trash" aria-hidden="true"></i>
               <span class="enlaces" (click)="eliminarUsuario(usuario)">Eliminar</span>
             </span>
+          </div> -->
+          <div>
+            <a *ngFor="let item of starList; let i=index ">
+              <i *ngIf="i < usuario.clasificacion.valor" class="fa" [ngClass]="{'fa-star':true}"></i>
+              <i *ngIf="i >= usuario.clasificacion.valor" class="fa" [ngClass]="{'fa-star-o':true}"></i>
+            </a>
           </div>
 
         </span>
@@ -48,13 +54,17 @@
           </div>
           <div class="col-md-2">
             <div>
-              <span>Clasificación</span>
+              <span>Califica este usuario</span>
             </div>
             <div id="clasificacion">
-              <a *ngFor="let item of starList; let i=index ">
-                <i *ngIf="i < usuario.clasificacion" class="fa" [ngClass]="{'fa-star':true}"></i>
-                <i *ngIf="i >= usuario.clasificacion" class="fa" [ngClass]="{'fa-star-o':true}"></i>
+              <a *ngFor="let item of starList; let i=index " (click)="setStar(i)">
+                <i *ngIf="!item" class="fa" [ngClass]="{'fa-star':true}"></i>
+                <i *ngIf="item" class="fa" [ngClass]="{'fa-star-o':true}"></i>
               </a>
+              <button mat-button (click)="guardarClasificacion()" [disabled]="buttonClasi" color="primary">
+                <mat-icon mat-list-icon>done</mat-icon>
+                Guardar
+              </button>
             </div>
           </div>
         </div>
@@ -82,7 +92,7 @@
                     <a target="#">{{proy.repo.name}} </a>
                   </td>
                   <td>
-                    <a  href="{{proy.repo.links.html.href}}" target="#">{{proy.repo.links.html.href}} </a>
+                    <a href="{{proy.repo.links.html.href}}" target="#">{{proy.repo.links.html.href}} </a>
                 </tr>
               </tbody>
             </table>
@@ -111,8 +121,8 @@
                 </tr>
               </tbody>
             </table>
-            <p>Primer commit: {{primerCommit}}</p>
-            <p>Reciente Commit: {{UltimoCommit}}</p>
+            <p>Primer commit: {{primerCommit |date}}</p>
+            <p>Reciente Commit: {{UltimoCommit |date}}</p>
           </div>
         </div>
       </div>
