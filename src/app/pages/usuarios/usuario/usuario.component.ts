@@ -179,20 +179,20 @@ export class UsuarioComponent implements OnInit {
   getPrimerCommit(proyecto) {
     if (proyecto.commits.length >= 1) {
       let tamano = proyecto.commits.length;
-      this.UltimoCommit =
+      this.primerCommit =
         proyecto.commits[tamano - 1].committed_date ||
         proyecto.commits[tamano - 1].commit.author.date;
     } else {
-      this.UltimoCommit = "no existe";
+      this.primerCommit = "no existe";
     }
   }
   getUltimoCommit(proyecto) {
     if (proyecto.commits.length >= 1) {
-      this.primerCommit =
+      this.UltimoCommit =
         proyecto.commits[0].committed_date ||
         proyecto.commits[0].commit.author.date;
     } else {
-      this.primerCommit = "no existe";
+      this.UltimoCommit = "no existe";
     }
   }
 

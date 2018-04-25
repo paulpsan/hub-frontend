@@ -24,7 +24,9 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-1">
-                    icono
+                    <!-- <img *ngIf="proyecto.tipo=='github'" src="assets/" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
+                    <!-- <img src="{{proyecto.avatar}}" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
+                    <img src="{{proyecto.avatar}}" alt="{{proyecto.tipo}}" style="width: 50px !important">
                 </div>
                 <div class="col-md-5">
                     <p matLine>{{proyecto.descripcion}}
@@ -37,7 +39,9 @@
                             <span> Usuarios: </span>
                         </div>
                         <div class="col-md-7">
-                            <a *ngFor="let usuario of proyecto.usuarios" href="usuario.web_url"> {{usuario.nombre}} ,</a>
+                            <span *ngFor="let usuario of proyecto.usuarios">
+                                <a href="{{usuario.web_url}}" target="#">{{usuario.nombre}} ,</a>
+                            </span>
                         </div>
                     </div>
                     <div class="row">
