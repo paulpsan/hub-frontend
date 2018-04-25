@@ -21,6 +21,7 @@ import { InicioModule } from '../inicio/inicio.module';
 import { ListarComponent } from './listar/listar.component';
 import { CommitsComponent } from './charts/commits.component';
 import { LenguajesComponent } from './charts/lenguajes.component';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations:[
@@ -44,6 +45,7 @@ import { LenguajesComponent } from './charts/lenguajes.component';
     HttpClientModule,
     ComunModule,
     ChartsModule,
+    DataTablesModule
 
   ],
   exports:[

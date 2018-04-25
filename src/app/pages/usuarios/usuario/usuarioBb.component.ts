@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { HttpService } from "../../../services/http.service";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { Chart } from "chart.js";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "hub-usuario",
@@ -30,13 +31,14 @@ export class UsuarioBbComponent implements OnInit {
   UltimoCommit;
   data$ = {};
   dataLenguajes$;
-  showUsuarios: boolean = false;
-  buttonClasi: boolean = true;
   usuarioProyecto;
   proyectoSelect;
+  showUsuarios: boolean = false;
+  buttonClasi: boolean = true;
   show: boolean = false;
-
   starList: boolean[] = [true, true, true, true, true];
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
 
   constructor(
     private route: ActivatedRoute,
@@ -86,7 +88,7 @@ export class UsuarioBbComponent implements OnInit {
       let año = 0;
       let commit = 0;
       let sw = true;
-      
+
       for (const commits of repositorio.commits) {
         let fecha = new Date(commits.date);
         // let año = fecha.getFullYear();
@@ -107,8 +109,6 @@ export class UsuarioBbComponent implements OnInit {
       }
 
       // commits.push(repositorio.commits.length);
-
-
     }
     console.log(años, commitsArray, nombreRepo);
     this.data$ = usuario.datos;

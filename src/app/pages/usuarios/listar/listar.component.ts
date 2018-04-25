@@ -52,27 +52,28 @@ export class ListarComponent implements OnInit {
   obtenerCommits() {
     for (const usuario of this.usuarios) {
       let commits = 0;
-      if (usuario.tipo === "bitbucket") {
-        for (const repo of usuario.datos) {
-          commits += repo.commits.length;
+      let lenguajes = [];
+      for (const repo of usuario.datos) {
+        commits += repo.commits.length;
+        if (usuario.tipo == "github") {
+          let cadena = JSON.stringify(repo.lenguajes).split('"');
+          for (let index = 0; index < cadena.length; index++) {
+            if (index % 2 != 0) {
+              if (lenguajes.indexOf(cadena[index]) == -1) {
+                lenguajes.push(cadena[index]);
+              }
+            }
+          }
+        } else {
+          lenguajes.push(repo.lenguajes);
         }
-        usuario.commits = commits;
       }
-      if (usuario.tipo === "github") {
-        for (const repo of usuario.datos) {
-          commits += repo.commits.length;
-        }
-        usuario.commits = commits;
-      }
-      if (usuario.tipo === "gitlab") {
-        for (const repo of usuario.datos) {
-          commits += repo.commits;
-        }
-        usuario.commits = commits;
-      }
+      usuario.commits = commits;
+      usuario.lenguajes = lenguajes;
     }
     console.log(this.usuarios);
   }
+  obtenerLenguajes() {}
 
   obtenerUsuarios() {
     this._httpService.obtener("usuarios").subscribe(
@@ -80,6 +81,7 @@ export class ListarComponent implements OnInit {
         this.respuesta = result;
         this.usuarios = this.respuesta.datos;
         this.obtenerCommits();
+        this.obtenerLenguajes();
         console.log(result);
       },
       err => {

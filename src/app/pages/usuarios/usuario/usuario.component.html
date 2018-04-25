@@ -16,7 +16,12 @@
               <span class="enlaces" (click)="eliminarUsuario(usuario)">Eliminar</span>
             </span>
           </div> -->
-
+          <div>
+            <a *ngFor="let item of starList; let i=index ">
+              <i *ngIf="i < usuario.clasificacion.valor" class="fa" [ngClass]="{'fa-star':true}"></i>
+              <i *ngIf="i >= usuario.clasificacion.valor" class="fa" [ngClass]="{'fa-star-o':true}"></i>
+            </a>
+          </div>
         </span>
       </div>
       <div class="card-body">
@@ -39,13 +44,17 @@
           </div>
           <div class="col-md-2">
             <div>
-              <span>Clasificación</span>
+              <span>Califica este usuario</span>
             </div>
             <div id="clasificacion">
-              <a *ngFor="let item of starList; let i=index ">
-                <i *ngIf="i < usuario.clasificacion" class="fa" [ngClass]="{'fa-star':true}"></i>
-                <i *ngIf="i >= usuario.clasificacion" class="fa" [ngClass]="{'fa-star-o':true}"></i>
+              <a *ngFor="let item of starList; let i=index " (click)="setStar(i)">
+                <i *ngIf="!item" class="fa" [ngClass]="{'fa-star':true}"></i>
+                <i *ngIf="item" class="fa" [ngClass]="{'fa-star-o':true}"></i>
               </a>
+              <button mat-button (click)="guardarClasificacion()" [disabled]="buttonClasi" color="primary">
+                <mat-icon mat-list-icon>done</mat-icon>
+                Guardar
+              </button>
             </div>
           </div>
         </div>
@@ -57,7 +66,8 @@
         <div class="card">
           <div class="card-body">
             <h4 id="titulo_proyecto" class="card-title">Proyectos</h4>
-            <table class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'">
+            <!-- <table class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'"> -->
+            <table datatable [dtOptions]="dtOptions" class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'">
               <thead class="thead-inverse">
                 <tr>
                   <th></th>
@@ -74,7 +84,7 @@
                   </td>
                   <td>
                     <a *ngIf="usuario.tipo=='gitlab'" href="{{proy.repo.http_url_to_repo}}" target="#">{{proy.repo.http_url_to_repo}} </a>
-                    <a *ngIf="usuario.tipo=='github'" href="{{proy.repo.url}}" target="#">{{proy.repo.url}} </a>
+                    <a *ngIf="usuario.tipo=='github'" href="{{proy.repo.html_url}}" target="#">{{proy.repo.html_url}} </a>
                   </td>
                 </tr>
               </tbody>

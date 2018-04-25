@@ -63,9 +63,16 @@
                     </p>
                 </div>
                 <div class="col-md-4">
-                    <span>Commits : </span>
-                    <span>{{usuario.commits}}</span>
-                    <p>Lenguajes de programacion</p>
+                    <div>
+                        <span>Commits : </span>
+                        <span>{{usuario.commits}} commits</span>
+                    </div>
+                    <div *ngIf="usuario.tipo!='gitlab'">
+                        <p>Lenguajes de programacion</p>
+                        <span *ngFor="let lenguajes of usuario.lenguajes">
+                            {{lenguajes}},
+                        </span>
+                    </div>
                 </div>
                 <div class="col-md-2">
                     <div>

@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { HttpService } from "../../../services/http.service";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { Chart } from "chart.js";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "hub-usuario",
@@ -22,18 +23,22 @@ export class UsuarioComponent implements OnInit {
   usuario: Usuario;
   private sub: any;
   commitsTotal: number = 0;
-  leguajes;
+  clasificacion: number = 0;
+  lenguajes = [];
   commitProyecto;
   commitlenguaje;
   primerCommit;
   UltimoCommit;
   data$;
   dataLenguajes$;
-  showUsuarios: boolean = false;
   usuarioProyecto;
   proyectoSelect;
+  showUsuarios: boolean = false;
+  buttonClasi: boolean = true;
   show: boolean = false;
-
+  starList: boolean[] = [true, true, true, true, true];
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -45,6 +50,23 @@ export class UsuarioComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       this.id = params["id"];
     });
+    //set opciones del dataTable en español
+    this.dtOptions = {
+      order: [[0, "desc"]],
+      pagingType: "full_numbers",
+      pageLength: 10,
+      language: {
+        search: "Buscar",
+        lengthMenu: "Mostrar _MENU_ entradas",
+        info: "Mostrar Pagina _PAGE_ de _PAGES_",
+        paginate: {
+          first: "Primero",
+          previous: "Anterior",
+          next: "Siguiente",
+          last: "Ultimo"
+        }
+      }
+    };
 
     if (this.id) {
       //edit form
@@ -67,7 +89,7 @@ export class UsuarioComponent implements OnInit {
                 for (let value of this.usuario.datos) {
                   this.commitsTotal += value.commits;
                 }
-                
+
                 this.listaProyectos(this.usuario);
                 // this.getLenguajes(this.usuario);
               }
@@ -192,7 +214,23 @@ export class UsuarioComponent implements OnInit {
       this.router.navigate(["/usuarios/editar", usuario._id]);
     }
   }
-
+  //  Setea estrellas haciendo click
+  setStar(data: any) {
+    this.buttonClasi = false;
+    // this.rating = data + 1;
+    for (var i = 0; i <= 4; i++) {
+      if (i <= data) {
+        this.starList[i] = false;
+      } else {
+        this.starList[i] = true;
+      }
+    }
+    this.clasificacion = data + 1;
+    console.log(data + 1);
+  }
+  guardarClasificacion() {
+    this.buttonClasi = true;
+  }
   eliminarUsuario(usuario: Usuario): void {
     console.log(usuario);
     let dialogRef = this.dialog.open(ModalEliminarUsuario, {
