@@ -74,7 +74,7 @@ export class UsuarioComponent implements OnInit {
         resp => {
           this.id = resp._id;
           this.usuario = resp;
-          this.data$ = resp.datos;
+          this.data$ = resp.data;
           this.show = true;
           if (this.usuario.tipo == "gitlab") {
             this.calculaCommits(this.usuario);
@@ -89,7 +89,6 @@ export class UsuarioComponent implements OnInit {
                 for (let value of this.usuario.datos) {
                   this.commitsTotal += value.commits;
                 }
-
                 this.listaProyectos(this.usuario);
                 // this.getLenguajes(this.usuario);
               }
@@ -101,6 +100,12 @@ export class UsuarioComponent implements OnInit {
           console.log(error);
         }
       );
+      this._httpService
+        .buscarId("usuarios/graficos", this.id)
+        .subscribe(respuesta => {
+          console.log(respuesta);
+          // this.data$ = respuesta;
+        });
     }
   }
   getUsuarios(proyecto, tipo) {
