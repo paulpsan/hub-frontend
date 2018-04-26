@@ -3,7 +3,7 @@ import { Response } from "@angular/http";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import "rxjs/Rx";
 import { Observable } from "rxjs/Rx";
-import { GLOBAL } from "./global";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class HttpService {
@@ -11,7 +11,7 @@ export class HttpService {
   public token;
   private url: string;
   constructor(private _http: HttpClient) {
-    this.url = GLOBAL.url;
+    this.url = environment.url;
     // this.url ='https://test.adsib.gob.bo/api_backend/api/usuarios';
   }
   //obtiene datos de forma general

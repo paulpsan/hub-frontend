@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  url: "http://localhost:3000/api/",
   github: {
     domain: "https://github.com/login/oauth/authorize?client_id=",
     clientId: "deafb08eb71ea00e531c",
