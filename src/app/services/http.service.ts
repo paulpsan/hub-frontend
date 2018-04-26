@@ -57,10 +57,16 @@ export class HttpService {
       .catch((error: any) => Observable.throw(error || "Error"));
   }
 
-
+  post(nombre: string, objeto: any): Observable<any> {
+    return this._http
+      .post(this.url + nombre, objeto)
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Server error"));
+  }
 
   adicionar(nombre: string, objeto: any): Observable<any> {
-    console.log(objeto);
     return this._http
       .post(this.url + nombre, objeto)
       .map((res: Response) => {
