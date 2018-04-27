@@ -40,7 +40,8 @@ export class CrearComponent implements OnInit {
           });
         } else {
           this.userForm = new FormGroup({
-            nombre: new FormControl("", Validators.required)
+            nombre: new FormControl("", Validators.required),
+            descripcion: new FormControl("", Validators.required)
           });
         }
       });
@@ -75,6 +76,7 @@ export class CrearComponent implements OnInit {
   onSubmit() {
     if (this.userForm.valid) {
       let datos = this.userForm.controls["nombre"].value;
+      let descripcion = this.userForm.controls["descripcion"].value;
       console.log(datos);
       let proyecto: Proyecto;
       switch (this.usuario.tipo) {
@@ -97,7 +99,7 @@ export class CrearComponent implements OnInit {
           proyecto = new Proyecto(
             null,
             datos.repo.name,
-            datos.repo.description,
+            datos.repo.description || descripcion,
             datos.repo.url,
             "avatar",
             ["categorias"],
