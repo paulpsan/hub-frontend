@@ -1,18 +1,16 @@
 <div class="container-fluid p-0" *ngIf='show'>
   <div class="col titulo_proyecto">
-    <div class="">
-      <i class="fa fa-folder" aria-hidden="true">
-        <span style="text-transform: uppercase;"> {{proyecto.nombre}}</span>
-      </i>
-    </div>
-    <!-- <div class="">
-      <i class="fa fa-cogs" aria-hidden="true"></i>
-      <span class="enlaces" (click)="editarProyecto(proyecto)">Editar</span>
-    </div> -->
-    <span>
+    <div class="row justify-content-between">
+      <div class="col-3">
+        <i class="fa fa-folder" aria-hidden="true">
+          <span style="text-transform: uppercase;"> {{proyecto.nombre}}</span>
+        </i>
+      </div>
+      <div class="col-1">
         <i class="fa fa-trash" aria-hidden="true"></i>
         <span class="enlaces" (click)="eliminarProyecto(proyecto)">Eliminar</span>
-      </span>
+      </div>
+    </div>
   </div>
 
   <div class="col mb-3">
@@ -21,8 +19,32 @@
         <div class="card-header">
           <span>Resumen</span>
         </div>
+
         <div class="card-body">
-          <span>{{proyecto.descripcion}}</span>
+          <div class="row">
+            <div class="col-md-5">
+              <i class="fa fa-book"></i>
+              <span> Descripcion: </span>
+            </div>
+            <div class="col-md-7">
+              <span>
+                <span>{{proyecto.descripcion}}</span>
+              </span>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="row">
+            <div class="col-md-5">
+              <i class="fa fa-archive"></i>
+              <span> Categorias: </span>
+            </div>
+            <div class="col-md-7">
+              <span>
+                <span>{{proyecto.categorias}}</span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="card">
@@ -30,27 +52,67 @@
           <span>Referencia</span>
         </div>
         <div class="card-body">
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-sm-5">
               <span>Enlace del proyecto:</span>
             </div>
             <div class="col-sm-7">
               <a href="">{{proyecto.urlRepositorio}}</a>
             </div>
-          </div>
-          <div class="row">
+          </div> -->
+          <!-- <div class="row">
             <div class="col-sm-5">
               <span>Ubicacion:</span>
             </div>
             <div class="col-sm-7">
               <a href="">{{proyecto.urlRepositorio}}</a>
             </div>
+          </div> -->
+          <div class="row">
+            <div class="col-md-5">
+              <i class="fa fa-user-circle"></i>
+              <span> Usuarios: </span>
+            </div>
+            <div class="col-md-7">
+              <span *ngFor="let usuario of proyecto.usuarios">
+                <a href="{{usuario.web_url}}" target="#">{{usuario.nombre}} ,</a>
+              </span>
+            </div>
           </div>
           <div class="row">
-            <div class="col-sm-5">
-
+            <div class="col-md-5">
+              <i class="fa fa-code"></i>
+              <span>Commits: </span>
             </div>
-            <div class="col-sm-7">
+            <div class="col-md-7">
+              <span>{{proyecto.commits}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-5">
+              <i class="fa fa-calendar"></i>
+              <span>Fecha Creacion: </span>
+            </div>
+            <div class="col-md-7">
+              <span>{{proyecto.fechaCreacion}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-5">
+              <i class="fa fa-calendar"></i>
+              <span> Ultima actividad: </span>
+            </div>
+            <div class="col-md-7">
+              <span>{{proyecto.ultimaActividad}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-5">
+              <i class="fa fa-gitlab"></i>
+              <span>Url:</span>
+            </div>
+            <div class="col-md-7" style=" word-wrap: break-word;">
+              <a href="{{proyecto.urlRepositorio}}" target="#">{{proyecto.urlRepositorio}}</a>
             </div>
           </div>
         </div>
@@ -74,7 +136,7 @@
     </div>
   </div>
 
-  <div class="col mb-3">
+  <!-- <div class="col mb-3">
     <h4>Seguridad del Proyecto</h4>
     <div class="card-deck">
       <div class="card">
@@ -94,7 +156,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="row mb-3 ml-0">
     <div class="col pl-4">
@@ -108,23 +170,13 @@
       <chart-commits>
       </chart-commits>
     </div>
-    <div class="col pl-4">
-      <h4>Codigo</h4>
-    </div>
+
   </div>
   <div class="row mb-3 ml-0">
-    <div class="col pl-4">
+    <div class="col-4 pl-4">
       <h4>Lenguajes de programacion</h4>
       <chart-lenguajes>
       </chart-lenguajes>
-    </div>
-    <div class="col pl-4">
-      <h4>Resumen de Actividad</h4>
-      resumen mensual resumen anual
-    </div>
-    <div class="col pl-4">
-      <h4>Recientes Contribuciones</h4>
-      raiting *****
     </div>
   </div>
 </div>

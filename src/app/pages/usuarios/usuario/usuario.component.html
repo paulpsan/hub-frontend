@@ -124,30 +124,33 @@
     <div class="mb-3">
       <h4>Historial de Desarrollo:</h4>
       <div class="card-deck">
-        <div class="card">
+        <div class="card" *ngIf="data$">
           <div class="card-body">
             <span>Commits por proyecto</span>
-            <chart-commits [data]="data$">
-            </chart-commits>
+            <chart-codigo [data]="data$">
+            </chart-codigo>
           </div>
         </div>
+
         <!-- <div class="card">
           <div class="card-body">
             Gráfico de commits
           </div>
 
         </div> -->
-        <div class="card" *ngIf="dataLenguajes$">
+
+        <div class="card" *ngIf="showLenguajes">
           <div class="card-body">
             Commits por Lenguajes
             <div>
-              <chart-lenguajes [data]="dataLenguajes$">
+              <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
 
               </chart-lenguajes>
             </div>
 
           </div>
         </div>
+
       </div>
     </div>
   </div>

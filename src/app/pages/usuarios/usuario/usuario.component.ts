@@ -25,6 +25,8 @@ export class UsuarioComponent implements OnInit {
   commitsTotal: number = 0;
   clasificacion: number = 0;
   lenguajes = [];
+  pieChartData;
+  pieChartLabels;
   commitProyecto;
   commitlenguaje;
   primerCommit;
@@ -34,6 +36,7 @@ export class UsuarioComponent implements OnInit {
   usuarioProyecto;
   proyectoSelect;
   showUsuarios: boolean = false;
+  showLenguajes: boolean = false;
   buttonClasi: boolean = true;
   show: boolean = false;
   starList: boolean[] = [true, true, true, true, true];
@@ -72,6 +75,7 @@ export class UsuarioComponent implements OnInit {
       //edit form
       this._httpService.buscarId("usuarios", this.id).subscribe(
         resp => {
+          console.log(resp);
           this.id = resp._id;
           this.usuario = resp;
           this.data$ = resp.data;
@@ -79,11 +83,13 @@ export class UsuarioComponent implements OnInit {
           if (this.usuario.tipo == "gitlab") {
             this.calculaCommits(this.usuario);
             this.listaProyectos(this.usuario);
+            this.getCommitUsuario("gitlab", this.id);
           } else {
             if (this.usuario.tipo == "github") {
               this.calculaCommits(this.usuario);
               this.listaProyectos(this.usuario);
               this.getLenguajes(this.usuario);
+              this.getCommitUsuario("github", this.id);
             } else {
               if (this.usuario.tipo == "bitbucket") {
                 for (let value of this.usuario.datos) {
@@ -100,18 +106,66 @@ export class UsuarioComponent implements OnInit {
           console.log(error);
         }
       );
-      this._httpService
-        .buscarId("usuarios/graficos", this.id)
-        .subscribe(respuesta => {
-          console.log(respuesta);
-          // this.data$ = respuesta;
-        });
     }
   }
+
+  getCommitUsuario(url, id) {
+    //enviar usuario y token
+    let token = localStorage.getItem("token");
+    this._httpService
+      .post("usuarios/commits/" + id + "/" + url, { token: token })
+      .subscribe(respuesta => {
+        let arraySum = respuesta.barChartData[0].data;
+        for (let i = 1; i < respuesta.barChartData.length; i++) {
+          for (
+            let index = 0;
+            index < respuesta.barChartData[i].data.length;
+            index++
+          ) {
+            arraySum[index] =
+              arraySum[index] + respuesta.barChartData[i].data[index];
+          }
+        }
+        console.log(arraySum);
+        this.data$ = {
+          lineChartData: arraySum,
+          lineChartLabels: respuesta.años
+        };
+      });
+  }
+  cargarLenguajes(lenguaje) {
+    console.log(lenguaje);
+    this.pieChartLabels = [];
+    this.pieChartData = [];
+    let arrarResp = [];
+    let leng = JSON.stringify(lenguaje);
+    let array = leng.split(",");
+    let lengProyectos = [];
+    for (let val of array) {
+      let cadena = val.replace(/[{""}]/g, "").split(":");
+      lengProyectos.push({ lenguaje: cadena[0], codigo: cadena[1] });
+    }
+    if (Object.keys(lengProyectos).length !== 0) {
+      console.log(lengProyectos);
+      arrarResp = lengProyectos;
+      for (let value of arrarResp) {
+        if (value.lenguaje != "" && value.codigo != undefined) {
+          this.pieChartLabels.push(value.lenguaje);
+          this.pieChartData.push(parseInt(value.codigo));
+        } else {
+          this.pieChartLabels.push("0");
+          this.pieChartData.push(0);
+        }
+      }
+    }
+    console.log(this.pieChartLabels, this.pieChartData);
+  }
   getUsuarios(proyecto, tipo) {
+    this.showLenguajes = false;
     let token = localStorage.getItem("token");
     console.log(proyecto, token);
     this.dataLenguajes$ = proyecto.lenguajes;
+
     if (tipo == "gitlab") {
       this.proyectoSelect = proyecto;
       this.getPrimerCommit(proyecto);
@@ -127,6 +181,10 @@ export class UsuarioComponent implements OnInit {
       //   });
     } else {
       if (tipo == "github") {
+        this.cargarLenguajes(proyecto.lenguajes);
+        setTimeout(() => {
+          this.showLenguajes = true;
+        }, 1000);
         this.proyectoSelect = proyecto;
         this.getPrimerCommit(proyecto);
         this.getUltimoCommit(proyecto);
@@ -154,7 +212,7 @@ export class UsuarioComponent implements OnInit {
         });
         this.usuarioProyecto = datos;
         this.showUsuarios = true;
-        // console.log(this.usuarioProyecto);
+        console.log(this.usuarioProyecto);
       } else {
         if (tipo == "bitbucket") {
         } else {

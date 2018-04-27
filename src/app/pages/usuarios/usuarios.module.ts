@@ -20,11 +20,12 @@ import { UsuarioBbComponent } from './usuario/usuarioBb.component';
 import { InicioModule } from '../inicio/inicio.module';
 import { ListarComponent } from './listar/listar.component';
 import { CommitsComponent } from './charts/commits.component';
-import { LenguajesComponent } from './charts/lenguajes.component';
+import { LenguajesComponent } from "./charts/lenguajes.component";
+import { CodigoComponent } from './charts/codigo.component';
 import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
-  declarations:[
+  declarations: [
     // HeaderComponent,
     ModalEliminarUsuario,
     CrearEditarComponent,
@@ -35,8 +36,9 @@ import { DataTablesModule } from 'angular-datatables';
     ListarComponent,
     CommitsComponent,
     LenguajesComponent,
+    CodigoComponent
   ],
-  imports:[
+  imports: [
     CommonModule,
     MaterialModule,
     UsuariosRoutingModule,
@@ -46,10 +48,8 @@ import { DataTablesModule } from 'angular-datatables';
     ComunModule,
     ChartsModule,
     DataTablesModule
-
   ],
-  exports:[
-  ],
+  exports: [],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -61,5 +61,4 @@ import { DataTablesModule } from 'angular-datatables';
   ],
   entryComponents: [ModalEliminarUsuario]
 })
-export class UsuariosModule   {
-}
+export class UsuariosModule {}

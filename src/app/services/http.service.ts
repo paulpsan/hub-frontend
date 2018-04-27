@@ -38,9 +38,9 @@ export class HttpService {
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
   //obtiene los usuarios de un proyecto
-  obtenerUsuarios(nombre: string, repo: any,token:any): Observable<any> {
+  obtenerUsuarios(nombre: string, repo: any, token: any): Observable<any> {
     return this._http
-      .post(this.url + nombre+"/usuarios/"+repo.id, {repo,token})
+      .post(this.url + nombre + "/usuarios/" + repo.id, { repo, token })
       .map((res: Response) => {
         return res;
       })
@@ -57,7 +57,15 @@ export class HttpService {
       .catch((error: any) => Observable.throw(error || "Error"));
   }
 
-
+  post(nombre: string, objeto: any): Observable<any> {
+    console.log(objeto);
+    return this._http
+      .post(this.url + nombre, objeto)
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Server error"));
+  }
 
   adicionar(nombre: string, objeto: any): Observable<any> {
     console.log(objeto);
@@ -86,8 +94,6 @@ export class HttpService {
       })
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
-
-
 
   // obtener(){
   //   let headers = new Headers({ 'Content-Type': 'application/json' });

@@ -3,6 +3,7 @@ import { GLOBAL } from "./../../services/global";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LoginService } from "./../../services/login.service";
+import { HttpService } from "../../services/http.service";
 // import qs from "querystringify";
 let qs = require("querystringify");
 @Component({
@@ -21,7 +22,8 @@ export class InicioComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private _loginServise: LoginService
+    private _loginServise: LoginService,
+    private _httpServise: HttpService
   ) {}
 
   ngOnInit() {
@@ -45,6 +47,11 @@ export class InicioComponent implements OnInit {
                 this.router.navigate(["/login"]);
               } else {
                 console.log(localStorage.getItem("token"));
+                this._httpServise
+                  .post("usuarios/datosgithub", resp)
+                  .subscribe(resp => {
+                    console.log(resp);
+                  });
                 this.router.navigate(["/proyectos"]);
                 // console.log(resp.token);
                 // this.router.navigate(["/inicio", resp.token]);

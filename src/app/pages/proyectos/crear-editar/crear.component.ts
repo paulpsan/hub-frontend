@@ -53,18 +53,20 @@ export class CrearComponent implements OnInit {
           console.log(response);
           this.usuario = response;
           this.userForm = new FormGroup({
-            nombre: new FormControl("", Validators.required)
+            nombre: new FormControl("", Validators.required),
+            descripcion: new FormControl("", Validators.required)
           });
         });
     } else {
-      if (this.identity.tipo == "github") {
+      if (this.identity.tipo == "github" || this.identity.tipo == "bitbucket") {
         this._httpService
           .buscarId("usuarios", this.identity._id)
           .subscribe(response => {
             console.log(response);
             this.usuario = response;
             this.userForm = new FormGroup({
-              nombre: new FormControl("", Validators.required)
+              nombre: new FormControl("", Validators.required),
+              descripcion: new FormControl("", Validators.required)
             });
           });
       }
