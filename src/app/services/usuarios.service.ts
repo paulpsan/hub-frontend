@@ -3,14 +3,14 @@ import { Response } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Rx';
-import { GLOBAL } from './global';
+import { environment } from "../../environments/environment";
 import { Usuario }from '../models/usuario'
 
 @Injectable()
 export class UsuariosService {
   private url: string;
   constructor(private _http: HttpClient) { 
-    this.url = GLOBAL.url;
+    this.url = environment.url;
     // this.url ='https://test.adsib.gob.bo/api_backend/api/usuarios';
   }
   obtener():Observable<Usuario[]>{

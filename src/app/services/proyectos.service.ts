@@ -2,7 +2,7 @@ import { Component, OnInit , Injectable} from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Rx';
-import { GLOBAL } from './global';
+import { environment } from "../../environments/environment";
 import { Proyecto } from '../models/proyecto';
 
 
@@ -11,7 +11,7 @@ export class ProyectosService {
   public url: string;
 
   constructor(private _http: HttpClient) {
-    this.url = GLOBAL.url;
+    this.url = environment.url;
     // this.url = 'https://gitlab.geo.gob.bo/api/v4/projects/';
 
   }

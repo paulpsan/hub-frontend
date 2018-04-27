@@ -3,7 +3,7 @@ import { Response } from "@angular/http";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import "rxjs/Rx";
 import { Observable } from "rxjs/Rx";
-import { GLOBAL } from "./global";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class AuthService {
@@ -11,41 +11,39 @@ export class AuthService {
   public token;
   private url: string;
 
-  constructor(
-    private _http : HttpClient
-  ) {
-    this.url = GLOBAL.url;
+  constructor(private _http: HttpClient) {
+    this.url = environment.url;
   }
 
   login(nombre: string, objeto: any) {
     return this._http
       .post(this.url + nombre, objeto)
       .map((res: Response) => {
-        localStorage.setItem('token',res['token']);
-        return res['usuario'];
+        localStorage.setItem("token", res["token"]);
+        return res["usuario"];
       })
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
-  logout(){
-    localStorage.removeItem('identity');
-    localStorage.removeItem('token');
+  logout() {
+    localStorage.removeItem("identity");
+    localStorage.removeItem("token");
     localStorage.clear();
   }
   getIdentity() {
-    let identity = JSON.parse(localStorage.getItem('identity'))
-    if(identity!="undefined"){
-      this.identity=identity;
-    }else{
-      this.identity=null;
+    let identity = JSON.parse(localStorage.getItem("identity"));
+    if (identity != "undefined") {
+      this.identity = identity;
+    } else {
+      this.identity = null;
     }
     return this.identity;
   }
   getToken() {
-    let token = localStorage.getItem('token')
-    if(token!="undefined"){
-      this.token=token;
-    }else{
-      this.token=null;
+    let token = localStorage.getItem("token");
+    if (token != "undefined") {
+      this.token = token;
+    } else {
+      this.token = null;
     }
     return this.token;
   }

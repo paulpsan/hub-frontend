@@ -43,7 +43,6 @@ export class InicioComponent implements OnInit {
             .getTokenGithub(this.params.code)
             .subscribe(resp => {
               if (resp.error) {
-                console.log(resp.error);
                 this.router.navigate(["/login"]);
               } else {
                 console.log(localStorage.getItem("token"));
@@ -113,8 +112,6 @@ export class InicioComponent implements OnInit {
         }
       }
     }
-    console.log(localStorage.getItem("identity"));
-
     if (localStorage.getItem("token") != null) {
       this.router.navigate(["/proyectos"]);
     }
