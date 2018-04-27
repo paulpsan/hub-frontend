@@ -126,6 +126,20 @@ export class CrearComponent implements OnInit {
           );
           break;
         default:
+          let urlRepositorio = this.userForm.controls["urlRepositorio"].value;
+          proyecto = new Proyecto(
+            null,
+            datos,
+            descripcion,
+            urlRepositorio,
+            "",
+            ["categorias"],
+            ["licencias"],
+            "clasificacion",
+            this.usuario._id,
+            this.usuario.tipo,
+            []
+          );
           break;
       }
 

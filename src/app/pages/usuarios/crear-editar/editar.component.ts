@@ -1,17 +1,16 @@
-import { HttpService } from '../../../services/http.service';
-import { slideInDownAnimation } from '../../../animations';
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { FormControl,FormGroup, Validators} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Usuario }from '../../../models/usuario'
-import { UsuariosService } from '../../../services/usuarios.service';
-import { UsuariosComponent } from '../usuarios.component';
-
+import { HttpService } from "../../../services/http.service";
+import { slideInDownAnimation } from "../../../animations";
+import { Component, OnInit, HostBinding } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Usuario } from "../../../models/usuario";
+import { UsuariosService } from "../../../services/usuarios.service";
+import { UsuariosComponent } from "../usuarios.component";
 
 @Component({
-  selector: 'hub-editar',
-  templateUrl: './editar.component.html',
-  styleUrls: ['./editar.component.css'],
+  selector: "hub-editar",
+  templateUrl: "./editar.component.html",
+  styleUrls: ["./editar.component.css"]
   // animations: [ slideInDownAnimation ]
 })
 export class EditarComponent implements OnInit {
@@ -20,40 +19,48 @@ export class EditarComponent implements OnInit {
   // @HostBinding('style.position')  position = 'absolute';
 
   id: number;
-  acciones:string;
+  acciones: string;
   usuario: Usuario;
-  private sub:any;
+  private sub: any;
   userForm: FormGroup;
-  show:boolean=true;
+  show: boolean = true;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private router: Router,
-    private _httpService: HttpService) { }
+    private _httpService: HttpService
+  ) {}
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.id = params['id'];
+      this.id = params["id"];
     });
 
     this.userForm = new FormGroup({
-      nombre: new FormControl('', Validators.required),
-      email: new FormControl('', [
+      nombre: new FormControl("", Validators.required),
+      email: new FormControl("", [
         Validators.required,
         Validators.pattern("[^ @]*@[^ @]*")
-      ])
+      ]),
+      password: new FormControl("", Validators.required),
+      descripcion: new FormControl("", Validators.required)
     });
 
-    if (this.id) { //edit form
-      this._httpService.buscarId('usuarios',this.id).subscribe(
+    if (this.id) {
+      //edit form
+      this._httpService.buscarId("usuarios", this.id).subscribe(
         usuario => {
-            this.id = usuario._id;
-            this.userForm.patchValue({
+          this.id = usuario._id;
+          this.userForm.patchValue({
             nombre: usuario.nombre,
             email: usuario.email,
+            password: usuario.password,
+            descripcion: usuario.descripcion
           });
-         },error => {
+        },
+        error => {
           console.log(error);
-         }
+        }
       );
     }
   }
@@ -65,24 +72,23 @@ export class EditarComponent implements OnInit {
   onSubmit() {
     if (this.userForm.valid) {
       if (this.id) {
-        let usuario: Usuario = new Usuario(this.id,
-          this.userForm.controls['nombre'].value,
-          this.userForm.controls['email'].value,'','usuario','','',[]);
-        this._httpService.editar('usuarios',usuario).subscribe();
-      } else {
-        let usuario: Usuario = new Usuario(null,
-          this.userForm.controls['nombre'].value,
-          this.userForm.controls['email'].value,'','usuario','','',[]);
-        this._httpService.adicionar('usuarios',usuario).subscribe();
+        let usuario = {
+          _id: this.id,
+          nombre: this.userForm.controls["nombre"].value,
+          email: this.userForm.controls["email"].value,
+          password: this.userForm.controls["password"].value,
+          descripcion: this.userForm.controls["descripcion"].value
+        };
+        this._httpService.editar("usuarios", usuario).subscribe();
       }
 
       this.userForm.reset();
-      this.router.navigate(['/usuarios/', this.id]);
+      this.router.navigate(["/usuarios/", this.id]);
     }
   }
 
-  irUsuario(){
-    this.router.navigate(['/usuarios/', this.id]);
+  irUsuario() {
+    this.router.navigate(["/usuarios/", this.id]);
   }
 
   // redirectUserPage() {

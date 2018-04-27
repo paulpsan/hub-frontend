@@ -35,9 +35,10 @@ export class RegistroComponent implements OnInit {
         Validators.required,
         Validators.pattern("[^ @]*@[^ @]*")
       ]),
-      confirmarEmail: new FormControl("",Validators.required),
+      confirmarEmail: new FormControl("", Validators.required),
       password: new FormControl("", Validators.required),
       confirmarPassword: new FormControl("", Validators.required),
+      login: new FormControl("", Validators.required)
     });
   }
   onSubmit() {
@@ -47,8 +48,11 @@ export class RegistroComponent implements OnInit {
       this.usuarioForm.controls["email"].value,
       this.usuarioForm.controls["password"].value,
       "admin",
-      "","",[]
+      this.usuarioForm.controls["login"].value,
+      "local",
+      []
     );
+    console.log(user);
     this._httpService.adicionar("usuarios", user).subscribe();
     this.usuarioForm.reset();
     this.router.navigate(["/login"]);
