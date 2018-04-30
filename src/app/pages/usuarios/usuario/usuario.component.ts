@@ -128,7 +128,7 @@ export class UsuarioComponent implements OnInit {
         }
         console.log(arraySum);
         this.data$ = {
-          lineChartData: arraySum,
+          lineChartData: arraySum.reverse(),
           lineChartLabels: respuesta.años
         };
       });
@@ -213,11 +213,6 @@ export class UsuarioComponent implements OnInit {
         this.usuarioProyecto = datos;
         this.showUsuarios = true;
         console.log(this.usuarioProyecto);
-      } else {
-        if (tipo == "bitbucket") {
-        } else {
-          //local
-        }
       }
     }
   }

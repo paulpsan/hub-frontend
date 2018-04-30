@@ -66,6 +66,17 @@
                 Selecione un proyecto de su repositorio
               </p>
             </div>
+            <div class="form-group">
+              <label class="col-form-label ">Descripcion</label>
+              <br>
+              <mat-form-field class="col">
+                <textarea matInput placeholder="" formControlName="descripcion"></textarea>
+              </mat-form-field>
+              <p>
+                Detalle una descripción del proyecto centrado en las caracteristicas
+                <br> Máximo 800 caracteres
+              </p>
+            </div>
           </fieldset>
           <button mat-button [disabled]="!userForm.valid" type="submit" color="primary">
             <mat-icon mat-list-icon>done</mat-icon>
@@ -128,6 +139,17 @@
               </mat-form-field>
               <p>
                 Selecione un proyecto de su repositorio
+              </p>
+            </div>
+            <div class="form-group">
+              <label class="col-form-label ">Descripcion</label>
+              <br>
+              <mat-form-field class="col">
+                <textarea matInput placeholder="" formControlName="descripcion"></textarea>
+              </mat-form-field>
+              <p>
+                Detalle una descripción del proyecto centrado en las caracteristicas
+                <br> Máximo 800 caracteres
               </p>
             </div>
           </fieldset>
