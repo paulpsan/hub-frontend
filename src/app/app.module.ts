@@ -26,6 +26,7 @@ import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./common/guard/auth.guard";
 import { OrganizacionesComponent } from "./pages/organizaciones/organizaciones.component";
 import { NopagefoundComponent } from "./common/components/nopagefound/nopagefound.component";
+import { ToastrModule } from "ngx-toastr";
 
 // import { AdicionarComponent } from './pages/usuarios/adicionar/adicionar.component';
 // import { EditarComponent } from './pages/usuarios/editar/editar.component';
@@ -50,7 +51,8 @@ import { NopagefoundComponent } from "./common/components/nopagefound/nopagefoun
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,
     LoadingBarModule,
-    InicioModule
+    InicioModule,
+    ToastrModule.forRoot()
     // UsuariosModule,
     // ProyectosModule,
     // RecaptchaModule.forRoot(), // Keep in mind the "forRoot"-magic nuances!
