@@ -1,4 +1,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../node_modules/ngx-toastr/toastr.css";
+
 html {
   font-size: 14px;
 }
@@ -15,4 +17,7 @@ html {
 .fa-star-o {
   color: #ffc058;
   font-size: 1.5em !important;
+}
+.toast-success {
+  background-color: #735356;
 }

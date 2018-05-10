@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Renderer2 } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "hub-root",
@@ -7,12 +7,20 @@ import { ToastrService } from "ngx-toastr";
 })
 export class AppComponent implements OnInit {
   options;
-  constructor(private toastr: ToastrService) {
+  constructor(private toastr: ToastrService, private renderer: Renderer2) {
     this.options = this.toastr.toastrConfig;
   }
-  ngOnInit() {}
+  ngOnInit() {
+  }
   showSuccess() {
     console.log(this.options);
-    this.toastr.show("paul", "title", this.options);
+    // this.options.positionClass = "toast-top-left";
+    this.toastr.error("paul", "title");
+  }
+  setClass(enableBootstrap: boolean) {
+    const add = enableBootstrap ? "bootstrap" : "normal";
+    const remove = enableBootstrap ? "normal" : "bootstrap";
+    this.renderer.addClass(document.body, add);
+    this.renderer.removeClass(document.body, remove);
   }
 }

@@ -1,6 +1,5 @@
 import { Component, Injectable } from "@angular/core";
-import { Response } from "@angular/http";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import "rxjs/Rx";
 import { Observable } from "rxjs/Rx";
 import { environment } from "../../environments/environment";
@@ -16,9 +15,8 @@ export class HttpService {
   }
   //obtiene datos de forma general
   obtener(nombre: string): Observable<any[]> {
-    // let headers = new Headers({ 'Content-Type': 'application/json' });
     return this._http
-      .get(this.url + nombre + "?tsp=" + Date.now())
+      .get(this.url + nombre)
       .map((res: Response) => {
         return res;
       })
