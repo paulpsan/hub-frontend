@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit {
     let password = this.loginForm.controls["password"].value;
 
     this._authService
-      .login("usuarios/login", {
+      .login("auth/local", {
         email: email,
         password: password,
         tipo: "local"

@@ -1,25 +1,33 @@
-import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse} from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Injectable } from "@angular/core";
+import {
+  HttpEvent,
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest,
+  HttpResponse,
+  HttpErrorResponse
+} from "@angular/common/http";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs/Observable";
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
 
 @Injectable()
 export class HubInterceptor implements HttpInterceptor {
-
   constructor(private router: Router) {}
 
-  intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     // debugger;
-    // console.log("modificando ");
+    console.log(localStorage.getItem('token'));
     req = req.clone({
-    setHeaders: {
-      "Content-Type": "application/json",
-      // "Authorization": "Bearer " + localStorage.getItem('token')
-      },
+      setHeaders: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('token')
+      }
       // url: req.method === 'GET' ? req.url + '?tsp=' + Date.now() : req.url
     });
 
@@ -34,12 +42,13 @@ export class HubInterceptor implements HttpInterceptor {
     //   });
     // }
 
-    return next.handle(req)
+    return next
+      .handle(req)
       .map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse && ~(event.status / 100) > 3) {
           // console.info('HttpResponse::event =', event, ';');
         } // else console.info('event =', event, ';');
-          return event;
+        return event;
       })
       .catch((err: any, caught) => {
         if (err instanceof HttpErrorResponse) {
