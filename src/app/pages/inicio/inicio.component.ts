@@ -52,9 +52,6 @@ export class InicioComponent implements OnInit {
                     console.log(resp);
                   });
                 this.router.navigate(["/proyectos"]);
-                // console.log(resp.token);
-                // this.router.navigate(["/inicio", resp.token]);
-                // resp.token;
               }
               // this.router.navigate(["/inicio"]);
             });

@@ -17,10 +17,8 @@
           <li>
 
             <div class="btn-group">
-              <button class="btn btn-dark dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                <img *ngIf="identity.avatar" alt="avatar" style="width: 15px !important" src="{{identity.avatar}}" >
-                {{identity.login}}
+              <button class="btn btn-dark dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img *ngIf="identity.avatar" alt="avatar" style="width: 15px !important" src="{{identity.avatar}}"> {{identity.login}}
               </button>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
                 <a class="dropdown-item" routerLink="/usuarios/{{identity._id}}">Perfil</a>
@@ -55,3 +53,6 @@
     </div>
   </div>
 </nav>
+<div class="alert alert-primary alert-dismissible fade show" role="alert" *ngIf="">
+  Se esta realizando la importacion de sus datos
+</div>
