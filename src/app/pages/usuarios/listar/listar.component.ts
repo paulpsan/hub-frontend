@@ -6,6 +6,7 @@ import "rxjs/Rx";
 
 import { Usuario } from "../../../models/usuario";
 import { HttpService } from "../../../services/http.service";
+import { PageEvent } from "@angular/material";
 
 @Component({
   selector: "hub-listar",
@@ -16,13 +17,21 @@ export class ListarComponent implements OnInit {
   public respuesta: any;
   public title = "Star Rating";
   public avatar;
+  public buscar;
+  public ordenar;
+  public pagina = 1;
+  public limite = 10;
+  public pageIndex: number;
+  public pageEvent: PageEvent;
+
   usuarios: any[];
   starList: boolean[] = [true, true, true, true, true]; // create a list which contains status of 5 stars
 
   constructor(private _httpService: HttpService, private router: Router) {}
 
   ngOnInit() {
-    this.obtenerUsuarios();
+    // this.obtenerUsuarios();
+    this.getServerData(null);
   }
 
   // obtenerUsuarios(){
@@ -49,6 +58,17 @@ export class ListarComponent implements OnInit {
   //     }
   //   }
   // }
+
+  getServerData(event?: PageEvent) {
+    this._httpService.obtenerPaginado("usuarios", event).subscribe(
+      result => {
+        console.log(result);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
   obtenerCommits() {
     for (const usuario of this.usuarios) {
       let commits = 0;
@@ -79,6 +99,7 @@ export class ListarComponent implements OnInit {
     this._httpService.obtener("usuarios").subscribe(
       result => {
         this.respuesta = result;
+
         this.usuarios = this.respuesta.datos;
         this.obtenerCommits();
         this.obtenerLenguajes();

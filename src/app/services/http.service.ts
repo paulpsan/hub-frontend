@@ -14,6 +14,7 @@ export class HttpService {
     // this.url ='https://test.adsib.gob.bo/api_backend/api/usuarios';
   }
   //obtiene datos de forma general
+
   obtener(nombre: string): Observable<any[]> {
     return this._http
       .get(this.url + nombre)
@@ -25,9 +26,24 @@ export class HttpService {
   //obtiene datos de forma general
   obtenerPaginado(nombre: string, obj): Observable<any[]> {
     let myParams = new HttpParams();
+
+    myParams = myParams.append("ordenar", "");
+    myParams = myParams.append("pagina", "");
+    myParams = myParams.append("limite", "");
+    return this._http
+      .get(this.url + nombre + "?tsp=" + Date.now(), { params: myParams })
+      .map((res: Response) => {
+        return res;
+      })
+      .catch((error: any) => Observable.throw(error || "Server error"));
+  }
+  buscarPaginado(nombre: string, obj): Observable<any[]> {
+    let myParams = new HttpParams();
+
+    myParams = myParams.append("buscar", obj.pagina);
+    myParams = myParams.append("ordenar_por", obj.pagina);
     myParams = myParams.append("pagina", obj.pagina);
     myParams = myParams.append("limite", obj.limite);
-    // let headers = new Headers({ 'Content-Type': 'application/json' });
     return this._http
       .get(this.url + nombre + "?tsp=" + Date.now(), { params: myParams })
       .map((res: Response) => {
