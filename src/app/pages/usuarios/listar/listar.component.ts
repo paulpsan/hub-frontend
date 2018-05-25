@@ -17,11 +17,12 @@ export class ListarComponent implements OnInit {
   public respuesta: any;
   public title = "Star Rating";
   public avatar;
-  public buscar;
+  public buscar = "";
   public ordenar;
   public pagina = 1;
   public limite = 10;
-  public pageIndex: number;
+  public total;
+  public pageSizeOptions = [5, 10, 25, 100];  
   public pageEvent: PageEvent;
 
   usuarios: any[];
@@ -31,7 +32,7 @@ export class ListarComponent implements OnInit {
 
   ngOnInit() {
     // this.obtenerUsuarios();
-    this.getServerData(null);
+    this.obtenerDatos(null);
   }
 
   // obtenerUsuarios(){
@@ -59,21 +60,46 @@ export class ListarComponent implements OnInit {
   //   }
   // }
 
-  getServerData(event?: PageEvent) {
-    this._httpService.obtenerPaginado("usuarios", event).subscribe(
+  obtenerDatos(event?: PageEvent) {
+    let pagData;
+    if (event == null) {
+      pagData = {
+        ordenar: "nombre",
+        pagina: 1,
+        limite: 10
+      };
+    } else {
+      pagData = {
+        ordenar: "nombre",
+        pagina: event.pageIndex + 1,
+        limite: event.pageSize
+      };
+    }
+    if (this.buscar != "") {
+      pagData.buscar = this.buscar;
+    }
+    this._httpService.obtenerPaginado("usuarios", pagData).subscribe(
       result => {
-        console.log(result);
+        this.respuesta = result;
+        this.total = this.respuesta.paginacion.total;
+        this.pagina = this.respuesta.paginacion.paginaActual - 1;
+        this.limite = this.respuesta.paginacion.limite;
+        this.usuarios = this.respuesta.datos;
+        // this.obtenerCommits();
+        this.obtenerLenguajes();
       },
       err => {
         console.log(err);
       }
     );
   }
+
   obtenerCommits() {
     for (const usuario of this.usuarios) {
       let commits = 0;
       let lenguajes = [];
       for (const repo of usuario.datos) {
+        //corregir length
         commits += repo.commits.length;
         if (usuario.tipo == "github") {
           let cadena = JSON.stringify(repo.lenguajes).split('"');
@@ -93,23 +119,25 @@ export class ListarComponent implements OnInit {
     }
     console.log(this.usuarios);
   }
+
   obtenerLenguajes() {}
 
-  obtenerUsuarios() {
-    this._httpService.obtener("usuarios").subscribe(
-      result => {
-        this.respuesta = result;
+  // obtenerUsuarios() {
+  //   this._httpService.obtener("usuarios").subscribe(
+  //     result => {
+  //       this.respuesta = result;
 
-        this.usuarios = this.respuesta.datos;
-        this.obtenerCommits();
-        this.obtenerLenguajes();
-        console.log(result);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
+  //       this.usuarios = this.respuesta.datos;
+  //       this.obtenerCommits();
+  //       this.obtenerLenguajes();
+  //       console.log(result);
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     }
+  //   );
+  // }
+
   irUsuario(usuario) {
     switch (usuario.tipo) {
       case "github": {

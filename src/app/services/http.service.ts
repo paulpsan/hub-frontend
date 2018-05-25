@@ -23,25 +23,13 @@ export class HttpService {
       })
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
-  //obtiene datos de forma general
+  //obtiene y busca datos de forma general
   obtenerPaginado(nombre: string, obj): Observable<any[]> {
     let myParams = new HttpParams();
-
-    myParams = myParams.append("ordenar", "");
-    myParams = myParams.append("pagina", "");
-    myParams = myParams.append("limite", "");
-    return this._http
-      .get(this.url + nombre + "?tsp=" + Date.now(), { params: myParams })
-      .map((res: Response) => {
-        return res;
-      })
-      .catch((error: any) => Observable.throw(error || "Server error"));
-  }
-  buscarPaginado(nombre: string, obj): Observable<any[]> {
-    let myParams = new HttpParams();
-
-    myParams = myParams.append("buscar", obj.pagina);
-    myParams = myParams.append("ordenar_por", obj.pagina);
+    if (obj.buscar != undefined) {
+      myParams = myParams.append("buscar", obj.buscar);
+    }
+    myParams = myParams.append("ordenar", obj.ordenar);
     myParams = myParams.append("pagina", obj.pagina);
     myParams = myParams.append("limite", obj.limite);
     return this._http
@@ -51,7 +39,7 @@ export class HttpService {
       })
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
-  //obtiene los usuarios de un proyecto
+
   obtenerUsuarios(nombre: string, repo: any, token: any): Observable<any> {
     return this._http
       .post(this.url + nombre + "/usuarios/" + repo.id, { repo, token })

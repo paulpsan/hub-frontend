@@ -1,54 +1,99 @@
 import { FormGroup, FormControl } from "@angular/forms";
-import { HubInterceptor } from '../../../common/interceptor/hub.interceptor';
-import { Component, OnInit, Inject, HostBinding } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/Rx';
+import { HubInterceptor } from "../../../common/interceptor/hub.interceptor";
+import { Component, OnInit, Inject, HostBinding } from "@angular/core";
+import { Router } from "@angular/router";
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  PageEvent
+} from "@angular/material";
+import { Observable } from "rxjs/Rx";
+import "rxjs/Rx";
 
-import { Proyecto } from '../../../models/proyecto';
-import { HttpService } from '../../../services/http.service'
-import { ProyectosService } from '../../../services/proyectos.service';
+import { Proyecto } from "../../../models/proyecto";
+import { HttpService } from "../../../services/http.service";
+import { ProyectosService } from "../../../services/proyectos.service";
 
 @Component({
-  selector: 'hub-listar',
-  templateUrl: './listar.component.html',
-  styleUrls: ['./listar.component.css']
+  selector: "hub-listar",
+  templateUrl: "./listar.component.html",
+  styleUrls: ["./listar.component.css"]
 })
 export class ListarComponent implements OnInit {
+  public respuesta: any;
+  public mostrarToggle: boolean = false;
+  public idSelect;
+  public paginacion;
 
-  proyectos : any[];
-  private respuesta: any;
-  private mostrarToggle:boolean=false;
-  private idSelect;
-  private paginacion;
+  public buscar = "";
+  public ordenar;
+  public pagina = 1;
+  public limite = 10;
+  public total;
+  public pageSizeOptions = [5, 10, 25, 100];
+  public pageEvent: PageEvent;
 
-  length = 100;
-  pageSize = 10;
-  pageSizeOptions = [5, 10, 25, 100];
+  proyectos: any[];
 
-  constructor(private _proyectosService: ProyectosService, private router: Router, private dialog:MatDialog,private _httpService:HttpService ) {
-    this.paginacion={
-      pagina:'1',
-      limite:'2'
+  constructor(
+    private _proyectosService: ProyectosService,
+    private router: Router,
+    private dialog: MatDialog,
+    private _httpService: HttpService
+  ) {
+    this.paginacion = {
+      pagina: "1",
+      limite: "2"
     };
-   }
-  ngOnInit() {
-    console.log("listando proyectos");
-    this.obtenerProyectos();
   }
-  obtenerProyectos(){
-    this._httpService.obtener('proyectos').subscribe(
-      result =>{
-        this.respuesta=result;
-        this.proyectos=this.respuesta.datos;
-        console.log (this.proyectos);
+  ngOnInit() {
+    this.obtenerDatos();
+  }
+  obtenerProyectos() {
+    this._httpService.obtener("proyectos").subscribe(
+      result => {
+        this.respuesta = result;
+        this.proyectos = this.respuesta.datos;
+        console.log(this.proyectos);
       },
-      err =>{
+      err => {
         console.log(err);
       }
-    )
+    );
   }
+  obtenerDatos(event?: PageEvent) {
+    let pagData;
+    if (event == null) {
+      pagData = {
+        ordenar: "nombre",
+        pagina: 1,
+        limite: 10
+      };
+    } else {
+      pagData = {
+        ordenar: "nombre",
+        pagina: event.pageIndex + 1,
+        limite: event.pageSize
+      };
+    }
+    if (this.buscar != "") {
+      pagData.buscar = this.buscar;
+    }
+    this._httpService.obtenerPaginado("proyectos", pagData).subscribe(
+      result => {
+        this.respuesta = result;
+        this.proyectos = this.respuesta.datos;
+        this.total = this.respuesta.paginacion.total;
+        this.pagina = this.respuesta.paginacion.paginaActual - 1;
+        this.limite = this.respuesta.paginacion.limite;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
   // obtenerProyectosPag(){
   //   console.log(this.paginacion.pagina);
   //   this._httpService.obtenerPaginado('proyectos',this.paginacion).subscribe(
@@ -62,21 +107,18 @@ export class ListarComponent implements OnInit {
   //     }
   //   )
   // }
-  mostrar(proyecto:Proyecto){
-    this.idSelect=proyecto._id;
-    this.mostrarToggle=!this.mostrarToggle;
+  mostrar(proyecto: Proyecto) {
+    this.idSelect = proyecto._id;
+    this.mostrarToggle = !this.mostrarToggle;
   }
-  //funcion dela paginacion
-  pageEvent(event:string){
-    console.log(event);
-  }
-  irProyecto(proyecto:Proyecto){
+
+  irProyecto(proyecto: Proyecto) {
     if (proyecto) {
-      this.router.navigate(['/proyectos', proyecto._id]);
+      this.router.navigate(["/proyectos", proyecto._id]);
     }
   }
 
-  adicionar(){
-      this.router.navigate(['/proyectos/adicionar']);
+  adicionar() {
+    this.router.navigate(["/proyectos/adicionar"]);
   }
 }
