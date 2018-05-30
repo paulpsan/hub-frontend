@@ -1,9 +1,8 @@
-import { error } from "selenium-webdriver";
-import { GLOBAL } from "./../../services/global";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { LoginService } from "./../../services/login.service";
 import { HttpService } from "../../services/http.service";
+import { MatSnackBar } from "@angular/material";
 // import qs from "querystringify";
 let qs = require("querystringify");
 @Component({
@@ -15,94 +14,103 @@ export class InicioComponent implements OnInit {
   private url: string;
   private urlCallback;
   private code: string;
-  private sub;
   private params;
   private cargando: Boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private _loginServise: LoginService,
-    private _httpServise: HttpService
+    private _loginService: LoginService,
+    private _httpService: HttpService,
+    public snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
     this.url = this.router.url;
     console.log(this.url);
     if (this.url !== "/inicio") {
-      console.log("entro para autenticar");
       this.urlCallback = this.url.split("?");
       this.params = qs.parse(this.urlCallback[1]);
       console.log(this.params);
-      this.router.navigate(["/inicio"]);
-      if (this.params.state === "hub-software-github") {
-        if (this.params.code != "" && GLOBAL.TOGGLE) {
-          console.log(this.params.code);
-          // if (this.code != "") {
-          this._loginServise
+      // this.router.navigate(["/inicio"]);
+      if (this.params.state === "github") {
+        if (this.params.code != "") {
+          this._loginService
             .getTokenGithub(this.params.code)
             .subscribe(resp => {
               if (resp.error) {
                 this.router.navigate(["/login"]);
               } else {
-                console.log(localStorage.getItem("token"));
-                this._httpServise
+                //pedir datos de commits y lenguajes
+                let snackBarRef = this.snackBar.open(
+                  "Se estan guardando los datos referentes a su cuenta!!",
+                  "",
+                  {
+                    panelClass: "background-red"
+                  }
+                );
+                this._httpService
                   .post("usuarios/datosgithub", resp)
                   .subscribe(resp => {
-                    console.log(resp);
+                    snackBarRef.dismiss();
                   });
                 this.router.navigate(["/proyectos"]);
               }
-              // this.router.navigate(["/inicio"]);
             });
-          GLOBAL.TOGGLE = false;
         }
       } else {
-        if (this.params.state === "hub-software-gitlab") {
-          if (this.params.code != "" && GLOBAL.TOGGLE) {
-            // if (this.code != "") {
-            this._loginServise
+        if (this.params.state === "gitlab") {
+          if (this.params.code != "") {
+            this._loginService
               .getTokenGitlab(this.params.code)
               .subscribe(resp => {
                 if (resp.error) {
-                  console.log(resp.error);
                   this.router.navigate(["/login"]);
                 } else {
                   console.log(resp);
-                  this.cargando = false;
+                  let snackBarRef = this.snackBar.open(
+                    "Se estan guardando los datos referentes a su cuenta!!",
+                    "",
+                    {
+                      panelClass: "background-red"
+                    }
+                  );
+                  this._httpService
+                    .post("usuarios/datosgitlab", resp)
+                    .subscribe(resp => {
+                      snackBarRef.dismiss();
+                    });
                   this.router.navigate(["/proyectos"]);
-                  // console.log(resp.token);
-                  // this.router.navigate(["/inicio", resp.token]);
-                  // resp.token;
                 }
-                // this.router.navigate(["/inicio"]);
               });
-            GLOBAL.TOGGLE = false;
           }
-          console.log("gitlab", this.params.state);
         } else {
-          if (this.params.state === "hub-software-bitbucket") {
-            if (this.params.code != "" && GLOBAL.TOGGLE) {
-              // if (this.code != "") {
-              this._loginServise.getTokenBitbucket(this.params.code).subscribe(
+          if (this.params.state === "bitbucket") {
+            if (this.params.code != "") {
+              this._loginService.getTokenBitbucket(this.params.code).subscribe(
                 resp => {
-                  console.log(resp);
                   if (resp.error) {
                     this.router.navigate(["/login"]);
                   } else {
-                    console.log(localStorage.getItem("token"));
+                    let snackBarRef = this.snackBar.open(
+                      "Se estan guardando los datos referentes a su cuenta!!",
+                      "",
+                      {
+                        panelClass: "background-red"
+                      }
+                    );
+                    this._httpService
+                      .post("usuarios/datosbitbucket", resp)
+                      .subscribe(resp => {
+                        snackBarRef.dismiss();
+                      });
                     this.router.navigate(["/proyectos"]);
-                    // console.log(resp.token);
-                    // this.router.navigate(["/inicio", resp.token]);
-                    // resp.token;
                   }
-                  // this.router.navigate(["/inicio"]);
                 },
                 err => {
                   console.log(err);
                 }
               );
-              GLOBAL.TOGGLE = false;
             }
             console.log("gitlab", this.params.state);
           }

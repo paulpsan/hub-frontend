@@ -1,33 +1,32 @@
-import { HubInterceptor } from '../../common/interceptor/hub.interceptor';
-import { MaterialModule } from '../../material/material.module';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpService } from '../../services/http.service';
-import { InicioComponent } from './inicio.component';
-import { InicioRoutingModule } from './inicio-routing.module';
-import { OrganizacionesComponent } from '../organizaciones/organizaciones.component';
-import { LoginComponent } from '../login/login.component';
-import { RegistroComponent } from '../login/registro/registro.component';
-import { UsuariosModule } from '../usuarios/usuarios.module';
-import { ProyectosModule } from '../proyectos/proyectos.module';
-import { HeaderComponent } from '../../common/components/header/header.component';
-import { ComunModule } from '../../common/comun.module';
-import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
-import { LoadingBarModule } from '@ngx-loading-bar/core';
-import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-
+import { HubInterceptor } from "../../common/interceptor/hub.interceptor";
+import { MaterialModule } from "../../material/material.module";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpService } from "../../services/http.service";
+import { InicioComponent } from "./inicio.component";
+import { InicioRoutingModule } from "./inicio-routing.module";
+import { OrganizacionesComponent } from "../organizaciones/organizaciones.component";
+import { LoginComponent } from "../login/login.component";
+import { RegistroComponent } from "../login/registro/registro.component";
+import { UsuariosModule } from "../usuarios/usuarios.module";
+import { ProyectosModule } from "../proyectos/proyectos.module";
+import { HeaderComponent } from "../../common/components/header/header.component";
+import { ComunModule } from "../../common/comun.module";
+import { LoadingBarHttpClientModule } from "@ngx-loading-bar/http-client";
+import { LoadingBarModule } from "@ngx-loading-bar/core";
+import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
 
 @NgModule({
-  declarations:[
+  declarations: [
     InicioComponent,
     // HeaderComponent,
     // OrganizacionesComponent,
     // LoginComponent,
     // RegistroComponent
   ],
-  imports:[
+  imports: [
     CommonModule,
     MaterialModule,
     FormsModule,
@@ -38,12 +37,12 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
     LoadingBarRouterModule,
     LoadingBarModule,
 
-    ComunModule,
+    ComunModule
 
     // UsuariosModule,
     // ProyectosModule,
   ],
-  exports:[
+  exports: [
     // HeaderComponent,
   ],
   providers: [
@@ -55,5 +54,4 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
     HttpService
   ],
 })
-export class InicioModule   {
-}
+export class InicioModule {}
