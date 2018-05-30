@@ -1,32 +1,29 @@
+## Proyecto de Catalogo de software libre
 
-## Setup del entorno de desarrollo
-Necesitas instalar:
-* Git
-* Node v8.9.1
-* Visual Studio Code
+Catalogo de software libre publicados por usuarios con cuenta github, gitlab, bibucket 
 
-Este proyecto fué generado usando [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
+## URL
 
-## Development server
+> https://test.adsib.gob.bo/softwarelibre/
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Requisitos
 
-## Code scaffolding
+ - **GIT** 
+ - **CURL**
+ - **NODE**(8.11.2)
+ - **ANGULAR/CLI**(1.7)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Instalar Proyecto
 
-## Build
+Para realizar la instalación y configuración del proyecto revise el archivo [INSTALL.md](INSTALL.md)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+## Ejecutar Proyecto
 
-## Running unit tests
+Instalar las dependencias del proyecto
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+> $ npm install
 
-## Running end-to-end tests
+Iniciar el proyecto
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+> $ node index.js
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
