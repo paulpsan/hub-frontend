@@ -48,21 +48,21 @@ Ingresar al directorio del proyecto clonado hub-software-frontend
 
 Ingresar al directorio config
 
-> $ cd src/enviroments
+> $ cd src/environments
 
-Renombrar el archivo enviroment.sample.js a enviroment.js y enviroment.prod.sample.js a enviroment.prod.sample.js
+Renombrar el archivo environment.sample.js a environment.js y environment.prod.sample.js a environment.prod.sample.js
 
-> $ mv enviroment.sample.js enviroment.js
+> $ mv environment.sample.js environment.js
 
-> $ mv enviroment.prod.sample.js enviroment.prod.js
+> $ mv environment.prod.sample.js environment.prod.js
 
 Configuracion en desarrollo
 
-> $ nano enviroment.js
+> $ nano environment.js
 
 Configuracion en produccion
 
-> $ nano enviroment.prod.js
+> $ nano environment.prod.js
 
 ## Instalación en Desarrollo
 
