@@ -18,27 +18,28 @@ import { Subject } from "rxjs";
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsuarioComponent implements OnInit {
-  id: number;
-  acciones: string;
-  usuario: Usuario;
   private sub: any;
   commitsTotal: number = 0;
   clasificacion: number = 0;
+  id: number;
+  acciones: string;
+  usuario;
+  repositorios;
+  token;
   lenguajes = [];
   pieChartData;
   pieChartLabels;
-  commitProyecto;
-  commitlenguaje;
   primerCommit;
   UltimoCommit;
   data$;
   dataLenguajes$;
   usuarioProyecto;
   proyectoSelect;
+  showUsuario: boolean = false;
+  showProyectos: boolean = false;
   showUsuarios: boolean = false;
   showLenguajes: boolean = false;
   buttonClasi: boolean = true;
-  show: boolean = false;
   starList: boolean[] = [true, true, true, true, true];
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -50,10 +51,10 @@ export class UsuarioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.token = localStorage.getItem("token");
     this.sub = this.route.params.subscribe(params => {
       this.id = params["id"];
     });
-    //set opciones del dataTable en español
     this.dtOptions = {
       order: [[0, "desc"]],
       pagingType: "full_numbers",
@@ -72,45 +73,24 @@ export class UsuarioComponent implements OnInit {
     };
 
     if (this.id) {
-      //edit form
-      this._httpService.buscarId("usuarios", this.id).subscribe(
-        resp => {
-          console.log(resp);
-          this.id = resp._id;
-          this.usuario = resp;
-          this.data$ = resp.data;
-          this.show = true;
-          if (this.usuario.tipo == "gitlab") {
+      this._httpService.buscarId("usuarios", this.id).subscribe(resp => {
+        this.usuario = resp;
+        this.showUsuario = true;
+        this._httpService
+          .obtener("repositorios/" + this.id + "/usuarios")
+          .subscribe(resp => {
+            console.log(resp);
+            this.repositorios = resp;
+            this.showProyectos = true;
             this.calculaCommits(this.usuario);
-            this.listaProyectos(this.usuario);
-            this.getCommitUsuario("gitlab", this.id);
-          } else {
-            if (this.usuario.tipo == "github") {
-              this.calculaCommits(this.usuario);
-              this.listaProyectos(this.usuario);
-              this.getLenguajes(this.usuario);
-              this.getCommitUsuario("github", this.id);
-            } else {
-              if (this.usuario.tipo == "bitbucket") {
-                for (let value of this.usuario.datos) {
-                  this.commitsTotal += value.commits;
-                }
-                this.listaProyectos(this.usuario);
-                // this.getLenguajes(this.usuario);
-              }
-            }
-          }
-          console.log(this.usuario);
-        },
-        error => {
-          console.log(error);
-        }
-      );
+            this.getCommitUsuario(this.usuario.tipo, this.id);
+          });
+      });
     }
   }
 
+  //grafica de commits por usuario
   getCommitUsuario(url, id) {
-    //enviar usuario y token
     let token = localStorage.getItem("token");
     this._httpService
       .post("usuarios/commits/" + id + "/" + url, { token: token })
@@ -133,43 +113,22 @@ export class UsuarioComponent implements OnInit {
         };
       });
   }
-  cargarLenguajes(lenguaje) {
-    console.log(lenguaje);
-    this.pieChartLabels = [];
-    this.pieChartData = [];
-    let arrarResp = [];
-    let leng = JSON.stringify(lenguaje);
-    let array = leng.split(",");
-    let lengProyectos = [];
-    for (let val of array) {
-      let cadena = val.replace(/[{""}]/g, "").split(":");
-      lengProyectos.push({ lenguaje: cadena[0], codigo: cadena[1] });
+  //Obtiene commits totales
+  calculaCommits(repo) {
+    for (let value of repo.datos) {
+      this.commitsTotal += value.commits.length;
     }
-    if (Object.keys(lengProyectos).length !== 0) {
-      console.log(lengProyectos);
-      arrarResp = lengProyectos;
-      for (let value of arrarResp) {
-        if (value.lenguaje != "" && value.codigo != undefined) {
-          this.pieChartLabels.push(value.lenguaje);
-          this.pieChartData.push(parseInt(value.codigo));
-        } else {
-          this.pieChartLabels.push("0");
-          this.pieChartData.push(0);
-        }
-      }
-    }
-    console.log(this.pieChartLabels, this.pieChartData);
   }
-  getUsuarios(proyecto, tipo) {
+  //Proyecto seleccionado
+  detalleProyecto(proyecto, tipo) {
     this.showLenguajes = false;
-    let token = localStorage.getItem("token");
-    console.log(proyecto, token);
-    this.dataLenguajes$ = proyecto.lenguajes;
-
+    this.proyectoSelect = proyecto;
+    this.getPrimerCommit(proyecto);
+    this.getUltimoCommit(proyecto);
+    // this.dataLenguajes$ = proyecto.lenguajes;
+    this.cargarLenguajes(proyecto.lenguajes, this.usuario.tipo);
+    this.cargarUsuarios(proyecto, this.usuario.tipo);
     if (tipo == "gitlab") {
-      this.proyectoSelect = proyecto;
-      this.getPrimerCommit(proyecto);
-      this.getUltimoCommit(proyecto);
       this.usuarioProyecto = proyecto.members;
       this.showUsuarios = true;
       // this._httpService
@@ -181,59 +140,12 @@ export class UsuarioComponent implements OnInit {
       //   });
     } else {
       if (tipo == "github") {
-        this.cargarLenguajes(proyecto.lenguajes);
-        setTimeout(() => {
-          this.showLenguajes = true;
-        }, 1000);
-        this.proyectoSelect = proyecto;
-        this.getPrimerCommit(proyecto);
-        this.getUltimoCommit(proyecto);
-        // obtenemos usuarios de los commits
-        let datos = [];
-        for (let commits of proyecto.commits) {
-          if (commits.committer)
-            datos.push({
-              name: commits.commit.author.name,
-              avatar_url: commits.committer.avatar_url,
-              web_url: commits.committer.url
-            });
-          else
-            datos.push({
-              name: commits.commit.author.name,
-              avatar_url: "",
-              web_url: ""
-            });
-        }
-        var hash = {};
-        datos = datos.filter(function(current) {
-          var exists = !hash[current.name] || false;
-          hash[current.name] = true;
-          return exists;
-        });
-        this.usuarioProyecto = datos;
-        this.showUsuarios = true;
-        console.log(this.usuarioProyecto);
+        // this.proyectoSelect = proyecto;
+        //* obtenemos usuarios de los commits
       }
     }
   }
-  getLenguajes(usuario) {
-    console.log(usuario);
-    let arrarResp = [];
-    for (let value of usuario.datos) {
-      let leng = JSON.stringify(value.lenguajes);
-      let array = leng.split(",");
-      let lengProyectos = [];
-      for (let val of array) {
-        let cadena = val.replace(/[{""}]/g, "").split(":");
-        lengProyectos.push({
-          lenguaje: cadena[0],
-          codigo: cadena[1]
-        });
-      }
-      arrarResp.push(lengProyectos);
-    }
-    console.log(arrarResp);
-  }
+  //Calcula el primer commit del proyecto
   getPrimerCommit(proyecto) {
     if (proyecto.commits.length >= 1) {
       let tamano = proyecto.commits.length;
@@ -244,6 +156,7 @@ export class UsuarioComponent implements OnInit {
       this.primerCommit = "no existe";
     }
   }
+  //Calcula el ultimo commit del proyecto
   getUltimoCommit(proyecto) {
     if (proyecto.commits.length >= 1) {
       this.UltimoCommit =
@@ -253,17 +166,107 @@ export class UsuarioComponent implements OnInit {
       this.UltimoCommit = "no existe";
     }
   }
-
-  calculaCommits(usuario) {
-    for (let value of usuario.datos) {
-      this.commitsTotal += value.commits.length;
+  //Obtiene los lenguajes del proyecto
+  cargarLenguajes(lenguajeUrl, tipo) {
+    if (tipo === "github") {
+      this._httpService
+        .post("repositorios/lenguajes", {
+          url: lenguajeUrl,
+          tipo: "github",
+          token: this.token
+        })
+        .subscribe(lenguaje => {
+          this.pieChartLabels = [];
+          this.pieChartData = [];
+          let arrarResp = [];
+          let leng = JSON.stringify(lenguaje);
+          let array = leng.split(",");
+          let lengProyectos = [];
+          for (let val of array) {
+            let cadena = val.replace(/[{""}]/g, "").split(":");
+            lengProyectos.push({ lenguaje: cadena[0], codigo: cadena[1] });
+          }
+          if (Object.keys(lengProyectos).length !== 0) {
+            arrarResp = lengProyectos;
+            for (let value of arrarResp) {
+              if (value.lenguaje != "" && value.codigo != undefined) {
+                this.pieChartLabels.push(value.lenguaje);
+                this.pieChartData.push(parseInt(value.codigo));
+              } else {
+                this.pieChartLabels.push("0");
+                this.pieChartData.push(0);
+              }
+            }
+          }
+          // console.log(this.pieChartLabels, this.pieChartData);
+          this.showLenguajes = true;
+        });
     }
   }
 
-  listaProyectos(usuario) {
-    for (let value of usuario.datos) {
-      // this.commitsTotal+=value.commits;
+  cargarUsuarios(proyecto, tipo) {
+    if (tipo === "github") {
+      let datos = [];
+      for (let commits of proyecto.commits) {
+        if (commits.committer)
+          datos.push({
+            name: commits.commit.author.name,
+            avatar_url: commits.committer.avatar_url,
+            web_url: commits.committer.url
+          });
+        else
+          datos.push({
+            name: commits.commit.author.name,
+            avatar_url: "",
+            web_url: ""
+          });
+      }
+      var hash = {};
+      datos = datos.filter(function(current) {
+        var exists = !hash[current.name] || false;
+        hash[current.name] = true;
+        return exists;
+      });
+      this.usuarioProyecto = datos;
+      //*
+      this.showUsuarios = true;
     }
+  }
+
+  getLenguajes(usuario) {
+    console.log(usuario);
+    let lenguajes = [];
+    for (const repo of usuario.datos) {
+      if (usuario.tipo == "github") {
+        let cadena = JSON.stringify(repo.lenguajes).split('"');
+        for (let index = 0; index < cadena.length; index++) {
+          if (index % 2 != 0) {
+            if (lenguajes.indexOf(cadena[index]) == -1) {
+              lenguajes.push(cadena[index]);
+            }
+          }
+        }
+      } else {
+        lenguajes.push(repo.lenguajes);
+      }
+    }
+
+    // let arrarResp = [];
+    // for (let value of usuario.datos) {
+    //   let leng = JSON.stringify(value.lenguajes);
+    //   let array = leng.split(",");
+    //   let lengProyectos = [];
+    //   for (let val of array) {
+    //     let cadena = val.replace(/[{""}]/g, "").split(":");
+    //     lengProyectos.push({
+    //       lenguaje: cadena[0],
+    //       codigo: cadena[1]
+    //     });
+    //   }
+    //   arrarResp.push(lengProyectos);
+    // }
+    // console.log(lenguajes);
+    this.lenguajes = lenguajes;
   }
 
   editarUsuario(usuario: Usuario) {
@@ -286,6 +289,7 @@ export class UsuarioComponent implements OnInit {
     this.clasificacion = data + 1;
     console.log(data + 1);
   }
+
   guardarClasificacion() {
     this.buttonClasi = true;
   }

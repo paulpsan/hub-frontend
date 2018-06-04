@@ -17,7 +17,8 @@ export class CrearComponent implements OnInit {
   proyecto: Proyecto;
   userForm: FormGroup;
   identity;
-  usuario: Usuario;
+  usuario;
+  repositorios;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -28,11 +29,11 @@ export class CrearComponent implements OnInit {
     this.identity = JSON.parse(localStorage.getItem("identity"));
     console.log(this.identity);
     this._httpService
-      .buscarId("usuarios", this.identity._id)
+      .obtener("repositorios/" + this.identity._id + "/usuarios")
       .subscribe(response => {
         console.log(response);
-        this.usuario = response;
-        if (this.usuario.tipo == "local") {
+        this.repositorios = response;
+        if (this.identity.tipo == "local") {
           this.userForm = new FormGroup({
             nombre: new FormControl("", Validators.required),
             urlRepositorio: new FormControl("", Validators.required),
@@ -49,10 +50,10 @@ export class CrearComponent implements OnInit {
     //cambiar el 6 por el id
     if (this.identity.tipo == "gitlab") {
       this._httpService
-        .buscarId("usuarios", this.identity._id)
+        .obtener("repositorios/" + this.identity._id + "/usuarios")
         .subscribe(response => {
           console.log(response);
-          this.usuario = response;
+          this.repositorios = response;
           this.userForm = new FormGroup({
             nombre: new FormControl("", Validators.required),
             descripcion: new FormControl("", Validators.required)
@@ -61,10 +62,10 @@ export class CrearComponent implements OnInit {
     } else {
       if (this.identity.tipo == "github" || this.identity.tipo == "bitbucket") {
         this._httpService
-          .buscarId("usuarios", this.identity._id)
+          .obtener("repositorios/" + this.identity._id + "/usuarios")
           .subscribe(response => {
             console.log(response);
-            this.usuario = response;
+            this.repositorios = response;
             this.userForm = new FormGroup({
               nombre: new FormControl("", Validators.required),
               descripcion: new FormControl("", Validators.required)
@@ -77,76 +78,100 @@ export class CrearComponent implements OnInit {
     if (this.userForm.valid) {
       let datos = this.userForm.controls["nombre"].value;
       let descripcion = this.userForm.controls["descripcion"].value;
-      console.log(datos);
       let proyecto: Proyecto;
-      switch (this.usuario.tipo) {
-        case "gitlab":
-          proyecto = new Proyecto(
-            null,
-            datos.repo.name,
-            datos.repo.description,
-            datos.repo.http_url_to_repo,
-            "avatar",
-            ["categorias"],
-            ["licencias"],
-            "clasificacion",
-            this.usuario._id,
-            this.usuario.tipo,
-            datos
-          );
-          break;
-        case "github":
-          proyecto = new Proyecto(
-            null,
-            datos.repo.name,
-            datos.repo.description || descripcion,
-            datos.repo.url,
-            "avatar",
-            ["categorias"],
-            ["licencias"],
-            "clasificacion",
-            this.usuario._id,
-            this.usuario.tipo,
-            datos
-          );
-          break;
-        case "bitbucket":
-          proyecto = new Proyecto(
-            null,
-            datos.repo.name,
-            datos.repo.description,
-            datos.repo.links.html.href,
-            datos.repo.links.html.avatar,
-            ["categorias"],
-            ["licencias"],
-            "clasificacion",
-            this.usuario._id,
-            this.usuario.tipo,
-            datos
-          );
-          break;
-        default:
-          let urlRepositorio = this.userForm.controls["urlRepositorio"].value;
-          proyecto = new Proyecto(
-            null,
-            datos,
-            descripcion,
-            urlRepositorio,
-            "",
-            ["categorias"],
-            ["licencias"],
-            "clasificacion",
-            this.usuario._id,
-            this.usuario.tipo,
-            []
-          );
-          break;
-      }
+      this._httpService
+        .buscarId("repositorios", datos._id)
+        .subscribe(repositorio => {
+          console.log(repositorio);
 
-      this._httpService.adicionar("proyectos", proyecto).subscribe(response => {
-        this.router.navigate(["/proyectos"]);
-      });
-      this.userForm.reset();
+          switch (this.identity.tipo) {
+            case "gitlab":
+              proyecto = new Proyecto(
+                null,
+                datos.nombre,
+                datos.descripcion,
+                datos.html_url,
+                datos.avatar,
+                ["categorias"],
+                ["licencias"],
+                ["clasificacion"],
+                ["usuarios"],
+                "commits",
+                new Date("2018-05-05"),
+                new Date("2018-05-05"),
+                this.identity.tipo,
+                datos,
+                repositorio._id
+              );
+              break;
+            case "github":
+              proyecto = new Proyecto(
+                null,
+                datos.nombre,
+                datos.descripcion,
+                datos.html_url,
+                datos.avatar,
+                ["categorias"],
+                ["licencias"],
+                ["clasificacion"],
+                ["usuarios"],
+                "commits",
+                new Date("2018-05-05"),
+                new Date("2018-05-05"),
+                this.identity.tipo,
+                datos,
+                repositorio._id
+              );
+              break;
+            case "bitbucket":
+              proyecto = new Proyecto(
+                null,
+                datos.nombre,
+                datos.descripcion,
+                datos.html_url,
+                datos.avatar,
+                ["categorias"],
+                ["licencias"],
+                ["clasificacion"],
+                ["usuarios"],
+                "commits",
+                new Date("2018-05-05"),
+                new Date("2018-05-05"),
+                this.identity.tipo,
+                datos,
+                repositorio._id
+              );
+              break;
+            default:
+              let urlRepositorio = this.userForm.controls["urlRepositorio"]
+                .value;
+              proyecto = new Proyecto(
+                null,
+                datos,
+                descripcion,
+                urlRepositorio,
+                "avatar",
+                ["categorias"],
+                ["licencias"],
+                ["clasificacion"],
+                ["usuarios"],
+                "commits",
+                new Date("2018-05-05"),
+                new Date("2018-05-05"),
+                this.identity.tipo,
+                [],
+                repositorio._id
+              );
+              break;
+          }
+          console.log(proyecto);
+          this._httpService
+            .adicionar("proyectos", proyecto)
+            .subscribe(response => {
+              this.router.navigate(["/proyectos"]);
+            });
+          this.userForm.reset();
+        });
     }
   }
 }

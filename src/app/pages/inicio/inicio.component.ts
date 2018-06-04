@@ -43,16 +43,21 @@ export class InicioComponent implements OnInit {
               } else {
                 //pedir datos de commits y lenguajes
                 let snackBarRef = this.snackBar.open(
-                  "Se estan guardando los datos referentes a su cuenta!!",
-                  "",
+                  "Bienvenido se estan guardando los datos referentes a su cuenta!!",
+                  "Cancelar",
                   {
-                    panelClass: "background-red"
+                    panelClass: "background-alert"
                   }
                 );
                 this._httpService
                   .post("usuarios/datosgithub", resp)
                   .subscribe(resp => {
                     snackBarRef.dismiss();
+                    this.snackBar.open(
+                      "Sus datos se guardaron exitosamente!",
+                      "",
+                      { panelClass: "background-success", duration: 1000 }
+                    );
                   });
                 this.router.navigate(["/proyectos"]);
               }
@@ -72,13 +77,18 @@ export class InicioComponent implements OnInit {
                     "Se estan guardando los datos referentes a su cuenta!!",
                     "",
                     {
-                      panelClass: "background-red"
+                      panelClass: "background-alert"
                     }
                   );
                   this._httpService
                     .post("usuarios/datosgitlab", resp)
                     .subscribe(resp => {
                       snackBarRef.dismiss();
+                      this.snackBar.open(
+                        "Sus datos se guardaron exitosamente!",
+                        "",
+                        { panelClass: "background-success", duration: 1000 }
+                      );
                     });
                   this.router.navigate(["/proyectos"]);
                 }
@@ -96,13 +106,18 @@ export class InicioComponent implements OnInit {
                       "Se estan guardando los datos referentes a su cuenta!!",
                       "",
                       {
-                        panelClass: "background-red"
+                        panelClass: "background-alert"
                       }
                     );
                     this._httpService
                       .post("usuarios/datosbitbucket", resp)
                       .subscribe(resp => {
                         snackBarRef.dismiss();
+                        this.snackBar.open(
+                          "Sus datos se guardaron exitosamente!",
+                          "",
+                          { panelClass: "background-success", duration: 1000 }
+                        );
                       });
                     this.router.navigate(["/proyectos"]);
                   }

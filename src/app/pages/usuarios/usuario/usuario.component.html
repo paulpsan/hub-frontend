@@ -1,4 +1,4 @@
-<div *ngIf='show'>
+<div *ngIf='showUsuario'>
   <div class="container">
     <div class="card bg-light contenedor_usuarios mb-3">
       <div class="card-header">
@@ -37,10 +37,13 @@
             </p>
           </div>
           <div class="col-md-4">
-            <p id="commit">Commits: {{commitsTotal}}</p>
+            <p id="commit">Commits: {{commitsTotal}} Total</p>
             <div *ngIf="usuario.tipo!='gitlab'">
               <p>Lenguajes de programacion</p>
+              <span *ngFor="let item of lenguajes">
+              </span>
             </div>
+
           </div>
           <div class="col-md-2">
             <div>
@@ -64,7 +67,7 @@
     <div class="mb-3">
       <div class="card-deck">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body" *ngIf="showProyectos">
             <h4 id="titulo_proyecto" class="card-title">Proyectos</h4>
             <!-- <table class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'"> -->
             <table datatable [dtOptions]="dtOptions" class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'">
@@ -76,15 +79,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let proy of usuario.datos" (click)="getUsuarios(proy,usuario.tipo)" style="cursor: pointer">
+                <tr *ngFor="let proy of repositorios.datos" (click)="detalleProyecto(proy,usuario.tipo)" style="cursor: pointer">
                   <td scope="row">
-                    <img src="{{proy.repo.avatar_url}}" alt="" height="30" width="30"> </td>
+                    <img src="{{proy.avatar}}" alt="" height="30" width="30"> </td>
                   <td>
-                    <a target="#">{{proy.repo.name}} </a>
+                    <a target="#">{{proy.nombre}} </a>
                   </td>
                   <td>
-                    <a *ngIf="usuario.tipo=='gitlab'" href="{{proy.repo.http_url_to_repo}}" target="#">{{proy.repo.http_url_to_repo}} </a>
-                    <a *ngIf="usuario.tipo=='github'" href="{{proy.repo.html_url}}" target="#">{{proy.repo.html_url}} </a>
+                    <a *ngIf="usuario.tipo=='gitlab'" href="{{proy.html_url}}" target="#">{{proy.html_url}} </a>
+                    <a *ngIf="usuario.tipo=='github'" href="{{proy.html_url}}" target="#">{{proy.html_url}} </a>
                   </td>
                 </tr>
               </tbody>
@@ -93,7 +96,7 @@
         </div>
         <div class="card" *ngIf="showUsuarios">
           <div class="card-body">
-            <h4>{{proyectoSelect.repo.name}}</h4>
+            <h4>{{proyectoSelect.nombre}}</h4>
             <table class="table table-hover table-inverse table-responsive">
               <thead class="thead-inverse">
                 <tr>

@@ -85,7 +85,7 @@ export class ListarComponent implements OnInit {
         this.pagina = this.respuesta.paginacion.paginaActual - 1;
         this.limite = this.respuesta.paginacion.limite;
         this.usuarios = this.respuesta.datos;
-        // this.obtenerCommits();
+        this.obtenerCommits();
         this.obtenerLenguajes();
       },
       err => {
