@@ -15,6 +15,7 @@ export class InicioComponent implements OnInit {
   private urlCallback;
   private code: string;
   private params;
+  private usuario: Object;
   private cargando: Boolean = true;
 
   constructor(
@@ -42,23 +43,33 @@ export class InicioComponent implements OnInit {
                 this.router.navigate(["/login"]);
               } else {
                 //pedir datos de commits y lenguajes
-                let snackBarRef = this.snackBar.open(
-                  "Bienvenido se estan guardando los datos referentes a su cuenta!!",
-                  "Cancelar",
-                  {
-                    panelClass: "background-alert"
-                  }
-                );
-                this._httpService
-                  .post("usuarios/datosgithub", resp)
-                  .subscribe(resp => {
-                    snackBarRef.dismiss();
-                    this.snackBar.open(
-                      "Sus datos se guardaron exitosamente!",
-                      "",
-                      { panelClass: "background-success", duration: 1000 }
-                    );
+                this.usuario = {
+                  _id: resp.usuario._id,
+                  login: resp.usuario.login,
+                  email: resp.usuario.email
+                };
+                if (
+                  resp.usuario.fecha_creacion ===
+                  resp.usuario.fecha_modificacion
+                ) {
+                  this.snackBarCargarDatos("usuarios/datosgithub", resp);
+                } else {
+                  let snackBarRef = this.snackBar.open(
+                    "Bienvenido sus datos se guardaron en fecha " +
+                      new Date(resp.usuario.fecha_modificacion) +
+                      " Desea Actualizar los Datos?",
+                    "Aceptar",
+                    {
+                      panelClass: "background-alert",
+                      duration: 10000
+                    }
+                  );
+                  snackBarRef.afterDismissed().subscribe(info => {
+                    if (info.dismissedByAction === true) {
+                      this.snackBarCargarDatos("usuarios/datosgithub", resp);
+                    }
                   });
+                }
                 this.router.navigate(["/proyectos"]);
               }
             });
@@ -72,24 +83,33 @@ export class InicioComponent implements OnInit {
                 if (resp.error) {
                   this.router.navigate(["/login"]);
                 } else {
-                  console.log(resp);
-                  let snackBarRef = this.snackBar.open(
-                    "Se estan guardando los datos referentes a su cuenta!!",
-                    "",
-                    {
-                      panelClass: "background-alert"
-                    }
-                  );
-                  this._httpService
-                    .post("usuarios/datosgitlab", resp)
-                    .subscribe(resp => {
-                      snackBarRef.dismiss();
-                      this.snackBar.open(
-                        "Sus datos se guardaron exitosamente!",
-                        "",
-                        { panelClass: "background-success", duration: 1000 }
-                      );
+                  this.usuario = {
+                    _id: resp.usuario._id,
+                    login: resp.usuario.login,
+                    email: resp.usuario.email
+                  };
+                  if (
+                    resp.usuario.fecha_creacion ===
+                    resp.usuario.fecha_modificacion
+                  ) {
+                    this.snackBarCargarDatos("usuarios/datosgitlab", resp);
+                  } else {
+                    let snackBarRef = this.snackBar.open(
+                      "Bienvenido sus datos se guardaron en fecha " +
+                        new Date(resp.usuario.fecha_modificacion) +
+                        " Desea Actualizar los Datos?",
+                      "Aceptar",
+                      {
+                        panelClass: "background-alert",
+                        duration: 10000
+                      }
+                    );
+                    snackBarRef.afterDismissed().subscribe(info => {
+                      if (info.dismissedByAction === true) {
+                        this.snackBarCargarDatos("usuarios/datosgitlabb", resp);
+                      }
                     });
+                  }
                   this.router.navigate(["/proyectos"]);
                 }
               });
@@ -102,23 +122,36 @@ export class InicioComponent implements OnInit {
                   if (resp.error) {
                     this.router.navigate(["/login"]);
                   } else {
-                    let snackBarRef = this.snackBar.open(
-                      "Se estan guardando los datos referentes a su cuenta!!",
-                      "",
-                      {
-                        panelClass: "background-alert"
-                      }
-                    );
-                    this._httpService
-                      .post("usuarios/datosbitbucket", resp)
-                      .subscribe(resp => {
-                        snackBarRef.dismiss();
-                        this.snackBar.open(
-                          "Sus datos se guardaron exitosamente!",
-                          "",
-                          { panelClass: "background-success", duration: 1000 }
-                        );
+                    this.usuario = {
+                      _id: resp.usuario._id,
+                      login: resp.usuario.login,
+                      email: resp.usuario.email
+                    };
+                    if (
+                      resp.usuario.fecha_creacion ===
+                      resp.usuario.fecha_modificacion
+                    ) {
+                      this.snackBarCargarDatos("usuarios/datosbitbucket", resp);
+                    } else {
+                      let snackBarRef = this.snackBar.open(
+                        "Bienvenido sus datos se guardaron en fecha " +
+                          new Date(resp.usuario.fecha_modificacion) +
+                          " Desea Actualizar los Datos?",
+                        "Aceptar",
+                        {
+                          panelClass: "background-alert",
+                          duration: 10000
+                        }
+                      );
+                      snackBarRef.afterDismissed().subscribe(info => {
+                        if (info.dismissedByAction === true) {
+                          this.snackBarCargarDatos(
+                            "usuarios/datosbitbucket",
+                            resp
+                          );
+                        }
                       });
+                    }
                     this.router.navigate(["/proyectos"]);
                   }
                 },
@@ -135,5 +168,30 @@ export class InicioComponent implements OnInit {
     if (localStorage.getItem("token") != null) {
       this.router.navigate(["/proyectos"]);
     }
+  }
+  snackBarCargarDatos(url, response) {
+    let snackBarRef = this.snackBar.open(
+      "Bienvenido se estan guardando los datos referentes a su cuenta por favor espere un momento!!",
+      "",
+      {
+        panelClass: "background-alert"
+      }
+    );
+    this._httpService
+      .post(url, {
+        usuario: this.usuario,
+        token: response.token
+      })
+      .subscribe(resp => {
+        snackBarRef.dismiss();
+        this.snackBarSuccess();
+      });
+  }
+
+  snackBarSuccess() {
+    this.snackBar.open("Sus datos se guardaron exitosamente!", "", {
+      panelClass: "background-success",
+      duration: 1000
+    });
   }
 }
