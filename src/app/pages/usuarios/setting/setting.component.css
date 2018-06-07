@@ -1,0 +1,17 @@
+.setting-container {
+  /* border: 1px solid rgba(0, 0, 0, 0.5); */
+}
+
+.setting-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.setting-sidenav {
+  padding: 20px;
+  background-color: rgb(219, 203, 203);
+  
+}

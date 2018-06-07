@@ -1,29 +1,29 @@
-import { HttpService } from "../../../services/http.service";
-import { slideInDownAnimation } from "../../../animations";
-import { Component, OnInit, HostBinding } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Usuario } from "../../../models/usuario";
-import { UsuariosService } from "../../../services/usuarios.service";
-import { UsuariosComponent } from "../usuarios.component";
+
+import { HttpService } from "../../../../services/http.service";
+import { slideInDownAnimation } from "../../../../animations";
+import { Usuario } from "../../../../models/usuario";
+import { UsuariosService } from "../../../../services/usuarios.service";
 
 @Component({
-  selector: "catalogo-editar-usuario",
-  templateUrl: "./editar.component.html",
-  styleUrls: ["./editar.component.css"]
-  // animations: [ slideInDownAnimation ]
+  selector: "hub-perfil",
+  templateUrl: "./perfil.component.html",
+  styleUrls: ["./perfil.component.css"]
 })
-export class EditarComponent implements OnInit {
-  // @HostBinding('@routeAnimation') routeAnimation = false;
-  // @HostBinding('style.display')   display = 'block';
-  // @HostBinding('style.position')  position = 'absolute';
-
+export class PerfilComponent implements OnInit {
   id: number;
   acciones: string;
   usuario: Usuario;
   private sub: any;
   userForm: FormGroup;
   show: boolean = true;
+
+  imagenSubir: File;
+  imagenTemp: string;
+
+  @Output() siguiente = new EventEmitter<any>();
 
   constructor(
     private route: ActivatedRoute,
@@ -42,8 +42,9 @@ export class EditarComponent implements OnInit {
         Validators.required,
         Validators.pattern("[^ @]*@[^ @]*")
       ]),
-      password: new FormControl("", Validators.required),
-      descripcion: new FormControl("", Validators.required)
+      descripcion: new FormControl("", Validators.required),
+      url: new FormControl("", Validators.required),
+      password: new FormControl("", Validators.required)
     });
 
     if (this.id) {
@@ -51,11 +52,14 @@ export class EditarComponent implements OnInit {
       this._httpService.buscarId("usuarios", this.id).subscribe(
         usuario => {
           this.id = usuario._id;
+          this.usuario=usuario;
           this.userForm.patchValue({
             nombre: usuario.nombre,
             email: usuario.email,
             password: usuario.password,
-            descripcion: usuario.descripcion
+            descripcion: usuario.descripcion,
+            avatar: usuario.avatar,
+            url: usuario.url
           });
         },
         error => {
@@ -76,22 +80,36 @@ export class EditarComponent implements OnInit {
           _id: this.id,
           nombre: this.userForm.controls["nombre"].value,
           email: this.userForm.controls["email"].value,
+          avatar: this.userForm.controls["avatar"].value,
           password: this.userForm.controls["password"].value,
           descripcion: this.userForm.controls["descripcion"].value
         };
         this._httpService.editar("usuarios", usuario).subscribe();
       }
-
-      this.userForm.reset();
-      this.router.navigate(["/usuarios/", this.id]);
     }
   }
 
-  irUsuario() {
-    this.router.navigate(["/usuarios/", this.id]);
+  next() {
+    this.siguiente.emit(this.id);
   }
 
-  // redirectUserPage() {
-  //   this.router.navigate(['/usuarios/', this.id]);
-  // }
+  seleccionImage(archivo: File) {
+    if (!archivo) {
+      this.imagenSubir = null;
+      return;
+    }
+    if (archivo.type.indexOf("image") < 0) {
+      this.imagenSubir = null;
+      return;
+    }
+    this.imagenSubir = archivo;
+
+    let reader = new FileReader();
+    let urlImagenTemp = reader.readAsDataURL(archivo);
+
+    reader.onloadend = () => (this.imagenTemp = reader.result);
+  }
+  cambiarImagen() {
+    console.log(this.imagenSubir, this.usuario._id);
+  }
 }

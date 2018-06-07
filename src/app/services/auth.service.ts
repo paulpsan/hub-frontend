@@ -19,8 +19,9 @@ export class AuthService {
     return this._http
       .post(this.url + nombre, objeto)
       .map((res: Response) => {
+        // console.log(res.json());
         localStorage.setItem("token", res["token"]);
-        localStorage.setItem("identity", res["usuario"]);
+        localStorage.setItem("identity", JSON.stringify(res["usuario"]));
         return res;
       })
       .catch((error: any) => Observable.throw(error || "Server error"));

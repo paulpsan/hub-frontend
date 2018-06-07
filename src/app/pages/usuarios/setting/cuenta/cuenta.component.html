@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row justify-content-md-center mt-2">
+    <mat-card class="col-md-6 m-1">
+      <mat-card-header>
+        <mat-card-title>Sus cuentas asociadas son </mat-card-title>
+        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content class="mt-4">
+        <div *ngIf="cuentas">
+          No tiene cuentas asociadas
+        </div>
+        <div *ngIf="!cuentas">
+          Sus cuentas son:
+          <div>
+            <button mat-button color="basic" disabled>
+                <i class="fa fa-github"></i>
+              Github
+            </button>
+          </div>
+        </div>
+
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <!-- <div class="col-md-5">
+          <button (click)="loginGH()" class="btn btn-block btn-social btn-github">
+            <i class="fa fa-github"></i>
+            <span class="nombre-repo">Entrar Con</span>
+            <strong class="nombre-repo">Github</strong>
+          </button>
+          <button (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki">
+            <i class="fa fa-gitlab"></i>
+            <span class="nombre-repo">Entrar Con</span>
+            <strong class="nombre-repo">Gitlab</strong>
+          </button>
+          <button (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket">
+            <i class="fa fa-bitbucket"></i>
+            <span class="nombre-repo">Entrar Con</span>
+            <strong class="nombre-repo">Bitbucket</strong>
+          </button>
+        </div> -->
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

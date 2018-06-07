@@ -46,6 +46,13 @@
                         <div class="form-group">
                             <mat-form-field class="col">
                                 <input matInput placeholder="Correo Electronico" formControlName="email">
+                                <mat-error *ngIf="usuarioForm.controls['email'].hasError('email') && !usuarioForm.controls['email'].hasError('required')">
+                                    Ingrese un email valido
+                                </mat-error>
+                                <mat-error *ngIf="usuarioForm.controls['email'].hasError('required')">
+                                    Email es
+                                    <strong>requerido</strong>
+                                </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="form-group">
@@ -63,11 +70,7 @@
                                 <input matInput type="password" placeholder="Verifique Contraseña" formControlName="confirmarPassword">
                             </mat-form-field>
                         </div>
-                        <div class="form-group">
-                            <mat-form-field class="col">
-                                <input matInput placeholder="Login" formControlName="login">
-                            </mat-form-field>
-                        </div>
+
                     </fieldset>
 
                     <!-- <recaptcha (resolved)="resolved($event)" siteKey="6Ld3oTsUAAAAAJvkrQ5uCc8JZ5nO3yVVkXB9fiTu"></recaptcha> -->

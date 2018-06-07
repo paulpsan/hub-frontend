@@ -6,6 +6,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { UsuarioComponent } from "./usuario/usuario.component";
 import { ListarComponent } from "./listar/listar.component";
 import { UsuarioBbComponent } from "./usuario/usuarioBb.component";
+import { SettingComponent } from "./setting/setting.component";
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
     children: [
       { path: "", component: ListarComponent },
       { path: "adicionar", component: CrearEditarComponent },
+      { path: "ajustes/:id", component: SettingComponent },
       { path: "editar/:id", component: EditarComponent },
       { path: ":id", component: UsuarioComponent },
       { path: "bitbucket/:id", component: UsuarioBbComponent }

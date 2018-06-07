@@ -23,6 +23,11 @@ import { CommitsComponent } from './charts/commits.component';
 import { LenguajesComponent } from "./charts/lenguajes.component";
 import { CodigoComponent } from './charts/codigo.component';
 import { DataTablesModule } from 'angular-datatables';
+import { SettingComponent } from './setting/setting.component';
+import { PerfilComponent } from './setting/perfil/perfil.component';
+import { RepositorioComponent } from './setting/repositorio/repositorio.component';
+import { CuentaComponent } from './setting/cuenta/cuenta.component';
+import { EliminarComponent } from './setting/eliminar/eliminar.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +41,12 @@ import { DataTablesModule } from 'angular-datatables';
     ListarComponent,
     CommitsComponent,
     LenguajesComponent,
-    CodigoComponent
+    CodigoComponent,
+    SettingComponent,
+    PerfilComponent,
+    RepositorioComponent,
+    CuentaComponent,
+    EliminarComponent
   ],
   imports: [
     CommonModule,

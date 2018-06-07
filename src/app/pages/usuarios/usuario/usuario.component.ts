@@ -22,7 +22,6 @@ export class UsuarioComponent implements OnInit {
   commitsTotal: number = 0;
   clasificacion: number = 0;
   id: number;
-  acciones: string;
   usuario;
   repositorios;
   token;
@@ -32,7 +31,6 @@ export class UsuarioComponent implements OnInit {
   primerCommit;
   UltimoCommit;
   data$;
-  dataLenguajes$;
   usuarioProyecto;
   proyectoSelect;
   showUsuario: boolean = false;
@@ -76,14 +74,17 @@ export class UsuarioComponent implements OnInit {
       this._httpService.buscarId("usuarios", this.id).subscribe(resp => {
         this.usuario = resp;
         this.showUsuario = true;
+
         this._httpService
           .obtener("repositorios/" + this.id + "/usuarios")
           .subscribe(resp => {
             console.log(resp);
-            this.repositorios = resp;
             this.showProyectos = true;
-            this.calculaCommits(this.usuario);
-            this.getCommitUsuario(this.usuario.tipo, this.id);
+            if (this.usuario.tipo != "local") {
+              this.repositorios = resp;
+              this.calculaCommits(this.usuario);
+              this.getCommitUsuario(this.usuario.tipo, this.id);
+            }
           });
       });
     }

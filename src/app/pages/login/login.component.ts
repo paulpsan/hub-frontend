@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = new FormGroup({
       email: new FormControl("", [
         Validators.required,
-        Validators.pattern("[^ @]*@[^ @]*")
+        Validators.email,
       ]),
       password: new FormControl("", Validators.required)
     });
@@ -78,10 +78,14 @@ export class LoginComponent implements OnInit {
       .subscribe(
         response => {
           console.log(response);
-          this.identity = response;
-          localStorage.setItem("identity", JSON.stringify(this.identity));
-          localStorage.setItem("token", JSON.stringify(this.identity));
-          this.router.navigate(["/inicio"]);
+          console.log(localStorage.getItem("identity"));
+          // this.identity = response;
+          // localStorage.setItem(
+          //   "identity",
+          //   JSON.stringify(this.identity.usuario)
+          // );
+          // localStorage.setItem("token", JSON.stringify(this.identity.token));
+          this.router.navigate(["/usuarios/ajustes/" + response.usuario._id]);
           // setTimeout(()=>{
           //   this.router.navigate(['/proyectos']);
           // },300);

@@ -33,12 +33,11 @@ export class RegistroComponent implements OnInit {
       nombre: new FormControl("", Validators.required),
       email: new FormControl("", [
         Validators.required,
-        Validators.pattern("[^ @]*@[^ @]*")
+        Validators.email,
       ]),
       confirmarEmail: new FormControl("", Validators.required),
       password: new FormControl("", Validators.required),
       confirmarPassword: new FormControl("", Validators.required),
-      login: new FormControl("", Validators.required)
     });
   }
   onSubmit() {
@@ -48,7 +47,7 @@ export class RegistroComponent implements OnInit {
       this.usuarioForm.controls["email"].value,
       this.usuarioForm.controls["password"].value,
       "admin",
-      this.usuarioForm.controls["login"].value,
+      "",
       "local",
       []
     );

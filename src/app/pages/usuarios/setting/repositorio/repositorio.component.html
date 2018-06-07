@@ -1,0 +1,196 @@
+<div class="container">
+  <div class="row justify-content-md-center mt-2">
+    <mat-card class="col-md-6 m-1">
+      <mat-card-header>
+        <mat-card-title>Repositorios de usuario</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content class="mt-4" *ngIf="showRepositorio">
+        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()">
+          <fieldset>
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input matInput placeholder="Nombre" formControlName="nombre">
+                <mat-error *ngIf="userForm.controls['nombre'].hasError('required')">
+                  Nombre es
+                  <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-4">
+                  <img *ngIf="!imagenTemp" [src]="usuario.avatar" style="height: 150px;">
+                  <img *ngIf="imagenTemp" [src]="imagenTemp" style="height: 150px;">
+                </div>
+                <div class="col-md-8">
+                  <div>
+                    <label for="">Selecione una imagen</label>
+                  </div>
+                  <button mat-button type="button" (click)="fileToUpload.click()" color="primary">
+                    <mat-icon mat-list-icon>add</mat-icon>
+                    Imagen
+                  </button>
+                  <input #fileToUpload (change)="seleccionImage($event.target.files[0])" type="file" style="display:none;">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input matInput placeholder="Descripcion" formControlName="descripcion">
+                <mat-hint>Describa su Perfil</mat-hint>
+                <mat-error *ngIf="userForm.controls['nombre'].hasError('required')">
+                  La Descripcion es
+                  <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input matInput placeholder="Url" formControlName="url">
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input matInput placeholder="Email" formControlName="email">
+                <mat-error *ngIf="userForm.controls['email'].hasError('email') && !userForm.controls['email'].hasError('required')">
+                  Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="userForm.controls['email'].hasError('required')">
+                  Email is
+                  <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input matInput type="password" placeholder="Contraseña" formControlName="password">
+              </mat-form-field>
+            </div>
+
+          </fieldset>
+
+        </form>
+      </mat-card-content>
+
+      <mat-card-content class="mt-4" *ngIf="!showRepositorio">
+        <div class="row">
+          <div class="col-md-7">
+            Usted no cuenta con Repositorios
+            <div>
+              <button mat-button (click)="adicionarRepo()" color="primary">
+                <mat-icon mat-list-icon>add</mat-icon>
+                adicionar
+              </button>
+            </div>
+            o ingrese con cuenta de:
+          </div>
+
+          <div class="col-md-5">
+            <button (click)="loginGH()" class="btn btn-block btn-social btn-github">
+              <i class="fa fa-github"></i>
+              <span class="nombre-repo">Entrar Con</span>
+              <strong class="nombre-repo">Github</strong>
+            </button>
+            <button (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki">
+              <i class="fa fa-gitlab"></i>
+              <span class="nombre-repo">Entrar Con</span>
+              <strong class="nombre-repo">Gitlab</strong>
+            </button>
+            <button (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket">
+              <i class="fa fa-bitbucket"></i>
+              <span class="nombre-repo">Entrar Con</span>
+              <strong class="nombre-repo">Bitbucket</strong>
+            </button>
+          </div>
+        </div>
+        <mat-divider class="mt-2">
+        </mat-divider>
+        <form novalidate [formGroup]="repoForm" (ngSubmit)="onSubmit()" class="mt-4" >
+          <fieldset>
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input matInput placeholder="Nombre" formControlName="nombreRepo">
+                <mat-error *ngIf="repoForm.controls['nombreRepo'].hasError('required')">
+                  Nombre es
+                  <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-4">
+                  <!-- <img *ngIf="!imagenTemp" [src]="usuario.avatar" style="height: 150px;"> -->
+                  <img *ngIf="imagenTemp" [src]="imagenTemp" style="height: 150px;">
+                </div>
+                <div class="col-md-8">
+                  <div>
+                    <label for="">Selecione una imagen</label>
+                  </div>
+                  <button mat-button type="button" (click)="fileToUpload.click()" color="primary">
+                    <mat-icon mat-list-icon>add</mat-icon>
+                    Imagen
+                  </button>
+                  <input #fileToUpload (change)="seleccionImage($event.target.files[0])" type="file" style="display:none;">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="col">
+                <textarea matInput placeholder="Descripcion" formControlName="descripcionRepo"></textarea>
+                <mat-hint>Descripcion del repositorio</mat-hint>
+                <mat-error *ngIf="repoForm.controls['descripcionRepo'].hasError('required')">
+                  La Descripcion es
+                  <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input matInput placeholder="Url" formControlName="urlRepo">
+              </mat-form-field>
+            </div>
+
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input matInput [matDatepicker]="picker1" placeholder="Fecha de primer commit" formControlName="datePri">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field class="col">
+                <input matInput [matDatepicker]="picker2" placeholder="Fecha de ultimo commit" formControlName="dateUlt">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </fieldset>
+
+        </form>
+
+        <div>
+
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="row justify-content-center">
+          <button mat-button [disabled]="!repoForm.valid" type="submit" color="primary">
+            <mat-icon mat-list-icon>done</mat-icon>
+            Guardar
+          </button>
+          <button mat-button (click)="next()" color="primary">
+            <mat-icon mat-list-icon>next</mat-icon>
+            Siguinete
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
