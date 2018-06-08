@@ -22,7 +22,7 @@ export class HubInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // debugger;
-    console.log(localStorage.getItem('token'));
+    // console.log(localStorage.getItem('token'));
     req = req.clone({
       setHeaders: {
         "Content-Type": "application/json",

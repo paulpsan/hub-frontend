@@ -39,7 +39,7 @@ export class InicioComponent implements OnInit {
           this._loginService
             .getTokenGithub(this.params.code)
             .subscribe(resp => {
-              if (resp.error) {
+              if (resp.error || !resp.usuario) {
                 this.router.navigate(["/login"]);
               } else {
                 //pedir datos de commits y lenguajes

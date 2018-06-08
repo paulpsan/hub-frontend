@@ -1,11 +1,12 @@
 import { Component, OnInit, EventEmitter, Output } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-
+import { GLOBAL } from "../../../../services/global";
 import { HttpService } from "../../../../services/http.service";
 import { slideInDownAnimation } from "../../../../animations";
 import { Usuario } from "../../../../models/usuario";
 import { UsuariosService } from "../../../../services/usuarios.service";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "hub-repositorio",
@@ -17,12 +18,17 @@ export class RepositorioComponent implements OnInit {
   acciones: string;
   usuario: Usuario;
   repositorio;
-  showRepositorio: boolean = false;
   private sub: any;
   userForm: FormGroup;
-  repoForm: FormGroup;
+  addForm: FormGroup;
   show: boolean = true;
+  showAdd: boolean = false;
+  showRepo: boolean = false;
   @Output() siguiente = new EventEmitter<any>();
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
+  imagenSubir: File;
+  imagenTemp: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +37,7 @@ export class RepositorioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.dtOptions=GLOBAL.dtOptions;
     this.sub = this.route.params.subscribe(params => {
       this.id = params["id"];
     });
@@ -41,19 +48,12 @@ export class RepositorioComponent implements OnInit {
         Validators.required,
         Validators.pattern("[^ @]*@[^ @]*")
       ]),
-      avatar: new FormControl("", Validators.required),
+      avatar: new FormControl(""),
       descripcion: new FormControl("", Validators.required),
       url: new FormControl("", Validators.required),
       password: new FormControl("", Validators.required)
     });
-    this.repoForm = new FormGroup({
-      nombreRepo: new FormControl("", Validators.required),
-      avatarRepo: new FormControl("", Validators.required),
-      descripcionRepo: new FormControl("", Validators.required),
-      urlRepo: new FormControl("", Validators.required),
-      datePri: new FormControl(""),
-      dateUlt: new FormControl("")
-    });
+
     if (this.id) {
       //edit form
       this._httpService
@@ -61,9 +61,8 @@ export class RepositorioComponent implements OnInit {
         .subscribe(
           repositorios => {
             this.repositorio = repositorios;
-            this.showRepositorio =
-              this.repositorio.datos.length !== 0 ? true : false;
-            console.log(repositorios, this.showRepositorio);
+            this.showRepo = this.repositorio.datos.length !== 0 ? true : false;
+            console.log(repositorios, this.showRepo);
             // this.id = usuario._id;
             // this.userForm.patchValue({
             //   nombre: usuario.nombre,
@@ -81,12 +80,29 @@ export class RepositorioComponent implements OnInit {
     }
   }
   adicionarRepo() {
+    this.showAdd = true;
+
+    this.addForm = new FormGroup({
+      nombreRepo: new FormControl("", Validators.required),
+      avatarRepo: new FormControl(""),
+      descripcionRepo: new FormControl("", Validators.required),
+      urlRepo: new FormControl("", Validators.required),
+      datePri: new FormControl(""),
+      dateUlt: new FormControl("")
+    });
     console.log("object");
   }
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-
+  guardarRepo() {
+    let repositorio = {
+      nombre: this.addForm.controls["nombre"].value,
+      urlRepo: this.addForm.controls["urlRepo"].value,
+      descripcion: this.addForm.controls["descripcion"].value
+    };
+    this.showAdd = false;
+  }
   onSubmit() {
     if (this.userForm.valid) {
       if (this.id) {
@@ -105,5 +121,24 @@ export class RepositorioComponent implements OnInit {
 
   next() {
     this.siguiente.emit(this.id);
+  }
+  seleccionImage(archivo: File) {
+    if (!archivo) {
+      this.imagenSubir = null;
+      return;
+    }
+    if (archivo.type.indexOf("image") < 0) {
+      this.imagenSubir = null;
+      return;
+    }
+    this.imagenSubir = archivo;
+
+    let reader = new FileReader();
+    let urlImagenTemp = reader.readAsDataURL(archivo);
+
+    reader.onloadend = () => (this.imagenTemp = reader.result);
+  }
+  cambiarImagen() {
+    console.log(this.imagenSubir, this.usuario._id);
   }
 }

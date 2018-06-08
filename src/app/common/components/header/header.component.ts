@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     if (localStorage.getItem("identity")) {
       this.identity = JSON.parse(localStorage.getItem("identity"));
-      console.log(this.identity);
+      // console.log(this.identity);
     }
 
   }

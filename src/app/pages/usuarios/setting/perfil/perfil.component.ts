@@ -19,6 +19,7 @@ export class PerfilComponent implements OnInit {
   private sub: any;
   userForm: FormGroup;
   show: boolean = true;
+  showPass: boolean = false;
 
   imagenSubir: File;
   imagenTemp: string;
@@ -43,7 +44,7 @@ export class PerfilComponent implements OnInit {
         Validators.pattern("[^ @]*@[^ @]*")
       ]),
       descripcion: new FormControl("", Validators.required),
-      url: new FormControl("", Validators.required),
+      url: new FormControl(""),
       password: new FormControl("", Validators.required)
     });
 
@@ -52,7 +53,7 @@ export class PerfilComponent implements OnInit {
       this._httpService.buscarId("usuarios", this.id).subscribe(
         usuario => {
           this.id = usuario._id;
-          this.usuario=usuario;
+          this.usuario = usuario;
           this.userForm.patchValue({
             nombre: usuario.nombre,
             email: usuario.email,
