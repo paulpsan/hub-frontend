@@ -1,29 +1,44 @@
 <div class="container">
   <div class="row justify-content-md-center mt-2">
-    <mat-card class="col-md-6 m-1">
+    <mat-card class="col-md-8 m-1">
       <mat-card-header>
         <mat-card-title>Repositorios de usuario</mat-card-title>
       </mat-card-header>
       <!-- Lista los repositorios -->
       <mat-card-content class="mt-4" *ngIf="showRepo">
 
-        <table datatable [dtOptions]="dtOptions" class="table table-hover table-inverse table-responsive" *ngIf="repositorio">
+        <table datatable [dtOptions]="dtOptions" class="table table-inverse table-responsive" *ngIf="repositorio">
           <thead class="thead-inverse">
             <tr>
-              <th></th>
+              <th>Icono</th>
               <th>Proyectos</th>
-              <th>Url</th>
+              <th>Source</th>
+              <th>Visibilidad</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let proy of repositorio.datos" (click)="detalleProyecto(proy,usuario.tipo)" style="cursor: pointer">
+            <tr *ngFor="let proy of repositorio.datos" (click)="proy.estado=!proy.estado" style="cursor: pointer" [ngClass]="{red: proy.estado==false}">
               <td scope="row">
-                <img src="{{proy.avatar}}" alt="" height="30" width="30"> </td>
+                <img src="{{proy.avatar}}" alt="" height="30" width="30">
+              </td>
               <td>
                 <a target="#">{{proy.nombre}} </a>
               </td>
               <td>
-                <a href="{{proy.html_url}}" target="#">{{proy.html_url}} </a>
+                <img *ngIf="proy.tipo=='github'" src="assets/images/github.png" alt="" height="30" width="30">
+                <img *ngIf="proy.tipo=='gitlab'" src="assets/images/gitlab.png" alt="" height="30" width="30">
+                <img *ngIf="proy.tipo=='bitbucket'" src="assets/images/bitbucket.png" alt="" height="30" width="30">
+              </td>
+
+              <td *ngIf="proy.estado">
+                <button mat-button (click)="proy.estado=!proy.estado" color="primary">
+                  <mat-icon mat-list-icon>visibility</mat-icon>
+                </button>
+              </td>
+              <td *ngIf="!proy.estado">
+                <button mat-button (click)="proy.estado=!proy.estado" color="primary">
+                  <mat-icon mat-list-icon>visibility_off</mat-icon>
+                </button>
               </td>
             </tr>
           </tbody>
