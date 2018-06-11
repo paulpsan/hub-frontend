@@ -11,7 +11,7 @@
           <fieldset>
             <div class="form-group">
               <mat-form-field class="col">
-                <input matInput placeholder="Nombre" formControlName="nombre">
+                <input matInput placeholder="Nombre (*)" formControlName="nombre">
                 <mat-error *ngIf="userForm.controls['nombre'].hasError('required')">
                   Nombre es
                   <strong>requerido</strong>
@@ -22,10 +22,10 @@
               <div class="container">
                 <div class="row">
                   <div class="col-md-4">
-                    <img *ngIf="!imagenTemp" [src]="usuario.avatar" style="height: 150px;">
-                    <img *ngIf="imagenTemp" [src]="imagenTemp" style="height: 150px;">
+                    <img class="col-4 col-sm-4 col-md-12" *ngIf="!imagenTemp" [src]="usuario.avatar" style="height: 75px;">
+                    <img class="col-4 col-sm-4 col-md-12" *ngIf="imagenTemp" [src]="imagenTemp" style="height: 75px;">
                   </div>
-                  <div class="col-md-8">
+                  <div class="col-md-6">
                     <div>
                       <label for="">Selecione una imagen</label>
                     </div>
@@ -42,8 +42,8 @@
 
             <div class="form-group">
               <mat-form-field class="col">
-                <textarea matInput placeholder="Descripcion" formControlName="descripcion"></textarea>
-                <mat-hint>Describa su Perfil</mat-hint>
+                <textarea matInput placeholder="Descripcion (*)" formControlName="descripcion"></textarea>
+                <mat-hint> Ejemplo: Desarrollador de aplicaciones</mat-hint>
                 <mat-error *ngIf="userForm.controls['descripcion'].hasError('required')">
                   La Descripcion es
                   <strong>requerido</strong>
@@ -54,12 +54,13 @@
             <div class="form-group">
               <mat-form-field class="col">
                 <input matInput placeholder="Pagina Web" formControlName="url">
+                <mat-hint>Ejemplo: https//miPaginaWeb.com</mat-hint>
               </mat-form-field>
             </div>
 
             <div class="form-group">
               <mat-form-field class="col">
-                <input matInput placeholder="Email" formControlName="email">
+                <input matInput placeholder="Email (*)" formControlName="email">
                 <mat-error *ngIf="userForm.controls['email'].hasError('email') && !userForm.controls['email'].hasError('required')">
                   Please enter a valid email address
                 </mat-error>
@@ -94,21 +95,18 @@
             </div>
 
           </fieldset>
-
+          <div class="row justify-content-center">
+            <button mat-button type="submit" [disabled]="!userForm.valid" color="primary">
+              <mat-icon mat-list-icon>done</mat-icon>
+              Guardar
+            </button>
+            <button mat-button (click)="next()" color="primary">
+              <mat-icon mat-list-icon>next</mat-icon>
+              Siguiente
+            </button>
+          </div>
         </form>
       </mat-card-content>
-      <mat-card-actions>
-        <div class="row justify-content-center">
-          <button mat-button type="submit" color="primary">
-            <mat-icon mat-list-icon>done</mat-icon>
-            Guardar
-          </button>
-          <button mat-button (click)="next()" color="primary">
-            <mat-icon mat-list-icon>next</mat-icon>
-            Siguiente
-          </button>
-        </div>
-      </mat-card-actions>
     </mat-card>
   </div>
 </div>

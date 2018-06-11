@@ -79,7 +79,7 @@ export class HttpService {
 
   editar(nombre: string, objeto: any): Observable<any[]> {
     return this._http
-      .put(this.url + nombre + "/" + objeto._id, objeto)
+      .patch(this.url + nombre + "/" + objeto._id, objeto)
       .map((res: Response) => {
         return res;
       })

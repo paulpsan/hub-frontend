@@ -1,6 +1,5 @@
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
 
 import { HttpService } from "../../../../services/http.service";
 import { slideInDownAnimation } from "../../../../animations";
@@ -14,29 +13,20 @@ import { UsuariosService } from "../../../../services/usuarios.service";
 })
 export class PerfilComponent implements OnInit {
   id: number;
-  acciones: string;
-  usuario: Usuario;
+  @Input() usuario;
   private sub: any;
   userForm: FormGroup;
   show: boolean = true;
   showPass: boolean = false;
-
   imagenSubir: File;
   imagenTemp: string;
 
   @Output() siguiente = new EventEmitter<any>();
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private _httpService: HttpService
-  ) {}
+  constructor(private _httpService: HttpService) {}
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.id = params["id"];
-    });
-
+    this.id = this.usuario._id;
     this.userForm = new FormGroup({
       nombre: new FormControl("", Validators.required),
       email: new FormControl("", [
@@ -47,44 +37,36 @@ export class PerfilComponent implements OnInit {
       url: new FormControl(""),
       password: new FormControl("", Validators.required)
     });
-
-    if (this.id) {
-      //edit form
-      this._httpService.buscarId("usuarios", this.id).subscribe(
-        usuario => {
-          this.id = usuario._id;
-          this.usuario = usuario;
-          this.userForm.patchValue({
-            nombre: usuario.nombre,
-            email: usuario.email,
-            password: usuario.password,
-            descripcion: usuario.descripcion,
-            avatar: usuario.avatar,
-            url: usuario.url
-          });
-        },
-        error => {
-          console.log(error);
-        }
-      );
+    if (this.usuario) {
+      this.userForm.patchValue({
+        nombre: this.usuario.nombre,
+        email: this.usuario.email,
+        password: this.usuario.password,
+        descripcion: this.usuario.descripcion,
+        avatar: this.usuario.avatar,
+        url: this.usuario.url
+      });
     }
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    // this.sub.unsubscribe();
   }
 
   onSubmit() {
+    console.log(this.userForm.valid);
     if (this.userForm.valid) {
       if (this.id) {
         let usuario = {
           _id: this.id,
           nombre: this.userForm.controls["nombre"].value,
           email: this.userForm.controls["email"].value,
-          avatar: this.userForm.controls["avatar"].value,
-          password: this.userForm.controls["password"].value,
+          url: this.userForm.controls["url"].value,
           descripcion: this.userForm.controls["descripcion"].value
         };
+        if(this.imagenSubir){
+          this._httpService.editar("usuarios/imagen", usuario).subscribe();
+        }
         this._httpService.editar("usuarios", usuario).subscribe();
       }
     }
@@ -106,7 +88,6 @@ export class PerfilComponent implements OnInit {
     this.imagenSubir = archivo;
 
     let reader = new FileReader();
-    let urlImagenTemp = reader.readAsDataURL(archivo);
 
     reader.onloadend = () => (this.imagenTemp = reader.result);
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { GLOBAL } from "../../../../services/global";
@@ -16,7 +16,6 @@ import { Subject } from "rxjs";
 export class RepositorioComponent implements OnInit {
   id: number;
   acciones: string;
-  usuario: Usuario;
   repositorio;
   private sub: any;
   userForm: FormGroup;
@@ -24,6 +23,7 @@ export class RepositorioComponent implements OnInit {
   show: boolean = true;
   showAdd: boolean = false;
   showRepo: boolean = false;
+  @Input() usuario;
   @Output() siguiente = new EventEmitter<any>();
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -37,10 +37,8 @@ export class RepositorioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.dtOptions=GLOBAL.dtOptions;
-    this.sub = this.route.params.subscribe(params => {
-      this.id = params["id"];
-    });
+    this.dtOptions = GLOBAL.dtOptions;
+    this.id = this.usuario._id;
 
     this.userForm = new FormGroup({
       nombre: new FormControl("", Validators.required),
@@ -93,7 +91,7 @@ export class RepositorioComponent implements OnInit {
     console.log("object");
   }
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    // this.sub.unsubscribe();
   }
   guardarRepo() {
     let repositorio = {

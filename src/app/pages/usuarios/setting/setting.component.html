@@ -25,22 +25,22 @@
     </button>
 
 
-    <div class="container">
+    <div class="container" *ngIf="usuario">
       <mat-tab-group [selectedIndex]="selectedIndex">
         <mat-tab label="Mi Perfil">
-          <hub-perfil (siguiente)="next($event)">
+          <hub-perfil (siguiente)="next($event)" [usuario]="usuario">
           </hub-perfil>
         </mat-tab>
         <mat-tab label="Mis Repositorios">
-          <hub-repositorio (siguiente)="next($event)">
+          <hub-repositorio (siguiente)="next($event)" [usuario]="usuario">
           </hub-repositorio>
         </mat-tab>
         <mat-tab label="Mis Cuentas">
-          <hub-cuenta (siguiente)="next($event)">
+          <hub-cuenta (siguiente)="next($event)" [usuario]="usuario">
           </hub-cuenta>
         </mat-tab>
         <mat-tab label="Eliminar Cuenta">
-          <hub-eliminar (siguiente)="next($event)">
+          <hub-eliminar (siguiente)="next($event)" [usuario]="usuario">
           </hub-eliminar>
         </mat-tab>
       </mat-tab-group>

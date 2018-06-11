@@ -1,38 +1,29 @@
-import { ComunModule } from './../../common/comun.module';
-import { HeaderComponent } from '../../common/components/header/header.component';
-import { HubInterceptor } from '../../common/interceptor/hub.interceptor';
-import { MaterialModule } from '../../material/material.module';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpService } from '../../services/http.service';
+import { ComunModule } from "./../../common/comun.module";
+import { HubInterceptor } from "../../common/interceptor/hub.interceptor";
+import { MaterialModule } from "../../material/material.module";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+// import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpService } from "../../services/http.service";
 
 import { ChartsModule } from "ng2-charts/ng2-charts";
 
-import { CrearEditarComponent } from './crear-editar/crear-editar.component';
-import { EditarComponent } from './crear-editar/editar.component';
-import { UsuariosComponent } from './usuarios.component';
-import { UsuariosRoutingModule } from './usuarios-routing.module';
-import { UsuariosService } from '../../services/usuarios.service';
-import { UsuarioComponent, ModalEliminarUsuario} from './usuario/usuario.component';
-import { UsuarioBbComponent } from './usuario/usuarioBb.component';
-import { InicioModule } from '../inicio/inicio.module';
-import { ListarComponent } from './listar/listar.component';
-import { CommitsComponent } from './charts/commits.component';
+import { CrearEditarComponent } from "./crear-editar/crear-editar.component";
+import { EditarComponent } from "./crear-editar/editar.component";
+import { UsuariosComponent } from "./usuarios.component";
+import { UsuariosRoutingModule } from "./usuarios-routing.module";
+import { UsuarioComponent } from "./usuario/usuario.component";
+import { UsuarioBbComponent } from "./usuario/usuarioBb.component";
+import { ListarComponent } from "./listar/listar.component";
+import { CommitsComponent } from "./charts/commits.component";
 import { LenguajesComponent } from "./charts/lenguajes.component";
-import { CodigoComponent } from './charts/codigo.component';
-import { DataTablesModule } from 'angular-datatables';
-import { SettingComponent } from './setting/setting.component';
-import { PerfilComponent } from './setting/perfil/perfil.component';
-import { RepositorioComponent } from './setting/repositorio/repositorio.component';
-import { CuentaComponent } from './setting/cuenta/cuenta.component';
-import { EliminarComponent } from './setting/eliminar/eliminar.component';
+import { CodigoComponent } from "./charts/codigo.component";
+import { DataTablesModule } from "angular-datatables";
+import { SettingModule } from "./setting/setting.module";
 
 @NgModule({
   declarations: [
-    // HeaderComponent,
-    ModalEliminarUsuario,
     CrearEditarComponent,
     EditarComponent,
     UsuariosComponent,
@@ -41,12 +32,7 @@ import { EliminarComponent } from './setting/eliminar/eliminar.component';
     ListarComponent,
     CommitsComponent,
     LenguajesComponent,
-    CodigoComponent,
-    SettingComponent,
-    PerfilComponent,
-    RepositorioComponent,
-    CuentaComponent,
-    EliminarComponent
+    CodigoComponent
   ],
   imports: [
     CommonModule,
@@ -54,21 +40,11 @@ import { EliminarComponent } from './setting/eliminar/eliminar.component';
     UsuariosRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
     ComunModule,
     ChartsModule,
-    DataTablesModule
+    DataTablesModule,
+    SettingModule
   ],
   exports: [],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HubInterceptor,
-      multi: true
-    },
-    UsuariosService,
-    HttpService
-  ],
-  entryComponents: [ModalEliminarUsuario]
 })
 export class UsuariosModule {}

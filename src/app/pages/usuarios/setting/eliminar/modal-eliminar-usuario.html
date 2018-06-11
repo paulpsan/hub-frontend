@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Desea eliminar al Usuario</h1>
+<div mat-dialog-content>
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Nombre" disabled value={{data.nombre}}>
+    </mat-form-field>
+</div>
+<div mat-dialog-content>
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Email" disabled value={{data.email}}>
+    </mat-form-field>
+</div>
+<div class="container">
+    <div class="row justify-content-md-center mt-2">
+        <button mat-button [mat-dialog-close]="data" tabindex="2" color="warn">Eliminar</button>
+        <button mat-button (click)="cancelarClick()" tabindex="-1">Cancelar</button>
+    </div>
+</div>

@@ -199,42 +199,4 @@ export class UsuarioBbComponent implements OnInit {
   guardarClasificacion() {
     this.buttonClasi = true;
   }
-
-  eliminarUsuario(usuario: Usuario): void {
-    console.log(usuario);
-    let dialogRef = this.dialog.open(ModalEliminarUsuario, {
-      width: "350px",
-      data: usuario
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log(result);
-        this._httpService.eliminarId("usuarios", result._id).subscribe(res => {
-          //AQUI colocamos las notificaciones!!
-          // setTimeout(()=>
-          // {
-          //   this.obtenerUsuarios();
-          // }, 1000);
-          // console.log('done');
-          this.router.navigate(["/usuarios/"]);
-        });
-      }
-    });
-  }
-}
-
-@Component({
-  selector: "modal-eliminar-usuario",
-  templateUrl: "modal-eliminar-usuario.html"
-})
-export class ModalEliminarUsuario {
-  constructor(
-    public dialogRef: MatDialogRef<ModalEliminarUsuario>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
-
-  cancelarClick(): void {
-    this.dialogRef.close();
-  }
 }
