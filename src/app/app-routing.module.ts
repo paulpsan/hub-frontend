@@ -12,14 +12,15 @@ import { RegistroComponent } from "./pages/login/registro/registro.component";
 import { AuthGuard } from "./common/guard/auth.guard";
 import { InicioComponent } from "./pages/inicio/inicio.component";
 import { UsuariosComponent } from "./pages/usuarios/usuarios.component";
-import { NopagefoundComponent } from "./common/components/nopagefound/nopagefound.component";
+import { NopagefoundComponent } from "./shared/nopagefound/nopagefound.component";
+import { PagesComponent } from "./pages/pages.component";
 
 const routes: Routes = [
-  {
-    path: "",
-    redirectTo: "login",
-    pathMatch: "full"
-  },
+  // {
+  //   path: "",
+  //   redirectTo: "login",
+  //   pathMatch: "full"
+  // },
   // {
   //   path: 'bienvenido',
   //   // component:AppComponent,
@@ -39,18 +40,18 @@ const routes: Routes = [
     loadChildren: "./pages/inicio/inicio.module#InicioModule"
     // canActivate:[AuthGuard]
   },
-  {
-    path: "usuarios",
-    loadChildren: "./pages/usuarios/usuarios.module#UsuariosModule",
-    canActivate: [AuthGuard]
-    // component: UsuariosComponent
-  },
-  {
-    path: "proyectos",
-    loadChildren: "./pages/proyectos/proyectos.module#ProyectosModule",
-    // component: ProyectosComponent,
-    canActivate: [AuthGuard]
-  },
+  // {
+  //   path: "usuarios",
+  //   loadChildren: "./pages/usuarios/usuarios.module#UsuariosModule",
+  //   canActivate: [AuthGuard]
+  //   // component: UsuariosComponent
+  // },
+  // {
+  //   path: "proyectos",
+  //   loadChildren: "./pages/proyectos/proyectos.module#ProyectosModule",
+  //   // component: ProyectosComponent,
+  //   canActivate: [AuthGuard]
+  // },
   {
     path: "organizaciones",
     component: OrganizacionesComponent
@@ -63,7 +64,12 @@ const routes: Routes = [
     path: "registro",
     component: RegistroComponent
   },
-
+  {
+    path: "",
+    component: PagesComponent,
+    loadChildren: "./pages/pages.module#PagesModule",
+    canActivate: [AuthGuard]
+  },
   { path: "**", component: NopagefoundComponent }
 ];
 

@@ -1,7 +1,8 @@
-import { AuthService } from './../../../services/auth.service';
+import { AuthService } from "./../../services/auth.service";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
-import { Usuario } from "../../../models/usuario";
+import { environment } from "../../../environments/environment";
+import { UsuarioService } from "../../services/usuario.service";
 
 @Component({
   selector: "hub-header",
@@ -10,6 +11,8 @@ import { Usuario } from "../../../models/usuario";
 })
 export class HeaderComponent implements OnInit {
   public identity;
+  public urlAvatar;
+  public usuario;
   title = "hub";
   navLinks: any[] = [
     {
@@ -27,17 +30,25 @@ export class HeaderComponent implements OnInit {
   ];
 
   constructor(
-    private _authService :AuthService,
-    private router: Router,) {}
+    private _authService: AuthService,
+    public _usuarioService: UsuarioService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    if (localStorage.getItem("identity")) {
-      this.identity = JSON.parse(localStorage.getItem("identity"));
-      // console.log(this.identity);
-    }
 
+    this.usuario = this._usuarioService.usuario;
+
+    console.log(this.usuario);
+    if (this.usuario.avatar.indexOf(this.usuario._id + "-") == 0) {
+      this.urlAvatar =
+        environment.url + "upload/usuarios/" + this.usuario.avatar;
+    } else {
+      this.urlAvatar = this.usuario.avatar;
+    }
+    
   }
-  logout(){
+  logout() {
     this._authService.logout();
     console.log(this.identity);
     this.router.navigate(["/login"]);

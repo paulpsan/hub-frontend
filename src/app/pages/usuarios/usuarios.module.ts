@@ -21,6 +21,7 @@ import { LenguajesComponent } from "./charts/lenguajes.component";
 import { CodigoComponent } from "./charts/codigo.component";
 import { DataTablesModule } from "angular-datatables";
 import { SettingModule } from "./setting/setting.module";
+import { SharedModule } from "../../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -43,8 +44,9 @@ import { SettingModule } from "./setting/setting.module";
     ComunModule,
     ChartsModule,
     DataTablesModule,
-    SettingModule
+    SettingModule,
+    SharedModule
   ],
-  exports: [],
+  exports: []
 })
 export class UsuariosModule {}

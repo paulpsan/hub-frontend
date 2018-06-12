@@ -95,10 +95,4 @@ export class HttpService {
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
 
-  // obtener(){
-  //   let headers = new Headers({ 'Content-Type': 'application/json' });
-  //   // headers.append('Authorization', pin);
-  //   // let options = new RequestOptions({ headers: headers });
-  //   return this._http.get(this.url).map(res => res.json());
-  // }
 }

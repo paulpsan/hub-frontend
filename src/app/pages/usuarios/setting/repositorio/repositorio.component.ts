@@ -5,7 +5,7 @@ import { GLOBAL } from "../../../../services/global";
 import { HttpService } from "../../../../services/http.service";
 import { slideInDownAnimation } from "../../../../animations";
 import { Usuario } from "../../../../models/usuario";
-import { UsuariosService } from "../../../../services/usuarios.service";
+import { UsuarioService } from "../../../../services/usuario.service";
 import { Subject } from "rxjs";
 
 @Component({

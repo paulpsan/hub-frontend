@@ -4,7 +4,7 @@ import { Component, OnInit, HostBinding } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Usuario } from "../../../models/usuario";
-import { UsuariosService } from "../../../services/usuarios.service";
+import { UsuarioService } from "../../../services/usuario.service";
 import { UsuariosComponent } from "../usuarios.component";
 
 @Component({

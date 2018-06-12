@@ -1,10 +1,11 @@
 import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-
+import { environment } from "../../../../../environments/environment";
 import { HttpService } from "../../../../services/http.service";
 import { slideInDownAnimation } from "../../../../animations";
 import { Usuario } from "../../../../models/usuario";
-import { UsuariosService } from "../../../../services/usuarios.service";
+import { UsuarioService } from "../../../../services/usuario.service";
+import { SubirArchivoService } from "../../../../services/subir-archivo.service";
 
 @Component({
   selector: "hub-perfil",
@@ -14,7 +15,7 @@ import { UsuariosService } from "../../../../services/usuarios.service";
 export class PerfilComponent implements OnInit {
   id: number;
   @Input() usuario;
-  private sub: any;
+  urlAvatar: string;
   userForm: FormGroup;
   show: boolean = true;
   showPass: boolean = false;
@@ -23,10 +24,21 @@ export class PerfilComponent implements OnInit {
 
   @Output() siguiente = new EventEmitter<any>();
 
-  constructor(private _httpService: HttpService) {}
+  constructor(
+    private _httpService: HttpService,
+    private _subirArchivoService: SubirArchivoService,
+    private _usuarioService: UsuarioService
+  ) {}
 
   ngOnInit() {
     this.id = this.usuario._id;
+    if (this.usuario.avatar.indexOf(this.usuario._id + "-") == 0) {
+      this.urlAvatar =
+        environment.url + "upload/usuarios/" + this.usuario.avatar;
+    } else {
+      this.urlAvatar = this.usuario.avatar;
+    }
+    // this.urlAvatar=environment.url+'upload/usuarios/'+this.usuario.avatar;
     this.userForm = new FormGroup({
       nombre: new FormControl("", Validators.required),
       email: new FormControl("", [
@@ -64,10 +76,18 @@ export class PerfilComponent implements OnInit {
           url: this.userForm.controls["url"].value,
           descripcion: this.userForm.controls["descripcion"].value
         };
-        if(this.imagenSubir){
-          this._httpService.editar("usuarios/imagen", usuario).subscribe();
+        if (this.imagenSubir) {
+          this._subirArchivoService
+            .subirArchivo(this.imagenSubir, "usuarios", this.id)
+            .then((resp: any) => {
+              console.log(resp);
+            });
         }
-        this._httpService.editar("usuarios", usuario).subscribe();
+        this._httpService.editar("usuarios", usuario).subscribe(resp => {
+          console.log(resp);
+          this._usuarioService.guardarStorage(resp);
+          // localStorage.setItem("identity", JSON.stringify(resp));
+        });
       }
     }
   }
@@ -77,6 +97,7 @@ export class PerfilComponent implements OnInit {
   }
 
   seleccionImage(archivo: File) {
+    console.log(this.imagenTemp, this.usuario);
     if (!archivo) {
       this.imagenSubir = null;
       return;
@@ -88,7 +109,7 @@ export class PerfilComponent implements OnInit {
     this.imagenSubir = archivo;
 
     let reader = new FileReader();
-
+    let urlImagenTemp = reader.readAsDataURL(archivo);
     reader.onloadend = () => (this.imagenTemp = reader.result);
   }
   cambiarImagen() {
