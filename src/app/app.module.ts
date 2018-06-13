@@ -17,18 +17,14 @@ import { AppComponent } from "./app.component";
 import { LoginComponent } from "./pages/login/login.component";
 import { RegistroComponent } from "./pages/login/registro/registro.component";
 
-import { LoginService } from "./services/login.service";
-import { AuthService } from "./services/auth.service";
-import { HttpService } from "./services/http.service";
 import { AuthGuard } from "./common/guard/auth.guard";
 import { OrganizacionesComponent } from "./pages/organizaciones/organizaciones.component";
 import { NopagefoundComponent } from "./shared/nopagefound/nopagefound.component";
 import { HubInterceptor } from "./common/interceptor/hub.interceptor";
 import { ToastrModule } from "ngx-toastr";
-import { SubirArchivoService } from "./services/subir-archivo.service";
 import { PagesComponent } from "./pages/pages.component";
 import { SharedModule } from "./shared/shared.module";
-import { UsuarioService } from "./services/usuario.service";
+import { ServiceModule } from "./services/service.module";
 
 // import { AdicionarComponent } from './pages/usuarios/adicionar/adicionar.component';
 // import { EditarComponent } from './pages/usuarios/editar/editar.component';
@@ -57,7 +53,8 @@ import { UsuarioService } from "./services/usuario.service";
     LoadingBarModule,
     InicioModule,
     SharedModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ServiceModule
   ],
   exports: [],
   providers: [
@@ -66,12 +63,7 @@ import { UsuarioService } from "./services/usuario.service";
       useClass: HubInterceptor,
       multi: true
     },
-    HttpService,
-    AuthService,
-    AuthGuard,
-    LoginService,
-    SubirArchivoService,
-    UsuarioService
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -2,7 +2,7 @@ import { Component, Injectable } from "@angular/core";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import "rxjs/Rx";
 import { Observable } from "rxjs/Rx";
-import { environment } from "../../environments/environment";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class HttpService {

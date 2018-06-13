@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { LoginService } from "./../../services/login.service";
-import { HttpService } from "../../services/http.service";
+import { LoginService } from "./../../services/login/login.service";
+import { HttpService } from "../../services/http/http.service";
 import { MatSnackBar } from "@angular/material";
 // import qs from "querystringify";
 let qs = require("querystringify");

@@ -12,8 +12,8 @@ import { Observable } from "rxjs/Rx";
 import "rxjs/Rx";
 
 import { Proyecto } from "../../../models/proyecto";
-import { HttpService } from "../../../services/http.service";
-import { ProyectosService } from "../../../services/proyectos.service";
+import { HttpService } from "../../../services/http/http.service";
+import { ProyectosService } from "../../../services/proyecto/proyectos.service";
 
 @Component({
   selector: "hub-listar",

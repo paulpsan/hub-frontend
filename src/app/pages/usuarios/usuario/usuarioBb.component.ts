@@ -6,7 +6,7 @@ import {
 } from "@angular/core";
 import { Usuario } from "../../../models/usuario";
 import { ActivatedRoute, Router } from "@angular/router";
-import { HttpService } from "../../../services/http.service";
+import { HttpService } from "../../../services/http/http.service";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { Chart } from "chart.js";
 import { Subject } from "rxjs";

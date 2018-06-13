@@ -1,52 +1,49 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpService } from '../../../services/http.service';
-import { MatDialog } from '@angular/material';
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { HttpService } from "../../../services/http/http.service";
+import { MatDialog } from "@angular/material";
 
 @Component({
-  selector: 'chart-commits',
-  templateUrl: './commits.component.html',
+  selector: "chart-commits",
+  templateUrl: "./commits.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommitsComponent {
-
   @Input() data;
   datos;
   id;
 
-  public barChartOptions:any = {
+  public barChartOptions: any = {
     scaleShowVerticalLines: true,
     responsive: true
   };
 
-  public barChartLabels:string[];
-  public barChartType:string = 'bar';
-  public barChartLegend:boolean = true;
+  public barChartLabels: string[];
+  public barChartType: string = "bar";
+  public barChartLegend: boolean = true;
 
-  public barChartData:any[] = [
-    {data: [0], label: ''}
-  ];
-
+  public barChartData: any[] = [{ data: [0], label: "" }];
 
   // events
-  public chartClicked(e:any):void {
+  public chartClicked(e: any): void {
     console.log(e);
   }
 
-  public chartHovered(e:any):void {
+  public chartHovered(e: any): void {
     console.log(e);
   }
 
-  public randomize():void {
+  public randomize(): void {
     // Only Change 3 values
     let data = [
       Math.round(Math.random() * 100),
       59,
       80,
-      (Math.random() * 100),
+      Math.random() * 100,
       56,
-      (Math.random() * 100),
-      40];
+      Math.random() * 100,
+      40
+    ];
     let clone = JSON.parse(JSON.stringify(this.barChartData));
     clone[0].data = data;
     this.barChartData = clone;
@@ -57,10 +54,12 @@ export class CommitsComponent {
      * assign it;
      */
   }
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private _httpService: HttpService,
-    private dialog:   MatDialog ) { }
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     console.log(this.data);
@@ -86,7 +85,6 @@ export class CommitsComponent {
 
     // console.log(vecData)
     // this.barChartLabels=vecLabel;
-
 
     // this.route.params.subscribe(params => {
     //   this.id = params['id'];

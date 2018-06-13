@@ -5,7 +5,7 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/Rx";
 
 import { Usuario } from "../../../models/usuario";
-import { HttpService } from "../../../services/http.service";
+import { HttpService } from "../../../services/http/http.service";
 import { PageEvent } from "@angular/material";
 
 @Component({

@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AuthService } from "./../../services/auth.service";
-import { HttpService } from "../../services/http.service";
+import { AuthService } from "./../../services/auth/auth.service";
+import { HttpService } from "../../services/http/http.service";
 import { Usuario } from "../../models/usuario";
 import { GLOBAL } from "./../../services/global";
 import { environment } from "../../../environments/environment";

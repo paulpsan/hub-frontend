@@ -18,6 +18,7 @@ import {
   EliminarComponent,
   ModalEliminarUsuario
 } from "./eliminar/eliminar.component";
+import { SharedModule } from "../../../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {
     ReactiveFormsModule,
     HttpClientModule,
     ComunModule,
-    DataTablesModule
+    DataTablesModule,
+    SharedModule
   ],
   exports: [],
   entryComponents: [ModalEliminarUsuario, ModalEliminarCuenta]

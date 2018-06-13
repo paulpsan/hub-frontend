@@ -1,11 +1,11 @@
 import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { environment } from "../../../../../environments/environment";
-import { HttpService } from "../../../../services/http.service";
+import { HttpService } from "../../../../services/http/http.service";
 import { slideInDownAnimation } from "../../../../animations";
 import { Usuario } from "../../../../models/usuario";
-import { UsuarioService } from "../../../../services/usuario.service";
-import { SubirArchivoService } from "../../../../services/subir-archivo.service";
+import { UsuarioService } from "../../../../services/usuario/usuario.service";
+import { SubirArchivoService } from "../../../../services/subir-archivo/subir-archivo.service";
 
 @Component({
   selector: "hub-perfil",
@@ -74,20 +74,25 @@ export class PerfilComponent implements OnInit {
           nombre: this.userForm.controls["nombre"].value,
           email: this.userForm.controls["email"].value,
           url: this.userForm.controls["url"].value,
-          descripcion: this.userForm.controls["descripcion"].value
+          descripcion: this.userForm.controls["descripcion"].value,
+          avatar: this.usuario.avatar
         };
         if (this.imagenSubir) {
           this._subirArchivoService
             .subirArchivo(this.imagenSubir, "usuarios", this.id)
             .then((resp: any) => {
-              console.log(resp);
+              usuario.avatar = resp.usuario.avatar;
+              this._usuarioService.actualizarUsuario(usuario).subscribe();
+              return;
             });
         }
-        this._httpService.editar("usuarios", usuario).subscribe(resp => {
-          console.log(resp);
-          this._usuarioService.guardarStorage(resp);
-          // localStorage.setItem("identity", JSON.stringify(resp));
-        });
+        this._usuarioService.actualizarUsuario(usuario).subscribe();
+
+        // this._httpService.editar("usuarios", usuario).subscribe(resp => {
+        //   console.log(resp);
+        //   this._usuarioService.guardarStorage(resp);
+        //   // localStorage.setItem("identity", JSON.stringify(resp));
+        // });
       }
     }
   }

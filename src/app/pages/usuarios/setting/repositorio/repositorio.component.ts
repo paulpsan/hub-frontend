@@ -2,10 +2,10 @@ import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { GLOBAL } from "../../../../services/global";
-import { HttpService } from "../../../../services/http.service";
+import { HttpService } from "../../../../services/http/http.service";
 import { slideInDownAnimation } from "../../../../animations";
 import { Usuario } from "../../../../models/usuario";
-import { UsuarioService } from "../../../../services/usuario.service";
+import { UsuarioService } from "../../../../services/usuario/usuario.service";
 import { Subject } from "rxjs";
 
 @Component({

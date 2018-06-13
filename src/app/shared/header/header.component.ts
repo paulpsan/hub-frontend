@@ -1,15 +1,15 @@
-import { AuthService } from "./../../services/auth.service";
+import { AuthService } from "./../../services/auth/auth.service";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnChanges } from "@angular/core";
 import { environment } from "../../../environments/environment";
-import { UsuarioService } from "../../services/usuario.service";
+import { UsuarioService } from "../../services/usuario/usuario.service";
 
 @Component({
   selector: "hub-header",
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.css"]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
   public identity;
   public urlAvatar;
   public usuario;
@@ -52,5 +52,8 @@ export class HeaderComponent implements OnInit {
     this._authService.logout();
     console.log(this.identity);
     this.router.navigate(["/login"]);
+  }
+  ngOnChanges(changes) {
+    console.log(changes);
   }
 }

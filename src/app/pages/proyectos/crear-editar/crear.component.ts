@@ -2,7 +2,7 @@ import { Usuario } from "./../../../models/usuario";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { HttpService } from "../../../services/http.service";
+import { HttpService } from "../../../services/http/http.service";
 import { Proyecto } from "../../../models/proyecto";
 
 @Component({

@@ -73,13 +73,4 @@ const routes: Routes = [
   { path: "**", component: NopagefoundComponent }
 ];
 
-@NgModule({
-  imports: [
-    RouterModule.forRoot(routes)
-    // InicioRoutingModule,
-    // UsuariosRoutingModule,
-    // ProyectosRoutingModule
-  ],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {}
+export const AppRoutingModule = RouterModule.forRoot(routes);

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Input } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import { HttpService } from "../../../../services/http.service";
+import { HttpService } from "../../../../services/http/http.service";
 
 @Component({
   selector: "hub-eliminar",

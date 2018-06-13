@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
-import { HttpService } from "../../../../services/http.service";
+import { HttpService } from "../../../../services/http/http.service";
 
 @Component({
   selector: "hub-cuenta",

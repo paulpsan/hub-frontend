@@ -3,7 +3,7 @@ import { Response } from "@angular/http";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import "rxjs/Rx";
 import { Observable } from "rxjs/Rx";
-import { environment } from "../../environments/environment";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class AuthService {

@@ -4,7 +4,7 @@ import {
 } from "@angular/core";
 import { Usuario } from "../../../models/usuario";
 import { ActivatedRoute, Router } from "@angular/router";
-import { HttpService } from "../../../services/http.service";
+import { HttpService } from "../../../services/http/http.service";
 import { Subject } from "rxjs";
 
 @Component({

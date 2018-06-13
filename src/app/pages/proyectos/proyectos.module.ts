@@ -1,4 +1,4 @@
-import { HttpService } from "../../services/http.service";
+import { HttpService } from "../../services/http/http.service";
 
 import { HubInterceptor } from "../../common/interceptor/hub.interceptor";
 import { MaterialModule } from "../../material/material.module";
@@ -14,7 +14,7 @@ import { EditarComponent } from "./crear-editar/editar.component";
 import { CrearComponent } from "./crear-editar/crear.component";
 import { ProyectosComponent } from "./proyectos.component";
 import { ProyectosRoutingModule } from "./proyectos-routing.module";
-import { ProyectosService } from "../../services/proyectos.service";
+import { ProyectosService } from "../../services/proyecto/proyectos.service";
 import {
   ProyectoComponent,
   ModalEliminarProyecto

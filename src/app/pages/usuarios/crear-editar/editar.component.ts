@@ -1,10 +1,10 @@
-import { HttpService } from "../../../services/http.service";
+import { HttpService } from "../../../services/http/http.service";
 import { slideInDownAnimation } from "../../../animations";
 import { Component, OnInit, HostBinding } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Usuario } from "../../../models/usuario";
-import { UsuarioService } from "../../../services/usuario.service";
+import { UsuarioService } from "../../../services/usuario/usuario.service";
 import { UsuariosComponent } from "../usuarios.component";
 
 @Component({

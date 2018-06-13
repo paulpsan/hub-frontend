@@ -12,10 +12,11 @@
           <a class="nav-link" [routerLink]="link.path">{{link.label}}</a>
         </li>
       </ul>
+      {{usuario.nombre}}
       <span *ngIf="usuario">
         <ul class="nav navbar-nav navbar-right">
           <li>
-
+            
             <div class="btn-group">
               <button class="btn btn-dark dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img *ngIf="usuario.avatar" alt="avatar" style="width: 15px !important" [src]="urlAvatar"> {{usuario.login}}

@@ -1,6 +1,6 @@
 import { Proyecto } from "../../../models/proyecto";
 import { ResultFunc } from "rxjs/observable/GenerateObservable";
-import { HttpService } from "../../../services/http.service";
+import { HttpService } from "../../../services/http/http.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Chart } from "chart.js";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
