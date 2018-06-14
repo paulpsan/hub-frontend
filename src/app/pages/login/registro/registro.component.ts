@@ -49,7 +49,7 @@ export class RegistroComponent implements OnInit {
       "admin",
       "",
       "local",
-      []
+      "true"
     );
     console.log(user);
     this._httpService.adicionar("usuarios", user).subscribe();

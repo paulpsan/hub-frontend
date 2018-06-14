@@ -12,7 +12,7 @@
         </div>
         <div *ngIf="!cuentas" class="container">
           Sus cuentas son:
-          <div class="row">
+          <div class="row" *ngIf="local">
             <div class="col">
               <div class="cuentas-login">
                 <img src="assets/images/adsib.ico" width="30" heigth="30">
@@ -72,34 +72,8 @@
           Desea Adicionar Cuentas:
 
           <div class="col-md-6">
-            <button (click)="loginGH()" class="btn btn-block btn-social btn-github" *ngIf="!github">
-              <i class="fa fa-github"></i>
-              <strong class="">Github</strong>
-            </button>
-            <button (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki" *ngIf="!gitlab">
-              <i class="fa fa-gitlab"></i>
-              <strong class="">Gitlab</strong>
-            </button>
-            <button (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket" *ngIf="!bitbucket">
-              <i class="fa fa-bitbucket"></i>
-              <strong class="">Bitbucket</strong>
-            </button>
+            <hub-oauth2></hub-oauth2>
           </div>
-
-          <!-- <div class="col-md-6">
-            <button (click)="loginGH()" mat-raised-button flex="15" *ngIf="!github">
-              <mat-icon fontIcon="fa-github" class="fa fa-lg"></mat-icon>
-              <strong class="nombre-repo">Github</strong>
-            </button>
-            <button (click)="loginGL()" mat-raised-button flex="15" *ngIf="!gitlab">
-              <mat-icon fontIcon="fa-gitlab" class="fa fa-lg"></mat-icon>
-              <strong class="nombre-repo">Gitlab</strong>
-            </button>
-            <button (click)="loginBB()" mat-raised-button flex="15" *ngIf="!bitbucket">
-              <mat-icon fontIcon="fa-bitbucket" class="fa fa-lg"></mat-icon>
-              <strong class="nombre-repo">Bitbucket</strong>
-            </button>
-          </div> -->
         </div>
 
       </mat-card-content>

@@ -20,44 +20,72 @@ export class UsuarioService {
     public router: Router,
     public _subirArchivoService: SubirArchivoService
   ) {
+    this.url = environment.url;
     this.cargarStorage();
   }
   cargarStorage() {
     if (localStorage.getItem("token")) {
       this.token = localStorage.getItem("token");
       this.usuario = JSON.parse(localStorage.getItem("identity"));
-      // this.menu = JSON.parse(localStorage.getItem("menu"));
     } else {
       this.token = "";
       this.usuario = null;
-      // this.menu = [];
     }
-    console.log("cargo storage",this.usuario);
+    console.log("cargo storage", this.usuario);
   }
-  guardarStorage(usuario, menu?: any) {
-    // localStorage.setItem('id', id );
-    // localStorage.setItem("token", token);
+  guardarStorage(id: string, usuario: Usuario, token?: string) {
+    localStorage.setItem("id", id);
+    localStorage.setItem("token", token);
     console.log(usuario);
     localStorage.setItem("identity", JSON.stringify(usuario));
-    // localStorage.setItem('menu', JSON.stringify(menu) );
 
     this.usuario = usuario;
     // this.token = token;
-    // this.menu = menu;
   }
   actualizarUsuario(usuario) {
-    let url = environment.url + "usuarios/" + usuario._id;
+    let urlApi = this.url + "usuarios/" + usuario._id;
     // url += '?token=' + this.token;
 
     return this._http
-      .patch(url, usuario)
+      .patch(urlApi, usuario)
       .map((resp: any) => {
-        console.log(this.usuario,resp);
+        console.log(this.usuario, resp);
         if (usuario._id === this.usuario._id) {
           let usuarioDB = resp;
-          this.guardarStorage(usuarioDB);
+          this.guardarStorage(usuarioDB.id, usuarioDB);
         }
         return true;
+      })
+      .catch(err => {
+        return Observable.throw(err);
+      });
+  }
+  crearUsuarioOauth(nombre: string, usuario, token) {
+    return this._http
+      .post(this.url + "usuarios/" + nombre, { usuario, token })
+      .map((res: any) => {
+        this.guardarStorage(res.usuario._id, res.usuario, res.token);
+        return res;
+      })
+      .catch((error: any) => {
+        console.log(error);
+        return Observable.throw(error || "Server error");
+      });
+  }
+  logout() {
+    this.usuario = null;
+    this.token = "";
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    this.router.navigate(["/login"]);
+  }
+  login(usuario: Usuario) {
+    let urlApi = this.url + "auth/local";
+    return this._http
+      .post(urlApi, usuario)
+      .map((resp: any) => {
+        this.guardarStorage(resp.usuario.id, resp.usuario, resp.token);
+        return resp;
       })
       .catch(err => {
         return Observable.throw(err);

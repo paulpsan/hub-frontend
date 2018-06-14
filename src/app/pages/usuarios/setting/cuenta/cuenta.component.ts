@@ -9,8 +9,9 @@ import { HttpService } from "../../../../services/http/http.service";
   styleUrls: ["./cuenta.component.css"]
 })
 export class CuentaComponent implements OnInit {
-  gitlab: Boolean = false;
+  local: Boolean = false;
   github: Boolean = false;
+  gitlab: Boolean = false;
   bitbucket: Boolean = false;
   sub;
   id;
@@ -24,13 +25,13 @@ export class CuentaComponent implements OnInit {
   ngOnInit() {
     console.log(this.usuario);
     for (const cuenta of this.usuario.cuentas) {
+      this.local = cuenta == "local" ? true : false;
       this.github = cuenta == "github" ? true : false;
       this.gitlab = cuenta == "gitlab" ? true : false;
       this.bitbucket = cuenta == "bitbucket" ? true : false;
     }
   }
   desvincular(cadena) {
-
     let dialogRef = this.dialog.open(ModalEliminarCuenta, {
       width: "350px",
       data: this.usuario
@@ -45,6 +46,9 @@ export class CuentaComponent implements OnInit {
       }
     });
   }
+
+
+  
 }
 @Component({
   selector: "modal-eliminar-cuenta",

@@ -28,20 +28,28 @@
     <div class="container" *ngIf="usuario">
       <mat-tab-group [selectedIndex]="selectedIndex">
         <mat-tab label="Mi Perfil">
-          <hub-perfil (siguiente)="next($event)" [usuario]="usuario">
-          </hub-perfil>
+          <ng-template matTabContent>
+            <hub-perfil (siguiente)="next($event)">
+            </hub-perfil>
+          </ng-template>
         </mat-tab>
         <mat-tab label="Mis Repositorios">
-          <hub-repositorio (siguiente)="next($event)" [usuario]="usuario">
-          </hub-repositorio>
+          <ng-template matTabContent>
+            <hub-repositorio matTabContent (siguiente)="next($event)">
+            </hub-repositorio>
+          </ng-template>
         </mat-tab>
         <mat-tab label="Mis Cuentas">
-          <hub-cuenta (siguiente)="next($event)" [usuario]="usuario">
-          </hub-cuenta>
+          <ng-template matTabContent>
+            <hub-cuenta (siguiente)="next($event)" [usuario]="usuario">
+            </hub-cuenta>
+          </ng-template>
         </mat-tab>
         <mat-tab label="Eliminar Cuenta">
-          <hub-eliminar (siguiente)="next($event)" [usuario]="usuario">
-          </hub-eliminar>
+          <ng-template matTabContent>
+            <hub-eliminar (siguiente)="next($event)" [usuario]="usuario">
+            </hub-eliminar>
+          </ng-template>
         </mat-tab>
       </mat-tab-group>
     </div>

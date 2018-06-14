@@ -38,7 +38,6 @@ export class HeaderComponent implements OnInit, OnChanges {
   ngOnInit() {
 
     this.usuario = this._usuarioService.usuario;
-
     console.log(this.usuario);
     if (this.usuario.avatar.indexOf(this.usuario._id + "-") == 0) {
       this.urlAvatar =
@@ -46,12 +45,9 @@ export class HeaderComponent implements OnInit, OnChanges {
     } else {
       this.urlAvatar = this.usuario.avatar;
     }
-    
   }
   logout() {
-    this._authService.logout();
-    console.log(this.identity);
-    this.router.navigate(["/login"]);
+    this._usuarioService.logout();
   }
   ngOnChanges(changes) {
     console.log(changes);

@@ -73,7 +73,7 @@ export class CrearEditarComponent implements OnInit {
           "",
           "",
           "",
-          []
+          ""
         );
         this._httpService.editar("usuarios/", user).subscribe();
       } else {
@@ -85,7 +85,7 @@ export class CrearEditarComponent implements OnInit {
           "",
           "",
           "",
-          []
+          ""
         );
         this._httpService.adicionar("usuarios/", user).subscribe();
       }

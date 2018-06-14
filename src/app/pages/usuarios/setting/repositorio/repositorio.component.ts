@@ -23,7 +23,7 @@ export class RepositorioComponent implements OnInit {
   show: boolean = true;
   showAdd: boolean = false;
   showRepo: boolean = false;
-  @Input() usuario;
+  usuario;
   @Output() siguiente = new EventEmitter<any>();
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
@@ -33,10 +33,12 @@ export class RepositorioComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private _httpService: HttpService
+    private _httpService: HttpService,
+    private _usuarioService: UsuarioService
   ) {}
 
   ngOnInit() {
+    this.usuario = this._usuarioService.usuario;
     this.dtOptions = GLOBAL.dtOptions;
     this.id = this.usuario._id;
 

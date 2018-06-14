@@ -14,7 +14,7 @@ import { SubirArchivoService } from "../../../../services/subir-archivo/subir-ar
 })
 export class PerfilComponent implements OnInit {
   id: number;
-  @Input() usuario;
+  usuario;
   urlAvatar: string;
   userForm: FormGroup;
   show: boolean = true;
@@ -31,6 +31,8 @@ export class PerfilComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.usuario = this._usuarioService.usuario;
+    console.log(this.usuario);
     this.id = this.usuario._id;
     if (this.usuario.avatar.indexOf(this.usuario._id + "-") == 0) {
       this.urlAvatar =
@@ -47,7 +49,7 @@ export class PerfilComponent implements OnInit {
       ]),
       descripcion: new FormControl("", Validators.required),
       url: new FormControl(""),
-      password: new FormControl("", Validators.required)
+      password: new FormControl("")
     });
     if (this.usuario) {
       this.userForm.patchValue({
