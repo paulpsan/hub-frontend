@@ -118,27 +118,32 @@ export class RepositorioComponent implements OnInit {
       }
     }
   }
-
-  next() {
-    this.siguiente.emit(this.id);
+  save() {
+    console.log("guardar");
   }
-  seleccionImage(archivo: File) {
-    if (!archivo) {
-      this.imagenSubir = null;
-      return;
-    }
-    if (archivo.type.indexOf("image") < 0) {
-      this.imagenSubir = null;
-      return;
-    }
-    this.imagenSubir = archivo;
-
-    let reader = new FileReader();
-    let urlImagenTemp = reader.readAsDataURL(archivo);
-
-    reader.onloadend = () => (this.imagenTemp = reader.result);
+  showAll() {
+    console.log("showAll");
   }
-  cambiarImagen() {
-    console.log(this.imagenSubir, this.usuario._id);
+  hideAll() {
+    console.log("hideAll");
   }
+  // seleccionImage(archivo: File) {
+  //   if (!archivo) {
+  //     this.imagenSubir = null;
+  //     return;
+  //   }
+  //   if (archivo.type.indexOf("image") < 0) {
+  //     this.imagenSubir = null;
+  //     return;
+  //   }
+  //   this.imagenSubir = archivo;
+
+  //   let reader = new FileReader();
+  //   let urlImagenTemp = reader.readAsDataURL(archivo);
+
+  //   reader.onloadend = () => (this.imagenTemp = reader.result);
+  // }
+  // cambiarImagen() {
+  //   console.log(this.imagenSubir, this.usuario._id);
+  // }
 }

@@ -96,12 +96,12 @@
 
           </fieldset>
           <div class="row justify-content-center">
-            <button mat-button type="submit" [disabled]="!userForm.valid" color="primary">
+            <button *ngIf="!showButton"mat-button type="submit" [disabled]="!userForm.valid" color="primary">
               <mat-icon mat-list-icon>done</mat-icon>
               Guardar
             </button>
-            <button mat-button (click)="next()" color="primary">
-              <mat-icon mat-list-icon>next</mat-icon>
+            <button *ngIf="showButton" mat-button (click)="next()" [disabled]="!userForm.valid" color="primary">
+              <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
               Siguiente
             </button>
           </div>

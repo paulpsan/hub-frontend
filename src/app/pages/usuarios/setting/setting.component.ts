@@ -12,6 +12,7 @@ export class SettingComponent implements OnInit {
   sub;
   id;
   usuario;
+  showTabs: Boolean = true;
   selectedIndex: number = 0;
 
   constructor(
@@ -33,9 +34,13 @@ export class SettingComponent implements OnInit {
     //   });
     // });
   }
-
+  selectTab(index) {
+    this.selectedIndex = index;
+    console.log(this.selectedIndex);
+  }
   next(idUsuario) {
-    console.log(idUsuario);
-    this.selectedIndex++;
+    console.log(this.selectedIndex);
+    this.showTabs = false;
+    this.selectedIndex = 1;
   }
 }

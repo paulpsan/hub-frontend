@@ -4,9 +4,19 @@
       <mat-card-header>
         <mat-card-title>Repositorios de usuario</mat-card-title>
       </mat-card-header>
+      <mat-divider></mat-divider>
       <!-- Lista los repositorios -->
       <mat-card-content class="mt-4" *ngIf="showRepo">
-
+        <div class="row justify-content-end mb-2">
+          <button mat-button (click)="showAll()" color="primary">
+            <mat-icon mat-list-icon>visibility</mat-icon>
+            Mostrar Todos
+          </button>
+          <button mat-button (click)="hideAll()" color="primary">
+            <mat-icon mat-list-icon>visibility_off</mat-icon>
+            Ocultar Todos
+          </button>
+        </div>
         <table datatable [dtOptions]="dtOptions" class="table table-inverse table-responsive" *ngIf="repositorio">
           <thead class="thead-inverse">
             <tr>
@@ -62,11 +72,11 @@
               </button>
             </div>
             <span>
-              o adicione una cuenta de: 
+              o adicione una cuenta de:
             </span>
           </div>
           <div class="col-md-5">
-            
+
             <!-- <button (click)="loginGH()" class="btn btn-block btn-social btn-github">
               <i class="fa fa-github"></i>
               <span class="nombre-repo">Entrar Con</span>
@@ -168,7 +178,12 @@
         </div>
       </mat-card-content>
       <mat-card-actions>
-
+        <div class="row justify-content-center">
+          <button mat-button (click)="save()" color="primary">
+            <mat-icon mat-list-icon>save</mat-icon>
+            Guardar
+          </button>
+        </div>
       </mat-card-actions>
     </mat-card>
   </div>

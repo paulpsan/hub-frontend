@@ -17,7 +17,7 @@ export class PerfilComponent implements OnInit {
   usuario;
   urlAvatar: string;
   userForm: FormGroup;
-  show: boolean = true;
+  showButton: boolean = true;
   showPass: boolean = false;
   imagenSubir: File;
   imagenTemp: string;
@@ -63,9 +63,6 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-    // this.sub.unsubscribe();
-  }
 
   onSubmit() {
     console.log(this.userForm.valid);
@@ -96,6 +93,7 @@ export class PerfilComponent implements OnInit {
         // });
       }
     }
+    this.showButton=false;
   }
 
   next() {
