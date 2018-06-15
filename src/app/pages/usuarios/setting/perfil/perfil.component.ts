@@ -93,7 +93,6 @@ export class PerfilComponent implements OnInit {
         // this._httpService.editar("usuarios", usuario).subscribe(resp => {
         //   console.log(resp);
         //   this._usuarioService.guardarStorage(resp);
-        //   // localStorage.setItem("identity", JSON.stringify(resp));
         // });
       }
     }

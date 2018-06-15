@@ -26,7 +26,7 @@ export class UsuarioService {
   cargarStorage() {
     if (localStorage.getItem("token")) {
       this.token = localStorage.getItem("token");
-      this.usuario = JSON.parse(localStorage.getItem("identity"));
+      this.usuario = JSON.parse(localStorage.getItem("usuario"));
     } else {
       this.token = "";
       this.usuario = null;
@@ -36,8 +36,7 @@ export class UsuarioService {
   guardarStorage(id: string, usuario: Usuario, token?: string) {
     localStorage.setItem("id", id);
     localStorage.setItem("token", token);
-    console.log(usuario);
-    localStorage.setItem("identity", JSON.stringify(usuario));
+    localStorage.setItem("usuario", JSON.stringify(usuario));
 
     this.usuario = usuario;
     // this.token = token;
@@ -60,13 +59,9 @@ export class UsuarioService {
         return Observable.throw(err);
       });
   }
-  crearUsuarioOauth(nombre: string, usuario, token) {
+  crearUsuarioOauth(nombre: string, usuario,usuarioOauth ,token) {
     return this._http
-      .post(this.url + "usuarios/" + nombre, { usuario, token })
-      .map((res: any) => {
-        this.guardarStorage(res.usuario._id, res.usuario, res.token);
-        return res;
-      })
+      .post(this.url + "usuarios/" + nombre, { usuario, token ,usuarioOauth})
       .catch((error: any) => {
         console.log(error);
         return Observable.throw(error || "Server error");
@@ -83,10 +78,6 @@ export class UsuarioService {
     let urlApi = this.url + "auth/local";
     return this._http
       .post(urlApi, usuario)
-      .map((resp: any) => {
-        this.guardarStorage(resp.usuario.id, resp.usuario, resp.token);
-        return resp;
-      })
       .catch(err => {
         return Observable.throw(err);
       });

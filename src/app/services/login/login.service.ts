@@ -43,7 +43,7 @@ export class LoginService {
         let token = res.token;
         if (res.token) {
           localStorage.setItem("token", token);
-          localStorage.setItem("identity", JSON.stringify(res.usuario));
+          localStorage.setItem("usuario", JSON.stringify(res.usuario));
         }
         return res;
       })
@@ -59,7 +59,7 @@ export class LoginService {
         let token = res.token;
         if (res.token) {
           localStorage.setItem("token", token);
-          localStorage.setItem("identity", JSON.stringify(res.usuario));
+          localStorage.setItem("usuario", JSON.stringify(res.usuario));
         }
         return res;
       })
@@ -75,7 +75,7 @@ export class LoginService {
         let token = res.token;
         if (res.token) {
           localStorage.setItem("token", token);
-          localStorage.setItem("identity", JSON.stringify(res.usuario));
+          localStorage.setItem("usuario", JSON.stringify(res.usuario));
         }
         return res;
       })

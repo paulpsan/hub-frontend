@@ -1,9 +1,8 @@
-import { Component, OnInit, HostBinding } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Usuario } from "../../../models/usuario";
 import { HttpService } from "../../../services/http/http.service";
-import { UsuariosComponent } from "../../usuarios/usuarios.component";
 
 @Component({
   selector: "hub-registro",
@@ -23,7 +22,6 @@ export class RegistroComponent implements OnInit {
     console.log(`Resolved captcha with response ${captchaResponse}:`);
   }
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private _httpService: HttpService
   ) {}
@@ -51,7 +49,6 @@ export class RegistroComponent implements OnInit {
       "local",
       "true"
     );
-    console.log(user);
     this._httpService.adicionar("usuarios", user).subscribe();
     this.usuarioForm.reset();
     this.router.navigate(["/login"]);

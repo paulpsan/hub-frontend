@@ -6,7 +6,6 @@ import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class HttpService {
-  public identity;
   public token;
   private url: string;
   constructor(private _http: HttpClient) {

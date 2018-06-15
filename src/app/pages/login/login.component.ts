@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { AuthService } from "./../../services/auth/auth.service";
-import { HttpService } from "../../services/http/http.service";
+import { Router } from "@angular/router";
 import { Usuario } from "../../models/usuario";
 import { GLOBAL } from "./../../services/global";
 import { environment } from "../../../environments/environment";
@@ -16,20 +14,13 @@ import { UsuarioService } from "../../services/service.index";
 export class LoginComponent implements OnInit {
   public usuario: Usuario;
   public token;
-  public identity;
   public errorMessage;
 
   loginForm: FormGroup;
 
-  constructor(
-    private router: Router,
-    private _authService: AuthService,
-    public _usuarioService: UsuarioService
-  ) {}
+  constructor(private router: Router, public _usuarioService: UsuarioService) {}
 
   ngOnInit() {
-    console.log(localStorage);
-    // this._authService.logout();
     this.loginForm = new FormGroup({
       email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", Validators.required)
@@ -83,6 +74,11 @@ export class LoginComponent implements OnInit {
 
     this._usuarioService.login(usuario).subscribe(
       response => {
+        this._usuarioService.guardarStorage(
+          response.usuario.id,
+          response.usuario,
+          response.token
+        );
         this.router.navigate(["/usuarios/ajustes/" + response.usuario._id]);
       },
       error => {

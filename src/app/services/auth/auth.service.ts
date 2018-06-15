@@ -7,7 +7,7 @@ import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class AuthService {
-  public identity;
+  public usuario;
   public token;
   private url: string;
 
@@ -21,24 +21,24 @@ export class AuthService {
       .map((res: Response) => {
         // console.log(res.json());
         localStorage.setItem("token", res["token"]);
-        localStorage.setItem("identity", JSON.stringify(res["usuario"]));
+        localStorage.setItem("usuario", JSON.stringify(res["usuario"]));
         return res;
       })
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
   logout() {
-    localStorage.removeItem("identity");
+    localStorage.removeItem("usuario");
     localStorage.removeItem("token");
     localStorage.clear();
   }
-  getIdentity() {
-    let identity = JSON.parse(localStorage.getItem("identity"));
-    if (identity != "undefined") {
-      this.identity = identity;
+  getusuario() {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (usuario != "undefined") {
+      this.usuario = usuario;
     } else {
-      this.identity = null;
+      this.usuario = null;
     }
-    return this.identity;
+    return this.usuario;
   }
   getToken() {
     let token = localStorage.getItem("token");

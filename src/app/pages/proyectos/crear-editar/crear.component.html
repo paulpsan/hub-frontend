@@ -4,10 +4,10 @@
       <div class="card-header">Crear Nuevo Proyecto
       </div>
       <div class="card-body" *ngIf="repositorios">
-        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="identity.tipo=='local'">
+        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='local'">
           <fieldset>
             <legend></legend>
-            {{identity.tipo}}
+            {{usuario.tipo}}
             <div class="form-group">
               <label class="col-form-label required">Nombre de Proyecto</label>
               <br>
@@ -50,7 +50,7 @@
             Cancelar
           </button>
         </form>
-        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="identity.tipo=='gitlab'">
+        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='gitlab'">
           <fieldset>
             <div class="form-group">
               <label class="col-form-label ">Nombre de Proyecto</label>
@@ -87,7 +87,7 @@
             Cancelar
           </button>
         </form>
-        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="identity.tipo=='github'">
+        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='github'">
           <fieldset>
             <div class="form-group">
               <label class="col-form-label ">Nombre de Proyecto</label>
@@ -125,7 +125,7 @@
             Cancelar
           </button>
         </form>
-        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="identity.tipo=='bitbucket'">
+        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='bitbucket'">
           <fieldset>
             <div class="form-group">
               <label class="col-form-label ">Nombre de Proyecto</label>

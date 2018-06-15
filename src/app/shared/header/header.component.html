@@ -25,13 +25,13 @@
                 <a class="dropdown-item" routerLink="/usuarios/{{usuario._id}}">Perfil</a>
                 <a class="dropdown-item" routerLink="/usuarios/ajustes/{{usuario._id}}">Ajustes</a>
                 <div class="dropdown-divider"></div>
-                <!-- <div *ngIf="identity.tipo=='gitlab'">
+                <!-- <div *ngIf="usuario.tipo=='gitlab'">
                   <a class="dropdown-item" (click)="logout()" data-method="delete" href="https://gitlab.geo.gob.bo/users/sign_out" target="_blank">Cerrar Sesion</a>
                 </div>
-                <div *ngIf="identity.tipo=='github'">
+                <div *ngIf="usuario.tipo=='github'">
                   <a class="dropdown-item" (click)="logout()" href="https://github.com/logout" target="_blank">Cerrar Sesion</a>
                 </div> -->
-                <!-- <div *ngIf="identity.tipo=='local'">
+                <!-- <div *ngIf="usuario.tipo=='local'">
                   <a class="dropdown-item" (click)="logout()" target="_blank">Cerrar Sesion</a>
                 </div> -->
                 <a class="dropdown-item" (click)="logout()">Cerrar Sesion</a>

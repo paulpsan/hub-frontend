@@ -10,7 +10,6 @@ import { UsuarioService } from "../../services/usuario/usuario.service";
   styleUrls: ["./header.component.css"]
 })
 export class HeaderComponent implements OnInit, OnChanges {
-  public identity;
   public urlAvatar;
   public usuario;
   title = "hub";

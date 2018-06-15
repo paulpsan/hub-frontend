@@ -16,7 +16,6 @@ export class CrearComponent implements OnInit {
   private sub: any;
   proyecto: Proyecto;
   userForm: FormGroup;
-  identity;
   usuario;
   repositorios;
   constructor(
@@ -26,14 +25,14 @@ export class CrearComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.identity = JSON.parse(localStorage.getItem("identity"));
-    console.log(this.identity);
+    this.usuario = JSON.parse(localStorage.getItem("usuario"));
+    console.log(this.usuario);
     this._httpService
-      .obtener("repositorios/" + this.identity._id + "/usuarios")
+      .obtener("repositorios/" + this.usuario._id + "/usuarios")
       .subscribe(response => {
         console.log(response);
         this.repositorios = response;
-        if (this.identity.tipo == "local") {
+        if (this.usuario.tipo == "local") {
           this.userForm = new FormGroup({
             nombre: new FormControl("", Validators.required),
             urlRepositorio: new FormControl("", Validators.required),
@@ -48,9 +47,9 @@ export class CrearComponent implements OnInit {
       });
 
     //cambiar el 6 por el id
-    if (this.identity.tipo == "gitlab") {
+    if (this.usuario.tipo == "gitlab") {
       this._httpService
-        .obtener("repositorios/" + this.identity._id + "/usuarios")
+        .obtener("repositorios/" + this.usuario._id + "/usuarios")
         .subscribe(response => {
           console.log(response);
           this.repositorios = response;
@@ -60,9 +59,9 @@ export class CrearComponent implements OnInit {
           });
         });
     } else {
-      if (this.identity.tipo == "github" || this.identity.tipo == "bitbucket") {
+      if (this.usuario.tipo == "github" || this.usuario.tipo == "bitbucket") {
         this._httpService
-          .obtener("repositorios/" + this.identity._id + "/usuarios")
+          .obtener("repositorios/" + this.usuario._id + "/usuarios")
           .subscribe(response => {
             console.log(response);
             this.repositorios = response;
@@ -84,7 +83,7 @@ export class CrearComponent implements OnInit {
         .subscribe(repositorio => {
           console.log(repositorio);
 
-          switch (this.identity.tipo) {
+          switch (this.usuario.tipo) {
             case "gitlab":
               proyecto = new Proyecto(
                 null,
@@ -99,7 +98,7 @@ export class CrearComponent implements OnInit {
                 "commits",
                 new Date("2018-05-05"),
                 new Date("2018-05-05"),
-                this.identity.tipo,
+                this.usuario.tipo,
                 datos,
                 repositorio._id
               );
@@ -118,7 +117,7 @@ export class CrearComponent implements OnInit {
                 "commits",
                 new Date("2018-05-05"),
                 new Date("2018-05-05"),
-                this.identity.tipo,
+                this.usuario.tipo,
                 datos,
                 repositorio._id
               );
@@ -137,7 +136,7 @@ export class CrearComponent implements OnInit {
                 "commits",
                 new Date("2018-05-05"),
                 new Date("2018-05-05"),
-                this.identity.tipo,
+                this.usuario.tipo,
                 datos,
                 repositorio._id
               );
@@ -158,7 +157,7 @@ export class CrearComponent implements OnInit {
                 "commits",
                 new Date("2018-05-05"),
                 new Date("2018-05-05"),
-                this.identity.tipo,
+                this.usuario.tipo,
                 [],
                 repositorio._id
               );
