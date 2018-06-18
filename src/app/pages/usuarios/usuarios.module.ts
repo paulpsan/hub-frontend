@@ -22,6 +22,7 @@ import { CodigoComponent } from "./charts/codigo.component";
 import { DataTablesModule } from "angular-datatables";
 import { SettingModule } from "./setting/setting.module";
 import { SharedModule } from "../../shared/shared.module";
+import { PipesModule } from "../../pipes/pipes.module";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { SharedModule } from "../../shared/shared.module";
     ChartsModule,
     DataTablesModule,
     SettingModule,
-    SharedModule
+    SharedModule,
+    PipesModule
   ],
   exports: []
 })

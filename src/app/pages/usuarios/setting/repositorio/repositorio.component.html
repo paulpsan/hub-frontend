@@ -6,92 +6,27 @@
       </mat-card-header>
       <mat-divider></mat-divider>
       <!-- Lista los repositorios -->
-      <mat-card-content class="mt-4" *ngIf="showRepo">
-        <div class="row justify-content-end mb-2">
-          <button mat-button (click)="showAll()" color="primary">
-            <mat-icon mat-list-icon>visibility</mat-icon>
-            Mostrar Todos
-          </button>
-          <button mat-button (click)="hideAll()" color="primary">
-            <mat-icon mat-list-icon>visibility_off</mat-icon>
-            Ocultar Todos
-          </button>
-        </div>
-        <table datatable [dtOptions]="dtOptions" class="table table-inverse table-responsive" *ngIf="repositorios">
-          <thead class="thead-inverse">
-            <tr>
-              <th>Icono</th>
-              <th>Proyectos</th>
-              <th>Source</th>
-              <th>Visibilidad</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let proy of repositorios.datos" (click)="proy.estado=!proy.estado" style="cursor: pointer" [ngClass]="{red: proy.estado==false}">
-              <td scope="row">
-                <img src="{{proy.avatar}}" alt="" height="30" width="30">
-              </td>
-              <td>
-                <a target="#">{{proy.nombre}} </a>
-              </td>
-              <td>
-                <img *ngIf="proy.tipo=='github'" src="assets/images/github.png" alt="" height="30" width="30">
-                <img *ngIf="proy.tipo=='gitlab'" src="assets/images/gitlab.png" alt="" height="30" width="30">
-                <img *ngIf="proy.tipo=='bitbucket'" src="assets/images/bitbucket.png" alt="" height="30" width="30">
-              </td>
+      <mat-card-content class="mt-4">
 
-              <td *ngIf="proy.estado">
-                <button mat-button (click)="proy.estado=!proy.estado" color="primary">
-                  <mat-icon mat-list-icon>visibility</mat-icon>
-                </button>
-              </td>
-              <td *ngIf="!proy.estado">
-                <button mat-button (click)="proy.estado=!proy.estado" color="primary">
-                  <mat-icon mat-list-icon>visibility_off</mat-icon>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-      </mat-card-content>
-
-      <mat-card-content class="mt-4" *ngIf="!showRepo">
         <div class="row">
-          <div class="col-md-7">
-            <span *ngIf="!showRepo">
+          <div class="col">
+            <div *ngIf="!showRepo" class="text-center text-success">
               Usted no cuenta con Repositorios
-            </span>
-            <span *ngIf="showRepo">
+            </div>
+            <div>
               Desea Adicionar Repositorios
-            </span>
+            </div>
             <div>
               <button mat-button (click)="adicionarRepo()" color="primary">
                 <mat-icon mat-list-icon>add</mat-icon>
                 adicionar
               </button>
             </div>
-            <span>
+            <div>
               o adicione una cuenta de:
-            </span>
-          </div>
-          <div class="col-md-5">
-
-            <!-- <button (click)="loginGH()" class="btn btn-block btn-social btn-github">
-              <i class="fa fa-github"></i>
-              <span class="nombre-repo">Entrar Con</span>
-              <strong class="nombre-repo">Github</strong>
-            </button>
-            <button (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki">
-              <i class="fa fa-gitlab"></i>
-              <span class="nombre-repo">Entrar Con</span>
-              <strong class="nombre-repo">Gitlab</strong>
-            </button>
-            <button (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket">
-              <i class="fa fa-bitbucket"></i>
-              <span class="nombre-repo">Entrar Con</span>
-              <strong class="nombre-repo">Bitbucket</strong>
-            </button> -->
+              <button mat-button (click)="next({value:false,index:2})" color="primary">
+                Aqui </button>
+            </div>
           </div>
         </div>
         <mat-divider class="mt-2">
@@ -109,20 +44,22 @@
                 </mat-form-field>
               </div>
               <div class="form-group">
-                <div class="row">
-                  <div class="col-md-4">
-                    <!-- <img *ngIf="!imagenTemp" [src]="usuario.avatar" style="height: 150px;"> -->
-                    <img *ngIf="imagenTemp" [src]="imagenTemp" style="height: 150px;">
-                  </div>
-                  <div class="col-md-8">
-                    <div>
-                      <label for="">Selecione una imagen</label>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <img class="col-4 col-sm-4 col-md-12" *ngIf="!imagenTemp" [src]="urlAvatar" style="height: 75px;">
+                      <img class="col-4 col-sm-4 col-md-12" *ngIf="imagenTemp" [src]="imagenTemp" style="height: 75px;">
                     </div>
-                    <button mat-button type="button" (click)="fileToUpload.click()" color="primary">
-                      <mat-icon mat-list-icon>add_photo_alternate</mat-icon>
-                      Imagen
-                    </button>
-                    <input #fileToUpload (change)="seleccionImage($event.target.files[0])" type="file" style="display:none;">
+                    <div class="col-md-6">
+                      <div>
+                        <label for="">Selecione una imagen</label>
+                      </div>
+                      <button mat-button type="button" (click)="fileToUpload.click()" color="primary">
+                        <mat-icon mat-list-icon>add_photo_alternate</mat-icon>
+                        Imagen
+                      </button>
+                      <input #fileToUpload (change)="seleccionImage($event.target.files[0])" type="file" style="display:none;">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -144,7 +81,7 @@
                 </mat-form-field>
               </div>
 
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <mat-form-field class="col">
                   <input matInput [matDatepicker]="picker1" placeholder="Fecha de primer commit" formControlName="datePri">
                   <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -157,10 +94,10 @@
                   <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                   <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
-              </div>
+              </div> -->
             </fieldset>
             <div class="row justify-content-center">
-              <button mat-button [disabled]="!addForm.valid" (click)="guardarRepo()" color="primary">
+              <button mat-button [disabled]="!addForm.valid" type="submit" color="primary">
                 <mat-icon mat-list-icon>done</mat-icon>
                 Guardar
               </button>
@@ -170,14 +107,63 @@
               </button>
             </div>
           </form>
-        </div>
-
-
-        <div>
-
+          <mat-divider class="mt-2">
+          </mat-divider>
         </div>
       </mat-card-content>
-      <mat-card-actions>
+      <mat-card-content *ngIf="!showAdd">
+        <div class="row justify-content-end mb-2">
+          <div class="col">
+            Los proyectos vinculados a sus cuentas son:
+          </div>
+          <div class="col">
+            <button mat-button (click)="showAll()" color="primary">
+              <mat-icon mat-list-icon>visibility</mat-icon>
+              Mostrar Todos
+            </button>
+            <button mat-button (click)="hideAll()" color="primary">
+              <mat-icon mat-list-icon>visibility_off</mat-icon>
+              Ocultar Todos
+            </button>
+          </div>
+          <table datatable [dtOptions]="dtOptions" class="table table-inverse table-responsive" *ngIf="repositorios">
+            <thead class="thead-inverse">
+              <tr>
+                <th>Icono</th>
+                <th>Proyectos</th>
+                <th>Source</th>
+                <th>Visibilidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let proy of repositorios.datos" (click)="proy.estado=!proy.estado" style="cursor: pointer" [ngClass]="{red: proy.estado==false}">
+                <td scope="row">
+                  <img [src]="proy.avatar |imagen:'repositorios'" alt="" height="24" width="24">
+                </td>
+                <td>
+                  <a target="#">{{proy.nombre}} </a>
+                </td>
+                <td>
+                  <img *ngIf="proy.tipo=='github'" src="assets/images/github.png" alt="" height="30" width="30">
+                  <img *ngIf="proy.tipo=='gitlab'" src="assets/images/gitlab.png" alt="" height="30" width="30">
+                  <img *ngIf="proy.tipo=='bitbucket'" src="assets/images/bitbucket.png" alt="" height="30" width="30">
+                </td>
+
+                <td *ngIf="proy.estado">
+                  <mat-icon aria-label="habilitado" color="primary">visibility</mat-icon>
+                </td>
+                <td *ngIf="!proy.estado">
+                  <mat-icon aria-label="deshabilitado" color="warn">visibility_off</mat-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </mat-card-content>
+
+      <mat-card-actions *ngIf="!showAdd">
         <div class="row justify-content-center">
           <button mat-button (click)="save()" color="primary">
             <mat-icon mat-list-icon>save</mat-icon>

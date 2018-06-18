@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { GLOBAL } from "./../../services/global";
 import { environment } from "../../../environments/environment";
 
@@ -8,6 +8,7 @@ import { environment } from "../../../environments/environment";
   styleUrls: ["./oauth2.component.css"]
 })
 export class Oauth2Component implements OnInit {
+  @Input() config;
   constructor() {}
 
   ngOnInit() {}

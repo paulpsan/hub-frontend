@@ -1,17 +1,17 @@
-<button (click)="loginGH()" class="btn btn-block btn-social btn-github" *ngIf="!github">
+<button (click)="loginGH()" class="btn btn-block btn-social btn-github" *ngIf="!github" [disabled]="config.github">
   <i class="fa fa-github"></i>
   <strong class="">Github</strong>
 </button>
-<button (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki" *ngIf="!gitlab">
+<button (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki" *ngIf="!gitlab" [disabled]="config.gitlab">
   <i class="fa fa-gitlab"></i>
   <strong class="">Gitlab</strong>
 </button>
-<button (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket" *ngIf="!bitbucket">
+<button (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket" *ngIf="!bitbucket" [disabled]="config.bitbucket">
   <i class="fa fa-bitbucket"></i>
   <strong class="">Bitbucket</strong>
 </button>
 
-          <!-- <div class="col-md-6">
+<!-- <div class="col-md-6">
             <button (click)="loginGH()" mat-raised-button flex="15" *ngIf="!github">
               <mat-icon fontIcon="fa-github" class="fa fa-lg"></mat-icon>
               <strong class="nombre-repo">Github</strong>

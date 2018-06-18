@@ -59,11 +59,18 @@ export class UsuarioService {
         return Observable.throw(err);
       });
   }
-  crearUsuarioOauth(nombre: string, usuario,usuarioOauth ,token) {
+  crearUsuarioOauth(tipo: string, token) {
     return this._http
-      .post(this.url + "usuarios/" + nombre, { usuario, token ,usuarioOauth})
+      .post(this.url + "usuarios/" + tipo, { token })
       .catch((error: any) => {
         console.log(error);
+        return Observable.throw(error || "Server error");
+      });
+  }
+  addRepos(tipo: string, usuario, token) {
+    return this._http
+      .post(this.url + "repositorios/oauth" + tipo, { usuario, token, tipo })
+      .catch((error: any) => {
         return Observable.throw(error || "Server error");
       });
   }
@@ -76,10 +83,8 @@ export class UsuarioService {
   }
   login(usuario: Usuario) {
     let urlApi = this.url + "auth/local";
-    return this._http
-      .post(urlApi, usuario)
-      .catch(err => {
-        return Observable.throw(err);
-      });
+    return this._http.post(urlApi, usuario).catch(err => {
+      return Observable.throw(err);
+    });
   }
 }

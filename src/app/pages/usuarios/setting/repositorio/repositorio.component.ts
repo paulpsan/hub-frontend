@@ -7,6 +7,7 @@ import { slideInDownAnimation } from "../../../../animations";
 import { Usuario } from "../../../../models/usuario";
 import { UsuarioService } from "../../../../services/usuario/usuario.service";
 import { Subject } from "rxjs";
+import { SubirArchivoService } from "../../../../services/service.index";
 
 @Component({
   selector: "hub-repositorio",
@@ -30,15 +31,17 @@ export class RepositorioComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   imagenSubir: File;
   imagenTemp: string;
-
+  urlImg;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private _httpService: HttpService,
-    private _usuarioService: UsuarioService
+    private _usuarioService: UsuarioService,
+    private _subirArchivoService: SubirArchivoService
   ) {}
 
   ngOnInit() {
+    this.urlImg=GLOBAL.url;
     this.usuario = this._usuarioService.usuario;
     GLOBAL.dtOptions.order = [[3, "asc"]];
     this.dtOptions = GLOBAL.dtOptions;
@@ -58,31 +61,54 @@ export class RepositorioComponent implements OnInit {
 
     if (this.id) {
       //edit form
-      this._httpService
-        .obtener("repositorios/" + this.id + "/usuarios")
-        .subscribe(
-          repositorios => {
-            this.repositorios = repositorios;
-            this.repoCopy = JSON.parse(JSON.stringify(repositorios));
-
-            this.showRepo = this.repositorios.datos.length !== 0 ? true : false;
-            console.log(repositorios, this.showRepo);
-            // this.id = usuario._id;
-            // this.userForm.patchValue({
-            //   nombre: usuario.nombre,
-            //   email: usuario.email,
-            //   password: usuario.password,
-            //   descripcion: usuario.descripcion,
-            //   avatar: usuario.avatar,
-            //   url: usuario.url
-            // });
-          },
-          error => {
-            console.log(error);
-          }
-        );
+      this.getRepositorios();
     }
   }
+  next(object) {
+    this.siguiente.emit(object);
+  }
+  getRepositorios() {
+    this._httpService
+      .obtener("repositorios/" + this.id + "/usuarios")
+      .subscribe(
+        repositorios => {
+          this.repositorios = repositorios;
+          this.repoCopy = JSON.parse(JSON.stringify(repositorios));
+
+          this.showRepo = this.repositorios.datos.length !== 0 ? true : false;
+          console.log(repositorios, this.showRepo);
+          // this.id = usuario._id;
+          // this.userForm.patchValue({
+          //   nombre: usuario.nombre,
+          //   email: usuario.email,
+          //   password: usuario.password,
+          //   descripcion: usuario.descripcion,
+          //   avatar: usuario.avatar,
+          //   url: usuario.url
+          // });
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+  seleccionImage(archivo: File) {
+    console.log(this.imagenTemp, this.usuario);
+    if (!archivo) {
+      this.imagenSubir = null;
+      return;
+    }
+    if (archivo.type.indexOf("image") < 0) {
+      this.imagenSubir = null;
+      return;
+    }
+    this.imagenSubir = archivo;
+
+    let reader = new FileReader();
+    let urlImagenTemp = reader.readAsDataURL(archivo);
+    reader.onloadend = () => (this.imagenTemp = reader.result);
+  }
+
   adicionarRepo() {
     this.showAdd = true;
 
@@ -94,32 +120,39 @@ export class RepositorioComponent implements OnInit {
       datePri: new FormControl(""),
       dateUlt: new FormControl("")
     });
-    console.log("object");
   }
-  ngOnDestroy(): void {
-    // this.sub.unsubscribe();
-  }
-  guardarRepo() {
-    let repositorio = {
-      nombre: this.addForm.controls["nombre"].value,
-      urlRepo: this.addForm.controls["urlRepo"].value,
-      descripcion: this.addForm.controls["descripcion"].value
-    };
-    this.showAdd = false;
-  }
+
+  // guardarRepo() {
+  //   let repositorio = {
+  //     nombre: this.addForm.controls["nombre"].value,
+  //     urlRepo: this.addForm.controls["urlRepo"].value,
+  //     descripcion: this.addForm.controls["descripcion"].value
+  //   };
+  //   this.showAdd = false;
+  // }
   onSubmit() {
-    if (this.userForm.valid) {
-      if (this.id) {
-        let usuario = {
-          _id: this.id,
-          nombre: this.userForm.controls["nombre"].value,
-          email: this.userForm.controls["email"].value,
-          avatar: this.userForm.controls["avatar"].value,
-          password: this.userForm.controls["password"].value,
-          descripcion: this.userForm.controls["descripcion"].value
-        };
-        this._httpService.editar("usuarios", usuario).subscribe();
-      }
+    if (this.addForm.valid) {
+      let repositorio = {
+        nombre: this.addForm.controls["nombreRepo"].value,
+        urlRepo: this.addForm.controls["urlRepo"].value,
+        descripcion: this.addForm.controls["descripcionRepo"].value,
+        fk_usuario: this.id
+      };
+
+      this._httpService
+        .adicionar("repositorios", repositorio)
+        .subscribe(repo => {
+          if (this.imagenSubir) {
+            this._subirArchivoService
+              .subirArchivo(this.imagenSubir, "repositorios", repo._id)
+              .then((resp: any) => {
+                // this.repositorios.avatar = resp.repositorios.avatar;
+                repo.avatar = resp.repositorio.avatar;
+                this._httpService.editar("repositorios", repo).subscribe();
+              });
+          }
+        });
+      this.showAdd = false;
     }
   }
   save() {

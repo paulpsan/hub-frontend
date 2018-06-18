@@ -61,8 +61,12 @@ export class PerfilComponent implements OnInit {
         url: this.usuario.url
       });
     }
+    console.log(this.userForm.valid);
+    if (this.userForm.valid) {
+      this.showButton = false;
+      this.next({ value: false, index: 0 });
+    }
   }
-
 
   onSubmit() {
     console.log(this.userForm.valid);
@@ -82,10 +86,10 @@ export class PerfilComponent implements OnInit {
             .then((resp: any) => {
               usuario.avatar = resp.usuario.avatar;
               this._usuarioService.actualizarUsuario(usuario).subscribe();
-              return;
             });
+        } else {
+          this._usuarioService.actualizarUsuario(usuario).subscribe();
         }
-        this._usuarioService.actualizarUsuario(usuario).subscribe();
 
         // this._httpService.editar("usuarios", usuario).subscribe(resp => {
         //   console.log(resp);
@@ -93,11 +97,11 @@ export class PerfilComponent implements OnInit {
         // });
       }
     }
-    this.showButton=false;
+    this.showButton = false;
   }
 
-  next() {
-    this.siguiente.emit(this.id);
+  next(object) {
+    this.siguiente.emit(object);
   }
 
   seleccionImage(archivo: File) {

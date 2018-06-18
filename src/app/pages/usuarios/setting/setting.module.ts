@@ -19,6 +19,7 @@ import {
   ModalEliminarUsuario
 } from "./eliminar/eliminar.component";
 import { SharedModule } from "../../../shared/shared.module";
+import { PipesModule } from "../../../pipes/pipes.module";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { SharedModule } from "../../../shared/shared.module";
     HttpClientModule,
     ComunModule,
     DataTablesModule,
-    SharedModule
+    SharedModule,
+    PipesModule
   ],
   exports: [],
   entryComponents: [ModalEliminarUsuario, ModalEliminarCuenta]

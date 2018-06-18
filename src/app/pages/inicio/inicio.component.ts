@@ -41,13 +41,72 @@ export class InicioComponent implements OnInit {
                 if (resp.error || !resp.usuario) {
                   this.router.navigate(["/login"]);
                 } else {
+                  //this.usuario=true adicionar repositorios
+                  if (this.usuario) {
+                    this.router.navigate([
+                      "/usuarios/ajustes/" + this.usuario._id
+                    ]);
+                    let snackBarRef = this.snackBar.open(
+                      "Bienvenido se estan guardando los datos referentes a su cuenta por favor espere un momento!!",
+                      "",
+                      {
+                        panelClass: "background-alert"
+                      }
+                    );
+                    this._usuarioService
+                      .addRepos("github", this.usuario, resp.token)
+                      .subscribe(respRepo => {
+                        snackBarRef.dismiss();
+                        this.snackBarSuccess();
+                      });
+                  } else {
+                    this._usuarioService
+                      .crearUsuarioOauth("github", resp.token)
+                      .subscribe(respUsuario => {
+                        //guardar en storage
+                        this._usuarioService.guardarStorage(
+                          respUsuario.usuario._id,
+                          respUsuario.usuario,
+                          respUsuario.token
+                        );
+                        this.router.navigate([
+                          "/usuarios/ajustes/" + respUsuario.usuario._id
+                        ]);
+
+                        if (
+                          respUsuario.usuario.fecha_creacion ===
+                          respUsuario.usuario.fecha_modificacion
+                        ) {
+                          this.snackBarCargarDatos(
+                            "usuarios/datosgithub",
+                            respUsuario
+                          );
+                        } else {
+                          let snackBarRef = this.snackBar.open(
+                            "Bienvenido sus datos se guardaron en fecha " +
+                              new Date(respUsuario.usuario.fecha_modificacion) +
+                              " Desea Actualizar los Datos?",
+                            "Aceptar",
+                            {
+                              panelClass: "background-alert",
+                              duration: 10000
+                            }
+                          );
+                          snackBarRef.afterDismissed().subscribe(info => {
+                            if (info.dismissedByAction === true) {
+                              this.snackBarCargarDatos(
+                                "usuarios/datosgithub",
+                                respUsuario
+                              );
+                            }
+                          });
+                        }
+
+                      });
+                  }
+
                   this._usuarioService
-                    .crearUsuarioOauth(
-                      "github",
-                      this.usuario,
-                      resp.usuario,
-                      resp.token
-                    )
+                    .crearUsuarioOauth("github", resp.token)
                     .subscribe(respUsuario => {
                       //guardar en storage
                       console.log(respUsuario);
@@ -59,34 +118,6 @@ export class InicioComponent implements OnInit {
                       this.router.navigate([
                         "/usuarios/ajustes/" + respUsuario.usuario._id
                       ]);
-                      if (
-                        respUsuario.usuario.fecha_creacion ===
-                        respUsuario.usuario.fecha_modificacion
-                      ) {
-                        this.snackBarCargarDatos(
-                          "usuarios/datosgithub",
-                          respUsuario
-                        );
-                      } else {
-                        let snackBarRef = this.snackBar.open(
-                          "Bienvenido sus datos se guardaron en fecha " +
-                            new Date(respUsuario.usuario.fecha_modificacion) +
-                            " Desea Actualizar los Datos?",
-                          "Aceptar",
-                          {
-                            panelClass: "background-alert",
-                            duration: 10000
-                          }
-                        );
-                        snackBarRef.afterDismissed().subscribe(info => {
-                          if (info.dismissedByAction === true) {
-                            this.snackBarCargarDatos(
-                              "usuarios/datosgithub",
-                              respUsuario
-                            );
-                          }
-                        });
-                      }
                     });
                 }
               });

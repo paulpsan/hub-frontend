@@ -13,8 +13,7 @@ export class CuentaComponent implements OnInit {
   github: Boolean = false;
   gitlab: Boolean = false;
   bitbucket: Boolean = false;
-  sub;
-  id;
+  config;
   @Input() usuario;
   constructor(
     private router: Router,
@@ -28,7 +27,13 @@ export class CuentaComponent implements OnInit {
     this.github = this.usuario.id_github;
     this.gitlab = this.usuario.id_gitlab;
     this.bitbucket = this.usuario.id_bitbucket;
+    this.config = {
+      github: this.usuario.github,
+      gitlab: this.usuario.gitlab,
+      bitbucket: this.usuario.bitbucket
+    };
   }
+
   desvincular(cadena) {
     let dialogRef = this.dialog.open(ModalEliminarCuenta, {
       width: "350px",

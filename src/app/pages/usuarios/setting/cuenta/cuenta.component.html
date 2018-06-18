@@ -12,67 +12,70 @@
         </div>
         <div *ngIf="!cuentas" class="container">
           Sus cuentas son:
-          <div class="row" *ngIf="local">
-            <div class="col">
-              <div class="cuentas-login">
-                <img src="assets/images/adsib.ico" width="30" heigth="30">
-                <strong class="">local</strong>
+          <div class="container">
+            <div class="row mt-2" *ngIf="local">
+              <div class="col">
+                <div class="cuentas-login">
+                  <img src="assets/images/adsib.ico" width="30" heigth="30">
+                  <strong class="align-content-center">Adsib</strong>
+                </div>
               </div>
-            </div>
-            <div class="col">
-              <!-- <button mat-button color="warn" (click)="desvincular(github)">
-                Desvincular
-              </button> -->
-            </div>
-          </div>
-
-          <div class="row" *ngIf="github">
-            <div class="col">
-              <div class="cuentas-login">
-                <i class="fa fa-github"></i>
-                <strong class="">Github</strong>
-
-              </div>
-            </div>
-            <div class="col">
-              <button mat-button color="warn" (click)="desvincular(github)">
+              <!-- <div class="col">
+                <button mat-button color="warn" (click)="desvincular(github)">
                 Desvincular
               </button>
+              </div> -->
             </div>
-          </div>
-          <div class="row" *ngIf="gitlab">
-            <div class="col">
-              <div class="cuentas-login">
-                <i class="fa fa-gitlab"></i>
-                <strong class="">Gitlab</strong>
 
+            <div class="row mt-2" *ngIf="github">
+              <div class="col">
+                <div class="cuentas-login">
+                  <i class="fa fa-github"></i>
+                  <strong class="">Github</strong>
+
+                </div>
+              </div>
+              <div class="col">
+                <button mat-button color="warn" (click)="desvincular(github)">
+                  Desvincular
+                </button>
               </div>
             </div>
-            <div class="col">
-              <button mat-button color="warn" (click)="desvincular(github)">
-                Desvincular
-              </button>
-            </div>
-          </div>
-          <div class="row" *ngIf="bitbucket">
-            <div class="col">
-              <div class="cuentas-login">
-                <i class="fa fa-bitbucket"></i>
-                <strong class="">Bitbucket</strong>
+            <div class="row mt-2" *ngIf="gitlab">
+              <div class="col">
+                <div class="cuentas-login">
+                  <i class="fa fa-gitlab"></i>
+                  <strong class="text">Gitlab</strong>
 
+                </div>
+              </div>
+              <div class="col">
+                <button mat-button color="warn" (click)="desvincular(github)">
+                  Desvincular
+                </button>
               </div>
             </div>
-            <div class="col">
-              <button mat-button color="warn" (click)="desvincular(github)">
-                Desvincular
-              </button>
+            <div class="row mt-2" *ngIf="bitbucket">
+              <div class="col">
+                <div class="cuentas-login">
+                  <i class="fa fa-bitbucket"></i>
+                  <strong class="">Bitbucket</strong>
+
+                </div>
+              </div>
+              <div class="col">
+                <button mat-button color="warn" (click)="desvincular(github)">
+                  Desvincular
+                </button>
+              </div>
             </div>
           </div>
+
           <mat-divider></mat-divider>
           Desea Adicionar Cuentas:
 
           <div class="col-md-6">
-            <hub-oauth2></hub-oauth2>
+            <hub-oauth2 [config]="config"></hub-oauth2>
           </div>
         </div>
 
