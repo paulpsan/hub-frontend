@@ -24,12 +24,10 @@ export class CuentaComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.usuario);
-    for (const cuenta of this.usuario.cuentas) {
-      this.local = cuenta == "local" ? true : false;
-      this.github = cuenta == "github" ? true : false;
-      this.gitlab = cuenta == "gitlab" ? true : false;
-      this.bitbucket = cuenta == "bitbucket" ? true : false;
-    }
+    this.local = true;
+    this.github = this.usuario.id_github;
+    this.gitlab = this.usuario.id_gitlab;
+    this.bitbucket = this.usuario.id_bitbucket;
   }
   desvincular(cadena) {
     let dialogRef = this.dialog.open(ModalEliminarCuenta, {
@@ -46,9 +44,6 @@ export class CuentaComponent implements OnInit {
       }
     });
   }
-
-
-  
 }
 @Component({
   selector: "modal-eliminar-cuenta",

@@ -16,7 +16,8 @@ import { Subject } from "rxjs";
 export class RepositorioComponent implements OnInit {
   id: number;
   acciones: string;
-  repositorio;
+  repositorios;
+  repoCopy;
   private sub: any;
   userForm: FormGroup;
   addForm: FormGroup;
@@ -39,6 +40,7 @@ export class RepositorioComponent implements OnInit {
 
   ngOnInit() {
     this.usuario = this._usuarioService.usuario;
+    GLOBAL.dtOptions.order = [[3, "asc"]];
     this.dtOptions = GLOBAL.dtOptions;
     this.id = this.usuario._id;
 
@@ -60,8 +62,10 @@ export class RepositorioComponent implements OnInit {
         .obtener("repositorios/" + this.id + "/usuarios")
         .subscribe(
           repositorios => {
-            this.repositorio = repositorios;
-            this.showRepo = this.repositorio.datos.length !== 0 ? true : false;
+            this.repositorios = repositorios;
+            this.repoCopy = JSON.parse(JSON.stringify(repositorios));
+
+            this.showRepo = this.repositorios.datos.length !== 0 ? true : false;
             console.log(repositorios, this.showRepo);
             // this.id = usuario._id;
             // this.userForm.patchValue({
@@ -119,31 +123,32 @@ export class RepositorioComponent implements OnInit {
     }
   }
   save() {
-    console.log("guardar");
+    for (const key in this.repositorios.datos) {
+      console.log(
+        this.repositorios.datos[key].estado,
+        this.repoCopy.datos[key].estado
+      );
+      if (
+        this.repositorios.datos[key].estado != this.repoCopy.datos[key].estado
+      ) {
+        this.repositorios.datos[key].commits = [];
+        this._httpService
+          .editar("repositorios", this.repositorios.datos[key])
+          .subscribe();
+      }
+    }
+    this.repoCopy = JSON.parse(JSON.stringify(this.repositorios));
   }
   showAll() {
+    for (const repo of this.repositorios.datos) {
+      repo.estado = true;
+    }
     console.log("showAll");
   }
   hideAll() {
+    for (const repo of this.repositorios.datos) {
+      repo.estado = false;
+    }
     console.log("hideAll");
   }
-  // seleccionImage(archivo: File) {
-  //   if (!archivo) {
-  //     this.imagenSubir = null;
-  //     return;
-  //   }
-  //   if (archivo.type.indexOf("image") < 0) {
-  //     this.imagenSubir = null;
-  //     return;
-  //   }
-  //   this.imagenSubir = archivo;
-
-  //   let reader = new FileReader();
-  //   let urlImagenTemp = reader.readAsDataURL(archivo);
-
-  //   reader.onloadend = () => (this.imagenTemp = reader.result);
-  // }
-  // cambiarImagen() {
-  //   console.log(this.imagenSubir, this.usuario._id);
-  // }
 }

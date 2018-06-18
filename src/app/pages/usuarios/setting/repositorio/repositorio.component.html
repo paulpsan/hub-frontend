@@ -17,7 +17,7 @@
             Ocultar Todos
           </button>
         </div>
-        <table datatable [dtOptions]="dtOptions" class="table table-inverse table-responsive" *ngIf="repositorio">
+        <table datatable [dtOptions]="dtOptions" class="table table-inverse table-responsive" *ngIf="repositorios">
           <thead class="thead-inverse">
             <tr>
               <th>Icono</th>
@@ -27,7 +27,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let proy of repositorio.datos" (click)="proy.estado=!proy.estado" style="cursor: pointer" [ngClass]="{red: proy.estado==false}">
+            <tr *ngFor="let proy of repositorios.datos" (click)="proy.estado=!proy.estado" style="cursor: pointer" [ngClass]="{red: proy.estado==false}">
               <td scope="row">
                 <img src="{{proy.avatar}}" alt="" height="30" width="30">
               </td>
