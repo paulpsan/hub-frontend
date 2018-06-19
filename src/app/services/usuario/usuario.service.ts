@@ -48,32 +48,33 @@ export class UsuarioService {
     return this._http
       .patch(urlApi, usuario)
       .map((resp: any) => {
-        console.log(this.usuario, resp);
         if (usuario._id === this.usuario._id) {
-          let usuarioDB = resp;
-          this.guardarStorage(usuarioDB.id, usuarioDB);
+          console.log(this.usuario, resp);
+          this.guardarStorage(resp.id, resp);
         }
-        return true;
+        return resp;
       })
       .catch(err => {
         return Observable.throw(err);
       });
   }
-  crearUsuarioOauth(tipo: string, token) {
+  singOauth(tipo: string, usuarioOauth, token) {
     return this._http
-      .post(this.url + "usuarios/" + tipo, { token })
+      .post(this.url + "usuarios/oauth/" + tipo, { usuarioOauth, token })
       .catch((error: any) => {
         console.log(error);
         return Observable.throw(error || "Server error");
       });
   }
-  addRepos(tipo: string, usuario, token) {
+
+  adiUsuarioOauth(tipo: string, usuario, token) {
     return this._http
-      .post(this.url + "repositorios/oauth" + tipo, { usuario, token, tipo })
+      .put(this.url + "usuarios/oauth" + tipo, { usuario, token, tipo })
       .catch((error: any) => {
         return Observable.throw(error || "Server error");
       });
   }
+
   logout() {
     this.usuario = null;
     this.token = "";

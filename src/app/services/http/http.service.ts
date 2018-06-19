@@ -14,16 +14,13 @@ export class HttpService {
   }
   //obtiene datos de forma general
 
-  obtener(nombre: string): Observable<any[]> {
+  obtener(tipo: string){
     return this._http
-      .get(this.url + nombre)
-      .map((res: Response) => {
-        return res;
-      })
+      .get(this.url + tipo)
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
   //obtiene y busca datos de forma general
-  obtenerPaginado(nombre: string, obj): Observable<any[]> {
+  obtenerPaginado(tipo: string, obj): Observable<any[]> {
     let myParams = new HttpParams();
     if (obj.buscar != undefined) {
       myParams = myParams.append("buscar", obj.buscar);
@@ -32,65 +29,44 @@ export class HttpService {
     myParams = myParams.append("pagina", obj.pagina);
     myParams = myParams.append("limite", obj.limite);
     return this._http
-      .get(this.url + nombre + "?tsp=" + Date.now(), { params: myParams })
-      .map((res: Response) => {
-        return res;
-      })
+      .get(this.url + tipo + "?tsp=" + Date.now(), { params: myParams })
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
 
-  obtenerUsuarios(nombre: string, repo: any, token: any): Observable<any> {
+  obtenerUsuarios(tipo: string, repo: any, token: any): Observable<any> {
     return this._http
-      .post(this.url + nombre + "/usuarios/" + repo.id, { repo, token })
-      .map((res: Response) => {
-        return res;
-      })
+      .post(this.url + tipo + "/usuarios/" + repo.id, { repo, token })
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
 
-  buscarId(nombre: string, id: number): Observable<any> {
+  buscarId(tipo: string, id: number): Observable<any> {
     let headers = new Headers({ "Content-Type": "application/json" });
     return this._http
-      .get(this.url + nombre + "/" + id + "?tsp=" + Date.now())
-      .map((res: Response) => {
-        return res;
-      })
+      .get(this.url + tipo + "/" + id + "?tsp=" + Date.now())
       .catch((error: any) => Observable.throw(error || "Error"));
   }
 
-  post(nombre: string, objeto: any): Observable<any> {
+  post(tipo: string, objeto: any): Observable<any> {
     return this._http
-      .post(this.url + nombre, objeto)
-      .map((res: Response) => {
-        return res;
-      })
+      .post(this.url + tipo, objeto)
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
 
-  adicionar(nombre: string, objeto: any): Observable<any> {
+  adicionar(tipo: string, objeto: any): Observable<any> {
     return this._http
-      .post(this.url + nombre, objeto)
-      .map((res: Response) => {
-        return res;
-      })
+      .post(this.url + tipo, objeto)
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
 
-  editar(nombre: string, objeto: any): Observable<any[]> {
+  editar(tipo: string, objeto: any): Observable<any[]> {
     return this._http
-      .patch(this.url + nombre + "/" + objeto._id, objeto)
-      .map((res: Response) => {
-        return res;
-      })
+      .patch(this.url + tipo + "/" + objeto._id, objeto)
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
 
-  eliminarId(nombre: string, id: number): Observable<boolean> {
+  eliminarId(tipo: string, id: number): Observable<boolean> {
     return this._http
-      .delete(this.url + nombre + "/" + id)
-      .map((res: Response) => {
-        return res;
-      })
+      .delete(this.url + tipo + "/" + id)
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
 

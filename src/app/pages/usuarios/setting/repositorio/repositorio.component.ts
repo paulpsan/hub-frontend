@@ -41,7 +41,7 @@ export class RepositorioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.urlImg=GLOBAL.url;
+    this.urlImg = GLOBAL.url;
     this.usuario = this._usuarioService.usuario;
     GLOBAL.dtOptions.order = [[3, "asc"]];
     this.dtOptions = GLOBAL.dtOptions;
@@ -157,17 +157,23 @@ export class RepositorioComponent implements OnInit {
   }
   save() {
     for (const key in this.repositorios.datos) {
-      console.log(
-        this.repositorios.datos[key].estado,
-        this.repoCopy.datos[key].estado
-      );
       if (
         this.repositorios.datos[key].estado != this.repoCopy.datos[key].estado
       ) {
-        this.repositorios.datos[key].commits = [];
+            console.log(
+              this.repositorios.datos[key].estado,
+              this.repoCopy.datos[key].estado
+            );
         this._httpService
           .editar("repositorios", this.repositorios.datos[key])
           .subscribe();
+        if (this.repositorios.datos[key].estado) {
+          this._httpService
+            .post("commits", this.repositorios.datos[key])
+            .subscribe(response => {
+              console.log(response);
+            });
+        }
       }
     }
     this.repoCopy = JSON.parse(JSON.stringify(this.repositorios));

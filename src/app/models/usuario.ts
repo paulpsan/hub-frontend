@@ -12,6 +12,12 @@ export class Usuario {
     public descripcion?: string,
     public clasificacion?: any[],
     public datos?: any[],
+    public github?: Boolean,
+    public id_github?: number,
+    public gitlab?: Boolean,
+    public id_gitlab?: number,
+    public bitbucket?: Boolean,
+    public id_bitbucket?: string,
     public fecha_creaccion?: string,
     public fecha_modificacion?: string
   ) {}

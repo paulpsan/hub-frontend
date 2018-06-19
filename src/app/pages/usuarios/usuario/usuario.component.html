@@ -67,19 +67,19 @@
     <div class="mb-3">
       <div class="card-deck">
         <div class="card">
-          <div class="card-body" *ngIf="showProyectos">
-            <h4 id="titulo_proyecto" class="card-title">Proyectos</h4>
+          <div class="card-body" *ngIf="showRepositorios">
+            <h4 id="titulo_repositorio" class="card-title">Repositorios</h4>
             <!-- <table class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'"> -->
-            <table datatable [dtOptions]="dtOptions" class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'">
+            <table datatable [dtOptions]="dtOptions" class="table table-hover table-inverse table-responsive">
               <thead class="thead-inverse">
                 <tr>
                   <th></th>
-                  <th>Proyectos</th>
+                  <th>Repositorios</th>
                   <th>Url</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let proy of repositorios.datos" (click)="detalleProyecto(proy,usuario.tipo)" style="cursor: pointer">
+                <tr *ngFor="let proy of repositorios" (click)="detalleRepositorio(proy,usuario.tipo)" style="cursor: pointer">
                   <td scope="row">
                     <img src="{{proy.avatar}}" alt="" height="30" width="30"> </td>
                   <td>
@@ -92,14 +92,14 @@
                 </tr>
               </tbody>
             </table>
-            <div *ngIf="usuario.tipo=='local'">
+            <div *ngIf="!showRepositorios">
               <p>No cuenta con repositorios </p>
             </div>
           </div>
         </div>
         <div class="card" *ngIf="showUsuarios">
           <div class="card-body">
-            <h4>{{proyectoSelect.nombre}}</h4>
+            <h4>{{repositorioSelect.nombre}}</h4>
             <table class="table table-hover table-inverse table-responsive">
               <thead class="thead-inverse">
                 <tr>
@@ -109,7 +109,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let value of usuarioProyecto">
+                <tr *ngFor="let value of usuarioRepositorio">
                   <td scope="row">
                     <img src="{{value.avatar_url}}" alt="" height="30" width="30">
                   </td>
@@ -132,7 +132,7 @@
       <div class="card-deck">
         <div class="card" *ngIf="data$">
           <div class="card-body">
-            <span>Commits por proyecto</span>
+            <span>Commits por repositorio</span>
             <chart-codigo [data]="data$">
             </chart-codigo>
           </div>

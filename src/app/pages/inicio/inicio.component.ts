@@ -43,25 +43,12 @@ export class InicioComponent implements OnInit {
                 } else {
                   //this.usuario=true adicionar repositorios
                   if (this.usuario) {
-                    this.router.navigate([
-                      "/usuarios/ajustes/" + this.usuario._id
-                    ]);
-                    let snackBarRef = this.snackBar.open(
-                      "Bienvenido se estan guardando los datos referentes a su cuenta por favor espere un momento!!",
-                      "",
-                      {
-                        panelClass: "background-alert"
-                      }
-                    );
-                    this._usuarioService
-                      .addRepos("github", this.usuario, resp.token)
-                      .subscribe(respRepo => {
-                        snackBarRef.dismiss();
-                        this.snackBarSuccess();
-                      });
+                    this.usuario.id_github = resp.usuario.id;
+                    this.usuario.github = true;
+                    this.actualizaUsuario(this.usuario, resp.token, "github");
                   } else {
                     this._usuarioService
-                      .crearUsuarioOauth("github", resp.token)
+                      .singOauth("github", resp.usuario, resp.token)
                       .subscribe(respUsuario => {
                         //guardar en storage
                         this._usuarioService.guardarStorage(
@@ -73,13 +60,12 @@ export class InicioComponent implements OnInit {
                           "/usuarios/ajustes/" + respUsuario.usuario._id
                         ]);
 
-                        if (
-                          respUsuario.usuario.fecha_creacion ===
-                          respUsuario.usuario.fecha_modificacion
-                        ) {
+                        if (this.estaActualizado(respUsuario)) {
                           this.snackBarCargarDatos(
-                            "usuarios/datosgithub",
-                            respUsuario
+                            "repositorios/oauth",
+                            "github",
+                            respUsuario.usuario,
+                            respUsuario.token
                           );
                         } else {
                           let snackBarRef = this.snackBar.open(
@@ -95,30 +81,16 @@ export class InicioComponent implements OnInit {
                           snackBarRef.afterDismissed().subscribe(info => {
                             if (info.dismissedByAction === true) {
                               this.snackBarCargarDatos(
-                                "usuarios/datosgithub",
-                                respUsuario
+                                "repositorios/oauth",
+                                "github",
+                                respUsuario.usuario,
+                                respUsuario.token
                               );
                             }
                           });
                         }
-
                       });
                   }
-
-                  this._usuarioService
-                    .crearUsuarioOauth("github", resp.token)
-                    .subscribe(respUsuario => {
-                      //guardar en storage
-                      console.log(respUsuario);
-                      this._usuarioService.guardarStorage(
-                        respUsuario.usuario._id,
-                        respUsuario.usuario,
-                        respUsuario.token
-                      );
-                      this.router.navigate([
-                        "/usuarios/ajustes/" + respUsuario.usuario._id
-                      ]);
-                    });
                 }
               });
           }
@@ -131,34 +103,55 @@ export class InicioComponent implements OnInit {
                 if (resp.error) {
                   this.router.navigate(["/login"]);
                 } else {
-                  let usuario = {
-                    _id: resp.usuario._id,
-                    login: resp.usuario.login,
-                    email: resp.usuario.email
-                  };
-                  if (
-                    resp.usuario.fecha_creacion ===
-                    resp.usuario.fecha_modificacion
-                  ) {
-                    this.snackBarCargarDatos("usuarios/datosgitlab", resp);
+                  if (this.usuario) {
+                    this.usuario.id_gitlab = resp.usuario.id;
+                    this.usuario.gitlab = true;
+                    this.actualizaUsuario(this.usuario, resp.token, "gitlab");
                   } else {
-                    let snackBarRef = this.snackBar.open(
-                      "Bienvenido sus datos se guardaron en fecha " +
-                        new Date(resp.usuario.fecha_modificacion) +
-                        " Desea Actualizar los Datos?",
-                      "Aceptar",
-                      {
-                        panelClass: "background-alert",
-                        duration: 10000
-                      }
-                    );
-                    snackBarRef.afterDismissed().subscribe(info => {
-                      if (info.dismissedByAction === true) {
-                        this.snackBarCargarDatos("usuarios/datosgitlabb", resp);
-                      }
-                    });
+                    this._usuarioService
+                      .singOauth("gitlab", resp.usuario, resp.token)
+                      .subscribe(respUsuario => {
+                        //guardar en storage
+                        this._usuarioService.guardarStorage(
+                          respUsuario.usuario._id,
+                          respUsuario.usuario,
+                          respUsuario.token
+                        );
+                        this.router.navigate([
+                          "/usuarios/ajustes/" + respUsuario.usuario._id
+                        ]);
+
+                        if (this.estaActualizado(respUsuario)) {
+                          this.snackBarCargarDatos(
+                            "repositorios/oauth",
+                            "gitlab",
+                            respUsuario.usuario,
+                            respUsuario.token
+                          );
+                        } else {
+                          let snackBarRef = this.snackBar.open(
+                            "Bienvenido sus datos se guardaron en fecha " +
+                              new Date(respUsuario.usuario.fecha_modificacion) +
+                              " Desea Actualizar los Datos?",
+                            "Aceptar",
+                            {
+                              panelClass: "background-alert",
+                              duration: 10000
+                            }
+                          );
+                          snackBarRef.afterDismissed().subscribe(info => {
+                            if (info.dismissedByAction === true) {
+                              this.snackBarCargarDatos(
+                                "repositorios/oauth",
+                                "gitlab",
+                                respUsuario.usuario,
+                                respUsuario.token
+                              );
+                            }
+                          });
+                        }
+                      });
                   }
-                  this.router.navigate(["/proyectos"]);
                 }
               });
           }
@@ -170,37 +163,60 @@ export class InicioComponent implements OnInit {
                 if (resp.error) {
                   this.router.navigate(["/login"]);
                 } else {
-                  let usuario = {
-                    _id: resp.usuario._id,
-                    login: resp.usuario.login,
-                    email: resp.usuario.email
-                  };
-                  if (
-                    resp.usuario.fecha_creacion ===
-                    resp.usuario.fecha_modificacion
-                  ) {
-                    this.snackBarCargarDatos("usuarios/datosbitbucket", resp);
-                  } else {
-                    let snackBarRef = this.snackBar.open(
-                      "Bienvenido sus datos se guardaron en fecha " +
-                        new Date(resp.usuario.fecha_modificacion) +
-                        " Desea Actualizar los Datos?",
-                      "Aceptar",
-                      {
-                        panelClass: "background-alert",
-                        duration: 10000
-                      }
+                  if (this.usuario) {
+                    this.usuario.id_bitbucket = resp.usuario.account_id;
+                    this.usuario.bitbucket = true;
+                    this.actualizaUsuario(
+                      this.usuario,
+                      resp.token,
+                      "bitbucket"
                     );
-                    snackBarRef.afterDismissed().subscribe(info => {
-                      if (info.dismissedByAction === true) {
-                        this.snackBarCargarDatos(
-                          "usuarios/datosbitbucket",
-                          resp
+                  } else {
+                    this._usuarioService
+                      .singOauth("bitbucket", resp.usuario, resp.token)
+                      .subscribe(respUsuario => {
+                        console.log(respUsuario);
+                        //guardar en storage
+                        this._usuarioService.guardarStorage(
+                          respUsuario.usuario._id,
+                          respUsuario.usuario,
+                          respUsuario.token
                         );
-                      }
-                    });
+                        this.router.navigate([
+                          "/usuarios/ajustes/" + respUsuario.usuario._id
+                        ]);
+
+                        if (this.estaActualizado(respUsuario)) {
+                          this.snackBarCargarDatos(
+                            "repositorios/oauth",
+                            "bitbucket",
+                            respUsuario.usuario,
+                            respUsuario.token
+                          );
+                        } else {
+                          let snackBarRef = this.snackBar.open(
+                            "Bienvenido sus datos se guardaron en fecha " +
+                              new Date(respUsuario.usuario.fecha_modificacion) +
+                              " Desea Actualizar los Datos?",
+                            "Aceptar",
+                            {
+                              panelClass: "background-alert",
+                              duration: 10000
+                            }
+                          );
+                          snackBarRef.afterDismissed().subscribe(info => {
+                            if (info.dismissedByAction === true) {
+                              this.snackBarCargarDatos(
+                                "repositorios/oauth",
+                                "bitbucket",
+                                respUsuario.usuario,
+                                respUsuario.token
+                              );
+                            }
+                          });
+                        }
+                      });
                   }
-                  this.router.navigate(["/proyectos"]);
                 }
               },
               err => {
@@ -218,10 +234,20 @@ export class InicioComponent implements OnInit {
     //
     // }
   }
-  crearUsuario(nombre: String) {
-    console.log(nombre);
+
+  estaActualizado(resp) {
+    return resp.usuario.fecha_creacion === resp.usuario.fecha_modificacion
+      ? true
+      : false;
   }
-  snackBarCargarDatos(url, response) {
+  actualizaUsuario(usuario, token, tipo) {
+    this._usuarioService.actualizarUsuario(usuario).subscribe(respUsuario => {
+      this._usuarioService.guardarStorage(respUsuario._id, respUsuario, token);
+      this.router.navigate(["/usuarios/ajustes/" + respUsuario._id]);
+      this.snackBarCargarDatos("repositorios/oauth", tipo, this.usuario, token);
+    });
+  }
+  snackBarCargarDatos(url, tipo, usuario, token?) {
     let snackBarRef = this.snackBar.open(
       "Bienvenido se estan guardando los datos referentes a su cuenta por favor espere un momento!!",
       "",
@@ -231,8 +257,9 @@ export class InicioComponent implements OnInit {
     );
     this._httpService
       .post(url, {
-        usuario: response.usuario,
-        token: response.token
+        tipo: tipo,
+        usuario: usuario,
+        token: token
       })
       .subscribe(resp => {
         snackBarRef.dismiss();
