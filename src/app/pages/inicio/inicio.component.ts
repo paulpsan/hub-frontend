@@ -106,8 +106,10 @@ export class InicioComponent implements OnInit {
                   if (this.usuario) {
                     this.usuario.id_gitlab = resp.usuario.id;
                     this.usuario.gitlab = true;
+                    //no carga token al repositorio
                     this.actualizaUsuario(this.usuario, resp.token, "gitlab");
                   } else {
+                    console.log("nuevo");
                     this._usuarioService
                       .singOauth("gitlab", resp.usuario, resp.token)
                       .subscribe(respUsuario => {
@@ -241,6 +243,7 @@ export class InicioComponent implements OnInit {
       : false;
   }
   actualizaUsuario(usuario, token, tipo) {
+    
     this._usuarioService.actualizarUsuario(usuario).subscribe(respUsuario => {
       this._usuarioService.guardarStorage(respUsuario._id, respUsuario, token);
       this.router.navigate(["/usuarios/ajustes/" + respUsuario._id]);

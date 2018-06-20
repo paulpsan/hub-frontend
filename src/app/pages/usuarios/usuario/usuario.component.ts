@@ -81,8 +81,8 @@ export class UsuarioComponent implements OnInit {
             this.repositorios = objRepo;
             console.log(this.repositorios);
             if (this.usuario.tipo != "local") {
-              this.calculaCommits(this.usuario);
-              this.getCommitUsuario(this.usuario.tipo, this.id);
+              // this.calculaCommits(this.usuario);
+              // this.getCommitUsuario(this.usuario.tipo, this.id);
             }
           });
       });
