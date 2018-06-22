@@ -136,7 +136,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let proy of repositorios.datos" (click)="proy.estado=!proy.estado" style="cursor: pointer" [ngClass]="{red: proy.estado==false}">
+              <tr *ngFor="let proy of repositorios" (click)="proy.estado=!proy.estado" style="cursor: pointer" [ngClass]="{red: proy.estado==false}">
                 <td scope="row">
                   <img [src]="proy.avatar |imagen:'repositorios'" alt="" height="24" width="24">
                 </td>

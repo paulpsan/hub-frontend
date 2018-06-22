@@ -79,15 +79,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let proy of repositorios" (click)="detalleRepositorio(proy,usuario.tipo)" style="cursor: pointer">
+                <tr *ngFor="let repo of repositorios" (click)="detalleRepositorio(repo,usuario.tipo)" style="cursor: pointer">
                   <td scope="row">
-                    <img src="{{proy.avatar}}" alt="" height="30" width="30"> </td>
+                    <img src="{{repo.avatar}}" alt="" height="30" width="30"> </td>
                   <td>
-                    <a target="#">{{proy.nombre}} </a>
+                    <a target="#">{{repo.nombre}} </a>
                   </td>
                   <td>
-                    <a *ngIf="usuario.tipo=='gitlab'" href="{{proy.html_url}}" target="#">{{proy.html_url}} </a>
-                    <a *ngIf="usuario.tipo=='github'" href="{{proy.html_url}}" target="#">{{proy.html_url}} </a>
+                    <a *ngIf="usuario.tipo=='gitlab'" href="{{repo.html_url}}" target="#">{{repo.html_url}} </a>
+                    <a *ngIf="usuario.tipo=='github'" href="{{repo.html_url}}" target="#">{{repo.html_url}} </a>
                   </td>
                 </tr>
               </tbody>
@@ -99,7 +99,7 @@
         </div>
         <div class="card" *ngIf="showUsuarios">
           <div class="card-body">
-            <h4>{{repositorioSelect.nombre}}</h4>
+            <h4>{{repoSelect.nombre}}</h4>
             <table class="table table-hover table-inverse table-responsive">
               <thead class="thead-inverse">
                 <tr>
@@ -111,11 +111,11 @@
               <tbody>
                 <tr *ngFor="let value of usuarioRepositorio">
                   <td scope="row">
-                    <img src="{{value.avatar_url}}" alt="" height="30" width="30">
+                    <img src="{{value.avatar_autor}}" alt="" height="30" width="30">
                   </td>
-                  <td>{{value.name}}</td>
+                  <td>{{value.autor}}</td>
                   <td>
-                    <a href="{{value.web_url}}" target="#">{{value.web_url}}</a>
+                    <a href="{{value.web_url_autor}}" target="#">{{value.web_url_autor}}</a>
                   </td>
                 </tr>
               </tbody>
@@ -127,7 +127,7 @@
       </div>
     </div>
 
-    <div class="mb-3" *ngIf="usuario.tipo!='local'">
+    <div class="mb-3">
       <h4>Historial de Desarrollo:</h4>
       <div class="card-deck">
         <div class="card" *ngIf="data$">
@@ -137,13 +137,6 @@
             </chart-codigo>
           </div>
         </div>
-
-        <!-- <div class="card">
-          <div class="card-body">
-            Gráfico de commits
-          </div>
-
-        </div> -->
 
         <div class="card" *ngIf="showLenguajes">
           <div class="card-body">

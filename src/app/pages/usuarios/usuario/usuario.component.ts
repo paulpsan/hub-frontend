@@ -13,7 +13,7 @@ import { Subject } from "rxjs";
 export class UsuarioComponent implements OnInit {
   private sub: any;
   commits;
-  commitsTotal: number = 0;
+  commitsTotal;
   clasificacion: number = 0;
   id: number;
   usuario;
@@ -26,7 +26,7 @@ export class UsuarioComponent implements OnInit {
   UltimoCommit;
   data$;
   usuarioRepositorio;
-  proyectoSelect;
+  repoSelect;
   showUsuario: boolean = false;
   showRepositorios: boolean = false;
   showUsuarios: boolean = false;
@@ -80,10 +80,12 @@ export class UsuarioComponent implements OnInit {
             }
             this.repositorios = objRepo;
             console.log(this.repositorios);
-            if (this.usuario.tipo != "local") {
-              // this.calculaCommits(this.usuario);
-              // this.getCommitUsuario(this.usuario.tipo, this.id);
-            }
+            this.totalCommits();
+            this.getCommitUsuario(this.usuario.tipo, this.id);
+            // if (this.usuario.tipo != "local") {
+            //   // this.calculaCommits(this.usuario);
+            //   // this.getCommitUsuario(this.usuario.tipo, this.id);
+            // }
           });
       });
     }
@@ -93,81 +95,66 @@ export class UsuarioComponent implements OnInit {
   getCommitUsuario(url, id) {
     let token = localStorage.getItem("token");
     this._httpService
-      .post("usuarios/commits/" + id + "/" + url, { token: token })
+      .post("commits/" + id + "/usuarios/graficos", { token: token })
       .subscribe(respuesta => {
-        let arraySum = respuesta.barChartData[0].data;
-        for (let i = 1; i < respuesta.barChartData.length; i++) {
-          for (
-            let index = 0;
-            index < respuesta.barChartData[i].data.length;
-            index++
-          ) {
-            arraySum[index] =
-              arraySum[index] + respuesta.barChartData[i].data[index];
-          }
-        }
-        console.log(arraySum);
+        // let arraySum = respuesta.barChartData[0].data;
+        // for (let i = 1; i < respuesta.barChartData.length; i++) {
+        //   for (
+        //     let index = 0;
+        //     index < respuesta.barChartData[i].data.length;
+        //     index++
+        //   ) {
+        //     arraySum[index] =
+        //       arraySum[index] + respuesta.barChartData[i].data[index];
+        //   }
+        // }
+        // console.log(arraySum);
         this.data$ = {
-          lineChartData: arraySum.reverse(),
+          lineChartData: respuesta.barChartData[0].data,
           lineChartLabels: respuesta.años
         };
       });
   }
   //Obtiene commits totales
-  calculaCommits(repo) {
-    for (let value of repo) {
-      this.commitsTotal += value.commits.length;
-    }
+  totalCommits() {
+    this._httpService
+      .obtener("commits/" + this.usuario._id + "/usuarios")
+      .subscribe(resp => {
+        this.commitsTotal = resp.total;
+      });
   }
   //Repositorio seleccionado
   detalleRepositorio(repositorio, tipo) {
     console.log(repositorio);
     this._httpService
-      .obtener("repositorios/" + repositorio.id)
+      .obtener("commits/" + repositorio._id)
       .subscribe(respCommits => {
         this.commits = respCommits;
+
+        this.showLenguajes = false;
+        this.repoSelect = repositorio;
+
+        this.getPrimerCommit(this.commits);
+        this.getUltimoCommit(this.commits);
+        // this.dataLenguajes$ = repositorio.lenguajes;
+        this.cargarLenguajes(repositorio.lenguajes, this.usuario.tipo);
+        this.cargarUsuarios(this.commits, this.usuario.tipo);
+        this.showUsuarios = true;
       });
-    this.showLenguajes = false;
-    this.proyectoSelect = repositorio;
-    this.getPrimerCommit(repositorio);
-    this.getUltimoCommit(repositorio);
-    // this.dataLenguajes$ = repositorio.lenguajes;
-    this.cargarLenguajes(repositorio.lenguajes, this.usuario.tipo);
-    this.cargarUsuarios(repositorio, this.usuario.tipo);
-    if (tipo == "gitlab") {
-      this.usuarioRepositorio = repositorio.members;
-      this.showUsuarios = true;
-      // this._httpService
-      //   .obtenerUsuarios("gitlab", repositorio.repo, token)
-      //   .subscribe(resp => {
-      //     this.showUsuarios = true;
-      //     this.usuarioRepositorio = resp;
-      //     console.log(this.usuarioRepositorio);
-      //   });
-    } else {
-      if (tipo == "github") {
-        // this.proyectoSelect = repositorio;
-        //* obtenemos usuarios de los commits
-      }
-    }
   }
   //Calcula el primer commit del repositorio
-  getPrimerCommit(repositorio) {
-    if (repositorio.commits.length >= 1) {
-      let tamano = repositorio.commits.length;
-      this.primerCommit =
-        repositorio.commits[tamano - 1].committed_date ||
-        repositorio.commits[tamano - 1].commit.author.date;
+  getPrimerCommit(commits) {
+    let tamano = commits.length;
+    if (tamano >= 1) {
+      this.primerCommit = commits[tamano - 1].fecha;
     } else {
       this.primerCommit = "no existe";
     }
   }
   //Calcula el ultimo commit del repositorio
-  getUltimoCommit(repositorio) {
-    if (repositorio.commits.length >= 1) {
-      this.UltimoCommit =
-        repositorio.commits[0].committed_date ||
-        repositorio.commits[0].commit.author.date;
+  getUltimoCommit(commits) {
+    if (commits.length >= 1) {
+      this.UltimoCommit = commits[0].fecha;
     } else {
       this.UltimoCommit = "no existe";
     }
@@ -210,33 +197,25 @@ export class UsuarioComponent implements OnInit {
     }
   }
 
-  cargarUsuarios(repositorio, tipo) {
-    if (tipo === "github") {
-      let datos = [];
-      for (let commits of repositorio.commits) {
-        if (commits.committer)
-          datos.push({
-            name: commits.commit.author.name,
-            avatar_url: commits.committer.avatar_url,
-            web_url: commits.committer.url
-          });
-        else
-          datos.push({
-            name: commits.commit.author.name,
-            avatar_url: "",
-            web_url: ""
-          });
-      }
-      var hash = {};
-      datos = datos.filter(function(current) {
-        var exists = !hash[current.name] || false;
-        hash[current.name] = true;
-        return exists;
+  cargarUsuarios(commits, tipo) {
+    let datos = [];
+    for (let commit of commits) {
+      datos.push({
+        autor: commit.autor,
+        avatar_autor: commit.avatar_autor || "",
+        web_url_autor: commit.web_url_autor || ""
       });
-      this.usuarioRepositorio = datos;
-      //*
-      this.showUsuarios = true;
     }
+    var hash = {};
+    // elimina repetidos
+    datos = datos.filter(function(current) {
+      var exists = !hash[current.name] || false;
+      hash[current.name] = true;
+      return exists;
+    });
+    this.usuarioRepositorio = datos;
+    //*
+    this.showUsuarios = true;
   }
 
   getLenguajes(usuario) {

@@ -72,11 +72,11 @@ export class RepositorioComponent implements OnInit {
       .obtener("repositorios/" + this.id + "/usuarios")
       .subscribe(
         repositorios => {
-          this.repositorios = repositorios;
-          this.repoCopy = JSON.parse(JSON.stringify(repositorios));
+          this.repositorios = repositorios.datos;
+          this.repoCopy = JSON.parse(JSON.stringify(repositorios.datos));
 
-          this.showRepo = this.repositorios.datos.length !== 0 ? true : false;
-          console.log(repositorios, this.showRepo);
+          this.showRepo = this.repositorios.length !== 0 ? true : false;
+          console.log(this.repositorios, this.showRepo);
           // this.id = usuario._id;
           // this.userForm.patchValue({
           //   nombre: usuario.nombre,
@@ -156,36 +156,37 @@ export class RepositorioComponent implements OnInit {
     }
   }
   save() {
-    for (const key in this.repositorios.datos) {
-      if (
-        this.repositorios.datos[key].estado != this.repoCopy.datos[key].estado
-      ) {
-            console.log(
-              this.repositorios.datos[key].estado,
-              this.repoCopy.datos[key].estado
-            );
+    for (const key in this.repositorios) {
+      console.log(this.repositorios[key].estado);
+      if (this.repositorios[key].estado != this.repoCopy[key].estado) {
+        console.log(this.repositorios[key].estado, this.repoCopy[key].estado);
         this._httpService
-          .editar("repositorios", this.repositorios.datos[key])
+          .editar("repositorios", this.repositorios[key])
           .subscribe();
-        if (this.repositorios.datos[key].estado) {
+        if (this.repositorios[key].estado) {
           this._httpService
-            .post("commits", this.repositorios.datos[key])
+            .post("commits", this.repositorios[key])
             .subscribe(response => {
               console.log(response);
             });
+        } else {
+          console.log("object");
+          this._httpService
+            .editar("commits", this.repositorios[key])
+            .subscribe();
         }
       }
     }
     this.repoCopy = JSON.parse(JSON.stringify(this.repositorios));
   }
   showAll() {
-    for (const repo of this.repositorios.datos) {
+    for (const repo of this.repositorios) {
       repo.estado = true;
     }
     console.log("showAll");
   }
   hideAll() {
-    for (const repo of this.repositorios.datos) {
+    for (const repo of this.repositorios) {
       repo.estado = false;
     }
     console.log("hideAll");
