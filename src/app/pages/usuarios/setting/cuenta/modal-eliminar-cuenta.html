@@ -1,17 +1,25 @@
-<h1 mat-dialog-title>Desea eliminar la cuenta</h1>
+<h1 mat-dialog-title>Desea desvincular la cuenta de {{data.tipo}}</h1>
 <div mat-dialog-content>
     <mat-form-field class="full-width">
-        <input matInput placeholder="Nombre" disabled value={{data.nombre}}>
+        <input matInput placeholder="Nombre" disabled value={{data.usuario.nombre}}>
     </mat-form-field>
 </div>
 <div mat-dialog-content>
     <mat-form-field class="full-width">
-        <input matInput placeholder="Email" disabled value={{data.email}}>
+        <input matInput placeholder="Email" disabled value={{data.usuario.email}}>
     </mat-form-field>
 </div>
-<div class="container">
-    <div class="row justify-content-md-center mt-2">
-        <button mat-button [mat-dialog-close]="data" tabindex="2" color="warn">Eliminar</button>
-        <button mat-button (click)="cancelarClick()" tabindex="-1">Cancelar</button>
-    </div>
+<div mat-dialog-actions class="acciones">
+    <button mat-button [mat-dialog-close]="data" (click)="aceptar()" tabindex="2" color="warn">Aceptar</button>
+    <button mat-button (click)="cancelarClick()" tabindex="-1">Cancelar</button>
 </div>
+
+<style>
+    .full-width {
+        width: 100%;
+    }
+
+    .acciones {
+        justify-content: center;
+    }
+</style>

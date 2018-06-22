@@ -136,7 +136,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let proy of repositorios" (click)="proy.estado=!proy.estado" style="cursor: pointer" [ngClass]="{red: proy.estado==false}">
+              <tr *ngFor="let proy of repositorios" (click)="proy.visibilidad=!proy.visibilidad" style="cursor: pointer" [ngClass]="{red: proy.visibilidad==false}">
                 <td scope="row">
                   <img [src]="proy.avatar |imagen:'repositorios'" alt="" height="24" width="24">
                 </td>
@@ -149,10 +149,10 @@
                   <img *ngIf="proy.tipo=='bitbucket'" src="assets/images/bitbucket.png" alt="" height="30" width="30">
                 </td>
 
-                <td *ngIf="proy.estado">
+                <td *ngIf="proy.visibilidad">
                   <mat-icon aria-label="habilitado" color="primary">visibility</mat-icon>
                 </td>
-                <td *ngIf="!proy.estado">
+                <td *ngIf="!proy.visibilidad">
                   <mat-icon aria-label="deshabilitado" color="warn">visibility_off</mat-icon>
                 </td>
               </tr>

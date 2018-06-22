@@ -157,20 +157,17 @@ export class RepositorioComponent implements OnInit {
   }
   save() {
     for (const key in this.repositorios) {
-      console.log(this.repositorios[key].estado);
-      if (this.repositorios[key].estado != this.repoCopy[key].estado) {
-        console.log(this.repositorios[key].estado, this.repoCopy[key].estado);
+      if (this.repositorios[key].visibilidad != this.repoCopy[key].visibilidad) {
         this._httpService
           .editar("repositorios", this.repositorios[key])
           .subscribe();
-        if (this.repositorios[key].estado) {
+        if (this.repositorios[key].visibilidad) {
           this._httpService
             .post("commits", this.repositorios[key])
             .subscribe(response => {
               console.log(response);
             });
         } else {
-          console.log("object");
           this._httpService
             .editar("commits", this.repositorios[key])
             .subscribe();
@@ -181,14 +178,12 @@ export class RepositorioComponent implements OnInit {
   }
   showAll() {
     for (const repo of this.repositorios) {
-      repo.estado = true;
+      repo.visibilidad = true;
     }
-    console.log("showAll");
   }
   hideAll() {
     for (const repo of this.repositorios) {
-      repo.estado = false;
+      repo.visibilidad = false;
     }
-    console.log("hideAll");
   }
 }

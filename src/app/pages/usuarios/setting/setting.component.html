@@ -1,49 +1,20 @@
-<mat-drawer-container class="setting-container ">
-  <mat-drawer #drawer class="setting-sidenav" mode="side">
-    <div class="col">
-      <button (click)="loginGH()" class="btn btn-block btn-social btn-github">
-        <i class="fa fa-github"></i>
-        <span class="nombre-repo">Entrar Con</span>
-        <strong class="nombre-repo">Github</strong>
-      </button>
-      <button (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki">
-        <i class="fa fa-gitlab"></i>
-        <span class="nombre-repo">Entrar Con</span>
-        <strong class="nombre-repo">Gitlab</strong>
-      </button>
-      <button (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket">
-        <i class="fa fa-bitbucket"></i>
-        <span class="nombre-repo">Entrar Con</span>
-        <strong class="nombre-repo">Bitbucket</strong>
-      </button>
-    </div>
-  </mat-drawer>
-
-  <div class="setting-sidenav-content">
-    <button type="button" mat-button (click)="drawer.toggle()">
-      Toggle sidenav
-    </button>
-
-
-    <div class="container" *ngIf="usuario">
-      <mat-tab-group [selectedIndex]="selectedIndex">
-        <mat-tab label="Mi Perfil" (click)="selectTab(0)">
-          <hub-perfil (siguiente)="next($event)">
-          </hub-perfil>
-        </mat-tab>
-        <mat-tab label="Mis Repositorios" [disabled]="showTabs" (click)="selectTab(1)">
-          <hub-repositorio matTabContent (siguiente)="next($event)">
-          </hub-repositorio>
-        </mat-tab>
-        <mat-tab label="Mis Cuentas" [disabled]="showTabs" (click)="selectTab(2)">
-          <hub-cuenta (siguiente)="next($event)" [usuario]="usuario">
-          </hub-cuenta>
-        </mat-tab>
-        <mat-tab label="Eliminar Cuenta" [disabled]="showTabs" (click)="selectTab(3)">
-          <hub-eliminar (siguiente)="next($event)" [usuario]="usuario">
-          </hub-eliminar>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
-  </div>
-</mat-drawer-container>
+<div class="container" *ngIf="usuario">
+  <mat-tab-group [selectedIndex]="selectedIndex">
+    <mat-tab label="Mi Perfil" (click)="selectTab(0)">
+      <hub-perfil (siguiente)="next($event)">
+      </hub-perfil>
+    </mat-tab>
+    <mat-tab label="Mis Repositorios" [disabled]="showTabs" (click)="selectTab(1)">
+      <hub-repositorio matTabContent (siguiente)="next($event)" *ngIf="!showTabs">
+      </hub-repositorio>
+    </mat-tab>
+    <mat-tab label="Mis Cuentas" [disabled]="showTabs" (click)="selectTab(2)">
+      <hub-cuenta (siguiente)="next($event)" [usuario]="usuario">
+      </hub-cuenta>
+    </mat-tab>
+    <mat-tab label="Eliminar Cuenta" [disabled]="showTabs" (click)="selectTab(3)">
+      <hub-eliminar (siguiente)="next($event)" [usuario]="usuario">
+      </hub-eliminar>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -36,8 +36,8 @@ export class CuentaComponent implements OnInit {
 
   desvincular(cadena) {
     let dialogRef = this.dialog.open(ModalEliminarCuenta, {
-      width: "350px",
-      data: this.usuario
+      width: "450px",
+      data: { usuario: this.usuario, tipo: cadena }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -57,9 +57,15 @@ export class CuentaComponent implements OnInit {
 export class ModalEliminarCuenta {
   constructor(
     public dialogRef: MatDialogRef<ModalEliminarCuenta>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private router: Router,
+    private _httpService: HttpService
   ) {}
-
+  aceptar(): void {
+    this._httpService
+      .post("repositorios/desvincular/" + this.data.tipo, this.data.usuario)
+      .subscribe();
+  }
   cancelarClick(): void {
     this.dialogRef.close();
   }
