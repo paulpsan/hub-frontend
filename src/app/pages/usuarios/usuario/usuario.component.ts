@@ -73,7 +73,7 @@ export class UsuarioComponent implements OnInit {
           .subscribe(resp => {
             let objRepo = [];
             for (const repo of resp.datos) {
-              if (repo.estado) {
+              if (repo.visibilidad) {
                 this.showRepositorios = true;
                 objRepo.push(repo);
               }
@@ -130,7 +130,7 @@ export class UsuarioComponent implements OnInit {
       .obtener("commits/" + repositorio._id)
       .subscribe(respCommits => {
         this.commits = respCommits;
-
+        console.log(this.commits);
         this.showLenguajes = false;
         this.repoSelect = repositorio;
 

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
 import { HttpService } from "../../../../services/http/http.service";
+import { UsuarioService } from "../../../../services/service.index";
 
 @Component({
   selector: "hub-cuenta",
@@ -24,9 +25,9 @@ export class CuentaComponent implements OnInit {
   ngOnInit() {
     console.log(this.usuario);
     this.local = true;
-    this.github = this.usuario.id_github;
-    this.gitlab = this.usuario.id_gitlab;
-    this.bitbucket = this.usuario.id_bitbucket;
+    this.github = this.usuario.github;
+    this.gitlab = this.usuario.gitlab;
+    this.bitbucket = this.usuario.bitbucket;
     this.config = {
       github: this.usuario.github,
       gitlab: this.usuario.gitlab,
@@ -59,9 +60,19 @@ export class ModalEliminarCuenta {
     public dialogRef: MatDialogRef<ModalEliminarCuenta>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router,
-    private _httpService: HttpService
+    private _httpService: HttpService,
+    private _usuarioService: UsuarioService
   ) {}
   aceptar(): void {
+    switch (this.data.tipo) {
+      case "github":
+        this.data.usuario.github = false;
+        this._usuarioService.actualizarUsuario(this.data.usuario).subscribe();
+        break;
+
+      default:
+        break;
+    }
     this._httpService
       .post("repositorios/desvincular/" + this.data.tipo, this.data.usuario)
       .subscribe();
