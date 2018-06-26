@@ -9,11 +9,11 @@
       </hub-repositorio>
     </mat-tab>
     <mat-tab label="Mis Cuentas" [disabled]="showTabs" (click)="selectTab(2)">
-      <hub-cuenta (siguiente)="next($event)" [usuario]="usuario">
+      <hub-cuenta (siguiente)="next($event)" *ngIf="!showTabs">
       </hub-cuenta>
     </mat-tab>
     <mat-tab label="Eliminar Cuenta" [disabled]="showTabs" (click)="selectTab(3)">
-      <hub-eliminar (siguiente)="next($event)" [usuario]="usuario">
+      <hub-eliminar (siguiente)="next($event)" [usuario]="usuario" *ngIf="!showTabs">
       </hub-eliminar>
     </mat-tab>
   </mat-tab-group>

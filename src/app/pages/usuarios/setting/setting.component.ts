@@ -23,8 +23,9 @@ export class SettingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.usuario = this._usuarioService.usuario;
-    console.log(this.usuario);
+    this._usuarioService.usuario$.subscribe(repUsuario => {
+      this.usuario = repUsuario;
+    });
 
     // this.sub = this.route.params.subscribe(params => {
     //   this.id = params["id"];
@@ -38,7 +39,9 @@ export class SettingComponent implements OnInit {
     this.selectedIndex = index;
   }
   next(object) {
-    this.showTabs = object.value;
-    this.selectedIndex = object.index;
+    if (this.usuario.estado) {
+      this.showTabs = object.value;
+      this.selectedIndex = object.index;
+    }
   }
 }

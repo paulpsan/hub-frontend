@@ -13,9 +13,7 @@ import { SubirArchivoService } from "../../../../services/subir-archivo/subir-ar
   styleUrls: ["./perfil.component.css"]
 })
 export class PerfilComponent implements OnInit {
-  id: number;
   usuario;
-  urlAvatar: string;
   userForm: FormGroup;
   showButton: boolean = true;
   showPass: boolean = false;
@@ -31,16 +29,10 @@ export class PerfilComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.usuario = this._usuarioService.usuario;
+    this._usuarioService.usuario$.subscribe(repUsuario => {
+      this.usuario = repUsuario;
+    });
     console.log(this.usuario);
-    this.id = this.usuario._id;
-    if (this.usuario.avatar.indexOf(this.usuario._id + "-") == 0) {
-      this.urlAvatar =
-        environment.url + "upload/usuarios/" + this.usuario.avatar;
-    } else {
-      this.urlAvatar = this.usuario.avatar;
-    }
-    // this.urlAvatar=environment.url+'upload/usuarios/'+this.usuario.avatar;
     this.userForm = new FormGroup({
       nombre: new FormControl("", Validators.required),
       email: new FormControl("", [
@@ -71,9 +63,9 @@ export class PerfilComponent implements OnInit {
   onSubmit() {
     console.log(this.userForm.valid);
     if (this.userForm.valid) {
-      if (this.id) {
+      if (this.usuario) {
         let usuario = {
-          _id: this.id,
+          _id: this.usuario._id,
           nombre: this.userForm.controls["nombre"].value,
           email: this.userForm.controls["email"].value,
           url: this.userForm.controls["url"].value,
@@ -82,13 +74,13 @@ export class PerfilComponent implements OnInit {
         };
         if (this.imagenSubir) {
           this._subirArchivoService
-            .subirArchivo(this.imagenSubir, "usuarios", this.id)
+            .subirArchivo(this.imagenSubir, "usuarios", this.usuario._id)
             .then((resp: any) => {
               usuario.avatar = resp.usuario.avatar;
-              this._usuarioService.actualizarUsuario(usuario).subscribe();
+              this._usuarioService.actualizarUsuario(usuario);
             });
         } else {
-          this._usuarioService.actualizarUsuario(usuario).subscribe();
+          this._usuarioService.actualizarUsuario(usuario);
         }
 
         // this._httpService.editar("usuarios", usuario).subscribe(resp => {
@@ -122,5 +114,11 @@ export class PerfilComponent implements OnInit {
   }
   cambiarImagen() {
     console.log(this.imagenSubir, this.usuario._id);
+  }
+  activar() {
+    let usuario = this.usuario;
+    usuario.estado = true;
+    this._usuarioService.actualizarUsuario(usuario);
+    this.next({ value: false, index: 0 });
   }
 }

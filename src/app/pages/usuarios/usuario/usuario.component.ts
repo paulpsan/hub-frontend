@@ -161,7 +161,7 @@ export class UsuarioComponent implements OnInit {
   }
   //Obtiene los lenguajes del repositorio
   cargarLenguajes(lenguajeUrl, tipo) {
-    if (tipo === "github") {
+    if (this.usuario.github) {
       this._httpService
         .post("repositorios/lenguajes", {
           url: lenguajeUrl,

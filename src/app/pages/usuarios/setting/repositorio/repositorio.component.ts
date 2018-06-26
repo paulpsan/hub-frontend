@@ -1,4 +1,13 @@
-import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Input,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy
+} from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { GLOBAL } from "../../../../services/global";
@@ -8,18 +17,19 @@ import { Usuario } from "../../../../models/usuario";
 import { UsuarioService } from "../../../../services/usuario/usuario.service";
 import { Subject } from "rxjs";
 import { SubirArchivoService } from "../../../../services/service.index";
+import { DataTableDirective } from "angular-datatables";
 
 @Component({
   selector: "hub-repositorio",
   templateUrl: "./repositorio.component.html",
   styleUrls: ["./repositorio.component.css"]
 })
-export class RepositorioComponent implements OnInit {
+export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
   id: number;
   acciones: string;
   repositorios;
   repoCopy;
-  private sub: any;
+  cuentas = [];
   userForm: FormGroup;
   addForm: FormGroup;
   show: boolean = true;
@@ -27,6 +37,7 @@ export class RepositorioComponent implements OnInit {
   showRepo: boolean = false;
   usuario;
   @Output() siguiente = new EventEmitter<any>();
+  @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   imagenSubir: File;
@@ -41,10 +52,15 @@ export class RepositorioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this._usuarioService.usuario$.subscribe(repUsuario => {
+      this.usuario = repUsuario;
+      if (this.usuario.github) this.cuentas.push("github");
+      if (this.usuario.gitlab) this.cuentas.push("gitlab");
+      if (this.usuario.bitbucket) this.cuentas.push("bitbucket");
+    });
+    console.log(this.usuario);
     this.urlImg = GLOBAL.url;
-    this.usuario = this._usuarioService.usuario;
-    GLOBAL.dtOptions.order = [[3, "asc"]];
-    this.dtOptions = GLOBAL.dtOptions;
+
     this.id = this.usuario._id;
 
     this.userForm = new FormGroup({
@@ -68,13 +84,16 @@ export class RepositorioComponent implements OnInit {
     this.siguiente.emit(object);
   }
   getRepositorios() {
+    GLOBAL.dtOptions.order = [[3, "asc"]];
+    this.dtOptions = GLOBAL.dtOptions;
+    // this.repositorios = [];
+    console.log(this.dtOptions);
     this._httpService
       .obtener("repositorios/" + this.id + "/usuarios")
       .subscribe(
         repositorios => {
           this.repositorios = repositorios.datos;
           this.repoCopy = JSON.parse(JSON.stringify(repositorios.datos));
-
           this.showRepo = this.repositorios.length !== 0 ? true : false;
           console.log(this.repositorios, this.showRepo);
           // this.id = usuario._id;
@@ -91,6 +110,24 @@ export class RepositorioComponent implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      console.log(dtInstance);
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.dtTrigger.next();
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
   }
   seleccionImage(archivo: File) {
     console.log(this.imagenTemp, this.usuario);
@@ -157,7 +194,9 @@ export class RepositorioComponent implements OnInit {
   }
   save() {
     for (const key in this.repositorios) {
-      if (this.repositorios[key].visibilidad != this.repoCopy[key].visibilidad) {
+      if (
+        this.repositorios[key].visibilidad != this.repoCopy[key].visibilidad
+      ) {
         this._httpService
           .editar("repositorios", this.repositorios[key])
           .subscribe();
@@ -172,6 +211,11 @@ export class RepositorioComponent implements OnInit {
             .editar("commits", this.repositorios[key])
             .subscribe();
         }
+        //set issues, downloads,forks,stars,
+        console.log("object");
+        this._httpService
+          .post("repositorios/datos", this.repositorios[key])
+          .subscribe();
       }
     }
     this.repoCopy = JSON.parse(JSON.stringify(this.repositorios));

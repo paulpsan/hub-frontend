@@ -35,15 +35,9 @@ export class HeaderComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-
-    this.usuario = this._usuarioService.usuario;
-    console.log(this.usuario);
-    if (this.usuario.avatar.indexOf(this.usuario._id + "-") == 0) {
-      this.urlAvatar =
-        environment.url + "upload/usuarios/" + this.usuario.avatar;
-    } else {
-      this.urlAvatar = this.usuario.avatar;
-    }
+    this._usuarioService.usuario$.subscribe(repUsuario => {
+      this.usuario = repUsuario;
+    });
   }
   logout() {
     this._usuarioService.logout();

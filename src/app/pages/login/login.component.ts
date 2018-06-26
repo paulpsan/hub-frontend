@@ -71,23 +71,18 @@ export class LoginComponent implements OnInit {
       "local",
       "true"
     );
-
-    this._usuarioService.login(usuario).subscribe(
-      response => {
-        this._usuarioService.guardarStorage(
-          response.usuario.id,
-          response.usuario,
-          response.token
-        );
-        this.router.navigate(["/usuarios/ajustes/" + response.usuario._id]);
-      },
-      error => {
-        let errorMessage = <any>error;
-        console.log(errorMessage.error);
-        if (errorMessage != null) {
-          this.errorMessage = errorMessage.error.message;
-        }
+    this._usuarioService
+    .login(usuario)
+    .then(response => {
+      if (response) {
+        this.router.navigate(["/usuarios/ajustes"]);
       }
-    );
+    })
+    .catch(error => {
+      let errorMessage = <any>error;
+      if (errorMessage != null) {
+        this.errorMessage = errorMessage.error.message;
+      }
+    });
   }
 }

@@ -23,30 +23,8 @@ export class LoginService {
   //     });
   // }
   getTokenGithub(code: string) {
-    // const obj= {
-    //   client_id:this.GITHUB_CLIENT_ID,
-    //   client_secret:this.GITHUB_CLIENT_SECRET,
-    //   code:code,
-    //   state:this.STATE,
-    // };
-
-    // let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
-    // let options = new RequestOptions({ headers: headers });
-
-    // return this._http.post('https://github.com/login/oauth/access_token',obj,options)
-    // .map((res:Response) => {return res})
-    // .catch((error:any) => Observable.throw(error || 'Server error'));
-
     return this._http
       .get(this.url + "auth/github/" + code)
-      .map((res: any) => {
-        let token = res.token;
-        if (res.token) {
-          localStorage.setItem("token", token);
-          localStorage.setItem("usuario", JSON.stringify(res.usuario));
-        }
-        return res;
-      })
       .catch((error: any) => {
         console.log(error);
         return Observable.throw(error || "Server error");
@@ -55,14 +33,6 @@ export class LoginService {
   getTokenGitlab(code: string) {
     return this._http
       .get(this.url + "auth/gitlab/" + code)
-      .map((res: any) => {
-        let token = res.token;
-        if (res.token) {
-          localStorage.setItem("token", token);
-          localStorage.setItem("usuario", JSON.stringify(res.usuario));
-        }
-        return res;
-      })
       .catch((error: any) => {
         console.log(error);
         return Observable.throw(error || "Server error");
@@ -71,14 +41,6 @@ export class LoginService {
   getTokenBitbucket(code: string) {
     return this._http
       .get(this.url + "auth/bitbucket/" + code)
-      .map((res: any) => {
-        let token = res.token;
-        if (res.token) {
-          localStorage.setItem("token", token);
-          localStorage.setItem("usuario", JSON.stringify(res.usuario));
-        }
-        return res;
-      })
       .catch((error: any) => {
         console.log(error);
         return Observable.throw(error || "Server error");

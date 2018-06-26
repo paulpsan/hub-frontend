@@ -27,8 +27,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-1">
-            <img alt="avatar" src="{{usuario.avatar}}" style="width: 50px !important" *ngIf="usuario.avatar">
-            <img alt="avatar" src="assets/images/avatar-user.png" style="width: 50px !important" *ngIf="!usuario.avatar">
+            <img alt="avatar" [src]="usuario.avatar |imagen:'usuario'" style="width: 50px !important">
           </div>
           <div class="col-md-5">
 
@@ -81,7 +80,7 @@
               <tbody>
                 <tr *ngFor="let repo of repositorios" (click)="detalleRepositorio(repo,usuario.tipo)" style="cursor: pointer">
                   <td scope="row">
-                    <img src="{{repo.avatar}}" alt="" height="30" width="30"> </td>
+                    <img [src]="repo.avatar" alt="" height="30" width="30"> </td>
                   <td>
                     <a target="#">{{repo.nombre}} </a>
                   </td>

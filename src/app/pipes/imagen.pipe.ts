@@ -7,11 +7,13 @@ import { environment } from "../../environments/environment";
 export class ImagenPipe implements PipeTransform {
   transform(img: string, tipo: string): any {
     let url = environment.url + "upload";
+    console.log(img);
     if (!img) {
-      return url + "/usuarios/xxx";
+      if (tipo == "usuario") return "assets/images/avatar-user.png";
+      else return "assets/images/xxx.png";
     }
 
-    if (img.indexOf("https") >= 0) {
+    if (img.indexOf("http") >= 0) {
       return img;
     }
 
@@ -30,7 +32,7 @@ export class ImagenPipe implements PipeTransform {
 
       default:
         console.log("tipo de imagen no existe");
-        url += "/usurios/xxx";
+        url = "assets/images/avatar-user.png";
     }
 
     return url;

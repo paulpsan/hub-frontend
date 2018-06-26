@@ -48,7 +48,7 @@
             <div class="row">
                 <div class="col-md-1">
                     <!-- <img alt="avatar" src="assets/images/avatar-user.png" style="width: 50px !important"> -->
-                    <img src="{{usuario.avatar}}" style="width: 50px !important">
+                    <img [src]="usuario.avatar |imagen:'usuario'" style="width: 50px !important">
                 </div>
                 <div class="col-md-5">
                     <div>

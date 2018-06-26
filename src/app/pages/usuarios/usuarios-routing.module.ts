@@ -15,7 +15,7 @@ const routes: Routes = [
     children: [
       { path: "", component: ListarComponent },
       { path: "adicionar", component: CrearEditarComponent },
-      { path: "ajustes/:id", component: SettingComponent },
+      { path: "ajustes", component: SettingComponent },
       { path: "editar/:id", component: EditarComponent },
       { path: ":id", component: UsuarioComponent },
       { path: "bitbucket/:id", component: UsuarioBbComponent }

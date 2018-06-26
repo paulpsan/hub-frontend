@@ -13,6 +13,19 @@
             <div *ngIf="!showRepo" class="text-center text-success">
               Usted no cuenta con Repositorios
             </div>
+            <div class="row justify-content-md-end">
+              <button mat-button (click)="rerender()" color="primary">
+                <mat-icon mat-list-icon>add</mat-icon>
+                Actualizar
+              </button>
+              <!-- <mat-form-field>
+                <mat-select placeholder="Recargar Token">
+                  <mat-option *ngFor="let cuenta of cuentas" [value]="cuenta">
+                    {{cuenta}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field> -->
+            </div>
             <div>
               Desea Adicionar Repositorios
             </div>
@@ -121,7 +134,7 @@
               <mat-icon mat-list-icon>visibility</mat-icon>
               Mostrar Todos
             </button>
-            <button mat-button (click)="hideAll()" color="primary">
+            <button mat-button (click)="hideAll()" color="warn">
               <mat-icon mat-list-icon>visibility_off</mat-icon>
               Ocultar Todos
             </button>
