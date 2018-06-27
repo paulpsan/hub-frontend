@@ -45,4 +45,10 @@ export class HeaderComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {
     console.log(changes);
   }
+  setUsuario() {
+    this.router.navigate(["/inicio"]);
+    setTimeout(() => {
+      this.router.navigate(["/usuarios", this.usuario._id]);
+    }, 1);
+  }
 }

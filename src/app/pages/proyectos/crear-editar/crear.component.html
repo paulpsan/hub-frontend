@@ -4,7 +4,7 @@
       <div class="card-header">Crear Nuevo Proyecto
       </div>
       <div class="card-body" *ngIf="repositorios">
-        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='local'">
+        <!-- <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='local'">
           <fieldset>
             <legend></legend>
             {{usuario.tipo}}
@@ -49,15 +49,15 @@
             <mat-icon mat-list-icon>cancel</mat-icon>
             Cancelar
           </button>
-        </form>
-        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='gitlab'">
+        </form> -->
+        <form novalidate [formGroup]="proyForm" (ngSubmit)="onSubmit()" *ngIf="repositorios">
           <fieldset>
             <div class="form-group">
               <label class="col-form-label ">Nombre de Proyecto</label>
               <br>
               <mat-form-field class="col">
-                <mat-select placeholder="Selecione uno de sus repositorios" formControlName="nombre">
-                  <mat-option *ngFor="let data of repositorios.datos" [value]="data">
+                <mat-select placeholder="Selecione uno de sus repositorios" (selectionChange)="selectChange($event)" formControlName="nombre">
+                  <mat-option *ngFor="let data of repositorios" [value]="data">
                     {{ data.nombre }}
                   </mat-option>
                 </mat-select>
@@ -66,19 +66,29 @@
                 Selecione un proyecto de su repositorio
               </p>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="itemSelect">
               <label class="col-form-label ">Descripcion</label>
               <br>
               <mat-form-field class="col">
-                <textarea matInput placeholder="" formControlName="descripcion"></textarea>
+                <textarea matInput placeholder="Descripcion(*)" formControlName="descripcion">itemSelect</textarea>
               </mat-form-field>
               <p>
                 Detalle una descripción del proyecto centrado en las caracteristicas
                 <br> Máximo 800 caracteres
               </p>
             </div>
+            <div class="form-group" *ngIf="itemSelect">
+              <label class="col-form-label ">Dirección del proyecto</label>
+              <br>
+              <mat-form-field class="col">
+                <input matInput placeholder="" formControlName="urlRepositorio" value="{{itemSelect.html_url}}">
+              </mat-form-field>
+              <p>
+                Este debe contener el path del proyecto Addicionar
+              </p>
+            </div>
           </fieldset>
-          <button mat-button [disabled]="!userForm.valid" type="submit" color="primary">
+          <button mat-button [disabled]="!proyForm.valid" type="submit" color="primary">
             <mat-icon mat-list-icon>done</mat-icon>
             Guardar
           </button>
@@ -87,7 +97,7 @@
             Cancelar
           </button>
         </form>
-        <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='github'">
+        <!-- <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='github'">
           <fieldset>
             <div class="form-group">
               <label class="col-form-label ">Nombre de Proyecto</label>
@@ -161,7 +171,7 @@
             <mat-icon mat-list-icon>cancel</mat-icon>
             Cancelar
           </button>
-        </form>
+        </form> -->
       </div>
     </div>
   </div>

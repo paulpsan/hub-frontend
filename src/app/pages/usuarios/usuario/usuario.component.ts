@@ -27,6 +27,7 @@ export class UsuarioComponent implements OnInit {
   data$;
   usuarioRepositorio;
   repoSelect;
+  isPropietario: boolean = false;
   showUsuario: boolean = false;
   showRepositorios: boolean = false;
   showUsuarios: boolean = false;
@@ -67,7 +68,12 @@ export class UsuarioComponent implements OnInit {
       this._httpService.buscarId("usuarios", this.id).subscribe(resp => {
         this.usuario = resp;
         this.showUsuario = true;
-
+        if (
+          this.usuario._id == JSON.parse(localStorage.getItem("usuario"))._id
+        ) {
+          console.log("soy", JSON.parse(localStorage.getItem("usuario"))._id);
+          this.isPropietario = true;
+        }
         this._httpService
           .obtener("repositorios/" + this.id + "/usuarios")
           .subscribe(resp => {

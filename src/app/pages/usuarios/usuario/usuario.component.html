@@ -62,11 +62,28 @@
         </div>
       </div>
     </div>
-
-    <div class="mb-3">
+    <div class="mb-3" *ngIf="!showRepositorios">
+      <div *ngIf="isPropietario">
+        <h4>Usted no cuenta con repositorios Adicione:</h4>
+        <div class="card-deck">
+          <div class="card">
+            <div class="card-body">
+              <button mat-button [routerLink]="['/usuarios/ajustes']" color="primary">
+                <mat-icon mat-list-icon>add</mat-icon>
+                Adicionar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isPropietario">
+        <h4>El usuario no cuenta con Repositorios</h4>
+      </div>
+    </div>
+    <div class="mb-3" *ngIf="showRepositorios">
       <div class="card-deck">
         <div class="card">
-          <div class="card-body" *ngIf="showRepositorios">
+          <div class="card-body">
             <h4 id="titulo_repositorio" class="card-title">Repositorios</h4>
             <!-- <table class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'"> -->
             <table datatable [dtOptions]="dtOptions" class="table table-hover table-inverse table-responsive">
@@ -126,7 +143,7 @@
       </div>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3" *ngIf="showRepositorios">
       <h4>Historial de Desarrollo:</h4>
       <div class="card-deck">
         <div class="card" *ngIf="data$">

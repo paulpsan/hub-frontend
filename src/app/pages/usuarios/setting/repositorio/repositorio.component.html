@@ -13,19 +13,19 @@
             <div *ngIf="!showRepo" class="text-center text-success">
               Usted no cuenta con Repositorios
             </div>
-            <div class="row justify-content-md-end">
+            <!-- <div class="row justify-content-md-end">
               <button mat-button (click)="rerender()" color="primary">
                 <mat-icon mat-list-icon>add</mat-icon>
                 Actualizar
               </button>
-              <!-- <mat-form-field>
+              <mat-form-field>
                 <mat-select placeholder="Recargar Token">
                   <mat-option *ngFor="let cuenta of cuentas" [value]="cuenta">
                     {{cuenta}}
                   </mat-option>
                 </mat-select>
-              </mat-form-field> -->
-            </div>
+              </mat-form-field>
+            </div> -->
             <div>
               Desea Adicionar Repositorios
             </div>
@@ -125,7 +125,7 @@
         </div>
       </mat-card-content>
       <mat-card-content *ngIf="!showAdd">
-        <div class="row justify-content-end mb-2">
+        <div class="row justify-content-center mb-2">
           <div class="col">
             Los proyectos vinculados a sus cuentas son:
           </div>
@@ -139,7 +139,7 @@
               Ocultar Todos
             </button>
           </div>
-          <table datatable [dtOptions]="dtOptions" class="table table-inverse table-responsive" *ngIf="repositorios">
+          <table datatable [dtOptions]="dtOptions" class="table table-responsive" *ngIf="repositorios">
             <thead class="thead-inverse">
               <tr>
                 <th>Icono</th>

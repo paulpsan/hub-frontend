@@ -10,9 +10,10 @@ export class Proyecto {
     public clasificacion: any[],
     public usuarios: any[],
     public commits: string,
-    public tipo?: string,
-    public datos?: any[],
-    public fk_usuario?: number,
-    public fk_repositorio?: number
+    public fechaCreacion: Date,
+    public ultimaActividad: Date,
+    public tipo: string,
+    public datos: any[],
+    public fk_repositorio: number
   ) {}
 }

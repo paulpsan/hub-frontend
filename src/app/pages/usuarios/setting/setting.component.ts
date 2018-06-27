@@ -35,10 +35,11 @@ export class SettingComponent implements OnInit {
     //   });
     // });
   }
-  selectTab(index) {
-    this.selectedIndex = index;
+  tabChanged(event) {
+    this.selectedIndex = event;
   }
   next(object) {
+    console.log(object);
     if (this.usuario.estado) {
       this.showTabs = object.value;
       this.selectedIndex = object.index;

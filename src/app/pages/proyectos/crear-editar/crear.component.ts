@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpService } from "../../../services/http/http.service";
 import { Proyecto } from "../../../models/proyecto";
+import { UsuarioService } from "../../../services/service.index";
+import { MatSelectChange } from "@angular/material";
 
 @Component({
   selector: "hub-crear",
@@ -15,162 +17,65 @@ export class CrearComponent implements OnInit {
   acciones: string;
   private sub: any;
   proyecto: Proyecto;
-  userForm: FormGroup;
+  proyForm: FormGroup;
+  itemSelect;
   usuario;
   repositorios;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private _httpService: HttpService
+    private _httpService: HttpService,
+    private _usuarioService: UsuarioService
   ) {}
 
   ngOnInit() {
-    this.usuario = JSON.parse(localStorage.getItem("usuario"));
-    console.log(this.usuario);
+    this._usuarioService.usuario$.subscribe(repUsuario => {
+      this.usuario = repUsuario;
+    });
     this._httpService
       .obtener("repositorios/" + this.usuario._id + "/usuarios")
       .subscribe(response => {
-        console.log(response);
-        this.repositorios = response;
-        if (this.usuario.tipo == "local") {
-          this.userForm = new FormGroup({
-            nombre: new FormControl("", Validators.required),
-            urlRepositorio: new FormControl("", Validators.required),
-            descripcion: new FormControl("", Validators.required)
-          });
-        } else {
-          this.userForm = new FormGroup({
-            nombre: new FormControl("", Validators.required),
-            descripcion: new FormControl("", Validators.required)
-          });
+        let objRepo = [];
+        for (const repo of response.datos) {
+          if (repo.visibilidad) {
+            this.repositorios = repo;
+            objRepo.push(repo);
+          }
         }
-      });
-
-    //cambiar el 6 por el id
-    if (this.usuario.tipo == "gitlab") {
-      this._httpService
-        .obtener("repositorios/" + this.usuario._id + "/usuarios")
-        .subscribe(response => {
-          console.log(response);
-          this.repositorios = response;
-          this.userForm = new FormGroup({
-            nombre: new FormControl("", Validators.required),
-            descripcion: new FormControl("", Validators.required)
-          });
+        this.repositorios = objRepo;
+        this.proyForm = new FormGroup({
+          nombre: new FormControl("", Validators.required),
+          descripcion: new FormControl("", Validators.required),
+          urlRepositorio: new FormControl("", Validators.required)
         });
-    } else {
-      if (this.usuario.tipo == "github" || this.usuario.tipo == "bitbucket") {
-        this._httpService
-          .obtener("repositorios/" + this.usuario._id + "/usuarios")
-          .subscribe(response => {
-            console.log(response);
-            this.repositorios = response;
-            this.userForm = new FormGroup({
-              nombre: new FormControl("", Validators.required),
-              descripcion: new FormControl("", Validators.required)
-            });
-          });
-      }
-    }
+        console.log(this.repositorios);
+      });
+  }
+  selectChange(event: MatSelectChange) {
+    this.itemSelect = event.value;
+    console.log(event);
   }
   onSubmit() {
-    if (this.userForm.valid) {
-      let datos = this.userForm.controls["nombre"].value;
-      let descripcion = this.userForm.controls["descripcion"].value;
+    if (this.proyForm.valid) {
+      let datos = this.itemSelect;
+      let descripcion = this.proyForm.controls["descripcion"].value;
       let proyecto: Proyecto;
-      this._httpService
-        .buscarId("repositorios", datos._id)
-        .subscribe(repositorio => {
-          console.log(repositorio);
-
-          switch (this.usuario.tipo) {
-            case "gitlab":
-              proyecto = new Proyecto(
-                null,
-                datos.nombre,
-                datos.descripcion,
-                datos.html_url,
-                datos.avatar,
-                ["categorias"],
-                ["licencias"],
-                ["clasificacion"],
-                ["usuarios"],
-                "commits",
-                new Date("2018-05-05"),
-                new Date("2018-05-05"),
-                this.usuario.tipo,
-                datos,
-                repositorio._id
-              );
-              break;
-            case "github":
-              proyecto = new Proyecto(
-                null,
-                datos.nombre,
-                datos.descripcion,
-                datos.html_url,
-                datos.avatar,
-                ["categorias"],
-                ["licencias"],
-                ["clasificacion"],
-                ["usuarios"],
-                "commits",
-                new Date("2018-05-05"),
-                new Date("2018-05-05"),
-                this.usuario.tipo,
-                datos,
-                repositorio._id
-              );
-              break;
-            case "bitbucket":
-              proyecto = new Proyecto(
-                null,
-                datos.nombre,
-                datos.descripcion,
-                datos.html_url,
-                datos.avatar,
-                ["categorias"],
-                ["licencias"],
-                ["clasificacion"],
-                ["usuarios"],
-                "commits",
-                new Date("2018-05-05"),
-                new Date("2018-05-05"),
-                this.usuario.tipo,
-                datos,
-                repositorio._id
-              );
-              break;
-            default:
-              let urlRepositorio = this.userForm.controls["urlRepositorio"]
-                .value;
-              proyecto = new Proyecto(
-                null,
-                datos,
-                descripcion,
-                urlRepositorio,
-                "avatar",
-                ["categorias"],
-                ["licencias"],
-                ["clasificacion"],
-                ["usuarios"],
-                "commits",
-                new Date("2018-05-05"),
-                new Date("2018-05-05"),
-                this.usuario.tipo,
-                [],
-                repositorio._id
-              );
-              break;
-          }
-          console.log(proyecto);
-          this._httpService
-            .adicionar("proyectos", proyecto)
-            .subscribe(response => {
-              this.router.navigate(["/proyectos"]);
-            });
-          this.userForm.reset();
-        });
+      proyecto = new Proyecto(
+        null,
+        datos.nombre,
+        datos.descripcion,
+        datos.html_url,
+        datos.avatar,
+        ["categorias"],
+        ["licencias"],
+        ["clasificacion"],
+        ["usuarios"],
+        datos.commits
+      );
+      this._httpService.adicionar("proyectos", proyecto).subscribe(response => {
+        this.router.navigate(["/proyectos"]);
+      });
+      this.proyForm.reset();
     }
   }
 }

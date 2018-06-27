@@ -35,10 +35,6 @@ export class PerfilComponent implements OnInit {
     console.log(this.usuario);
     this.userForm = new FormGroup({
       nombre: new FormControl("", Validators.required),
-      email: new FormControl("", [
-        Validators.required,
-        Validators.pattern("[^ @]*@[^ @]*")
-      ]),
       descripcion: new FormControl("", Validators.required),
       url: new FormControl(""),
       password: new FormControl("")
@@ -67,7 +63,7 @@ export class PerfilComponent implements OnInit {
         let usuario = {
           _id: this.usuario._id,
           nombre: this.userForm.controls["nombre"].value,
-          email: this.userForm.controls["email"].value,
+          email: this.usuario.email,
           url: this.userForm.controls["url"].value,
           descripcion: this.userForm.controls["descripcion"].value,
           avatar: this.usuario.avatar

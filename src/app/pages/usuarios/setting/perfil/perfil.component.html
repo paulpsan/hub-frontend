@@ -69,18 +69,11 @@
 
             <div class="form-group">
               <mat-form-field class="col">
-                <input matInput placeholder="Email (*)" formControlName="email">
-                <mat-error *ngIf="userForm.controls['email'].hasError('email') && !userForm.controls['email'].hasError('required')">
-                  Please enter a valid email address
-                </mat-error>
-                <mat-error *ngIf="userForm.controls['email'].hasError('required')">
-                  Email is
-                  <strong>required</strong>
-                </mat-error>
+                <input matInput placeholder="Email (*)" [value]="usuario.email" disabled>
               </mat-form-field>
             </div>
 
-            <button mat-button (click)="showPass=!showPass" color="primary" class="mb-2">
+            <!-- <button mat-button (click)="showPass=!showPass" color="primary" class="mb-2">
               <mat-icon *ngIf="!showPass" mat-list-icon>add</mat-icon>
               <mat-icon *ngIf="showPass" mat-list-icon>keyboard_arrow_up</mat-icon>
               Cambiar Contraseña
@@ -101,7 +94,7 @@
                   <input matInput type="password" placeholder="Confirmar Contraseña">
                 </mat-form-field>
               </div>
-            </div>
+            </div> -->
 
           </fieldset>
           <div class="row justify-content-center">
