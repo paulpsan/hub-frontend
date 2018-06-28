@@ -28,6 +28,7 @@ import { LoadingBarModule } from "@ngx-loading-bar/core";
 import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
 import { LoadingBarHttpClientModule } from "@ngx-loading-bar/http-client";
 import { SharedModule } from "../../shared/shared.module";
+import { PipesModule } from "../../pipes/pipes.module";
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { SharedModule } from "../../shared/shared.module";
     LoadingBarRouterModule,
     LoadingBarModule,
     StarRatingModule.forRoot(),
-    SharedModule
+    SharedModule,
+    PipesModule
   ],
   exports: [],
   providers: [

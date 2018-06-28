@@ -3,7 +3,7 @@
         <div class="col-md-8" style="text-align: center">
             <span>Buscar:</span>
             <mat-form-field class="example-form-field">
-                <input matInput [(ngModel)]="buscar" type="text" placeholder="Nombre del Proyecto" (keyup)="obtenerDatos()"/>
+                <input matInput [(ngModel)]="buscar" type="text" placeholder="Nombre del Proyecto" (keyup)="obtenerDatos()" />
                 <!-- <input matInput type="text" placeholder="Buscar" [(ngModel)]="buscar"/> -->
                 <button mat-button matSuffix mat-icon-button aria-label="Search" (click)="obtenerDatos()">
                     <mat-icon>search</mat-icon>
@@ -26,7 +26,7 @@
                 <div class="col-md-1">
                     <!-- <img *ngIf="proyecto.tipo=='github'" src="assets/" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
                     <!-- <img src="{{proyecto.avatar}}" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
-                    <img src="{{proyecto.avatar}}" alt="{{proyecto.tipo}}" style="width: 50px !important">
+                    <img [src]="proyecto.avatar |imagen:'proyecto'" alt="{{proyecto.tipo}}" style="width: 50px !important">
                 </div>
                 <div class="col-md-5">
                     <p matLine>{{proyecto.descripcion}}

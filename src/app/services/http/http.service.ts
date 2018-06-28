@@ -14,7 +14,7 @@ export class HttpService {
   }
   //obtiene datos de forma general
 
-  obtener(tipo: string){
+  obtener(tipo: string) {
     return this._http
       .get(this.url + tipo)
       .catch((error: any) => Observable.throw(error || "Server error"));
@@ -51,7 +51,11 @@ export class HttpService {
       .post(this.url + tipo, objeto)
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
-
+  patch(tipo: string, id: any, objeto: any): Observable<any> {
+    return this._http
+      .patch(this.url + tipo + "/" + id, objeto)
+      .catch((error: any) => Observable.throw(error || "Server error"));
+  }
   adicionar(tipo: string, objeto: any): Observable<any> {
     return this._http
       .post(this.url + tipo, objeto)
@@ -69,5 +73,4 @@ export class HttpService {
       .delete(this.url + tipo + "/" + id)
       .catch((error: any) => Observable.throw(error || "Server error"));
   }
-
 }

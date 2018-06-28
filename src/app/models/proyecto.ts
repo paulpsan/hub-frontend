@@ -4,6 +4,7 @@ export class Proyecto {
     public nombre: string,
     public descripcion: string,
     public urlRepositorio: string,
+    public fk_repositorio: number,
     public avatar: string,
     public categorias: any[],
     public licencias: any[],
@@ -13,6 +14,5 @@ export class Proyecto {
     public tipo?: string,
     public datos?: any[],
     public fk_usuario?: number,
-    public fk_repositorio?: number
   ) {}
 }
