@@ -11,8 +11,8 @@ export class Proyecto {
     public clasificacion: any[],
     public usuarios: any[],
     public commits: string,
+    public fk_usuario: number,
     public tipo?: string,
     public datos?: any[],
-    public fk_usuario?: number,
   ) {}
 }

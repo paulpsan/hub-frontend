@@ -192,6 +192,7 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
       this.showAdd = false;
     }
   }
+
   save() {
     for (const key in this.repositorios) {
       if (
@@ -199,18 +200,13 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
       ) {
         this._httpService
           .editar("repositorios", this.repositorios[key])
-          .subscribe();
-        if (this.repositorios[key].visibilidad) {
-          this._httpService
-            .post("commits", this.repositorios[key])
-            .subscribe(response => {
-              console.log(response);
-            });
-        } else {
-          this._httpService
-            .editar("commits", this.repositorios[key])
-            .subscribe();
-        }
+          .subscribe(repor => {
+            this._httpService
+              .post("commits", this.repositorios[key])
+              .subscribe(response => {
+                console.log(response);
+              });
+          });
         //set issues, downloads,forks,stars,
         console.log("object");
         this._httpService

@@ -9,6 +9,7 @@ import {
   SubirArchivoService
 } from "../../../services/service.index";
 import { MatSelectChange } from "@angular/material";
+import * as _ from "lodash";
 
 @Component({
   selector: "hub-crear",
@@ -98,22 +99,27 @@ export class CrearComponent implements OnInit {
         ["licencias"],
         ["clasificacion"],
         ["usuarios"],
-        datos.commits
+        datos.commits,
+        this.usuario._id
       );
 
       this._httpService.adicionar("proyectos", proyecto).subscribe(response => {
-        if (!response.mesage) {
+        this.getUsuariosCommit(response);
+        if (!response.mensaje) {
           if (this.imagenTemp) {
             this._subirArchivoService
-              .subirArchivo(this.imagenSubir, "proyectos", response._id)
+              .subirArchivo(
+                this.imagenSubir,
+                "proyectos",
+                response.proyecto._id
+              )
               .then((resp: any) => {
-                this.setDatosProyecto();
                 console.log(resp);
                 let objPatch = {
                   avatar: resp.proyecto.avatar
                 };
                 this._httpService
-                  .patch("proyectos", response._id, objPatch)
+                  .patch("proyectos", response.proyecto._id, objPatch)
                   .subscribe(() => {
                     this.router.navigate(["/proyectos"]);
                   });
@@ -128,7 +134,12 @@ export class CrearComponent implements OnInit {
       this.proyForm.reset();
     }
   }
-  setDatosProyecto() {
-    
+  getUsuariosCommit(proy) {
+    let usuarios = [];
+    for (const commit of proy.proyecto.commits) {
+      usuarios.push({ autor: commit.autor, url: commit.web_url_autor });
+    }
+    usuarios = _.uniqBy(usuarios, "autor");
+    console.log(usuarios);
   }
 }

@@ -165,6 +165,7 @@ export class UsuarioComponent implements OnInit {
       this.UltimoCommit = "no existe";
     }
   }
+
   //Obtiene los lenguajes del repositorio
   cargarLenguajes(lenguajeUrl, tipo) {
     if (this.usuario.github) {
@@ -175,6 +176,7 @@ export class UsuarioComponent implements OnInit {
           token: this.token
         })
         .subscribe(lenguaje => {
+          //set lenguaje de github
           this.pieChartLabels = [];
           this.pieChartData = [];
           let arrarResp = [];
@@ -197,7 +199,7 @@ export class UsuarioComponent implements OnInit {
               }
             }
           }
-          // console.log(this.pieChartLabels, this.pieChartData);
+          console.log(this.pieChartLabels, this.pieChartData);
           this.showLenguajes = true;
         });
     }
@@ -222,42 +224,6 @@ export class UsuarioComponent implements OnInit {
     this.usuarioRepositorio = datos;
     //*
     this.showUsuarios = true;
-  }
-
-  getLenguajes(usuario) {
-    console.log(usuario);
-    let lenguajes = [];
-    for (const repo of usuario.datos) {
-      if (usuario.tipo == "github") {
-        let cadena = JSON.stringify(repo.lenguajes).split('"');
-        for (let index = 0; index < cadena.length; index++) {
-          if (index % 2 != 0) {
-            if (lenguajes.indexOf(cadena[index]) == -1) {
-              lenguajes.push(cadena[index]);
-            }
-          }
-        }
-      } else {
-        lenguajes.push(repo.lenguajes);
-      }
-    }
-
-    // let arrarResp = [];
-    // for (let value of usuario.datos) {
-    //   let leng = JSON.stringify(value.lenguajes);
-    //   let array = leng.split(",");
-    //   let lengRepositorios = [];
-    //   for (let val of array) {
-    //     let cadena = val.replace(/[{""}]/g, "").split(":");
-    //     lengRepositorios.push({
-    //       lenguaje: cadena[0],
-    //       codigo: cadena[1]
-    //     });
-    //   }
-    //   arrarResp.push(lengRepositorios);
-    // }
-    // console.log(lenguajes);
-    this.lenguajes = lenguajes;
   }
 
   editarUsuario(usuario: Usuario) {

@@ -39,8 +39,8 @@
                             <span> Usuarios: </span>
                         </div>
                         <div class="col-md-7">
-                            <span *ngFor="let usuario of proyecto.usuarios">
-                                <a href="{{usuario.web_url}}" target="#">{{usuario.nombre}} ,</a>
+                            <span *ngFor="let usuario of usuarios">
+                                <a href="{{usuario.web_url}}" target="#">{{usuario}} ,</a>
                             </span>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                             <span>Commits: </span>
                         </div>
                         <div class="col-md-7">
-                            <span>{{proyecto.commits}}</span>
+                            <span>{{proyecto.commits.length}}</span>
                         </div>
                     </div>
                     <div class="row">
