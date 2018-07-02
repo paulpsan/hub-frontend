@@ -23,10 +23,14 @@ export class SettingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.route.queryParams.filter(params => params.index).subscribe(params => {
+      this.selectedIndex = params.index;
+    });
     this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
     });
-
+    this.showTabs = false;
+    console.log(this.selectedIndex);
     // this.sub = this.route.params.subscribe(params => {
     //   this.id = params["id"];
     //   this._httpService.buscarId("usuarios", this.id).subscribe(usuario => {
@@ -39,7 +43,7 @@ export class SettingComponent implements OnInit {
     this.selectedIndex = event;
   }
   next(object) {
-    console.log(object);
+    console.log("emmit", object);
     if (this.usuario.estado) {
       this.showTabs = object.value;
       this.selectedIndex = object.index;

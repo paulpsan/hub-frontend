@@ -27,6 +27,7 @@ export class CrearComponent implements OnInit {
   itemSelect;
   usuario;
   repositorios;
+  showRepos: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -46,6 +47,7 @@ export class CrearComponent implements OnInit {
         for (const repo of response.datos) {
           if (repo.visibilidad) {
             this.repositorios = repo;
+            this.showRepos=true;
             objRepo.push(repo);
           }
         }

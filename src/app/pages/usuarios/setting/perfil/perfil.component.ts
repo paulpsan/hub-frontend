@@ -52,7 +52,7 @@ export class PerfilComponent implements OnInit {
     console.log(this.userForm.valid);
     if (this.userForm.valid) {
       this.showButton = false;
-      this.next({ value: false, index: 0 });
+      // this.next({ value: false, index: 0 });
     }
   }
 
@@ -78,7 +78,7 @@ export class PerfilComponent implements OnInit {
         } else {
           this._usuarioService.actualizarUsuario(usuario);
         }
-
+        this.next({ value: false, index: 0 });
         // this._httpService.editar("usuarios", usuario).subscribe(resp => {
         //   console.log(resp);
         //   this._usuarioService.guardarStorage(resp);
@@ -108,9 +108,8 @@ export class PerfilComponent implements OnInit {
     let urlImagenTemp = reader.readAsDataURL(archivo);
     reader.onloadend = () => (this.imagenTemp = reader.result);
   }
-  cambiarImagen() {
-    console.log(this.imagenSubir, this.usuario._id);
-  }
+
+  //activa usuario
   activar() {
     let usuario = this.usuario;
     usuario.estado = true;

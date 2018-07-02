@@ -11,10 +11,11 @@ import { UsuarioService } from "../../../../services/service.index";
 })
 export class CuentaComponent implements OnInit {
   usuario;
-  local: Boolean = false;
-  github: Boolean = false;
-  gitlab: Boolean = false;
-  bitbucket: Boolean = false;
+  local: boolean = false;
+  github: boolean = false;
+  gitlab: boolean = false;
+  bitbucket: boolean = false;
+  cuentas: boolean = false;
   config;
   constructor(
     private router: Router,
@@ -36,6 +37,9 @@ export class CuentaComponent implements OnInit {
       gitlab: this.usuario.gitlab,
       bitbucket: this.usuario.bitbucket
     };
+    if (((this.github == this.gitlab) == this.bitbucket) == false) {
+      this.cuentas = true;
+    }
   }
 
   desvincular(cadena) {

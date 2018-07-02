@@ -10,7 +10,10 @@ import { environment } from "../../../environments/environment";
 export class Oauth2Component implements OnInit {
   @Input() config;
   constructor() {}
-
+  github;
+  gitlab;
+  bitbucket;
+  
   ngOnInit() {}
   loginGH() {
     GLOBAL.TOGGLE = true;

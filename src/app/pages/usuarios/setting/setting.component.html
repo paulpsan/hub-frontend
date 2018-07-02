@@ -1,19 +1,19 @@
 <div class="container" *ngIf="usuario">
   <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="tabChanged($event)">
-    <mat-tab label="Mi Perfil" (click)="selectTab(0)">
+    <mat-tab label="Mi Perfil">
       <hub-perfil (siguiente)="next($event)">
       </hub-perfil>
     </mat-tab>
     <mat-tab label="Mis Repositorios" [disabled]="showTabs">
-      <hub-repositorio matTabContent (siguiente)="next($event)" *ngIf="selectedIndex==1">
+      <hub-repositorio matTabContent *ngIf="selectedIndex==1">
       </hub-repositorio>
     </mat-tab>
     <mat-tab label="Mis Cuentas" [disabled]="showTabs">
-      <hub-cuenta (siguiente)="next($event)" *ngIf="!showTabs">
+      <hub-cuenta *ngIf="!showTabs">
       </hub-cuenta>
     </mat-tab>
     <mat-tab label="Eliminar Cuenta" [disabled]="showTabs">
-      <hub-eliminar (siguiente)="next($event)" [usuario]="usuario" *ngIf="!showTabs">
+      <hub-eliminar [usuario]="usuario" *ngIf="!showTabs">
       </hub-eliminar>
     </mat-tab>
   </mat-tab-group>
