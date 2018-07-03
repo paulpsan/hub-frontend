@@ -40,6 +40,7 @@ export class CuentaComponent implements OnInit {
     if (((this.github == this.gitlab) == this.bitbucket) == false) {
       this.cuentas = true;
     }
+    console.log(this.cuentas);
   }
 
   desvincular(cadena) {

@@ -72,17 +72,18 @@ export class LoginComponent implements OnInit {
       "true"
     );
     this._usuarioService
-    .login(usuario)
-    .then(response => {
-      if (response) {
-        this.router.navigate(["/usuarios/ajustes"]);
-      }
-    })
-    .catch(error => {
-      let errorMessage = <any>error;
-      if (errorMessage != null) {
-        this.errorMessage = errorMessage.error.message;
-      }
-    });
+      .login(usuario)
+      .then(response => {
+        if (response) {
+          this.router.navigate(["/usuarios/ajustes"]);
+        }
+      })
+      .catch(error => {
+        let errorMessage = <any>error;
+        console.log(errorMessage);
+        if (errorMessage != null) {
+          this.errorMessage = errorMessage.error.mensaje;
+        }
+      });
   }
 }
