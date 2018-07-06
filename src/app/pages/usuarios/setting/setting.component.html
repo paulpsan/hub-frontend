@@ -5,7 +5,7 @@
       </hub-perfil>
     </mat-tab>
     <mat-tab label="Mis Repositorios" [disabled]="showTabs">
-      <hub-repositorio matTabContent *ngIf="selectedIndex==1">
+      <hub-repositorio matTabContent (siguiente)="next($event)" *ngIf="selectedIndex==1">
       </hub-repositorio>
     </mat-tab>
     <mat-tab label="Mis Cuentas" [disabled]="showTabs">
