@@ -36,45 +36,51 @@
                     <a href="#" class="btn btn-block btn-social btn-odnoklassniki"><i class="fa fa-gitlab"></i>Entrar Con <strong>Gitlab</strong></a>
                     <a href="#" class="btn btn-block btn-social btn-bitbucket"><i class="fa fa-bitbucket"></i>Entrar Con <strong>Bitbucket</strong></a>
                 </div> -->
-                <form novalidate [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+                <form novalidate [formGroup]="registroFormGroup" (ngSubmit)="onSubmit()">
                     <fieldset>
                         <div class="form-group">
                             <mat-form-field class="col">
                                 <input matInput placeholder="Nombre" formControlName="nombre">
                             </mat-form-field>
                         </div>
-                        <div class="form-group">
-                            <mat-form-field class="col">
-                                <input matInput placeholder="Correo Electronico" formControlName="email">
-                                <mat-error *ngIf="usuarioForm.controls['email'].hasError('email') && !usuarioForm.controls['email'].hasError('required')">
-                                    Ingrese un email valido
-                                </mat-error>
-                                <mat-error *ngIf="usuarioForm.controls['email'].hasError('required')">
-                                    Email es
-                                    <strong>requerido</strong>
-                                </mat-error>
-                            </mat-form-field>
+                        <div [formGroup]="emailFromGroup">
+                            <div class="form-group">
+                                <mat-form-field class="col">
+                                    <input matInput placeholder="Correo Electronico" formControlName="email">
+                                    <mat-error *ngIf="emailFromGroup.controls['email'].hasError('email') && !emailFromGroup.controls['email'].hasError('required')">
+                                        Ingrese un email valido
+                                    </mat-error>
+                                    <mat-error>
+                                        {{errors.email}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group">
+                                <mat-form-field class="col">
+                                    <input matInput placeholder="Verifique Correo Electronico" formControlName="confirmarEmail" [errorStateMatcher]="confirmValidParentMatcher">
+                                    <mat-error>
+                                        {{errors.confirmarEmail}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <mat-form-field class="col">
-                                <input matInput placeholder="Verifique Correo Electronico" formControlName="confirmarEmail"> {{usuarioForm.controls['confirmarEmail'] }}
-                                <mat-error *ngIf="usuarioForm.controls['confirmarEmail'].hasError('required')|| !usuarioForm.valid">
-                                    Ingrese un email valido
-                                </mat-error>
-                                <div *ngIf="errorEmail">
-                                    Los correos no son iguales
-                                </div>
-                            </mat-form-field>
-                        </div>
-                        <div class="form-group">
-                            <mat-form-field class="col">
-                                <input matInput type="password" placeholder="Contraseña" formControlName="password">
-                            </mat-form-field>
-                        </div>
-                        <div class="form-group">
-                            <mat-form-field class="col">
-                                <input matInput type="password" placeholder="Verifique Contraseña" formControlName="confirmarPassword">
-                            </mat-form-field>
+                        <div [formGroup]="passFormGroup">
+                            <div class="form-group">
+                                <mat-form-field class="col">
+                                    <input matInput type="password" placeholder="Contraseña" formControlName="password">
+                                    <mat-error>
+                                        {{errors.password}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group">
+                                <mat-form-field class="col">
+                                    <input matInput type="password" placeholder="Verifique Contraseña" formControlName="confirmarPassword" [errorStateMatcher]="confirmValidParentMatcher">
+                                    <mat-error>
+                                        {{errors.confirmarPassword}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
                         </div>
 
                     </fieldset>
@@ -82,7 +88,7 @@
                     <!-- <recaptcha (resolved)="resolved($event)" siteKey="6Ld3oTsUAAAAAJvkrQ5uCc8JZ5nO3yVVkXB9fiTu"></recaptcha> -->
 
                     <div class="row justify-content-center">
-                        <button mat-button type="submit" [disabled]="!usuarioForm.valid" color="primary">
+                        <button mat-button type="submit" [disabled]="!registroFormGroup.valid" color="primary">
                             <mat-icon mat-list-icon>done</mat-icon>
                             Aceptar
                         </button>

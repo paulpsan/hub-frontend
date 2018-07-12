@@ -13,27 +13,31 @@
         <div class="container">
           Sus cuentas son:
           <div class="container">
-            <div class="row mt-2" *ngIf="local">
+            <div class="row mt-2 mb-3" *ngIf="local">
+              <div class="col-1">
+                <img src="assets/images/adsib.ico" width="30" heigth="30">
+              </div>
+              <div class="col-6">
+                <strong class="align-content-center">Adsib</strong>
+              </div>
               <div class="col">
-                <div class="cuentas-login">
-                  <img src="assets/images/adsib.ico" width="30" heigth="30">
-                  <strong class="align-content-center">Adsib</strong>
-                </div>
+
               </div>
               <!-- <div class="col">
                 <button mat-button color="warn" (click)="desvincular(github)">
                 Desvincular
-              </button>
+                </button>
               </div> -->
             </div>
 
-            <div class="row mt-2" *ngIf="usuario.github">
-              <div class="col">
+            <div class="row" *ngIf="usuario.github">
+              <div class="col-1">
                 <div class="cuentas-login">
                   <i class="fa fa-github"></i>
-                  <strong class="">Github</strong>
-
                 </div>
+              </div>
+              <div class="col-6">
+                <strong class="">Github</strong>
               </div>
               <div class="col">
                 <button mat-button color="warn" (click)="desvincular('github')">
@@ -41,13 +45,14 @@
                 </button>
               </div>
             </div>
-            <div class="row mt-2" *ngIf="usuario.gitlab">
-              <div class="col">
+            <div class="row" *ngIf="usuario.gitlab">
+              <div class="col-1">
                 <div class="cuentas-login">
                   <i class="fa fa-gitlab"></i>
-                  <strong class="text">Gitlab</strong>
-
                 </div>
+              </div>
+              <div class="col-6">
+                <strong class="text">Gitlab</strong>
               </div>
               <div class="col">
                 <button mat-button color="warn" (click)="desvincular('gitlab')">
@@ -55,13 +60,14 @@
                 </button>
               </div>
             </div>
-            <div class="row mt-2" *ngIf="usuario.bitbucket">
-              <div class="col">
+            <div class="row" *ngIf="usuario.bitbucket">
+              <div class="col-1">
                 <div class="cuentas-login">
                   <i class="fa fa-bitbucket"></i>
-                  <strong class="">Bitbucket</strong>
-
                 </div>
+              </div>
+              <div class="col-6">
+                <strong class="">Bitbucket</strong>
               </div>
               <div class="col">
                 <button mat-button color="warn" (click)="desvincular('bitbucket')">

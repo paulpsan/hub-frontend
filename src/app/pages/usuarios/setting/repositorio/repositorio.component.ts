@@ -11,9 +11,8 @@ import {
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { GLOBAL } from "../../../../services/global";
+import { environment } from "../../../../../environments/environment";
 import { HttpService } from "../../../../services/http/http.service";
-import { slideInDownAnimation } from "../../../../animations";
-import { Usuario } from "../../../../models/usuario";
 import { UsuarioService } from "../../../../services/usuario/usuario.service";
 import { Subject } from "rxjs";
 import { SubirArchivoService } from "../../../../services/service.index";
@@ -224,6 +223,42 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
   hideAll() {
     for (const repo of this.repositorios) {
       repo.visibilidad = false;
+    }
+  }
+  //login gitlab
+  login(auth) {
+    localStorage.setItem("action", "refresh");
+    switch (auth) {
+      case "github":
+        window.location.href =
+          environment.github.domain +
+          environment.github.clientId +
+          "&state=" +
+          environment.github.state;
+        break;
+      case "gitlab":
+        window.location.href =
+          environment.gitlabGeo.domain +
+          environment.gitlabGeo.clientId +
+          "&redirect_uri=" +
+          environment.gitlabGeo.callbackURL +
+          "&response_type=code" +
+          "&state=" +
+          environment.gitlabGeo.state;
+        break;
+      case "bitbucket":
+        window.location.href =
+          environment.bitbucket.domain +
+          environment.bitbucket.clientId +
+          "&redirect_uri=" +
+          environment.bitbucket.callbackURL +
+          "&response_type=code" +
+          "&state=" +
+          environment.bitbucket.state;
+        break;
+
+      default:
+        break;
     }
   }
 }

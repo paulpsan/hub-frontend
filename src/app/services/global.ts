@@ -8,7 +8,7 @@ export const GLOBAL = {
     closeButton: true
   },
   //Configuracion de dataTable españo
-  dtOptions : {
+  dtOptions: {
     order: [[0, "desc"]],
     pagingType: "full_numbers",
     pageLength: 10,
@@ -25,5 +25,5 @@ export const GLOBAL = {
     }
   },
 
-  TOGGLE: true
+  TOGGLE: false
 };

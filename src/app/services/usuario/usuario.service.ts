@@ -83,6 +83,7 @@ export class UsuarioService {
     this.token = "";
     localStorage.removeItem("token");
     localStorage.removeItem("usuario");
+    localStorage.removeItem("action");
     this.router.navigate(["/login"]);
   }
   login(usuario: Usuario) {

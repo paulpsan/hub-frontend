@@ -22,6 +22,15 @@ export class LoginService {
   //       return Observable.throw(error || "Server error");
   //     });
   // }
+  refreshToken(params, usuario) {
+    return this._http
+      .post(this.url + `auth/refresh/${params.state}`, {code:params.code,usuario})
+      .catch((error: any) => {
+        console.log(error);
+        return Observable.throw(error || "Server error");
+      });
+  }
+
   getTokenGithub(code: string) {
     return this._http
       .get(this.url + "auth/github/" + code)

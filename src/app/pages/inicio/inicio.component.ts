@@ -5,6 +5,7 @@ import { HttpService } from "../../services/http/http.service";
 import { MatSnackBar } from "@angular/material";
 import { Usuario } from "../../models/usuario";
 import { UsuarioService } from "../../services/service.index";
+import { GLOBAL } from "../../services/global";
 // import qs from "querystringify";
 let qs = require("querystringify");
 @Component({
@@ -13,6 +14,7 @@ let qs = require("querystringify");
   styleUrls: ["./inicio.component.css"]
 })
 export class InicioComponent implements OnInit {
+  public action;
   public params;
   public usuario: Usuario;
   public cargando: Boolean = true;
@@ -26,16 +28,32 @@ export class InicioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.action = localStorage.getItem("action");
     this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
-      console.log(repUsuario);
     });
 
     let url = this.router.url;
-    console.log(this.usuario);
     if (url !== "/inicio") {
       let urlCallback = url.split("?");
       this.params = qs.parse(urlCallback[1]);
+      if (this.action) {
+        switch (this.action) {
+          case "new":
+            break;
+          case "add":
+            break;
+          case "refresh":
+            console.log(this.action);
+            this._loginService
+              .refreshToken(this.params, this.usuario)
+              .subscribe();
+            break;
+          default:
+            break;
+        }
+      }
+
       switch (this.params.state) {
         case "github":
           if (this.params.code != "") {
