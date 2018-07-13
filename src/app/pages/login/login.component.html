@@ -35,17 +35,17 @@
         <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
         <p id="profile-name" class="profile-name-card"></p>
         <div class="col pb-3">
-          <button (click)="loginGH()" class="btn btn-block btn-social btn-github">
+          <button (click)="login('github')" class="btn btn-block btn-social btn-github">
             <i class="fa fa-github"></i>
             <span class="nombre-repo">Entrar Con</span>
             <strong class="nombre-repo">Github</strong>
           </button>
-          <button (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki">
+          <button (click)="login('gitlab')" class="btn btn-block btn-social btn-odnoklassniki">
             <i class="fa fa-gitlab"></i>
             <span class="nombre-repo">Entrar Con</span>
             <strong class="nombre-repo">Gitlab</strong>
           </button>
-          <button (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket">
+          <button (click)="login('bitbucket')" class="btn btn-block btn-social btn-bitbucket">
             <i class="fa fa-bitbucket"></i>
             <span class="nombre-repo">Entrar Con</span>
             <strong class="nombre-repo">Bitbucket</strong>

@@ -33,6 +33,7 @@ export class CuentaComponent implements OnInit {
     this.gitlab = this.usuario.gitlab;
     this.bitbucket = this.usuario.bitbucket;
     this.config = {
+      action:'add',
       github: this.usuario.github,
       gitlab: this.usuario.gitlab,
       bitbucket: this.usuario.bitbucket

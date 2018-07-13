@@ -27,37 +27,42 @@ export class LoginComponent implements OnInit {
     });
   }
   //login github
-  loginGH() {
-    GLOBAL.TOGGLE = true;
-    window.location.href =
-      environment.github.domain +
-      environment.github.clientId +
-      "&state=" +
-      environment.github.state;
+  login(auth) {
+    localStorage.setItem("action", "login");
+    switch (auth) {
+      case "github":
+        window.location.href =
+          environment.github.domain +
+          environment.github.clientId +
+          "&state=" +
+          environment.github.state;
+        break;
+      case "gitlab":
+        window.location.href =
+          environment.gitlabGeo.domain +
+          environment.gitlabGeo.clientId +
+          "&redirect_uri=" +
+          environment.gitlabGeo.callbackURL +
+          "&response_type=code" +
+          "&state=" +
+          environment.gitlabGeo.state;
+        break;
+      case "bitbucket":
+        window.location.href =
+          environment.bitbucket.domain +
+          environment.bitbucket.clientId +
+          "&redirect_uri=" +
+          environment.bitbucket.callbackURL +
+          "&response_type=code" +
+          "&state=" +
+          environment.bitbucket.state;
+        break;
+
+      default:
+        break;
+    }
   }
-  //login gitlab
-  loginGL() {
-    GLOBAL.TOGGLE = true;
-    window.location.href =
-      environment.gitlabGeo.domain +
-      environment.gitlabGeo.clientId +
-      "&redirect_uri=" +
-      environment.gitlabGeo.callbackURL +
-      "&response_type=code" +
-      "&state=" +
-      environment.gitlabGeo.state;
-  }
-  loginBB() {
-    GLOBAL.TOGGLE = true;
-    window.location.href =
-      environment.bitbucket.domain +
-      environment.bitbucket.clientId +
-      "&redirect_uri=" +
-      environment.bitbucket.callbackURL +
-      "&response_type=code" +
-      "&state=" +
-      environment.bitbucket.state;
-  }
+
   onSubmit() {
     let email = this.loginForm.controls["email"].value;
     let password = this.loginForm.controls["password"].value;

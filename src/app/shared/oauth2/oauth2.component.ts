@@ -13,8 +13,10 @@ export class Oauth2Component implements OnInit {
   github;
   gitlab;
   bitbucket;
-  
-  ngOnInit() {}
+
+  ngOnInit() {
+    localStorage.setItem("action", this.config.action);
+  }
   loginGH() {
     GLOBAL.TOGGLE = true;
     window.location.href =

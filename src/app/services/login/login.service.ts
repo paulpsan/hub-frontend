@@ -24,7 +24,18 @@ export class LoginService {
   // }
   refreshToken(params, usuario) {
     return this._http
-      .post(this.url + `auth/refresh/${params.state}`, {code:params.code,usuario})
+      .post(this.url + `auth/refresh/${params.state}`, {
+        code: params.code,
+        usuario
+      })
+      .catch((error: any) => {
+        console.log(error);
+        return Observable.throw(error || "Server error");
+      });
+  }
+  getToken(type:string,code: string) {
+    return this._http
+      .get(this.url + `auth/${type}/${code}`)
       .catch((error: any) => {
         console.log(error);
         return Observable.throw(error || "Server error");
