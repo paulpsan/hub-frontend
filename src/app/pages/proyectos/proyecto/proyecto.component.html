@@ -75,7 +75,7 @@
             </div>
             <div class="col-md-7">
               <span *ngFor="let usuario of proyecto.usuarios">
-                <a href="{{usuario.web_url}}" target="#">{{usuario.nombre}} ,</a>
+                <a href="{{usuario.web_url}}" target="#">{{usuario}} ,</a>
               </span>
             </div>
           </div>
@@ -85,7 +85,7 @@
               <span>Commits: </span>
             </div>
             <div class="col-md-7">
-              <span>{{proyecto.commits}}</span>
+              <span>{{proyecto.commits.length}}</span>
             </div>
           </div>
           <div class="row">
@@ -158,25 +158,31 @@
     </div>
   </div> -->
 
-  <div class="row mb-3 ml-0">
-    <div class="col pl-4">
-      <h4>Codigo</h4>
-      <chart-codigo>
-      </chart-codigo>
-    </div>
-    <div class="col pl-4">
-      <h4>Actividad</h4>
-      GRAFICO DE COMMITS
-      <chart-commits>
-      </chart-commits>
-    </div>
+  <div class="mb-3 ">
+    <div class="card-deck">
 
+      <div class="card" *ngIf="data$">
+        <div class="card-body">
+          <span>Commits</span>
+          <chart-codigo [data]="data$">
+          </chart-codigo>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h4>Lenguajes de programacion</h4>
+            <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
+          </chart-lenguajes>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row mb-3 ml-0">
+
+  <!-- <div class="row mb-3 ml-0">
     <div class="col-4 pl-4">
       <h4>Lenguajes de programacion</h4>
       <chart-lenguajes>
       </chart-lenguajes>
     </div>
-  </div>
+  </div> -->
 </div>

@@ -10,18 +10,7 @@ export class LoginService {
   constructor(private _http: HttpClient) {
     this.url = environment.url;
   }
-  // github(): Observable<any[]> {
-  //   return this._http
-  //     .get(this.urlGithub + this.GITHUB_CLIENT_ID)
-  //     .map((res: Response) => {
-  //       console.log(res);
-  //       return res;
-  //     })
-  //     .catch((error: any) => {
-  //       console.log(error);
-  //       return Observable.throw(error || "Server error");
-  //     });
-  // }
+  
   refreshToken(params, usuario) {
     return this._http
       .post(this.url + `auth/refresh/${params.state}`, {
@@ -36,31 +25,6 @@ export class LoginService {
   getToken(type:string,code: string) {
     return this._http
       .get(this.url + `auth/${type}/${code}`)
-      .catch((error: any) => {
-        console.log(error);
-        return Observable.throw(error || "Server error");
-      });
-  }
-
-  getTokenGithub(code: string) {
-    return this._http
-      .get(this.url + "auth/github/" + code)
-      .catch((error: any) => {
-        console.log(error);
-        return Observable.throw(error || "Server error");
-      });
-  }
-  getTokenGitlab(code: string) {
-    return this._http
-      .get(this.url + "auth/gitlab/" + code)
-      .catch((error: any) => {
-        console.log(error);
-        return Observable.throw(error || "Server error");
-      });
-  }
-  getTokenBitbucket(code: string) {
-    return this._http
-      .get(this.url + "auth/bitbucket/" + code)
       .catch((error: any) => {
         console.log(error);
         return Observable.throw(error || "Server error");

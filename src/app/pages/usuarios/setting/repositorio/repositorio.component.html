@@ -193,13 +193,13 @@
             </button>
           </div>
           <div class="col-2">
-            <button (click)="login('gitlab')" class="btn btn-block btn-social btn-odnoklassniki" *ngIf="!usuario.gitlab">
+            <button (click)="login('gitlab')" class="btn btn-block btn-social btn-odnoklassniki" *ngIf="usuario.gitlab">
               <i class="fa fa-gitlab"></i>
               <strong class="">Gitlab</strong>
             </button>
           </div>
           <div class="col-2">
-            <button (click)="login('bitbucket')" class="btn btn-block btn-social btn-bitbucket" *ngIf="!usuario.bitbucket">
+            <button (click)="login('bitbucket')" class="btn btn-block btn-social btn-bitbucket" *ngIf="usuario.bitbucket">
               <i class="fa fa-bitbucket"></i>
               <strong class="">Bitbucket</strong>
             </button>

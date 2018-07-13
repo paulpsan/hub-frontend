@@ -16,7 +16,10 @@ export class ProyectoComponent implements OnInit {
   private sub: any;
   proyecto: Proyecto;
   show: boolean = false;
-
+  lenguajes = [];
+  pieChartData;
+  pieChartLabels;
+  data$;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -35,9 +38,65 @@ export class ProyectoComponent implements OnInit {
     this._httpService.buscarId("proyectos", this.id).subscribe(result => {
       this.proyecto = result;
       this.show = true;
+      this.getCommitUsuario(this.proyecto.fk_usuario);
+      this.cargarLenguajes(this.proyecto.datos);
       console.log(this.proyecto);
     });
   }
+  //Obtiene los lenguajes del repositorio
+  cargarLenguajes(dataLenguaje) {
+    let lenguaje = dataLenguaje.lenguajes.datos;
+    if (dataLenguaje) {
+      this.pieChartLabels = [];
+      this.pieChartData = [];
+      let arrarResp = [];
+      let leng = JSON.stringify(lenguaje);
+      let array = leng.split(",");
+      let lengRepositorios = [];
+      for (let val of array) {
+        let cadena = val.replace(/[{""}]/g, "").split(":");
+        lengRepositorios.push({ lenguaje: cadena[0], codigo: cadena[1] });
+      }
+      if (Object.keys(lengRepositorios).length !== 0) {
+        arrarResp = lengRepositorios;
+        for (let value of arrarResp) {
+          if (value.lenguaje != "" && value.codigo != undefined) {
+            this.pieChartLabels.push(value.lenguaje);
+            this.pieChartData.push(parseInt(value.codigo));
+          } else {
+            this.pieChartLabels.push("0");
+            this.pieChartData.push(0);
+          }
+        }
+      }
+      console.log(this.pieChartLabels, this.pieChartData);
+    }
+  }
+
+  getCommitUsuario(id) {
+    let token = localStorage.getItem("token");
+    this._httpService
+      .post("commits/" + id + "/usuarios/graficos", { token: token })
+      .subscribe(respuesta => {
+        // let arraySum = respuesta.barChartData[0].data;
+        // for (let i = 1; i < respuesta.barChartData.length; i++) {
+        //   for (
+        //     let index = 0;
+        //     index < respuesta.barChartData[i].data.length;
+        //     index++
+        //   ) {
+        //     arraySum[index] =
+        //       arraySum[index] + respuesta.barChartData[i].data[index];
+        //   }
+        // }
+        // console.log(arraySum);
+        this.data$ = {
+          lineChartData: respuesta.barChartData[0].data,
+          lineChartLabels: respuesta.años
+        };
+      });
+  }
+
   editarProyecto(proyecto) {
     if (proyecto) {
       this.router.navigate(["/proyectos/editar", proyecto._id]);

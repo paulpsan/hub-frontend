@@ -7,8 +7,12 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { StarRatingModule } from "angular-star-rating";
+import { SharedModule } from "../../shared/shared.module";
+import { PipesModule } from "../../pipes/pipes.module";
 
-import { ChartsModule } from "ng2-charts/ng2-charts";
+import { LoadingBarModule } from "@ngx-loading-bar/core";
+import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
+import { LoadingBarHttpClientModule } from "@ngx-loading-bar/http-client";
 
 import { EditarComponent } from "./crear-editar/editar.component";
 import { CrearComponent } from "./crear-editar/crear.component";
@@ -19,16 +23,8 @@ import {
   ProyectoComponent,
   ModalEliminarProyecto
 } from "./proyecto/proyecto.component";
-import { CodigoComponent } from "./proyecto/charts/codigo.component";
-import { CommitsComponent } from "./proyecto/charts/commits.component";
-import { LenguajesComponent } from "./proyecto/charts/lenguajes.component";
 import { ComunModule } from "../../common/comun.module";
 import { ListarComponent } from "./listar/listar.component";
-import { LoadingBarModule } from "@ngx-loading-bar/core";
-import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
-import { LoadingBarHttpClientModule } from "@ngx-loading-bar/http-client";
-import { SharedModule } from "../../shared/shared.module";
-import { PipesModule } from "../../pipes/pipes.module";
 
 @NgModule({
   declarations: [
@@ -37,9 +33,6 @@ import { PipesModule } from "../../pipes/pipes.module";
     EditarComponent,
     ProyectosComponent,
     ProyectoComponent,
-    CodigoComponent,
-    CommitsComponent,
-    LenguajesComponent,
     ListarComponent
   ],
   imports: [
@@ -49,7 +42,6 @@ import { PipesModule } from "../../pipes/pipes.module";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ChartsModule,
     ComunModule,
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,

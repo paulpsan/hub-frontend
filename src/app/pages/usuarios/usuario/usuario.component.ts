@@ -87,7 +87,7 @@ export class UsuarioComponent implements OnInit {
             this.repositorios = objRepo;
             console.log(this.repositorios);
             this.totalCommits();
-            this.getCommitUsuario(this.usuario.tipo, this.id);
+            this.getCommitUsuario(this.id);
             // if (this.usuario.tipo != "local") {
             //   // this.calculaCommits(this.usuario);
             //   // this.getCommitUsuario(this.usuario.tipo, this.id);
@@ -98,7 +98,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   //grafica de commits por usuario
-  getCommitUsuario(url, id) {
+  getCommitUsuario(id) {
     let token = localStorage.getItem("token");
     this._httpService
       .post("commits/" + id + "/usuarios/graficos", { token: token })
@@ -167,42 +167,36 @@ export class UsuarioComponent implements OnInit {
   }
 
   //Obtiene los lenguajes del repositorio
-  cargarLenguajes(lenguajeUrl, tipo) {
-    if (this.usuario.github) {
-      this._httpService
-        .post("repositorios/lenguajes", {
-          url: lenguajeUrl,
-          tipo: "github",
-          token: this.token
-        })
-        .subscribe(lenguaje => {
-          //set lenguaje de github
-          this.pieChartLabels = [];
-          this.pieChartData = [];
-          let arrarResp = [];
-          let leng = JSON.stringify(lenguaje);
-          let array = leng.split(",");
-          let lengRepositorios = [];
-          for (let val of array) {
-            let cadena = val.replace(/[{""}]/g, "").split(":");
-            lengRepositorios.push({ lenguaje: cadena[0], codigo: cadena[1] });
-          }
-          if (Object.keys(lengRepositorios).length !== 0) {
-            arrarResp = lengRepositorios;
-            for (let value of arrarResp) {
-              if (value.lenguaje != "" && value.codigo != undefined) {
-                this.pieChartLabels.push(value.lenguaje);
-                this.pieChartData.push(parseInt(value.codigo));
-              } else {
-                this.pieChartLabels.push("0");
-                this.pieChartData.push(0);
-              }
+  cargarLenguajes(dataLenguaje, tipo) {
+    setTimeout(() => {
+      let lenguaje = dataLenguaje.datos;
+      if (this.usuario.github) {
+        this.pieChartLabels = [];
+        this.pieChartData = [];
+        let arrarResp = [];
+        let leng = JSON.stringify(lenguaje);
+        let array = leng.split(",");
+        let lengRepositorios = [];
+        for (let val of array) {
+          let cadena = val.replace(/[{""}]/g, "").split(":");
+          lengRepositorios.push({ lenguaje: cadena[0], codigo: cadena[1] });
+        }
+        if (Object.keys(lengRepositorios).length !== 0) {
+          arrarResp = lengRepositorios;
+          for (let value of arrarResp) {
+            if (value.lenguaje != "" && value.codigo != undefined) {
+              this.pieChartLabels.push(value.lenguaje);
+              this.pieChartData.push(parseInt(value.codigo));
+            } else {
+              this.pieChartLabels.push("0");
+              this.pieChartData.push(0);
             }
           }
-          console.log(this.pieChartLabels, this.pieChartData);
-          this.showLenguajes = true;
-        });
-    }
+        }
+        console.log(this.pieChartLabels, this.pieChartData);
+        this.showLenguajes = true;
+      }
+    }, 200);
   }
 
   cargarUsuarios(commits, tipo) {

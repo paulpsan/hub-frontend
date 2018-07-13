@@ -16,9 +16,6 @@ import { UsuariosRoutingModule } from "./usuarios-routing.module";
 import { UsuarioComponent } from "./usuario/usuario.component";
 import { UsuarioBbComponent } from "./usuario/usuarioBb.component";
 import { ListarComponent } from "./listar/listar.component";
-import { CommitsComponent } from "./charts/commits.component";
-import { LenguajesComponent } from "./charts/lenguajes.component";
-import { CodigoComponent } from "./charts/codigo.component";
 import { DataTablesModule } from "angular-datatables";
 import { SettingModule } from "./setting/setting.module";
 import { SharedModule } from "../../shared/shared.module";
@@ -32,9 +29,6 @@ import { PipesModule } from "../../pipes/pipes.module";
     UsuarioComponent,
     UsuarioBbComponent,
     ListarComponent,
-    CommitsComponent,
-    LenguajesComponent,
-    CodigoComponent
   ],
   imports: [
     CommonModule,

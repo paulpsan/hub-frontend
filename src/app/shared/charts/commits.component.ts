@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { HttpService } from "../../../services/http/http.service";
+import { HttpService } from "../../services/http/http.service";
 import { MatDialog } from "@angular/material";
 
 @Component({
