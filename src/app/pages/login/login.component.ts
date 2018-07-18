@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Usuario } from "../../models/usuario";
-import { GLOBAL } from "./../../services/global";
+import { GLOBAL } from "../../services/global";
 import { environment } from "../../../environments/environment";
 import { UsuarioService } from "../../services/service.index";
 

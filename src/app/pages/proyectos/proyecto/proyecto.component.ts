@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Chart } from "chart.js";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { Component, OnInit, Inject } from "@angular/core";
+import * as moment from "moment";
 
 @Component({
   selector: "hub-proyecto",
@@ -20,6 +21,7 @@ export class ProyectoComponent implements OnInit {
   pieChartData;
   pieChartLabels;
   data$;
+  configRepo$;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -28,6 +30,7 @@ export class ProyectoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    moment.locale("es");
     this.sub = this.route.params.subscribe(params => {
       this.id = params["id"];
     });
@@ -38,7 +41,7 @@ export class ProyectoComponent implements OnInit {
     this._httpService.buscarId("proyectos", this.id).subscribe(result => {
       this.proyecto = result;
       this.show = true;
-      this.getCommitUsuario(this.proyecto.fk_usuario);
+      this.getCommitRepo(this.proyecto.fk_repositorio);
       this.cargarLenguajes(this.proyecto.datos);
       console.log(this.proyecto);
     });
@@ -73,11 +76,39 @@ export class ProyectoComponent implements OnInit {
     }
   }
 
-  getCommitUsuario(id) {
-    let token = localStorage.getItem("token");
+  getCommitRepo(id) {
+    console.log(id);
     this._httpService
-      .post("commits/" + id + "/usuarios/graficos", { token: token })
+      .obtener("commits/" + id + "/repositorio/graficos")
       .subscribe(respuesta => {
+        var series = [];
+        let max = 0;
+        let min = 100;
+        for (const data of respuesta.mes) {
+          series.push({
+            name: moment(data.date).format("YYYY MMM"),
+            value: data.total
+          });
+          if (max <= data.total) {
+            max = data.total;
+          }
+          if (data.total <= min) {
+            min = data.total;
+          }
+        }
+        max = max + max * 0.1;
+        min = min - min * 0.1;
+
+        console.log(max, min);
+        console.log(series);
+        this.configRepo$ = {
+          xAxisLabel: "Fecha",
+          yAxisLabel: "Commits",
+          yScaleMin: min,
+          yScaleMax: max
+        };
+
+        this.data$ = series;
         // let arraySum = respuesta.barChartData[0].data;
         // for (let i = 1; i < respuesta.barChartData.length; i++) {
         //   for (
@@ -90,10 +121,10 @@ export class ProyectoComponent implements OnInit {
         //   }
         // }
         // console.log(arraySum);
-        this.data$ = {
-          lineChartData: respuesta.barChartData[0].data,
-          lineChartLabels: respuesta.años
-        };
+        // this.data$ = {
+        //   lineChartData: respuesta.barChartData[0].data,
+        //   lineChartLabels: respuesta.años
+        // };
       });
   }
 

@@ -8,8 +8,8 @@ import {
   MAT_DIALOG_DATA,
   PageEvent
 } from "@angular/material";
-import { Observable } from "rxjs/Rx";
-import "rxjs/Rx";
+import { Observable } from "rxjs";
+import "rxjs";
 
 import { Proyecto } from "../../../models/proyecto";
 import { HttpService } from "../../../services/http/http.service";

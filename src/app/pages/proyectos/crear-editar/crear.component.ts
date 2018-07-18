@@ -1,4 +1,4 @@
-import { Usuario } from "./../../../models/usuario";
+import { Usuario } from "../../../models/usuario";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -137,11 +137,15 @@ export class CrearComponent implements OnInit {
     }
   }
   getUsuariosCommit(proy) {
-    let usuarios = [];
-    for (const commit of proy.proyecto.commits) {
-      usuarios.push({ autor: commit.autor, url: commit.web_url_autor });
+    if(!proy.mensaje){
+      let usuarios = [];
+      for (const commit of proy.proyecto.commits) {
+        usuarios.push({ autor: commit.autor, url: commit.web_url_autor });
+      }
+      usuarios = _.uniqBy(usuarios, "autor");
+      console.log(usuarios);
+    }else{
+      console.log("ya existe el proyecto");
     }
-    usuarios = _.uniqBy(usuarios, "autor");
-    console.log(usuarios);
   }
 }

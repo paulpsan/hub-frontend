@@ -144,28 +144,36 @@
     </div>
 
     <div class="mb-3" *ngIf="showRepositorios">
+      <h4>commits</h4>
+      <div class="card-deck" *ngIf="showLenguajes">
+        <div class="card col-4">
+          <div class="card-body">
+            Commits por Lenguajes
+            <div>
+              <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
+              </chart-lenguajes>
+            </div>
+          </div>
+        </div>
+        <div class="card" *ngIf="dataRepo$">
+          <div class="card-body">
+            <span>Commits por repositorio</span>
+            <!-- <chart-codigo [data]="data$">
+              </chart-codigo> -->
+            <line-chart class="chart" [config]="config$" [data]="dataRepo$"></line-chart>
+          </div>
+        </div>
+      </div>
       <h4>Historial de Desarrollo:</h4>
       <div class="card-deck">
         <div class="card" *ngIf="data$">
           <div class="card-body">
             <span>Commits por repositorio</span>
-            <chart-codigo [data]="data$">
-            </chart-codigo>
+            <!-- <chart-codigo [data]="data$">
+            </chart-codigo> -->
+            <line-chart class="chart" [config]="configRepo$" [data]="data$"></line-chart>
           </div>
         </div>
-
-        <div class="card" *ngIf="showLenguajes">
-          <div class="card-body">
-            Commits por Lenguajes
-            <div>
-              <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
-
-              </chart-lenguajes>
-            </div>
-
-          </div>
-        </div>
-
       </div>
     </div>
   </div>

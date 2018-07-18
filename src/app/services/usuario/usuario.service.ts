@@ -1,8 +1,8 @@
 import { Component, Injectable } from "@angular/core";
 import { Response } from "@angular/http";
 import { HttpClient } from "@angular/common/http";
-import "rxjs/Rx";
-import { Observable, BehaviorSubject } from "rxjs/Rx";
+import "rxjs";
+import { Observable, BehaviorSubject } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { Usuario } from "../../models/usuario";
 import { SubirArchivoService } from "../subir-archivo/subir-archivo.service";

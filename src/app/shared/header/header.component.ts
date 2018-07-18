@@ -1,4 +1,4 @@
-import { AuthService } from "./../../services/auth/auth.service";
+import { AuthService } from "../../services/auth/auth.service";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { Component, OnInit, OnChanges } from "@angular/core";
 import { environment } from "../../../environments/environment";

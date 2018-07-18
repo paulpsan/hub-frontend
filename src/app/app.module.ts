@@ -36,7 +36,7 @@ import { ServiceModule } from "./services/service.module";
     RegistroComponent,
     PagesComponent,
     // NopagefoundComponent,
-    OrganizacionesComponent
+    OrganizacionesComponent,
   ],
   imports: [
     AppRoutingModule,

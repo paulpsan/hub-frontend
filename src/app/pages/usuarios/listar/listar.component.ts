@@ -2,7 +2,7 @@ import { HubInterceptor } from "../../../common/interceptor/hub.interceptor";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
-import "rxjs/Rx";
+import "rxjs";
 
 import { Usuario } from "../../../models/usuario";
 import { HttpService } from "../../../services/http/http.service";

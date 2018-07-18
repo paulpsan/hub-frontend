@@ -3,8 +3,8 @@ import { HubInterceptor } from '../../common/interceptor/hub.interceptor';
 import { Component, OnInit, Inject, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/Rx';
+import { Observable } from 'rxjs';
+import 'rxjs';
 
 import { Proyecto } from '../../models/proyecto';
 import { HttpService } from "../../services/http/http.service";

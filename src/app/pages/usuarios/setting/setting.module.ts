@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { DataTablesModule } from "angular-datatables";
 
-import { ComunModule } from "./../../../common/comun.module";
+import { ComunModule } from "../../../common/comun.module";
 import { MaterialModule } from "../../../material/material.module";
 
 import { SettingComponent } from "./setting.component";

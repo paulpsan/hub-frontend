@@ -164,14 +164,16 @@
       <div class="card" *ngIf="data$">
         <div class="card-body">
           <span>Commits</span>
-          <chart-codigo [data]="data$">
-          </chart-codigo>
+          <line-chart class="chart" [config]="configRepo$" [data]="data$"></line-chart>
         </div>
       </div>
       <div class="card">
         <div class="card-body">
           <h4>Lenguajes de programacion</h4>
-            <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
+          <!-- <pie-chart [data]="dataLenguajes$">
+          </pie-chart> -->
+
+          <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
           </chart-lenguajes>
         </div>
       </div>

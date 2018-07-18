@@ -27,6 +27,7 @@
     "@ngx-loading-bar/core": "^2.0.0-alpha.0",
     "@ngx-loading-bar/http-client": "^2.0.0-alpha.0",
     "@ngx-loading-bar/router": "^2.0.0-alpha.0",
+    "@swimlane/ngx-charts": "^7.4.0",
     "angular-datatables": "^5.0.0",
     "angular-material-fileupload": "0.0.11",
     "angular-star-rating": "^3.0.8",

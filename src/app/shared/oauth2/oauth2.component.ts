@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { GLOBAL } from "./../../services/global";
+import { GLOBAL } from "../../services/global";
 import { environment } from "../../../environments/environment";
 
 @Component({

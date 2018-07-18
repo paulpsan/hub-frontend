@@ -33,7 +33,7 @@ export class CuentaComponent implements OnInit {
     this.gitlab = this.usuario.gitlab;
     this.bitbucket = this.usuario.bitbucket;
     this.config = {
-      action:'add',
+      action: "add",
       github: this.usuario.github,
       gitlab: this.usuario.gitlab,
       bitbucket: this.usuario.bitbucket
@@ -41,7 +41,7 @@ export class CuentaComponent implements OnInit {
     if (((this.github == this.gitlab) == this.bitbucket) == false) {
       this.cuentas = true;
     }
-    console.log(this.cuentas);
+    console.log(this.usuario);
   }
 
   desvincular(cadena) {

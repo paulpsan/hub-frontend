@@ -1,8 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, NgModule, OnInit } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+// import {BrowserAnimationsModule} from '@angular/platform-browser-animations';
 import { Usuario } from "../../../models/usuario";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpService } from "../../../services/http/http.service";
 import { Subject } from "rxjs";
+import * as moment from "moment";
 
 @Component({
   selector: "hub-usuario",
@@ -25,6 +28,9 @@ export class UsuarioComponent implements OnInit {
   primerCommit;
   UltimoCommit;
   data$;
+  dataRepo$;
+  configRepo$;
+  config$;
   usuarioRepositorio;
   repoSelect;
   isPropietario: boolean = false;
@@ -36,6 +42,7 @@ export class UsuarioComponent implements OnInit {
   starList: boolean[] = [true, true, true, true, true];
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -43,6 +50,7 @@ export class UsuarioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    moment.locale("es");
     this.token = localStorage.getItem("token");
     this.sub = this.route.params.subscribe(params => {
       this.id = params["id"];
@@ -101,24 +109,53 @@ export class UsuarioComponent implements OnInit {
   getCommitUsuario(id) {
     let token = localStorage.getItem("token");
     this._httpService
-      .post("commits/" + id + "/usuarios/graficos", { token: token })
+      .obtener("commits/" + id + "/usuarios/graficos")
       .subscribe(respuesta => {
-        // let arraySum = respuesta.barChartData[0].data;
-        // for (let i = 1; i < respuesta.barChartData.length; i++) {
-        //   for (
-        //     let index = 0;
-        //     index < respuesta.barChartData[i].data.length;
-        //     index++
-        //   ) {
-        //     arraySum[index] =
-        //       arraySum[index] + respuesta.barChartData[i].data[index];
-        //   }
-        // }
-        // console.log(arraySum);
-        this.data$ = {
-          lineChartData: respuesta.barChartData[0].data,
-          lineChartLabels: respuesta.años
+        let series = [];
+        let max = 0;
+        let min = 100;
+        for (const data of respuesta.mes) {
+          series.push({
+            name: moment(data.date).format("YYYY MMM"),
+            value: data.total
+          });
+          if (max <= data.total) {
+            max = data.total;
+          }
+          if (data.total <= min) {
+            min = data.total;
+          }
+        }
+        max = max + max * 0.1;
+        min = min - min * 0.1;
+
+        console.log(max, min);
+        this.configRepo$ = {
+          xAxisLabel: "Fecha",
+          yAxisLabel: "Commits",
+          yScaleMin: min,
+          yScaleMax: max
         };
+        this.data$ = series;
+
+        // var lineChartLabels = [];
+        // var lineChartData = [];
+        // console.log(respuesta.años.años.length);
+        // if (respuesta.años.años.length <= 3) {
+        //   console.log(respuesta.mes);
+        //   for (const data of respuesta.mes) {
+        //     lineChartData.push(data.total);
+        //     lineChartLabels.push(data.mes);
+        //   }
+
+        //   this.data$ = { lineChartData, lineChartLabels };
+        //   console.log(this.data$);
+        // } else {
+        //   this.data$ = {
+        //     lineChartData: respuesta.años.barChartData[0].data,
+        //     lineChartLabels: respuesta.años.años
+        //   };
+        // }
       });
   }
   //Obtiene commits totales
@@ -146,6 +183,38 @@ export class UsuarioComponent implements OnInit {
         this.cargarLenguajes(repositorio.lenguajes, this.usuario.tipo);
         this.cargarUsuarios(this.commits, this.usuario.tipo);
         this.showUsuarios = true;
+      });
+    this._httpService
+      .obtener("commits/" + repositorio._id + "/repositorio/graficos")
+      .subscribe(resp => {
+        var series = [];
+        let max = 0;
+        let min = 100;
+        for (const data of resp.mes) {
+          series.push({
+            name: moment(data.date).format("YYYY MMM"),
+            value: data.total
+          });
+          if (max <= data.total) {
+            max = data.total;
+          }
+          if (data.total <= min) {
+            min = data.total;
+          }
+        }
+        //colocar el config para datos
+        max = max + max * 0.1;
+        min = min - min * 0.1;
+
+        console.log(max, min);
+        this.config$ = {
+          xAxisLabel: "Fecha",
+          yAxisLabel: "Commits",
+          yScaleMin: min,
+          yScaleMax: max
+        };
+        console.log(series);
+        this.dataRepo$ = series;
       });
   }
   //Calcula el primer commit del repositorio

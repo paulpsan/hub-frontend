@@ -1,4 +1,4 @@
-import { ComunModule } from "./../../common/comun.module";
+import { ComunModule } from "../../common/comun.module";
 import { HubInterceptor } from "../../common/interceptor/hub.interceptor";
 import { MaterialModule } from "../../material/material.module";
 import { NgModule } from "@angular/core";
@@ -41,7 +41,7 @@ import { PipesModule } from "../../pipes/pipes.module";
     DataTablesModule,
     SettingModule,
     SharedModule,
-    PipesModule
+    PipesModule,
   ],
   exports: []
 })

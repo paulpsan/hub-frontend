@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { LoginService } from "./../../services/login/login.service";
+import { LoginService } from "../../services/login/login.service";
 import { HttpService } from "../../services/http/http.service";
 import { MatSnackBar } from "@angular/material";
 import { Usuario } from "../../models/usuario";
@@ -47,7 +47,7 @@ export class InicioComponent implements OnInit {
                   this.router.navigate(["/login"]);
                 } else {
                   switch (this.params.state) {
-                    case 'gitub':
+                    case 'github':
                       this.usuario.id_github = resp.usuario.id;
                       this.usuario.github = true;
                       break;
@@ -62,6 +62,7 @@ export class InicioComponent implements OnInit {
                     default:
                       break;
                   }
+                  console.log(this.usuario);
                   this.actualizaUsuario(this.usuario, resp.token, this.params.state);
                 }
               });
