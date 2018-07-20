@@ -47,7 +47,7 @@ export class CrearComponent implements OnInit {
         for (const repo of response.datos) {
           if (repo.visibilidad) {
             this.repositorios = repo;
-            this.showRepos=true;
+            this.showRepos = true;
             objRepo.push(repo);
           }
         }
@@ -96,13 +96,14 @@ export class CrearComponent implements OnInit {
         this.proyForm.controls["descripcion"].value,
         this.proyForm.controls["urlRepositorio"].value,
         datos._id,
+        this.usuario._id,
         datos.avatar,
+        datos.tipo,
+        { datos: [], valor: 0 },
         ["categorias"],
         ["licencias"],
-        ["clasificacion"],
         ["usuarios"],
-        datos.commits,
-        this.usuario._id
+        datos.commits
       );
 
       this._httpService.adicionar("proyectos", proyecto).subscribe(response => {
@@ -137,14 +138,15 @@ export class CrearComponent implements OnInit {
     }
   }
   getUsuariosCommit(proy) {
-    if(!proy.mensaje){
+    console.log(proy);
+    if (!proy.mensaje) {
       let usuarios = [];
       for (const commit of proy.proyecto.commits) {
         usuarios.push({ autor: commit.autor, url: commit.web_url_autor });
       }
       usuarios = _.uniqBy(usuarios, "autor");
       console.log(usuarios);
-    }else{
+    } else {
       console.log("ya existe el proyecto");
     }
   }

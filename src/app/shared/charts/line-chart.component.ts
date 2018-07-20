@@ -1,12 +1,8 @@
-import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { HttpService } from "../../services/http/http.service";
-import { MatDialog } from "@angular/material";
+import { Component, Input } from "@angular/core";
 
 @Component({
   selector: "line-chart",
   templateUrl: "./line-chart.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LineChartComponent {
   @Input() data;
@@ -23,7 +19,7 @@ export class LineChartComponent {
     console.log(this.datos, this.config);
     this.datos = [
       {
-        name: "Commits",
+        name: this.config.legend,
         series: this.data
       }
     ];

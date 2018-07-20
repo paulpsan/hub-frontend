@@ -33,7 +33,6 @@ export class UsuarioService {
     localStorage.setItem("token", token);
     localStorage.setItem("usuario", JSON.stringify(usuario));
     this.usuario.next(usuario);
-
   }
 
   getCurrentUser() {
@@ -42,6 +41,21 @@ export class UsuarioService {
     }
     return new Promise((resolve, reject) => {
       resolve(JSON.parse(localStorage.getItem("usuario")));
+    });
+  }
+
+  addUserOauth(type: string, code: string) {
+    return new Promise((resolve, reject) => {
+      this._http.get(this.url + `auth/add/${type}/${code}`).subscribe(
+        usuarioAdd => {
+          localStorage.setItem("usuario", JSON.stringify(usuarioAdd));
+          this.usuario.next(usuarioAdd);
+          resolve(true);
+        },
+        error => {
+          reject(error);
+        }
+      );
     });
   }
 

@@ -6,7 +6,6 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { StarRatingModule } from "angular-star-rating";
 import { SharedModule } from "../../shared/shared.module";
 import { PipesModule } from "../../pipes/pipes.module";
 
@@ -46,7 +45,6 @@ import { ListarComponent } from "./listar/listar.component";
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,
     LoadingBarModule,
-    StarRatingModule.forRoot(),
     SharedModule,
     PipesModule
   ],

@@ -35,6 +35,7 @@ export class ListarComponent implements OnInit {
   public pageEvent: PageEvent;
 
   proyectos: any[];
+  starList: boolean[] = [true, true, true, true, true]; // create a list which contains status of 5 stars
 
   constructor(
     private _proyectosService: ProyectosService,

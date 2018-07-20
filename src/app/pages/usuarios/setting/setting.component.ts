@@ -23,14 +23,16 @@ export class SettingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.queryParams.filter(params => params.index).subscribe(params => {
-      this.selectedIndex = params.index;
-    });
+    if (this.router.url !== "/usuarios/ajustes") {
+      this.route.queryParams.subscribe(params => {
+        this.selectedIndex = params.index;
+      });
+    }
+
     this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
     });
     this.showTabs = false;
-    console.log(this.selectedIndex);
     // this.sub = this.route.params.subscribe(params => {
     //   this.id = params["id"];
     //   this._httpService.buscarId("usuarios", this.id).subscribe(usuario => {

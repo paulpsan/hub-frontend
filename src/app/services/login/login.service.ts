@@ -30,4 +30,14 @@ export class LoginService {
         return Observable.throw(error || "Server error");
       });
   }
+  // obtiene el usuario Oauth
+  loginUserOauth(type:string,code: string) {
+    return this._http
+      .get(this.url + `auth/login/${type}/${code}`)
+      .catch((error: any) => {
+        console.log(error);
+        return Observable.throw(error || "Server error");
+      });
+  }
+
 }

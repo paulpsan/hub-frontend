@@ -101,8 +101,11 @@
                         <div class="col-md-5">
                             <span>Clasificación</span>
                         </div>
-                        <div class="col-md-7">
-                            <star-rating-comp [starType]="'svg'"></star-rating-comp>
+                        <div>
+                            <a *ngFor="let item of starList; let i=index ">
+                                <i *ngIf="i < proyecto.clasificacion.valor" class="fa" [ngClass]="{'fa-star':true}"></i>
+                                <i *ngIf="i >= proyecto.clasificacion.valor" class="fa" [ngClass]="{'fa-star-o':true}"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

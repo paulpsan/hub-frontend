@@ -1,3 +1,7 @@
 .titulo-usuario{
     font-size: 20px;
 }
+.chart-commit{
+    display: grid;
+    grid-auto-rows: 400px
+}

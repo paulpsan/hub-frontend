@@ -22,7 +22,7 @@ export class ListarComponent implements OnInit {
   public pagina = 1;
   public limite = 10;
   public total;
-  public pageSizeOptions = [5, 10, 25, 100];  
+  public pageSizeOptions = [5, 10, 25, 100];
   public pageEvent: PageEvent;
 
   usuarios: any[];
@@ -139,27 +139,7 @@ export class ListarComponent implements OnInit {
   // }
 
   irUsuario(usuario) {
-    switch (usuario.tipo) {
-      case "github": {
-        this.router.navigate(["/usuarios/", usuario._id]);
-        //statements;
-        break;
-      }
-      case "gitlab": {
-        this.router.navigate(["/usuarios/", usuario._id]);
-        //statements;
-        break;
-      }
-      case "bitbucket": {
-        this.router.navigate(["/usuarios/bitbucket", usuario._id]);
-        //statements;
-        break;
-      }
-      default: {
-        this.router.navigate(["/usuarios/", usuario._id]);
-        break;
-      }
-    }
+    this.router.navigate(["/usuarios/", usuario._id]);
   }
 
   adicionarUsuario() {

@@ -93,9 +93,11 @@ export class UsuarioComponent implements OnInit {
               }
             }
             this.repositorios = objRepo;
-            console.log(this.repositorios);
-            this.totalCommits();
-            this.getCommitUsuario(this.id);
+            console.log(this.repositorios.length);
+            if (this.repositorios.length >= 1) {
+              this.totalCommits();
+              this.getCommitUsuario(this.id);
+            }
             // if (this.usuario.tipo != "local") {
             //   // this.calculaCommits(this.usuario);
             //   // this.getCommitUsuario(this.usuario.tipo, this.id);
@@ -131,6 +133,7 @@ export class UsuarioComponent implements OnInit {
 
         console.log(max, min);
         this.configRepo$ = {
+          legend: "Commit Total",
           xAxisLabel: "Fecha",
           yAxisLabel: "Commits",
           yScaleMin: min,
@@ -208,6 +211,7 @@ export class UsuarioComponent implements OnInit {
 
         console.log(max, min);
         this.config$ = {
+          legend: repositorio.nombre,
           xAxisLabel: "Fecha",
           yAxisLabel: "Commits",
           yScaleMin: min,

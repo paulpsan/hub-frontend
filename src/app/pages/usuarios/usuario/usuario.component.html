@@ -68,7 +68,7 @@
         <div class="card-deck">
           <div class="card">
             <div class="card-body">
-              <button mat-button [routerLink]="['/usuarios/ajustes']" color="primary">
+              <button mat-button [routerLink]="['/usuarios/ajustes']" [queryParams]="{index: 1}" color="primary">
                 <mat-icon mat-list-icon>add</mat-icon>
                 Adicionar
               </button>
@@ -145,22 +145,24 @@
 
     <div class="mb-3" *ngIf="showRepositorios">
       <h4>commits</h4>
-      <div class="card-deck" *ngIf="showLenguajes">
-        <div class="card col-4">
-          <div class="card-body">
-            Commits por Lenguajes
-            <div>
+      <div class="row" *ngIf="showLenguajes">
+        <div class="col-xl-4 col-md-12">
+          <div class="card">
+            <div class="card-body">
+              Commits por Lenguajes
               <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
               </chart-lenguajes>
             </div>
           </div>
         </div>
-        <div class="card" *ngIf="dataRepo$">
-          <div class="card-body">
-            <span>Commits por repositorio</span>
-            <!-- <chart-codigo [data]="data$">
+        <div class="col-xl-8 col-md-12">
+          <div class="card" *ngIf="dataRepo$">
+            <div class="card-body col">
+              <span>Commits por Repositorio</span>
+              <!-- <chart-codigo [data]="data$">
               </chart-codigo> -->
-            <line-chart class="chart" [config]="config$" [data]="dataRepo$"></line-chart>
+              <line-chart class="chart-commit" [config]="config$" [data]="dataRepo$"></line-chart>
+            </div>
           </div>
         </div>
       </div>
@@ -171,7 +173,7 @@
             <span>Commits por repositorio</span>
             <!-- <chart-codigo [data]="data$">
             </chart-codigo> -->
-            <line-chart class="chart" [config]="configRepo$" [data]="data$"></line-chart>
+            <line-chart class="chart-commit" [config]="configRepo$" [data]="data$"></line-chart>
           </div>
         </div>
       </div>
