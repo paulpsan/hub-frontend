@@ -10,7 +10,7 @@ export class LoginService {
   constructor(private _http: HttpClient) {
     this.url = environment.url;
   }
-  
+
   refreshToken(params, usuario) {
     return this._http
       .post(this.url + `auth/refresh/${params.state}`, {
@@ -22,7 +22,7 @@ export class LoginService {
         return Observable.throw(error || "Server error");
       });
   }
-  getToken(type:string,code: string) {
+  getToken(type: string, code: string) {
     return this._http
       .get(this.url + `auth/${type}/${code}`)
       .catch((error: any) => {
@@ -31,13 +31,12 @@ export class LoginService {
       });
   }
   // obtiene el usuario Oauth
-  loginUserOauth(type:string,code: string) {
+  loginUserOauth(type: string, object) {
     return this._http
-      .get(this.url + `auth/login/${type}/${code}`)
+      .post(this.url + `auth/login/${type}/`, object)
       .catch((error: any) => {
         console.log(error);
         return Observable.throw(error || "Server error");
       });
   }
-
 }

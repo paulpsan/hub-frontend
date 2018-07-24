@@ -51,20 +51,39 @@
                     <img [src]="usuario.avatar |imagen:'usuario'" style="width: 50px !important">
                 </div>
                 <div class="col-md-5">
-                    <div>
-                        <span>Correo:</span>
-                        <span>{{usuario.email}}</span>
+                    <div class="row">
+                        <div class="col-5 title-description">
+                            <i class="fa fa-envelope"></i>
+                            <span class="title-description">Correo:</span>
+
+                        </div>
+                        <div class="col-7">
+                            <span class="user-property">{{usuario.email}}</span>
+                        </div>
                     </div>
-                    <div>
-                        <span>Descripcion del Usuario:</span>
-                        <span>{{usuario.descripcion}}</span>
+                    <div class="row">
+                        <div class="col-5 title-description">
+                            <i class="fa fa-info-circle"></i>
+                            <span>Descripcion:</span>
+                        </div>
+                        <div class="col-7">
+                            <span class="user-property">{{usuario.descripcion}}</span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div>
-                        <span>Commits : </span>
-                        <span>{{usuario.commits}} commits</span>
+                    <div class="row">
+                        <div class="col-5 title-description">
+                            <i class="fa fa-file-code-o"></i>
+                            <span>Commits : </span>
+                        </div>
+                        <div class="col-7">
+                            <span class="user-property">{{usuario.commits}} Total</span>
+                            <span>
+                            </span>
+                        </div>
                     </div>
+
                     <div *ngIf="usuario.tipo!='gitlab'">
                         <p>Lenguajes de programacion</p>
                         <span *ngFor="let lenguajes of usuario.lenguajes">
@@ -74,7 +93,7 @@
                 </div>
                 <div class="col-md-2">
                     <div>
-                        <span>Clasificación</span>
+                        <span class="title-description">Clasificación</span>
                     </div>
                     <div>
                         <a *ngFor="let item of starList; let i=index ">

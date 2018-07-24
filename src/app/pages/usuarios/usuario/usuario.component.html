@@ -2,7 +2,7 @@
   <div class="container">
     <div class="card bg-light contenedor_usuarios mb-3">
       <div class="card-header">
-        <span class="row justify-content-between">
+        <div class="row justify-content-between">
           <div class="col-4">
             <span class="titulo-usuario">{{usuario.nombre}}</span>
           </div>
@@ -22,7 +22,7 @@
               <i *ngIf="i >= usuario.clasificacion.valor" class="fa" [ngClass]="{'fa-star-o':true}"></i>
             </a>
           </div>
-        </span>
+        </div>
       </div>
       <div class="card-body">
         <div class="row">
@@ -30,13 +30,38 @@
             <img alt="avatar" [src]="usuario.avatar |imagen:'usuario'" style="width: 50px !important">
           </div>
           <div class="col-md-5">
+            <div class="row">
+              <div class="col-5 title-description">
+                <i class="fa fa-envelope"></i>
+                <span class="title-description">Correo:</span>
 
-            <p id="correo">
-              {{usuario.email}}
-            </p>
+              </div>
+              <div class="col-7">
+                <span class="user-property">{{usuario.email}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5 title-description">
+                <i class="fa fa-info-circle"></i>
+                <span>Descripcion:</span>
+              </div>
+              <div class="col-7">
+                <span class="user-property">{{usuario.descripcion}}</span>
+              </div>
+            </div>
           </div>
           <div class="col-md-4">
-            <p id="commit">Commits: {{commitsTotal}} Total</p>
+            <div class="row">
+              <div class="col-5 title-description">
+                <i class="fa fa-file-code-o"></i>
+                <span>Commits : </span>
+              </div>
+              <div class="col-7">
+                <span class="user-property">{{usuario.commits}} Total</span>
+                <span>
+                </span>
+              </div>
+            </div>
             <div *ngIf="usuario.tipo!='gitlab'">
               <p>Lenguajes de programacion</p>
               <span *ngFor="let item of lenguajes">
@@ -102,8 +127,7 @@
                     <a target="#">{{repo.nombre}} </a>
                   </td>
                   <td>
-                    <a *ngIf="usuario.tipo=='gitlab'" href="{{repo.html_url}}" target="#">{{repo.html_url}} </a>
-                    <a *ngIf="usuario.tipo=='github'" href="{{repo.html_url}}" target="#">{{repo.html_url}} </a>
+                    <a href="{{repo.html_url}}" target="#">{{repo.html_url}} </a>
                   </td>
                 </tr>
               </tbody>
@@ -136,15 +160,21 @@
                 </tr>
               </tbody>
             </table>
-            <p>Primer commit: {{primerCommit | date:'medium'}}</p>
-            <p>Reciente Commit: {{UltimoCommit | date:'medium'}}</p>
+
+            <p><mat-icon class="hub-icon">code</mat-icon>Primer commit: {{primerCommit | date:'medium'}}</p>
+            <p><mat-icon class="hub-icon">code</mat-icon> Reciente Commit: {{UltimoCommit | date:'medium'}}</p>
+            <p><mat-icon class="hub-icon">code</mat-icon>Total Commit: {{repoSelect.commits.total}}</p>
+            <p><mat-icon class="hub-icon">error_outline</mat-icon>Total Issues: {{repoSelect.issues.total}}</p>
+            <p><mat-icon fontIcon="fa-code-fork" class="fa fa-lg"></mat-icon>Total forks: {{repoSelect.forks.total}}</p>
+            <p><mat-icon fontIcon="fa-download" class="fa fa-lg"></mat-icon>Total Download: {{repoSelect.downloads.total}}</p>
+            <p><mat-icon fontIcon="fa-star-o" class="fa fa-lg"></mat-icon>Total stars: {{repoSelect.stars.total}}</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="mb-3" *ngIf="showRepositorios">
-      <h4>commits</h4>
+      <h4>Commits</h4>
       <div class="row" *ngIf="showLenguajes">
         <div class="col-xl-4 col-md-12">
           <div class="card">

@@ -16,9 +16,9 @@ export const environment = {
   gitlab: {
     domain: "https://gitlab.com/oauth/authorize?client_id=",
     clientId:
-      "5fd3c547dbc17e2d3f77a0c81a4fae588d3f31007f626a64489814d3900a315d",
+      "68b23d8cc8bdf2e9414f2b486456596bbd23e9d44e1c56c16e91298747b94485",
     clientSecret:
-      "f08b68a537601fa7e0aab9d013c4f312d64adfc8d2967a1445cac741229c0a2f",
+      "99cca0cab45bf79a844763ec81db38e34915cbb8e8a5f6006a097707c4278d5b",
     state: "gitlab",
     callbackURL: "http://localhost:4200/inicio"
   },
@@ -28,7 +28,7 @@ export const environment = {
       "800b8fdad978c3f6bdd3e6e4ad535748cb38d24863e65218b2b2256e40ef9139",
     clientSecret:
       "272f3ddd82f15bb561c9cc34e44bfda2183100d4eb127a63dcc3529c181c1ac9",
-    state: "gitlab",
+    state: "gitlabGeo",
     callbackURL: "http://localhost:4200/inicio"
   },
   bitbucket: {

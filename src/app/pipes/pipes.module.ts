@@ -1,15 +1,10 @@
-import { NgModule } from '@angular/core';
-import { ImagenPipe } from './imagen.pipe';
-
-
+import { NgModule } from "@angular/core";
+import { ImagenPipe } from "./imagen.pipe";
+import { FechaPipe } from "./fecha.pipe";
 
 @NgModule({
-  imports: [ ],
-  declarations: [
-    ImagenPipe
-  ],
-  exports: [
-    ImagenPipe
-  ]
+  imports: [],
+  declarations: [ImagenPipe, FechaPipe],
+  exports: [ImagenPipe, FechaPipe]
 })
-export class PipesModule { }
+export class PipesModule {}

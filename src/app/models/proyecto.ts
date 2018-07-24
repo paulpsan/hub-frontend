@@ -14,5 +14,7 @@ export class Proyecto {
     public usuarios?: any[],
     public commits?: string,
     public datos?: any[],
+    public fechaCreacion?:any,
+    public ultimaActividad?:any    
   ) {}
 }

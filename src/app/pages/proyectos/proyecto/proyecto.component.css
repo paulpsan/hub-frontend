@@ -13,3 +13,8 @@
     margin: 10px;
     word-wrap: break-word;
 }
+
+.chart-commit{
+    display: grid;
+    grid-auto-rows: 400px
+}

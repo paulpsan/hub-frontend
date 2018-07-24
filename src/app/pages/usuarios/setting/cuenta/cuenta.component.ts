@@ -36,7 +36,8 @@ export class CuentaComponent implements OnInit {
       action: "add",
       github: this.usuario.github,
       gitlab: this.usuario.gitlab,
-      bitbucket: this.usuario.bitbucket
+      bitbucket: this.usuario.bitbucket,
+      type: "gitlab"
     };
     if (((this.github == this.gitlab) == this.bitbucket) == false) {
       this.cuentas = true;
@@ -87,8 +88,8 @@ export class ModalEliminarCuenta {
         this.data.usuario.gitlab = false;
         this._usuarioService.actualizarUsuario(this.data.usuario);
         break;
-      case "bibucket":
-        this.data.usuario.bibucket = false;
+      case "bitbucket":
+        this.data.usuario.bitbucket = false;
         this._usuarioService.actualizarUsuario(this.data.usuario);
         break;
       default:

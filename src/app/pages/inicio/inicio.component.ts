@@ -15,6 +15,7 @@ let qs = require("querystringify");
 })
 export class InicioComponent implements OnInit {
   public action;
+  public type;
   public params;
   public usuario: Usuario;
   public cargando: Boolean = true;
@@ -29,8 +30,10 @@ export class InicioComponent implements OnInit {
 
   ngOnInit() {
     this.action = localStorage.getItem("action");
+    this.type = localStorage.getItem("type");
     this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
+      console.log(this.usuario);
     });
 
     let url = this.router.url;
@@ -38,21 +41,26 @@ export class InicioComponent implements OnInit {
       let urlCallback = url.split("?");
       this.params = qs.parse(urlCallback[1]);
       if (this.action) {
+        let objPost = {
+          code: this.params.code,
+          type: this.params.state,
+          usuario: this.usuario
+        };
         switch (this.action) {
           case "add":
             this._usuarioService
-              .addUserOauth(this.params.state, this.params.code)
+              .addUserOauth(this.type, objPost)
               .then(resp => {
                 console.log(resp);
                 if (!resp) {
                   this.router.navigate(["/login"]);
                 } else {
-                  console.log(resp);
-                  // this.actualizaUsuario(
-                  //   this.usuario,
-                  //   resp.token,
-                  //   this.params.state
-                  // );
+                  this.router.navigate(["/usuarios/ajustes"]);
+                  this.cargarDatos(
+                    "repositorios/oauth",
+                    this.params.state,
+                    this.usuario
+                  );
                 }
               })
               .catch(err => {
@@ -61,7 +69,7 @@ export class InicioComponent implements OnInit {
             break;
           case "login":
             this._loginService
-              .loginUserOauth(this.params.state, this.params.code)
+              .loginUserOauth(this.type, objPost)
               .subscribe(resp => {
                 if (resp.error || !resp.usuario) {
                   this.router.navigate(["/login"]);
@@ -106,7 +114,7 @@ export class InicioComponent implements OnInit {
       .then(response => {
         if (response) {
           this.router.navigate(["/usuarios/ajustes"]);
-          this.cargarDatos("repositorios/oauth", tipo, this.usuario, token);
+          this.cargarDatos("repositorios/oauth", tipo, this.usuario);
         }
       })
       .catch(error => {
@@ -114,7 +122,7 @@ export class InicioComponent implements OnInit {
       });
   }
 
-  cargarDatos(url, tipo, usuario, token?) {
+  cargarDatos(url, tipo, usuario) {
     let snackBarRef = this.snackBar.open(
       "Bienvenido se estan guardando los datos referentes a su cuenta por favor espere un momento!!",
       "",
@@ -125,8 +133,7 @@ export class InicioComponent implements OnInit {
     this._httpService
       .post(url, {
         tipo: tipo,
-        usuario: usuario,
-        token: token
+        usuario: usuario
       })
       .subscribe(resp => {
         snackBarRef.dismiss();

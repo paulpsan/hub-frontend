@@ -18,6 +18,7 @@ export class Oauth2Component implements OnInit {
     localStorage.setItem("action", this.config.action);
   }
   loginGH() {
+    localStorage.setItem("type", "github");
     GLOBAL.TOGGLE = true;
     window.location.href =
       environment.github.domain +
@@ -27,6 +28,8 @@ export class Oauth2Component implements OnInit {
   }
   //login gitlab
   loginGL() {
+    localStorage.setItem("type", "gitlab");
+
     GLOBAL.TOGGLE = true;
     window.location.href =
       environment.gitlabGeo.domain +
@@ -38,6 +41,8 @@ export class Oauth2Component implements OnInit {
       environment.gitlabGeo.state;
   }
   loginBB() {
+    localStorage.setItem("type", "bitbucket");
+
     GLOBAL.TOGGLE = true;
     window.location.href =
       environment.bitbucket.domain +

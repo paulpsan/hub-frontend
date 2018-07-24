@@ -19,7 +19,7 @@ export class LineChartComponent {
     console.log(this.datos, this.config);
     this.datos = [
       {
-        name: this.config.legend,
+        name: this.config.legend ||"Commit",
         series: this.data
       }
     ];

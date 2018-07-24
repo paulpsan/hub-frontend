@@ -32,7 +32,8 @@ import { ListarComponent } from "./listar/listar.component";
     EditarComponent,
     ProyectosComponent,
     ProyectoComponent,
-    ListarComponent
+    ListarComponent,
+
   ],
   imports: [
     CommonModule,

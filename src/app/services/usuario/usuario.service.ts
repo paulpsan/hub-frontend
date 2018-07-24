@@ -1,7 +1,8 @@
-import { Component, Injectable } from "@angular/core";
-import { Response } from "@angular/http";
-import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import "rxjs";
+import "rxjs/add/observable/throw";
+
 import { Observable, BehaviorSubject } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { Usuario } from "../../models/usuario";
@@ -44,10 +45,11 @@ export class UsuarioService {
     });
   }
 
-  addUserOauth(type: string, code: string) {
+  addUserOauth(type: string, object) {
     return new Promise((resolve, reject) => {
-      this._http.get(this.url + `auth/add/${type}/${code}`).subscribe(
+      this._http.post(this.url + `auth/add/${type}`, object).subscribe(
         usuarioAdd => {
+          console.log(usuarioAdd);
           localStorage.setItem("usuario", JSON.stringify(usuarioAdd));
           this.usuario.next(usuarioAdd);
           resolve(true);
@@ -69,7 +71,7 @@ export class UsuarioService {
           resolve(true);
         },
         error => {
-          reject(error);
+          reject(Observable.throw(error));
         }
       );
     });
@@ -98,8 +100,10 @@ export class UsuarioService {
     localStorage.removeItem("token");
     localStorage.removeItem("usuario");
     localStorage.removeItem("action");
+    localStorage.removeItem("type");
     this.router.navigate(["/login"]);
   }
+
   login(usuario: Usuario) {
     let urlApi = this.url + "auth/local";
     return new Promise((resolve, reject) => {
@@ -112,7 +116,7 @@ export class UsuarioService {
           this.usuario.next(respuesta.usuario);
           resolve(true);
         },
-        error => {
+        (error: Response) => {
           reject(error);
         }
       );

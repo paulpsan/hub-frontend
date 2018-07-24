@@ -243,10 +243,10 @@ export class UsuarioComponent implements OnInit {
   cargarLenguajes(dataLenguaje, tipo) {
     setTimeout(() => {
       let lenguaje = dataLenguaje.datos;
-      if (this.usuario.github) {
+      if (this.usuario) {
         this.pieChartLabels = [];
         this.pieChartData = [];
-        let arrarResp = [];
+        console.log(lenguaje);
         let leng = JSON.stringify(lenguaje);
         let array = leng.split(",");
         let lengRepositorios = [];
@@ -254,12 +254,12 @@ export class UsuarioComponent implements OnInit {
           let cadena = val.replace(/[{""}]/g, "").split(":");
           lengRepositorios.push({ lenguaje: cadena[0], codigo: cadena[1] });
         }
+        console.log(lengRepositorios);
         if (Object.keys(lengRepositorios).length !== 0) {
-          arrarResp = lengRepositorios;
-          for (let value of arrarResp) {
+          for (let value of lengRepositorios) {
             if (value.lenguaje != "" && value.codigo != undefined) {
               this.pieChartLabels.push(value.lenguaje);
-              this.pieChartData.push(parseInt(value.codigo));
+              this.pieChartData.push(value.codigo);
             } else {
               this.pieChartLabels.push("0");
               this.pieChartData.push(0);

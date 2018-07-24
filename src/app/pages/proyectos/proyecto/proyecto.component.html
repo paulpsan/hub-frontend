@@ -94,7 +94,7 @@
               <span>Fecha Creacion: </span>
             </div>
             <div class="col-md-7">
-              <span>{{proyecto.fechaCreacion}}</span>
+              <span>{{proyecto.fechaCreacion |fecha}}</span>
             </div>
           </div>
           <div class="row">
@@ -103,7 +103,7 @@
               <span> Ultima actividad: </span>
             </div>
             <div class="col-md-7">
-              <span>{{proyecto.ultimaActividad}}</span>
+              <span>{{proyecto.ultimaActividad |fecha}}</span>
             </div>
           </div>
           <div class="row">
@@ -164,7 +164,7 @@
       <div class="card" *ngIf="data$">
         <div class="card-body">
           <span>Commits</span>
-          <line-chart class="chart" [config]="configRepo$" [data]="data$"></line-chart>
+          <line-chart class="chart-commit" [config]="configProy$" [data]="data$"></line-chart>
         </div>
       </div>
       <div class="card">

@@ -25,6 +25,7 @@ import { ToastrModule } from "ngx-toastr";
 import { PagesComponent } from "./pages/pages.component";
 import { SharedModule } from "./shared/shared.module";
 import { ServiceModule } from "./services/service.module";
+import { HttpErrorInterceptor } from "./common/interceptor/http-error.interceptor";
 
 // import { AdicionarComponent } from './pages/usuarios/adicionar/adicionar.component';
 // import { EditarComponent } from './pages/usuarios/editar/editar.component';
@@ -60,7 +61,7 @@ import { ServiceModule } from "./services/service.module";
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HubInterceptor,
+      useClass:HubInterceptor,
       multi: true
     },
     AuthGuard

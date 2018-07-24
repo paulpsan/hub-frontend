@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   public usuario: Usuario;
   public token;
   public errorMessage;
-
+  public gitlab: Boolean = true;
   loginForm: FormGroup;
 
   constructor(private router: Router, public _usuarioService: UsuarioService) {}
@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
     localStorage.setItem("action", "login");
     switch (auth) {
       case "github":
+        localStorage.setItem("type", auth);
         window.location.href =
           environment.github.domain +
           environment.github.clientId +
@@ -38,6 +39,18 @@ export class LoginComponent implements OnInit {
           environment.github.state;
         break;
       case "gitlab":
+        localStorage.setItem("type", "gitlab");
+        window.location.href =
+          environment.gitlab.domain +
+          environment.gitlab.clientId +
+          "&redirect_uri=" +
+          environment.gitlab.callbackURL +
+          "&response_type=code" +
+          "&state=" +
+          environment.gitlab.state;
+        break;
+      case "gitlabGeo":
+        localStorage.setItem("type", "gitlab");
         window.location.href =
           environment.gitlabGeo.domain +
           environment.gitlabGeo.clientId +
@@ -48,6 +61,7 @@ export class LoginComponent implements OnInit {
           environment.gitlabGeo.state;
         break;
       case "bitbucket":
+        localStorage.setItem("type", auth);
         window.location.href =
           environment.bitbucket.domain +
           environment.bitbucket.clientId +
@@ -76,16 +90,25 @@ export class LoginComponent implements OnInit {
       "local",
       "true"
     );
+    // this._usuarioService.loginLocal(usuario).subscribe(
+    //   resp => {
+    //     console.log(resp);
+    //   },
+    //   err => {
+    //     console.log(err);
+    //   }
+    // );
     this._usuarioService
       .login(usuario)
       .then(response => {
+        console.log(response);
         if (response) {
           this.router.navigate(["/usuarios/ajustes"]);
         }
       })
       .catch(error => {
+        console.log(error);
         let errorMessage = <any>error;
-        console.log(errorMessage);
         if (errorMessage != null) {
           this.errorMessage = errorMessage.error.mensaje;
         }
