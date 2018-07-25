@@ -1,6 +1,6 @@
 <div *ngIf='showUsuario'>
   <div class="container">
-    <div class="card bg-light contenedor_usuarios mb-3">
+    <div class="card bg-light contenedor_usuarios">
       <div class="card-header">
         <div class="row justify-content-between">
           <div class="col-4">
@@ -57,7 +57,7 @@
                 <span>Commits : </span>
               </div>
               <div class="col-7">
-                <span class="user-property">{{usuario.commits}} Total</span>
+                <span class="user-property">{{commitsTotal}} Total</span>
                 <span>
                 </span>
               </div>
@@ -87,9 +87,9 @@
         </div>
       </div>
     </div>
-    <div class="mb-3" *ngIf="!showRepositorios">
+    <div class="" *ngIf="!showRepositorios">
       <div *ngIf="isPropietario">
-        <h4>Usted no cuenta con repositorios Adicione:</h4>
+        <h4 class="titulo-repositorio">Usted no cuenta con repositorios Adicione:</h4>
         <div class="card-deck">
           <div class="card">
             <div class="card-body">
@@ -102,14 +102,14 @@
         </div>
       </div>
       <div *ngIf="!isPropietario">
-        <h4>El usuario no cuenta con Repositorios</h4>
+        <h4 class="titulo-repositorio">El usuario no cuenta con Repositorios</h4>
       </div>
     </div>
-    <div class="mb-3" *ngIf="showRepositorios">
+    <div class="" *ngIf="showRepositorios">
       <div class="card-deck">
         <div class="card">
           <div class="card-body">
-            <h4 id="titulo_repositorio" class="card-title">Repositorios</h4>
+            <h4 class="titulo-repositorio">Repositorios</h4>
             <!-- <table class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'"> -->
             <table datatable [dtOptions]="dtOptions" class="table table-hover table-inverse table-responsive">
               <thead class="thead-inverse">
@@ -139,7 +139,8 @@
         </div>
         <div class="card" *ngIf="showUsuarios">
           <div class="card-body">
-            <h4>{{repoSelect.nombre}}</h4>
+            <h4 class="titulo-repositorio">Repositorio</h4>
+            <h5>Nombre: {{repoSelect.nombre}}</h5>
             <table class="table table-hover table-inverse table-responsive">
               <thead class="thead-inverse">
                 <tr>
@@ -160,21 +161,57 @@
                 </tr>
               </tbody>
             </table>
-
-            <p><mat-icon class="hub-icon">code</mat-icon>Primer commit: {{primerCommit | date:'medium'}}</p>
-            <p><mat-icon class="hub-icon">code</mat-icon> Reciente Commit: {{UltimoCommit | date:'medium'}}</p>
-            <p><mat-icon class="hub-icon">code</mat-icon>Total Commit: {{repoSelect.commits.total}}</p>
-            <p><mat-icon class="hub-icon">error_outline</mat-icon>Total Issues: {{repoSelect.issues.total}}</p>
-            <p><mat-icon fontIcon="fa-code-fork" class="fa fa-lg"></mat-icon>Total forks: {{repoSelect.forks.total}}</p>
-            <p><mat-icon fontIcon="fa-download" class="fa fa-lg"></mat-icon>Total Download: {{repoSelect.downloads.total}}</p>
-            <p><mat-icon fontIcon="fa-star-o" class="fa fa-lg"></mat-icon>Total stars: {{repoSelect.stars.total}}</p>
+            <h4 id="titulo-repositorio">Detalle del repositorio</h4>
+            <div class="col-10">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>
+                      <mat-icon class="hub-mat-icon">code</mat-icon>Primer commit:</td>
+                    <td>{{primerCommit | date:'medium'}}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-icon class="hub-mat-icon">code</mat-icon> Reciente Commit:</td>
+                    <td>{{UltimoCommit | date:'medium'}}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-icon class="hub-mat-icon">code</mat-icon>Total Commit:</td>
+                    <td>{{repoSelect.commits.total}}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-icon class="hub-mat-icon">error_outline</mat-icon>Total Issues:</td>
+                    <td>{{repoSelect.issues.total}}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-icon fontIcon="fa-code-fork" class="fa fa-lg"></mat-icon>Total forks:</td>
+                    <td>{{repoSelect.forks.total}}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-icon fontIcon="fa-download" class="fa fa-lg"></mat-icon>Total Download:
+                    </td>
+                    <td>{{repoSelect.downloads.total}}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-icon fontIcon="fa-star-o" class="fa fa-lg"></mat-icon>Total stars:
+                    </td>
+                    <td>{{repoSelect.stars.total}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="mb-3" *ngIf="showRepositorios">
-      <h4>Commits</h4>
+      <h4 class="titulo-repositorio">Commits</h4>
       <div class="row" *ngIf="showLenguajes">
         <div class="col-xl-4 col-md-12">
           <div class="card">
@@ -196,7 +233,7 @@
           </div>
         </div>
       </div>
-      <h4>Historial de Desarrollo:</h4>
+      <h4 class="titulo-repositorio">Historial de Desarrollo:</h4>
       <div class="card-deck">
         <div class="card" *ngIf="data$">
           <div class="card-body">

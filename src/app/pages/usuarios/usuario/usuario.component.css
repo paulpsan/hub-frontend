@@ -6,13 +6,26 @@
   grid-auto-rows: 400px;
 }
 .title-description {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 16px;
   color: #3b1c1f;
 }
 .hub-mat-icon {
   vertical-align: bottom;
+  color: #3b1c1f;
 }
-.fa .fa-lg {
+.fa.fa-lg {
   text-align: center;
+  color: #3b1c1f;
+}
+.card{
+    margin-bottom: 10px;
+}
+@media (max-width: 1020px) {
+  .card-deck {
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    margin-bottom: 10px;
+  }
 }

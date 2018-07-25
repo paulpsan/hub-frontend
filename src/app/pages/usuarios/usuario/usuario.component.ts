@@ -109,7 +109,6 @@ export class UsuarioComponent implements OnInit {
 
   //grafica de commits por usuario
   getCommitUsuario(id) {
-    let token = localStorage.getItem("token");
     this._httpService
       .obtener("commits/" + id + "/usuarios/graficos")
       .subscribe(respuesta => {
@@ -273,6 +272,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   cargarUsuarios(commits, tipo) {
+    console.log(commits);
     let datos = [];
     for (let commit of commits) {
       datos.push({
@@ -289,7 +289,7 @@ export class UsuarioComponent implements OnInit {
       return exists;
     });
     this.usuarioRepositorio = datos;
-    //*
+    console.log(this.usuarioRepositorio);
     this.showUsuarios = true;
   }
 
