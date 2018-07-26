@@ -6,7 +6,6 @@ import { MatSnackBar } from "@angular/material";
 import { Usuario } from "../../models/usuario";
 import { UsuarioService } from "../../services/service.index";
 import { GLOBAL } from "../../services/global";
-// import qs from "querystringify";
 let qs = require("querystringify");
 @Component({
   selector: "hub-inicio",
@@ -33,14 +32,14 @@ export class InicioComponent implements OnInit {
     this.type = localStorage.getItem("type");
     this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
-      console.log(this.usuario);
     });
 
     let url = this.router.url;
     if (url !== "/inicio") {
       let urlCallback = url.split("?");
       this.params = qs.parse(urlCallback[1]);
-      if (this.action) {
+      console.log(this.action);
+      if (this.action && this.params.code) {
         let objPost = {
           code: this.params.code,
           type: this.params.state,
@@ -99,7 +98,11 @@ export class InicioComponent implements OnInit {
             this.router.navigate(["/login"]);
             break;
         }
+      } else {
+        this.router.navigate(["/usuarios/ajustes"]);
       }
+    } else {
+      this.router.navigate(["/login"]);
     }
   }
 

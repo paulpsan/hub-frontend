@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="row justify-content-between">
           <div class="col-4">
-            <span class="titulo-usuario">{{usuario.nombre}}</span>
+            <span class="titulo-usuario">{{usuario.nombre |uppercase}}</span>
           </div>
           <!-- <div class="col-4">
             <span>
@@ -62,14 +62,14 @@
                 </span>
               </div>
             </div>
-            <div *ngIf="usuario.tipo!='gitlab'">
+            <!-- <div *ngIf="usuario.tipo!='gitlab'">
               <p>Lenguajes de programacion</p>
               <span *ngFor="let item of lenguajes">
               </span>
-            </div>
+            </div> -->
 
           </div>
-          <div class="col-md-2">
+          <!-- <div class="col-md-2">
             <div>
               <span>Califica este usuario</span>
             </div>
@@ -83,7 +83,7 @@
                 Guardar
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
