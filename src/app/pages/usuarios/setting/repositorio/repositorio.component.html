@@ -173,7 +173,7 @@
                 <a target="#" [href]="proy.html_url">{{proy.html_url}} </a>
               </td>
               <td>
-                {{proy.fecha_modificacion |date }}
+                {{proy.fecha_modificacion |fecha }}
               </td>
             </tr>
           </tbody>
@@ -181,7 +181,7 @@
       </div>
       <div *ngIf="showRepo">
         <div class="row">
-          <h4 class="pl-3">
+          <h4 class="pl-3 title-repo">
             Actualizar Repositorio o Obtener Nuevo Token
           </h4>
         </div>

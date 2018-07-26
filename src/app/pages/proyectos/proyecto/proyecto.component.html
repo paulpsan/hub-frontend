@@ -16,13 +16,13 @@
   <div class="col mb-3">
     <div class="card-deck">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header title-card">
           <span>Resumen</span>
         </div>
 
         <div class="card-body">
           <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-5 title-description">
               <i class="fa fa-book"></i>
               <span> Descripcion: </span>
             </div>
@@ -34,8 +34,8 @@
           </div>
           <br>
           <br>
-          <div class="row">
-            <div class="col-md-5">
+          <!-- <div class="row">
+            <div class="col-md-5 title-description">
               <i class="fa fa-archive"></i>
               <span> Categorias: </span>
             </div>
@@ -44,11 +44,11 @@
                 <span>{{proyecto.categorias}}</span>
               </span>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="card">
-        <div class="card-header">
+        <div class="card-header title-card">
           <span>Referencia</span>
         </div>
         <div class="card-body">
@@ -70,7 +70,7 @@
           </div> -->
           <div class="row">
             <div class="col-md-5">
-              <i class="fa fa-user-circle"></i>
+              <i class="fa fa-user-circle title-description"></i>
               <span> Usuarios: </span>
             </div>
             <div class="col-md-7">
@@ -80,7 +80,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-5 title-description">
               <i class="fa fa-code"></i>
               <span>Commits: </span>
             </div>
@@ -89,7 +89,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-5 title-description">
               <i class="fa fa-calendar"></i>
               <span>Fecha Creacion: </span>
             </div>
@@ -98,7 +98,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-5 title-description">
               <i class="fa fa-calendar"></i>
               <span> Ultima actividad: </span>
             </div>
@@ -107,8 +107,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-5">
-              <i class="fa fa-gitlab"></i>
+            <div class="col-md-5 title-description">
+              <i class="fa fa-link"></i>
               <span>Url:</span>
             </div>
             <div class="col-md-7" style=" word-wrap: break-word;">
@@ -121,7 +121,7 @@
   </div>
 
   <div class="col mb-3">
-    <h4>Licencias</h4>
+    <h4 class="title-repo">Licencias</h4>
     <div class="row justify-content-md-center">
       <div class="col col-lg-5">
         <div class="card bg-light">
@@ -163,13 +163,15 @@
 
       <div class="card" *ngIf="data$">
         <div class="card-body">
-          <span>Commits</span>
+          <span class="subtitle-repo">Commits</span>
           <line-chart class="chart-commit" [config]="configProy$" [data]="data$"></line-chart>
         </div>
       </div>
       <div class="card">
         <div class="card-body">
-          <h4>Lenguajes de programacion</h4>
+          <span class="subtitle-repo">
+            Lenguajes de programacion
+          </span>
           <!-- <pie-chart [data]="dataLenguajes$">
           </pie-chart> -->
 

@@ -89,7 +89,7 @@
     </div>
     <div class="" *ngIf="!showRepositorios">
       <div *ngIf="isPropietario">
-        <h4 class="titulo-repositorio">Usted no cuenta con repositorios Adicione:</h4>
+        <h4 class="title-repo">Usted no cuenta con repositorios Adicione:</h4>
         <div class="card-deck">
           <div class="card">
             <div class="card-body">
@@ -102,14 +102,14 @@
         </div>
       </div>
       <div *ngIf="!isPropietario">
-        <h4 class="titulo-repositorio">El usuario no cuenta con Repositorios</h4>
+        <h4 class="title-repo">El usuario no cuenta con Repositorios</h4>
       </div>
     </div>
     <div class="" *ngIf="showRepositorios">
       <div class="card-deck">
         <div class="card">
           <div class="card-body">
-            <h4 class="titulo-repositorio">Repositorios</h4>
+            <h4 class="title-repo">Repositorios</h4>
             <!-- <table class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'"> -->
             <table datatable [dtOptions]="dtOptions" class="table table-hover table-inverse table-responsive">
               <thead class="thead-inverse">
@@ -139,8 +139,8 @@
         </div>
         <div class="card" *ngIf="showUsuarios">
           <div class="card-body">
-            <h4 class="titulo-repositorio">Repositorio</h4>
-            <h5>Nombre: {{repoSelect.nombre}}</h5>
+            <h4 class="title-repo">Repositorio</h4>
+            <h5 class="subtitle-repo">Nombre: {{repoSelect.nombre}}</h5>
             <table class="table table-hover table-inverse table-responsive">
               <thead class="thead-inverse">
                 <tr>
@@ -161,7 +161,7 @@
                 </tr>
               </tbody>
             </table>
-            <h4 id="titulo-repositorio">Detalle del repositorio</h4>
+            <h4 class="title-repo">Detalle del repositorio</h4>
             <div class="col-10">
               <table class="table table-bordered">
                 <tbody>
@@ -211,12 +211,14 @@
     </div>
 
     <div class="mb-3" *ngIf="showRepositorios">
-      <h4 class="titulo-repositorio">Commits</h4>
+      <h4 class="title-repo">Commits</h4>
       <div class="row" *ngIf="showLenguajes">
         <div class="col-xl-4 col-md-12">
           <div class="card">
             <div class="card-body">
-              Commits por Lenguajes
+              <span class="subtitle-repo">
+                Commits por Lenguajes
+              </span> 
               <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
               </chart-lenguajes>
             </div>
@@ -225,7 +227,7 @@
         <div class="col-xl-8 col-md-12">
           <div class="card" *ngIf="dataRepo$">
             <div class="card-body col">
-              <span>Commits por Repositorio</span>
+              <span class="subtitle-repo">Commits por Repositorio</span>
               <!-- <chart-codigo [data]="data$">
               </chart-codigo> -->
               <line-chart class="chart-commit" [config]="config$" [data]="dataRepo$"></line-chart>
@@ -233,11 +235,11 @@
           </div>
         </div>
       </div>
-      <h4 class="titulo-repositorio">Historial de Desarrollo:</h4>
+      <h4 class="title-repo">Historial de Desarrollo:</h4>
       <div class="card-deck">
         <div class="card" *ngIf="data$">
           <div class="card-body">
-            <span>Commits por repositorio</span>
+            <span class="subtitle-repo">Commits por repositorio</span>
             <!-- <chart-codigo [data]="data$">
             </chart-codigo> -->
             <line-chart class="chart-commit" [config]="configRepo$" [data]="data$"></line-chart>

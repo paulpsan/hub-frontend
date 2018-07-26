@@ -11,11 +11,12 @@ export class LoginService {
     this.url = environment.url;
   }
 
-  refreshToken(params, usuario) {
+  refreshToken(params, usuario,tipo) {
     return this._http
-      .post(this.url + `auth/refresh/${params.state}`, {
+      .post(this.url + `auth/refresh/${params}`, {
         code: params.code,
-        usuario
+        usuario,
+        tipo
       })
       .catch((error: any) => {
         console.log(error);
@@ -33,7 +34,7 @@ export class LoginService {
   // obtiene el usuario Oauth
   loginUserOauth(type: string, object) {
     return this._http
-      .post(this.url + `auth/login/${type}/`, object)
+      .post(this.url + `auth/login/${type}`, object)
       .catch((error: any) => {
         console.log(error);
         return Observable.throw(error || "Server error");

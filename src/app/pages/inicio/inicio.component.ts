@@ -6,6 +6,7 @@ import { MatSnackBar } from "@angular/material";
 import { Usuario } from "../../models/usuario";
 import { UsuarioService } from "../../services/service.index";
 import { GLOBAL } from "../../services/global";
+import { resolve } from "path";
 let qs = require("querystringify");
 @Component({
   selector: "hub-inicio",
@@ -85,12 +86,20 @@ export class InicioComponent implements OnInit {
               });
             break;
           case "refresh":
-            console.log(this.action);
+            console.log(this.action,this.type);
             this._loginService
-              .refreshToken(this.params, this.usuario)
+              .refreshToken(this.type, this.usuario, this.params.state)
               .subscribe(resp => {
-                this.router.navigate(["/usuarios/ajustes"], {
-                  queryParams: { index: 1 }
+                this.cargarDatos(
+                  "repositorios/oauth",
+                  this.params.state,
+                  resp.usuario
+                ).then(resp => {
+                  if (resp) {
+                    this.router.navigate(["/usuarios/ajustes"], {
+                      queryParams: { index: 1 }
+                    });
+                  }
                 });
               });
             break;
@@ -126,28 +135,36 @@ export class InicioComponent implements OnInit {
   }
 
   cargarDatos(url, tipo, usuario) {
-    let snackBarRef = this.snackBar.open(
-      "Bienvenido se estan guardando los datos referentes a su cuenta por favor espere un momento!!",
-      "",
-      {
-        panelClass: "background-alert"
-      }
-    );
-    this._httpService
-      .post(url, {
-        tipo: tipo,
-        usuario: usuario
-      })
-      .subscribe(resp => {
-        snackBarRef.dismiss();
-        this.snackBarSuccess();
-      });
+    return new Promise((resolve, reject) => {
+      let snackBarRef = this.snackBar.open(
+        "Bienvenido se estan guardando los datos referentes a su cuenta por favor espere un momento!!",
+        "",
+        {
+          panelClass: "background-alert"
+        }
+      );
+      this._httpService
+        .post(url, {
+          tipo: tipo,
+          usuario: usuario
+        })
+        .subscribe(
+          resp => {
+            snackBarRef.dismiss();
+            this.snackBarSuccess();
+            resolve(true);
+          },
+          err => {
+            reject(false);
+          }
+        );
+    });
   }
 
   snackBarSuccess() {
     this.snackBar.open("Sus datos se guardaron exitosamente!", "", {
       panelClass: "background-success",
-      duration: 1000
+      duration: 2000
     });
   }
 }

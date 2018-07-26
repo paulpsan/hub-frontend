@@ -230,6 +230,7 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
     localStorage.setItem("action", "refresh");
     switch (auth) {
       case "github":
+        localStorage.setItem("type", "github");
         window.location.href =
           environment.github.domain +
           environment.github.clientId +
@@ -237,16 +238,30 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
           environment.github.state;
         break;
       case "gitlab":
-        window.location.href =
-          environment.gitlabGeo.domain +
-          environment.gitlabGeo.clientId +
-          "&redirect_uri=" +
-          environment.gitlabGeo.callbackURL +
-          "&response_type=code" +
-          "&state=" +
-          environment.gitlabGeo.state;
+        localStorage.setItem("type", "gitlab");
+        console.log(environment[this.usuario.cuentas[0]]);
+        if (this.usuario.cuentas.indexOf("gitlab")>=0) {
+          window.location.href =
+            environment.gitlab.domain +
+            environment.gitlab.clientId +
+            "&redirect_uri=" +
+            environment.gitlab.callbackURL +
+            "&response_type=code" +
+            "&state=" +
+            environment.gitlab.state;
+        } else {
+          window.location.href =
+            environment.gitlabGeo.domain +
+            environment.gitlabGeo.clientId +
+            "&redirect_uri=" +
+            environment.gitlabGeo.callbackURL +
+            "&response_type=code" +
+            "&state=" +
+            environment.gitlabGeo.state;
+        }
         break;
       case "bitbucket":
+        localStorage.setItem("type", "bitbucket");
         window.location.href =
           environment.bitbucket.domain +
           environment.bitbucket.clientId +
