@@ -71,7 +71,7 @@
 
             <div class="form-group">
               <mat-form-field class="col">
-                <input matInput placeholder="Email (*)" [value]="usuario.email" disabled>
+                <input matInput placeholder="Email (*)" formControlName="email">
               </mat-form-field>
             </div>
 
@@ -100,14 +100,14 @@
 
           </fieldset>
           <div class="row justify-content-center">
-            <button *ngIf="!showButton" mat-button type="submit" [disabled]="!userForm.valid" color="primary">
+            <button mat-button type="submit" [disabled]="!userForm.valid" color="primary">
               <mat-icon mat-list-icon>done</mat-icon>
               Guardar
             </button>
-            <button *ngIf="showButton" mat-button (click)="next({value:false,index:1})" [disabled]="!userForm.valid" color="primary">
+            <!-- <button *ngIf="showButton" mat-button (click)="next({value:false,index:1})" [disabled]="!userForm.valid" color="primary">
               <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
               Siguiente
-            </button>
+            </button> -->
           </div>
         </form>
       </mat-card-content>

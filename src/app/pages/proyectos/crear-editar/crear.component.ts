@@ -52,7 +52,11 @@ export class CrearComponent implements OnInit {
           }
         }
         this.repositorios = objRepo;
-        console.log(this.repositorios);
+        if (this.repositorios.length === 0) {
+          this.router.navigate(["/usuarios/ajustes"], {
+            queryParams: { index: 1 }
+          });
+        }
       });
     this.proyForm = new FormGroup({
       nombre: new FormControl("", Validators.required),

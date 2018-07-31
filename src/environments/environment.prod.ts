@@ -23,7 +23,7 @@ export const environment = {
       "5fd3c547dbc17e2d3f77a0c81a4fae588d3f31007f626a64489814d3900a315d",
     clientSecret:
       "f08b68a537601fa7e0aab9d013c4f312d64adfc8d2967a1445cac741229c0a2f",
-    state: "gitlab",
+    state: "gitlabGeo",
     callbackURL: "https://test.adsib.gob.bo/softwarelibre/inicio"
   },
   bitbucket: {
