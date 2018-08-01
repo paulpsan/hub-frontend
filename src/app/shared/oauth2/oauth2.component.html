@@ -2,10 +2,22 @@
   <i class="fa fa-github"></i>
   <strong class="">Github</strong>
 </button>
-<button (click)="loginGL()" class="btn btn-block btn-social btn-odnoklassniki" *ngIf="!gitlab" [disabled]="config.gitlab">
+<button (click)="gitlab=!gitlab" class="btn btn-block btn-social btn-odnoklassniki" *ngIf="!gitlab" [disabled]="config.gitlab">
   <i class="fa fa-gitlab"></i>
   <strong class="">Gitlab</strong>
 </button>
+<div *ngIf="gitlab" class="pt-2 pb-2">
+  <button (click)="loginGL('gitlab')" class="btn btn-block btn-social btn-odnoklassniki">
+    <i class="fa fa-gitlab"></i>
+    <span class="nombre-repo">Entrar Con</span>
+    <strong class="nombre-repo">Gitlab.com</strong>
+  </button>
+  <button (click)="loginGL('gitlabGeo')" class="btn btn-block btn-social btn-odnoklassniki">
+    <i class="fa fa-gitlab"></i>
+    <span class="nombre-repo">Entrar Con</span>
+    <strong class="nombre-repo">Gitlab.Geo</strong>
+  </button>
+</div>
 <button (click)="loginBB()" class="btn btn-block btn-social btn-bitbucket" *ngIf="!bitbucket" [disabled]="config.bitbucket">
   <i class="fa fa-bitbucket"></i>
   <strong class="">Bitbucket</strong>

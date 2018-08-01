@@ -27,18 +27,18 @@ export class Oauth2Component implements OnInit {
       environment.github.state;
   }
   //login gitlab
-  loginGL() {
+  loginGL(tipo) {
     localStorage.setItem("type", "gitlab");
 
     GLOBAL.TOGGLE = true;
     window.location.href =
-      environment.gitlabGeo.domain +
-      environment.gitlabGeo.clientId +
+      environment[tipo].domain +
+      environment[tipo].clientId +
       "&redirect_uri=" +
-      environment.gitlabGeo.callbackURL +
+      environment[tipo].callbackURL +
       "&response_type=code" +
       "&state=" +
-      environment.gitlabGeo.state;
+      environment[tipo].state;
   }
   loginBB() {
     localStorage.setItem("type", "bitbucket");

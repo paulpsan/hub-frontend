@@ -17,6 +17,7 @@ export class UsuarioComponent implements OnInit {
   private sub: any;
   commits;
   commitsTotal;
+  commitsRepoTotal;
   clasificacion: number = 0;
   id: number;
   usuario;
@@ -79,7 +80,6 @@ export class UsuarioComponent implements OnInit {
         if (
           this.usuario._id == JSON.parse(localStorage.getItem("usuario"))._id
         ) {
-          console.log("soy", JSON.parse(localStorage.getItem("usuario"))._id);
           this.isPropietario = true;
         }
         this._httpService
@@ -93,7 +93,6 @@ export class UsuarioComponent implements OnInit {
               }
             }
             this.repositorios = objRepo;
-            console.log(this.repositorios.length);
             if (this.repositorios.length >= 1) {
               this.totalCommits();
               this.getCommitUsuario(this.id);
@@ -130,7 +129,6 @@ export class UsuarioComponent implements OnInit {
         max = max + max * 0.1;
         min = min - min * 0.1;
 
-        console.log(max, min);
         this.configRepo$ = {
           legend: "Commit Total",
           xAxisLabel: "Fecha",
@@ -170,15 +168,13 @@ export class UsuarioComponent implements OnInit {
   }
   //Repositorio seleccionado
   detalleRepositorio(repositorio, tipo) {
-    console.log(repositorio);
     this._httpService
       .obtener("commits/" + repositorio._id)
       .subscribe(respCommits => {
         this.commits = respCommits;
-        console.log(this.commits);
         this.showLenguajes = false;
         this.repoSelect = repositorio;
-
+        this.commitsRepoTotal=this.commits.length;
         this.getPrimerCommit(this.commits);
         this.getUltimoCommit(this.commits);
         // this.dataLenguajes$ = repositorio.lenguajes;
@@ -207,8 +203,6 @@ export class UsuarioComponent implements OnInit {
         //colocar el config para datos
         max = max + max * 0.1;
         min = min - min * 0.1;
-
-        console.log(max, min);
         this.config$ = {
           legend: repositorio.nombre,
           xAxisLabel: "Fecha",
@@ -216,7 +210,6 @@ export class UsuarioComponent implements OnInit {
           yScaleMin: min,
           yScaleMax: max
         };
-        console.log(series);
         this.dataRepo$ = series;
       });
   }
@@ -245,7 +238,6 @@ export class UsuarioComponent implements OnInit {
       if (this.usuario) {
         this.pieChartLabels = [];
         this.pieChartData = [];
-        console.log(lenguaje);
         let leng = JSON.stringify(lenguaje);
         let array = leng.split(",");
         let lengRepositorios = [];
@@ -253,7 +245,6 @@ export class UsuarioComponent implements OnInit {
           let cadena = val.replace(/[{""}]/g, "").split(":");
           lengRepositorios.push({ lenguaje: cadena[0], codigo: cadena[1] });
         }
-        console.log(lengRepositorios);
         if (Object.keys(lengRepositorios).length !== 0) {
           for (let value of lengRepositorios) {
             if (value.lenguaje != "" && value.codigo != undefined) {
@@ -265,14 +256,12 @@ export class UsuarioComponent implements OnInit {
             }
           }
         }
-        console.log(this.pieChartLabels, this.pieChartData);
         this.showLenguajes = true;
       }
     }, 200);
   }
 
   cargarUsuarios(commits, tipo) {
-    console.log(commits);
     let datos = [];
     for (let commit of commits) {
       datos.push({
@@ -289,12 +278,10 @@ export class UsuarioComponent implements OnInit {
       return exists;
     });
     this.usuarioRepositorio = datos;
-    console.log(this.usuarioRepositorio);
     this.showUsuarios = true;
   }
 
   editarUsuario(usuario: Usuario) {
-    console.log(usuario);
     if (usuario) {
       this.router.navigate(["/usuarios/editar", usuario._id]);
     }
@@ -311,7 +298,6 @@ export class UsuarioComponent implements OnInit {
       }
     }
     this.clasificacion = data + 1;
-    console.log(data + 1);
   }
 
   guardarClasificacion() {

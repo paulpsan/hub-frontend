@@ -31,6 +31,6 @@ export const environment = {
     clientId: "QV8hxhkL5taXdTpUgB",
     clientSecret: "W64vs8X2f3V3PNZq8EaU3gL4yV8YPAHQ",
     state: "bitbucket",
-    callbackURL: "http://localhost:4200/inicio"
+    callbackURL: "https://test.adsib.gob.bo/softwarelibre/inicio"
   }
 };

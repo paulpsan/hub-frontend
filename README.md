@@ -13,17 +13,13 @@ Catalogo de software libre publicados por usuarios con cuenta github, gitlab, bi
  - **NODE**(8.11.2)
  - **ANGULAR/CLI**(1.7)
 
-## Instalar Proyecto
+## Instalar y configurar el Proyecto 
 
 Para realizar la instalación y configuración del proyecto revise el archivo [INSTALL.md](INSTALL.md)
 
-## Ejecutar Proyecto
-
-Instalar las dependencias del proyecto
-
-> $ npm install
+## Ejecutar Proyecto en desarrollo
 
 Iniciar el proyecto
 
-> $ node index.js
+> $ ng serve
 

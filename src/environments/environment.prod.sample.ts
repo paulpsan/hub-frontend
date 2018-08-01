@@ -23,7 +23,7 @@ export const environment = {
       "miClientId", //5fd3c547dbc17e2d3f77a0c81a4fae588d3f31007f626a64489814d3900a315d
     clientSecret:
       "miClientSecret", //f08b68a537601fa7e0aab9d013c4f312d64adfc8d2967a1445cac741229c0a2f
-    state: "gitlab",
+    state: "gitlabGeo",
     callbackURL: "callbackDeRespuesta" //https://test.adsib.gob.bo/softwarelibre/inicio
   },
   bitbucket: {
@@ -31,6 +31,6 @@ export const environment = {
     clientId: "miClientId",
     clientSecret: "miClientSecret", //W64vs8X2f3V3PNZq8EaU3gL4yV8YPAHQ
     state: "bitbucket",
-    callbackURL: "callbackDeRespuesta" //http://localhost:4200/inicio
+    callbackURL: "callbackDeRespuesta" //https://test.adsib.gob.bo/softwarelibre/inicio
   }
 };
