@@ -218,7 +218,7 @@
             <div class="card-body">
               <span class="subtitle-repo">
                 Commits por Lenguajes
-              </span> 
+              </span>
               <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
               </chart-lenguajes>
             </div>
@@ -240,9 +240,14 @@
         <div class="card" *ngIf="data$">
           <div class="card-body">
             <span class="subtitle-repo">Commits por repositorio</span>
-            <!-- <chart-codigo [data]="data$">
-            </chart-codigo> -->
-            <line-chart class="chart-commit" [config]="configRepo$" [data]="data$"></line-chart>
+            <!-- <chart-código [data]="data$">
+            </chart-código> -->
+            <div class="">
+              <button mat-raised-button (click)="renderGraph('total')">General</button>
+              <button mat-raised-button (click)="renderGraph('year')">Año</button>
+              <button mat-raised-button (click)="renderGraph('month')">Mes</button>
+              <line-chart class="chart-commit" [config]="configRepo$" [data]="data$"></line-chart>
+            </div>
           </div>
         </div>
       </div>

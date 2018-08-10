@@ -9,7 +9,7 @@ import {
   UsuarioService,
   HttpService,
 
-} from "./service.index";
+} from './service.index';
 
 
 @NgModule({

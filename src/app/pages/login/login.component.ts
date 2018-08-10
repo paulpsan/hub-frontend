@@ -1,74 +1,72 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { Usuario } from "../../models/usuario";
-import { GLOBAL } from "../../services/global";
-import { environment } from "../../../environments/environment";
-import { UsuarioService } from "../../services/service.index";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Usuario } from '../../models/usuario';
+import { GLOBAL } from '../../services/global';
+import { environment } from '../../../environments/environment';
+import { UsuarioService } from '../../services/service.index';
 
 @Component({
-  selector: "hub-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"]
+  selector: 'hub-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  public usuario: Usuario;
   public token;
   public errorMessage;
-  public gitlab: Boolean = true;
   loginForm: FormGroup;
 
   constructor(private router: Router, public _usuarioService: UsuarioService) {}
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      email: new FormControl("", [Validators.required, Validators.email]),
-      password: new FormControl("", Validators.required)
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', Validators.required)
     });
   }
-  //login github
+  // login github
   login(auth) {
-    localStorage.setItem("action", "login");
+    localStorage.setItem('action', 'login');
     switch (auth) {
-      case "github":
-        localStorage.setItem("type", auth);
+      case 'github':
+        localStorage.setItem('type', auth);
         window.location.href =
           environment.github.domain +
           environment.github.clientId +
-          "&state=" +
+          '&state=' +
           environment.github.state;
         break;
-      case "gitlab":
-        localStorage.setItem("type", "gitlab");
+      case 'gitlab':
+        localStorage.setItem('type', 'gitlab');
         window.location.href =
           environment.gitlab.domain +
           environment.gitlab.clientId +
-          "&redirect_uri=" +
+          '&redirect_uri=' +
           environment.gitlab.callbackURL +
-          "&response_type=code" +
-          "&state=" +
+          '&response_type=code' +
+          '&state=' +
           environment.gitlab.state;
         break;
-      case "gitlabGeo":
-        localStorage.setItem("type", "gitlab");
+      case 'gitlabGeo':
+        localStorage.setItem('type', 'gitlab');
         window.location.href =
           environment.gitlabGeo.domain +
           environment.gitlabGeo.clientId +
-          "&redirect_uri=" +
+          '&redirect_uri=' +
           environment.gitlabGeo.callbackURL +
-          "&response_type=code" +
-          "&state=" +
+          '&response_type=code' +
+          '&state=' +
           environment.gitlabGeo.state;
         break;
-      case "bitbucket":
-        localStorage.setItem("type", auth);
+      case 'bitbucket':
+        localStorage.setItem('type', auth);
         window.location.href =
           environment.bitbucket.domain +
           environment.bitbucket.clientId +
-          "&redirect_uri=" +
+          '&redirect_uri=' +
           environment.bitbucket.callbackURL +
-          "&response_type=code" +
-          "&state=" +
+          '&response_type=code' +
+          '&state=' +
           environment.bitbucket.state;
         break;
 
@@ -78,17 +76,17 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    let email = this.loginForm.controls["email"].value;
-    let password = this.loginForm.controls["password"].value;
-    let usuario = new Usuario(
+    const email = this.loginForm.controls['email'].value;
+    const password = this.loginForm.controls['password'].value;
+    const usuario = new Usuario(
       null,
-      "",
+      '',
       email,
       password,
-      "usuario",
-      "",
-      "local",
-      "true"
+      'usuario',
+      '',
+      'local',
+      'true'
     );
     // this._usuarioService.loginLocal(usuario).subscribe(
     //   resp => {
@@ -103,12 +101,12 @@ export class LoginComponent implements OnInit {
       .then(response => {
         console.log(response);
         if (response) {
-          this.router.navigate(["/usuarios/ajustes"]);
+          this.router.navigate(['/usuarios/ajustes']);
         }
       })
       .catch(error => {
         console.log(error);
-        let errorMessage = <any>error;
+        const errorMessage = <any>error;
         if (errorMessage != null) {
           this.errorMessage = errorMessage.error.mensaje;
         }

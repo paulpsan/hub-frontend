@@ -112,7 +112,7 @@ export class UsuarioService {
           //guardamos a al local storage
           console.log(respuesta);
           localStorage.setItem("usuario", JSON.stringify(respuesta.usuario));
-          localStorage.setItem("token", JSON.stringify(respuesta.token));
+          localStorage.setItem("token", respuesta.token);
           this.usuario.next(respuesta.usuario);
           resolve(true);
         },

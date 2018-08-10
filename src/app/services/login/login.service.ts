@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 // import { Http, Response, Headers, RequestOptions } from "@angular/http";
-import { Observable } from "rxjs/Observable";
-import { environment } from "../../../environments/environment";
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class LoginService {
@@ -11,7 +11,7 @@ export class LoginService {
     this.url = environment.url;
   }
 
-  refreshToken(params, usuario,tipo) {
+  refreshToken(params, usuario, tipo) {
     return this._http
       .post(this.url + `auth/refresh/${params}`, {
         code: params.code,
@@ -20,7 +20,7 @@ export class LoginService {
       })
       .catch((error: any) => {
         console.log(error);
-        return Observable.throw(error || "Server error");
+        return Observable.throw(error || 'Server error');
       });
   }
   getToken(type: string, code: string) {
@@ -28,7 +28,7 @@ export class LoginService {
       .get(this.url + `auth/${type}/${code}`)
       .catch((error: any) => {
         console.log(error);
-        return Observable.throw(error || "Server error");
+        return Observable.throw(error || 'Server error');
       });
   }
   // obtiene el usuario Oauth
@@ -37,7 +37,7 @@ export class LoginService {
       .post(this.url + `auth/login/${type}`, object)
       .catch((error: any) => {
         console.log(error);
-        return Observable.throw(error || "Server error");
+        return Observable.throw(error || 'Server error');
       });
   }
 }

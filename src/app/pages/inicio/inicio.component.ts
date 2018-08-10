@@ -26,7 +26,7 @@ export class InicioComponent implements OnInit {
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
     public snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.action = localStorage.getItem("action");
@@ -75,7 +75,7 @@ export class InicioComponent implements OnInit {
                   this.router.navigate(["/login"]);
                 } else {
                   console.log(resp);
-                  this._usuarioService.guardarStorage(resp.usuario);
+                  this._usuarioService.guardarStorage(resp.usuario, resp.token);
                   this.router.navigate(["/usuarios/ajustes"]);
                   this.cargarDatos(
                     "repositorios/oauth",
@@ -86,7 +86,7 @@ export class InicioComponent implements OnInit {
               });
             break;
           case "refresh":
-            console.log(this.action,this.type);
+            console.log(this.action, this.type);
             this._loginService
               .refreshToken(this.type, this.usuario, this.params.state)
               .subscribe(resp => {

@@ -1,19 +1,19 @@
-import { InicioRoutingModule } from "./pages/inicio/inicio-routing.module";
-import { ProyectosRoutingModule } from "./pages/proyectos/proyectos-routing.module";
-import { UsuariosRoutingModule } from "./pages/usuarios/usuarios-routing.module";
-import { OrganizacionesComponent } from "./pages/organizaciones/organizaciones.component";
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { InicioRoutingModule } from './pages/inicio/inicio-routing.module';
+import { ProyectosRoutingModule } from './pages/proyectos/proyectos-routing.module';
+import { UsuariosRoutingModule } from './pages/usuarios/usuarios-routing.module';
+import { OrganizacionesComponent } from './pages/organizaciones/organizaciones.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 // import { InicioComponent } from './pages/inicio/inicio.component';
-import { AppComponent } from "./app.component";
-import { ProyectosComponent } from "./pages/proyectos/proyectos.component";
-import { LoginComponent } from "./pages/login/login.component";
-import { RegistroComponent } from "./pages/login/registro/registro.component";
-import { AuthGuard } from "./common/guard/auth.guard";
-import { InicioComponent } from "./pages/inicio/inicio.component";
-import { UsuariosComponent } from "./pages/usuarios/usuarios.component";
-import { NopagefoundComponent } from "./shared/nopagefound/nopagefound.component";
-import { PagesComponent } from "./pages/pages.component";
+import { AppComponent } from './app.component';
+import { ProyectosComponent } from './pages/proyectos/proyectos.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegistroComponent } from './pages/login/registro/registro.component';
+import { AuthGuard } from './common/guard/auth.guard';
+import { InicioComponent } from './pages/inicio/inicio.component';
+import { UsuariosComponent } from './pages/usuarios/usuarios.component';
+import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component';
+import { PagesComponent } from './pages/pages.component';
 
 const routes: Routes = [
   // {
@@ -35,9 +35,9 @@ const routes: Routes = [
   // },
 
   {
-    path: "inicio",
+    path: 'inicio',
     // component:InicioComponent,
-    loadChildren: "./pages/inicio/inicio.module#InicioModule"
+    loadChildren: './pages/inicio/inicio.module#InicioModule'
     // canActivate:[AuthGuard]
   },
   // {
@@ -53,24 +53,24 @@ const routes: Routes = [
   //   canActivate: [AuthGuard]
   // },
   {
-    path: "organizaciones",
+    path: 'organizaciones',
     component: OrganizacionesComponent
   },
   {
-    path: "login",
+    path: 'login',
     component: LoginComponent
   },
   {
-    path: "registro",
+    path: 'registro',
     component: RegistroComponent
   },
   {
-    path: "",
+    path: '',
     component: PagesComponent,
-    loadChildren: "./pages/pages.module#PagesModule",
+    loadChildren: './pages/pages.module#PagesModule',
     canActivate: [AuthGuard]
   },
-  { path: "**", component: NopagefoundComponent }
+  { path: '**', component: NopagefoundComponent }
 ];
 
 export const AppRoutingModule = RouterModule.forRoot(routes);

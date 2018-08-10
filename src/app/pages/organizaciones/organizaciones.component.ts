@@ -1,11 +1,12 @@
-import {Component,OnInit,ViewChild} from '@angular/core';
-import {DataSource} from '@angular/cdk/collections';
-import {MatPaginator} from '@angular/material';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DataSource } from '@angular/cdk/collections';
+import { MatPaginator } from '@angular/material';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
+import { multi } from './data';
 
 /**
  * @title Table with pagination
@@ -15,17 +16,50 @@ import 'rxjs/add/operator/map';
   templateUrl: './organizaciones.component.html',
   styleUrls: ['./organizaciones.component.css']
 })
-export class OrganizacionesComponent implements OnInit {
-  displayedColumns = ['userId', 'userName', 'progress', 'color'];
-  exampleDatabase = new ExampleDatabase();
-  dataSource: ExampleDataSource | null;
+export class OrganizacionesComponent {
+  multi: any[];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  view: any[] = [700, 400];
 
-  ngOnInit() {
-    this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator);
+  // options
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = true;
+  showXAxisLabel = true;
+  xAxisLabel = 'Time';
+  showYAxisLabel = true;
+  yAxisLabel = 'ms';
+  timeline = true;
+
+  // line, area
+  autoScale = true;
+
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  };
+
+  process(data) {
+    for (const item of data) {
+      for (const s of item.series) {
+        s.name = new Date(s.name);
+      }
+    }
+  }
+
+  constructor() {
+    this.process(multi);
+    Object.assign(this, {multi});
+  }
+
+  onSelect(event) {
+    console.log(event);
   }
 }
+
+
+
+
 
 /** Constants used to fill up our data base. */
 const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
@@ -62,8 +96,8 @@ export class ExampleDatabase {
   /** Builds and returns a new User. */
   private createNewUser() {
     const name =
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
+      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
+      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
 
     return {
       id: (this.data.length + 1).toString(),
@@ -102,5 +136,5 @@ export class ExampleDataSource extends DataSource<any> {
     });
   }
 
-  disconnect() {}
+  disconnect() { }
 }
