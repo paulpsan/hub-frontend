@@ -19,7 +19,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(localStorage.getItem('token'));
     return next.handle(req).pipe(catchError((err: any) => {
       if (err.status === 401) {
         console.log("error: unAutorize");

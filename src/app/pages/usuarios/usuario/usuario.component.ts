@@ -79,11 +79,10 @@ export class UsuarioComponent implements OnInit {
         this.usuario = resp;
         this.showUsuario = true;
         this.isPropietario = this.usuario._id === JSON.parse(localStorage.getItem('usuario'))._id ? true : false;
-        this.renderGraph('usuario', this.usuario, this.data$);
 
         this._httpService
           .obtener('repositorios/' + this.id + '/usuarios')
-          .subscribe(resp => {
+          .subscribe(async resp => {
             const objRepo = [];
             for (const repo of resp.datos) {
               if (repo.visibilidad) {
@@ -94,7 +93,14 @@ export class UsuarioComponent implements OnInit {
             this.repositorios = objRepo;
             if (this.repositorios.length >= 1) {
               this.totalCommits();
-              this.getCommitUsuario(this.id);
+              this.config$ = {
+                legend: 'Commits',
+                xAxisLabel: 'Fecha',
+                yAxisLabel: 'Commits',
+              };
+              this.data$ = await this.renderGraph('user', 'total', this.usuario);
+              console.log(this.data$);
+              // this.getCommitUsuario(this.id);
             }
             // if (this.usuario.tipo != "local") {
             //   // this.calculaCommits(this.usuario);
@@ -305,8 +311,9 @@ export class UsuarioComponent implements OnInit {
 
   getDataGraph(tipo: string, data) {
     return new Promise((resolve, reject) => {
+      console.log(tipo, data);
       switch (tipo) {
-        case 'usuario':
+        case 'user':
           this._httpService
             .obtener('commits/' + data._id + '/usuarios/graficos')
             .subscribe(resp => {
@@ -315,7 +322,7 @@ export class UsuarioComponent implements OnInit {
               reject(err);
             });
           break;
-        case 'repositorio':
+        case 'repo':
           this._httpService
             .obtener('commits/' + data._id + '/repositorio/graficos')
             .subscribe(resp => {
@@ -328,29 +335,29 @@ export class UsuarioComponent implements OnInit {
     });
   }
 
-  renderGraph(tipo: string, data, dataOuput) {
-    this.getDataGraph(tipo, data).then((resp: any) => {
-      console.log(resp);
-      const series = [];
-      let max = 0;
-      let min = 100;
-      for (const data of resp.mes) {
-        series.push({
-          name: moment(data.date).format('YYYY MMM'),
-          value: data.total
-        });
-        if (max <= data.total) {
-          max = data.total;
-        }
-        if (data.total <= min) {
-          min = data.total;
-        }
-      }
+  async renderGraph(tipo: string, modo: string, data) {
+    let series = await this.getDataGraph(tipo, data).then((resp: any) => {
+      return resp
+      // const series = [];
+      // let max = 0;
+      // let min = 100;
+      // for (const data of resp.mes) {
+      //   series.push({
+      //     name: moment(data.date).format('YYYY MMM'),
+      //     value: data.total
+      //   });
+      //   if (max <= data.total) {
+      //     max = data.total;
+      //   }
+      //   if (data.total <= min) {
+      //     min = data.total;
+      //   }
+      // }
     }).catch(err => {
       console.log(err);
     });
 
-
+    return series;
 
 
     // switch (tipo) {

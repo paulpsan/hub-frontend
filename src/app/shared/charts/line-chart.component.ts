@@ -53,11 +53,11 @@ export class LineChartComponent implements OnInit {
     //   });
 
 
-    console.log(this.datos, this.config);
+    console.log(this.data, this.config);
     this.datos = [
       {
         name: this.config.legend || 'Commit',
-        series: this.data
+        series: this.data.mes
       }
     ];
   }

@@ -6,7 +6,6 @@ import { environment } from "../../environments/environment";
 })
 export class ImagenPipe implements PipeTransform {
   transform(img: string, tipo: string): any {
-    console.log(img);
     let url = environment.url + "upload";
     if (!img) {
       if (tipo == "usuario") return "assets/images/avatar-user.png";

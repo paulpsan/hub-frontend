@@ -13,6 +13,7 @@ import { CommitsComponent } from './charts/commits.component';
 import { LineChartComponent } from './charts/line-chart.component';
 import { NgxChartsModule, PieChartModule } from '@swimlane/ngx-charts';
 import { PieChartComponent } from './charts/pie-chart.component';
+import { HeatMapComponent } from './charts/heat-map.component';
 
 @NgModule({
   imports: [RouterModule, CommonModule, PipesModule, MaterialModule, ChartsModule, PieChartModule, NgxChartsModule],
@@ -21,6 +22,7 @@ import { PieChartComponent } from './charts/pie-chart.component';
     CodigoComponent,
     CommitsComponent,
     LineChartComponent,
+    HeatMapComponent,
     PieChartComponent,
     HeaderComponent,
     NopagefoundComponent,
@@ -31,6 +33,7 @@ import { PieChartComponent } from './charts/pie-chart.component';
     CodigoComponent,
     CommitsComponent,
     LineChartComponent,
+    HeatMapComponent,
     PieChartComponent,
     HeaderComponent,
     NopagefoundComponent,

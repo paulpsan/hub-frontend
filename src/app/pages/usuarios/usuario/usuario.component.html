@@ -230,7 +230,12 @@
               <span class="subtitle-repo">Commits por Repositorio</span>
               <!-- <chart-codigo [data]="data$">
               </chart-codigo> -->
-              <line-chart class="chart-commit" [config]="config$" [data]="dataRepo$"></line-chart>
+              <div>
+                <button mat-raised-button (click)="renderGraph('repo','total',repoSelect)">General</button>
+                <button mat-raised-button (click)="renderGraph('repo','year',repoSelect)">Año</button>
+                <button mat-raised-button (click)="renderGraph('repo','month',repoSelect)">Mes</button>
+                <line-chart class="chart-commit" [config]="config$" [data]="dataRepo$"></line-chart>
+              </div>
             </div>
           </div>
         </div>
@@ -243,10 +248,11 @@
             <!-- <chart-código [data]="data$">
             </chart-código> -->
             <div class="">
-              <button mat-raised-button (click)="renderGraph('total')">General</button>
-              <button mat-raised-button (click)="renderGraph('year')">Año</button>
-              <button mat-raised-button (click)="renderGraph('month')">Mes</button>
-              <line-chart class="chart-commit" [config]="configRepo$" [data]="data$"></line-chart>
+              <button mat-raised-button (click)="renderGraph('user','total',usuario)">General</button>
+              <button mat-raised-button (click)="renderGraph('user','year',usuario)">Año</button>
+              <button mat-raised-button (click)="renderGraph('user','month',usuario)">Mes</button>
+              <line-chart class="chart-commit" [config]="config$" [data]="data$"></line-chart>
+              <heat-map></heat-map>
             </div>
           </div>
         </div>
