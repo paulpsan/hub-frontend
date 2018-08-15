@@ -252,7 +252,7 @@
               <button mat-raised-button (click)="renderGraph('user','year',usuario)">Año</button>
               <button mat-raised-button (click)="renderGraph('user','month',usuario)">Mes</button>
               <line-chart class="chart-commit" [config]="config$" [data]="data$"></line-chart>
-              <heat-map></heat-map>
+              <heat-map [dataCalendar]="dataCalendar$"></heat-map>
             </div>
           </div>
         </div>

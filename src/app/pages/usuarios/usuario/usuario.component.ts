@@ -9,9 +9,9 @@ import * as moment from 'moment';
 import { resolve } from 'dns';
 
 @Component({
-  selector: 'hub-usuario',
-  templateUrl: './usuario.component.html',
-  styleUrls: ['./usuario.component.css']
+  selector: "hub-usuario",
+  templateUrl: "./usuario.component.html",
+  styleUrls: ["./usuario.component.css"]
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsuarioComponent implements OnInit {
@@ -30,6 +30,7 @@ export class UsuarioComponent implements OnInit {
   primerCommit;
   UltimoCommit;
   data$;
+  dataCalendar$;
   dataRepo$;
   configRepo$;
   config$;
@@ -49,39 +50,42 @@ export class UsuarioComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _httpService: HttpService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    moment.locale('es');
-    this.token = localStorage.getItem('token');
+    moment.locale("es");
+    this.token = localStorage.getItem("token");
     this.sub = this.route.params.subscribe(params => {
-      this.id = params['id'];
+      this.id = params["id"];
     });
     this.dtOptions = {
-      order: [[0, 'desc']],
-      pagingType: 'full_numbers',
+      order: [[0, "desc"]],
+      pagingType: "full_numbers",
       pageLength: 10,
       language: {
-        search: 'Buscar',
-        lengthMenu: 'Mostrar _MENU_ entradas',
-        info: 'Mostrar Pagina _PAGE_ de _PAGES_',
+        search: "Buscar",
+        lengthMenu: "Mostrar _MENU_ entradas",
+        info: "Mostrar Pagina _PAGE_ de _PAGES_",
         paginate: {
-          first: 'Primero',
-          previous: 'Anterior',
-          next: 'Siguiente',
-          last: 'Ultimo'
+          first: "Primero",
+          previous: "Anterior",
+          next: "Siguiente",
+          last: "Ultimo"
         }
       }
     };
 
     if (this.id) {
-      this._httpService.buscarId('usuarios', this.id).subscribe(resp => {
+      this._httpService.buscarId("usuarios", this.id).subscribe(resp => {
         this.usuario = resp;
         this.showUsuario = true;
-        this.isPropietario = this.usuario._id === JSON.parse(localStorage.getItem('usuario'))._id ? true : false;
+        this.isPropietario =
+          this.usuario._id === JSON.parse(localStorage.getItem("usuario"))._id
+            ? true
+            : false;
 
         this._httpService
-          .obtener('repositorios/' + this.id + '/usuarios')
+          .obtener("repositorios/" + this.id + "/usuarios")
           .subscribe(async resp => {
             const objRepo = [];
             for (const repo of resp.datos) {
@@ -94,12 +98,18 @@ export class UsuarioComponent implements OnInit {
             if (this.repositorios.length >= 1) {
               this.totalCommits();
               this.config$ = {
-                legend: 'Commits',
-                xAxisLabel: 'Fecha',
-                yAxisLabel: 'Commits',
+                legend: "Commits",
+                xAxisLabel: "Fecha",
+                yAxisLabel: "Commits"
               };
-              this.data$ = await this.renderGraph('user', 'total', this.usuario);
+              this.data$ = await this.renderGraph(
+                "user",
+                "total",
+                this.usuario
+              );
+              this.dataCalendar$ = this.data$.heatMap;
               console.log(this.data$);
+
               // this.getCommitUsuario(this.id);
             }
             // if (this.usuario.tipo != "local") {
@@ -114,14 +124,14 @@ export class UsuarioComponent implements OnInit {
   // grafica de commits por usuario
   getCommitUsuario(id) {
     this._httpService
-      .obtener('commits/' + id + '/usuarios/graficos')
+      .obtener("commits/" + id + "/usuarios/graficos")
       .subscribe(respuesta => {
         const series = [];
         let max = 0;
         let min = 100;
         for (const data of respuesta.mes) {
           series.push({
-            name: moment(data.date).format('YYYY MMM'),
+            name: moment(data.date).format("YYYY MMM"),
             value: data.total
           });
           if (max <= data.total) {
@@ -135,9 +145,9 @@ export class UsuarioComponent implements OnInit {
         min = min - min * 0.1;
 
         this.configRepo$ = {
-          legend: 'Commit Total',
-          xAxisLabel: 'Fecha',
-          yAxisLabel: 'Commits',
+          legend: "Commit Total",
+          xAxisLabel: "Fecha",
+          yAxisLabel: "Commits",
           yScaleMin: min,
           yScaleMax: max
         };
@@ -166,7 +176,7 @@ export class UsuarioComponent implements OnInit {
   // Obtiene commits totales
   totalCommits() {
     this._httpService
-      .obtener('commits/' + this.usuario._id + '/usuarios')
+      .obtener("commits/" + this.usuario._id + "/usuarios")
       .subscribe(resp => {
         this.commitsTotal = resp.total;
       });
@@ -174,7 +184,7 @@ export class UsuarioComponent implements OnInit {
   // Repositorio seleccionado
   detalleRepositorio(repositorio, tipo) {
     this._httpService
-      .obtener('commits/' + repositorio._id)
+      .obtener("commits/" + repositorio._id)
       .subscribe(respCommits => {
         this.commits = respCommits;
         this.showLenguajes = false;
@@ -188,14 +198,14 @@ export class UsuarioComponent implements OnInit {
         this.showUsuarios = true;
       });
     this._httpService
-      .obtener('commits/' + repositorio._id + '/repositorio/graficos')
+      .obtener("commits/" + repositorio._id + "/repositorio/graficos")
       .subscribe(resp => {
         const series = [];
         let max = 0;
         let min = 100;
         for (const data of resp.mes) {
           series.push({
-            name: moment(data.date).format('YYYY MMM'),
+            name: moment(data.date).format("YYYY MMM"),
             value: data.total
           });
           if (max <= data.total) {
@@ -210,8 +220,8 @@ export class UsuarioComponent implements OnInit {
         min = min - min * 0.1;
         this.config$ = {
           legend: repositorio.nombre,
-          xAxisLabel: 'Fecha',
-          yAxisLabel: 'Commits',
+          xAxisLabel: "Fecha",
+          yAxisLabel: "Commits",
           yScaleMin: min,
           yScaleMax: max
         };
@@ -224,7 +234,7 @@ export class UsuarioComponent implements OnInit {
     if (tamano >= 1) {
       this.primerCommit = commits[tamano - 1].fecha;
     } else {
-      this.primerCommit = 'no existe';
+      this.primerCommit = "no existe";
     }
   }
   // Calcula el ultimo commit del repositorio
@@ -232,7 +242,7 @@ export class UsuarioComponent implements OnInit {
     if (commits.length >= 1) {
       this.UltimoCommit = commits[0].fecha;
     } else {
-      this.UltimoCommit = 'no existe';
+      this.UltimoCommit = "no existe";
     }
   }
 
@@ -244,19 +254,19 @@ export class UsuarioComponent implements OnInit {
         this.pieChartLabels = [];
         this.pieChartData = [];
         const leng = JSON.stringify(lenguaje);
-        const array = leng.split(',');
+        const array = leng.split(",");
         const lengRepositorios = [];
         for (const val of array) {
-          const cadena = val.replace(/[{""}]/g, '').split(':');
+          const cadena = val.replace(/[{""}]/g, "").split(":");
           lengRepositorios.push({ lenguaje: cadena[0], codigo: cadena[1] });
         }
         if (Object.keys(lengRepositorios).length !== 0) {
           for (const value of lengRepositorios) {
-            if (value.lenguaje !== '' && value.codigo !== undefined) {
+            if (value.lenguaje !== "" && value.codigo !== undefined) {
               this.pieChartLabels.push(value.lenguaje);
               this.pieChartData.push(value.codigo);
             } else {
-              this.pieChartLabels.push('0');
+              this.pieChartLabels.push("0");
               this.pieChartData.push(0);
             }
           }
@@ -271,13 +281,13 @@ export class UsuarioComponent implements OnInit {
     for (const commit of commits) {
       datos.push({
         autor: commit.autor,
-        avatar_autor: commit.avatar_autor || '',
-        web_url_autor: commit.web_url_autor || ''
+        avatar_autor: commit.avatar_autor || "",
+        web_url_autor: commit.web_url_autor || ""
       });
     }
     const hash = {};
     // elimina repetidos
-    datos = datos.filter(function (current) {
+    datos = datos.filter(function(current) {
       const exists = !hash[current.name] || false;
       hash[current.name] = true;
       return exists;
@@ -288,7 +298,7 @@ export class UsuarioComponent implements OnInit {
 
   editarUsuario(usuario: Usuario) {
     if (usuario) {
-      this.router.navigate(['/usuarios/editar', usuario._id]);
+      this.router.navigate(["/usuarios/editar", usuario._id]);
     }
   }
   //  Setea estrellas haciendo click
@@ -313,122 +323,42 @@ export class UsuarioComponent implements OnInit {
     return new Promise((resolve, reject) => {
       console.log(tipo, data);
       switch (tipo) {
-        case 'user':
+        case "user":
           this._httpService
-            .obtener('commits/' + data._id + '/usuarios/graficos')
-            .subscribe(resp => {
-              resolve(resp);
-            }, err => {
-              reject(err);
-            });
+            .obtener("commits/" + data._id + "/usuarios/graficos")
+            .subscribe(
+              resp => {
+                resolve(resp);
+              },
+              err => {
+                reject(err);
+              }
+            );
           break;
-        case 'repo':
+        case "repo":
           this._httpService
-            .obtener('commits/' + data._id + '/repositorio/graficos')
-            .subscribe(resp => {
-              resolve(resp);
-            }, err => {
-              reject(err);
-            });
+            .obtener("commits/" + data._id + "/repositorio/graficos")
+            .subscribe(
+              resp => {
+                resolve(resp);
+              },
+              err => {
+                reject(err);
+              }
+            );
           break;
       }
     });
   }
 
   async renderGraph(tipo: string, modo: string, data) {
-    let series = await this.getDataGraph(tipo, data).then((resp: any) => {
-      return resp
-      // const series = [];
-      // let max = 0;
-      // let min = 100;
-      // for (const data of resp.mes) {
-      //   series.push({
-      //     name: moment(data.date).format('YYYY MMM'),
-      //     value: data.total
-      //   });
-      //   if (max <= data.total) {
-      //     max = data.total;
-      //   }
-      //   if (data.total <= min) {
-      //     min = data.total;
-      //   }
-      // }
-    }).catch(err => {
-      console.log(err);
-    });
-
+    let series = await this.getDataGraph(tipo, data)
+      .then((resp: any) => {
+        return resp;
+      })
+      .catch(err => {
+        console.log(err);
+      });
     return series;
-
-
-    // switch (tipo) {
-    //   case 'usuario':
-    //     this._httpService
-    //       .obtener('commits/' + data.id + '/usuarios/graficos')
-    //       .subscribe(resp => {
-    //         const series = [];
-    //         let max = 0;
-    //         let min = 100;
-    //         for (const data of resp.mes) {
-    //           series.push({
-    //             name: moment(data.date).format('YYYY MMM'),
-    //             value: data.total
-    //           });
-    //           if (max <= data.total) {
-    //             max = data.total;
-    //           }
-    //           if (data.total <= min) {
-    //             min = data.total;
-    //           }
-    //         }
-    //         // colocar el config para datos
-    //         max = max + max * 0.1;
-    //         min = min - min * 0.1;
-    //         this.config$ = {
-    //           legend: data.nombre,
-    //           xAxisLabel: 'Fecha',
-    //           yAxisLabel: 'Commits',
-    //           yScaleMin: min,
-    //           yScaleMax: max
-    //         };
-    //         this.dataRepo$ = series;
-    //       });
-    //     break;
-    //   case 'repositorio':
-    //     this._httpService
-    //       .obtener('commits/' + data.id + '/repositorio/graficos')
-    //       .subscribe(resp => {
-    //         const series = [];
-    //         let max = 0;
-    //         let min = 100;
-    //         for (const data of resp.mes) {
-    //           series.push({
-    //             name: moment(data.date).format('YYYY MMM'),
-    //             value: data.total
-    //           });
-    //           if (max <= data.total) {
-    //             max = data.total;
-    //           }
-    //           if (data.total <= min) {
-    //             min = data.total;
-    //           }
-    //         }
-    //         // colocar el config para datos
-    //         max = max + max * 0.1;
-    //         min = min - min * 0.1;
-    //         this.config$ = {
-    //           legend: data.nombre,
-    //           xAxisLabel: 'Fecha',
-    //           yAxisLabel: 'Commits',
-    //           yScaleMin: min,
-    //           yScaleMax: max
-    //         };
-    //         this.dataRepo$ = series;
-    //       });
-    //     break;
-
-    //   default:
-    //     break;
-    // }
   }
-
 }
