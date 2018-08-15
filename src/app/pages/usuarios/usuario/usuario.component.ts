@@ -29,8 +29,8 @@ export class UsuarioComponent implements OnInit {
   pieChartLabels;
   primerCommit;
   UltimoCommit;
-  data$;
   dataCalendar$;
+  data$;
   dataRepo$;
   configRepo$;
   config$;
@@ -100,79 +100,21 @@ export class UsuarioComponent implements OnInit {
               this.config$ = {
                 legend: "Commits",
                 xAxisLabel: "Fecha",
-                yAxisLabel: "Commits"
+                yAxisLabel: "Commits",
+                series:"total"
               };
               this.data$ = await this.renderGraph(
                 "user",
-                "total",
                 this.usuario
               );
               this.dataCalendar$ = this.data$.heatMap;
               console.log(this.data$);
-
-              // this.getCommitUsuario(this.id);
             }
-            // if (this.usuario.tipo != "local") {
-            //   // this.calculaCommits(this.usuario);
-            //   // this.getCommitUsuario(this.usuario.tipo, this.id);
-            // }
           });
       });
     }
   }
 
-  // grafica de commits por usuario
-  getCommitUsuario(id) {
-    this._httpService
-      .obtener("commits/" + id + "/usuarios/graficos")
-      .subscribe(respuesta => {
-        const series = [];
-        let max = 0;
-        let min = 100;
-        for (const data of respuesta.mes) {
-          series.push({
-            name: moment(data.date).format("YYYY MMM"),
-            value: data.total
-          });
-          if (max <= data.total) {
-            max = data.total;
-          }
-          if (data.total <= min) {
-            min = data.total;
-          }
-        }
-        max = max + max * 0.1;
-        min = min - min * 0.1;
-
-        this.configRepo$ = {
-          legend: "Commit Total",
-          xAxisLabel: "Fecha",
-          yAxisLabel: "Commits",
-          yScaleMin: min,
-          yScaleMax: max
-        };
-        this.data$ = series;
-
-        // var lineChartLabels = [];
-        // var lineChartData = [];
-        // console.log(respuesta.años.años.length);
-        // if (respuesta.años.años.length <= 3) {
-        //   console.log(respuesta.mes);
-        //   for (const data of respuesta.mes) {
-        //     lineChartData.push(data.total);
-        //     lineChartLabels.push(data.mes);
-        //   }
-
-        //   this.data$ = { lineChartData, lineChartLabels };
-        //   console.log(this.data$);
-        // } else {
-        //   this.data$ = {
-        //     lineChartData: respuesta.años.barChartData[0].data,
-        //     lineChartLabels: respuesta.años.años
-        //   };
-        // }
-      });
-  }
   // Obtiene commits totales
   totalCommits() {
     this._httpService
@@ -182,7 +124,7 @@ export class UsuarioComponent implements OnInit {
       });
   }
   // Repositorio seleccionado
-  detalleRepositorio(repositorio, tipo) {
+  async detalleRepositorio(repositorio, tipo) {
     this._httpService
       .obtener("commits/" + repositorio._id)
       .subscribe(respCommits => {
@@ -197,36 +139,48 @@ export class UsuarioComponent implements OnInit {
         this.cargarUsuarios(this.commits, this.usuario.tipo);
         this.showUsuarios = true;
       });
-    this._httpService
-      .obtener("commits/" + repositorio._id + "/repositorio/graficos")
-      .subscribe(resp => {
-        const series = [];
-        let max = 0;
-        let min = 100;
-        for (const data of resp.mes) {
-          series.push({
-            name: moment(data.date).format("YYYY MMM"),
-            value: data.total
-          });
-          if (max <= data.total) {
-            max = data.total;
-          }
-          if (data.total <= min) {
-            min = data.total;
-          }
-        }
-        // colocar el config para datos
-        max = max + max * 0.1;
-        min = min - min * 0.1;
-        this.config$ = {
-          legend: repositorio.nombre,
-          xAxisLabel: "Fecha",
-          yAxisLabel: "Commits",
-          yScaleMin: min,
-          yScaleMax: max
-        };
-        this.dataRepo$ = series;
-      });
+      this.configRepo$ = {
+        legend: "Commits",
+        xAxisLabel: "Fecha",
+        yAxisLabel: "Commits",
+        series:"total"
+      };
+      this.dataRepo$ = await this.renderGraph(
+        "repo",
+        repositorio
+      );
+      console.log(this.dataRepo$);
+
+    // this._httpService
+    //   .obtener("commits/" + repositorio._id + "/repositorio/graficos")
+    //   .subscribe(resp => {
+    //     const series = [];
+    //     let max = 0;
+    //     let min = 100;
+    //     for (const data of resp.mes) {
+    //       series.push({
+    //         name: moment(data.date).format("YYYY MMM"),
+    //         value: data.total
+    //       });
+    //       if (max <= data.total) {
+    //         max = data.total;
+    //       }
+    //       if (data.total <= min) {
+    //         min = data.total;
+    //       }
+    //     }
+    //     // colocar el config para datos
+    //     max = max + max * 0.1;
+    //     min = min - min * 0.1;
+    //     this.config$ = {
+    //       legend: repositorio.nombre,
+    //       xAxisLabel: "Fecha",
+    //       yAxisLabel: "Commits",
+    //       yScaleMin: min,
+    //       yScaleMax: max
+    //     };
+    //     this.dataRepo$ = series;
+    //   });
   }
   // Calcula el primer commit del repositorio
   getPrimerCommit(commits) {
@@ -351,7 +305,7 @@ export class UsuarioComponent implements OnInit {
     });
   }
 
-  async renderGraph(tipo: string, modo: string, data) {
+  async renderGraph(tipo: string,data) {
     let series = await this.getDataGraph(tipo, data)
       .then((resp: any) => {
         return resp;
@@ -360,5 +314,24 @@ export class UsuarioComponent implements OnInit {
         console.log(err);
       });
     return series;
+  }
+
+  changeGraph(config,serie){
+    if(config=='config'){
+      this.config$ = {
+        legend: "Commits",
+        xAxisLabel: "Fecha",
+        yAxisLabel: "Commits",
+        series:serie
+      };
+    }
+    else{
+      this.configRepo$ = {
+        legend: "Commits",
+        xAxisLabel: "Fecha",
+        yAxisLabel: "Commits",
+        series:serie
+      };
+    }
   }
 }

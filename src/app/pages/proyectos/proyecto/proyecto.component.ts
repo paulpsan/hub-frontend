@@ -40,9 +40,6 @@ export class ProyectoComponent implements OnInit {
   obtenerProyecto() {
     this._httpService.buscarId("proyectos", this.id).subscribe(result => {
       this.proyecto = result;
-      // this.proyecto.fechaCreacion=moment(result.fechaCreacion).format("YYYY MMM");
-      // this.proyecto.ultimaActividad=moment(result.ultimaActividad).format("YYYY MMM");;
-
       this.show = true;
       this.getCommitRepo(this.proyecto.fk_repositorio);
       this.cargarLenguajes(this.proyecto.datos);

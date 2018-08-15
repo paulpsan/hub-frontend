@@ -231,10 +231,10 @@
               <!-- <chart-codigo [data]="data$">
               </chart-codigo> -->
               <div>
-                <button mat-raised-button (click)="renderGraph('repo','total',repoSelect)">General</button>
-                <button mat-raised-button (click)="renderGraph('repo','year',repoSelect)">Año</button>
-                <button mat-raised-button (click)="renderGraph('repo','month',repoSelect)">Mes</button>
-                <line-chart class="chart-commit" [config]="config$" [data]="dataRepo$"></line-chart>
+                <button mat-raised-button (click)="changeGraph('configRepo','total')">General</button>
+                <button mat-raised-button (click)="changeGraph('configRepo','años')">Año</button>
+                <button mat-raised-button (click)="changeGraph('configRepo','mes')">Mes</button>
+                <line-chart class="chart-commit" [config]="configRepo$" [data]="dataRepo$"></line-chart>
               </div>
             </div>
           </div>
@@ -248,11 +248,11 @@
             <!-- <chart-código [data]="data$">
             </chart-código> -->
             <div class="">
-              <button mat-raised-button (click)="renderGraph('user','total',usuario)">General</button>
-              <button mat-raised-button (click)="renderGraph('user','year',usuario)">Año</button>
-              <button mat-raised-button (click)="renderGraph('user','month',usuario)">Mes</button>
+              <button mat-raised-button (click)="changeGraph('config','total')">General</button>
+              <button mat-raised-button (click)="changeGraph('config','años')">Año</button>
+              <button mat-raised-button (click)="changeGraph('config','mes')">Mes</button>
               <line-chart class="chart-commit" [config]="config$" [data]="data$"></line-chart>
-              <heat-map [dataCalendar]="dataCalendar$"></heat-map>
+              <heat-map style="grid-template-rows: 20vh;" class="chart-commit" [dataCalendar]="dataCalendar$"></heat-map>
             </div>
           </div>
         </div>

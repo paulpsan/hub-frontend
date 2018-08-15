@@ -12,43 +12,27 @@ const weekdayName = new Intl.DateTimeFormat('es-us', { weekday: 'short' });
 export class HeatMapComponent implements OnInit {
   @Input() dataCalendar;
   view: any[];
-  width: number = 1100;
-  height: number = 200;
+  width: number = 900;
+  height: number = 150;
   showXAxis = true;
   showYAxis = true;
   gradient = false;
   showLegend = true;
   animations: boolean = true;
   tooltipDisabled = false;
-  // dataCalendar: any[];
   innerPadding = "10%";
 
   colorScheme = {
-    domain: ["#eaecef", "#3b1c1f"]
+    domain: ["#eaecef",'#705A5D',"#3b1c1f"]
   };
-
   constructor(private _httpService: HttpService) {
-    // this.getCalendarData().then((resp: any[]) => {
-    //   this.calendarData = resp;
-    //   console.log(this.calendarData);
-    // }
-    // );
   }
 
   ngOnInit() {
     this.view = [this.width, this.height];
   }
-  // getCalendarData() {
-  //   return new Promise((response, reject) => {
-  //     this._httpService.get('commits/18/usuarios/graficos').subscribe(resp => {
-  //       response(resp.heatMap);
-  //     }, err => {
-  //       reject(err)
-  //     })
-  //   });
-  // }
+
   calendarAxisTickFormatting(mondayString: string) {
-    // console.log(mondayString);
     const monday = new Date(mondayString);
     const month = monday.getMonth();
     const day = monday.getDate();
@@ -61,10 +45,15 @@ export class HeatMapComponent implements OnInit {
   }
 
   calendarTooltipText(c): string {
-    console.log(c);
+    let date = new Date(c.cell.date)
+    let options = {
+      weekday: "long", year: "numeric", month: "short",
+      day: "numeric"
+    };
+    // console.log(date.toLocaleDateString());
     return `
-      <span class="tooltip-label">${c.label}</span>
-      <span class="tooltip-val">${c.data.toLocaleString()}</span>
+      <span class="tooltip-label">${date.toLocaleDateString('es-Es', options)}</span>
+      <span class="tooltip-val">${c.data.toLocaleString()} commits</span>
     `;
   }
 }
