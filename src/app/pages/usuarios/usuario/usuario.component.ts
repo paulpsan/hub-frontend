@@ -38,19 +38,22 @@ export class UsuarioComponent implements OnInit {
   repoSelect;
   isPropietario = false;
   showUsuario = false;
-  showRepositorios = false;
   showUsuarios = false;
+  showRepositorios = false;
+  showCommits = false;
   showLenguajes = false;
+  showCommitsRepo = false;
   buttonClasi = true;
   starList: boolean[] = [true, true, true, true, true];
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-
+  showYear = false;
+  showMonth = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private _httpService: HttpService
-  ) {}
+  ) { }
 
   ngOnInit() {
     moment.locale("es");
@@ -85,7 +88,7 @@ export class UsuarioComponent implements OnInit {
             : false;
 
         this._httpService
-          .obtener("repositorios/" + this.id + "/usuarios")
+          .obtener("repositorios/" + this.id + "/usuarios?visibilidad=true")
           .subscribe(async resp => {
             const objRepo = [];
             for (const repo of resp.datos) {
@@ -101,14 +104,14 @@ export class UsuarioComponent implements OnInit {
                 legend: "Commits",
                 xAxisLabel: "Fecha",
                 yAxisLabel: "Commits",
-                series:"total"
+                series: "total"
               };
               this.data$ = await this.renderGraph(
                 "user",
                 this.usuario
               );
               this.dataCalendar$ = this.data$.heatMap;
-              console.log(this.data$);
+              this.showCommits = this.data$.total.length >= 2 ? true : false;
             }
           });
       });
@@ -125,6 +128,7 @@ export class UsuarioComponent implements OnInit {
   }
   // Repositorio seleccionado
   async detalleRepositorio(repositorio, tipo) {
+    this._httpService.obtener("repositorios" + repositorio._id)
     this._httpService
       .obtener("commits/" + repositorio._id)
       .subscribe(respCommits => {
@@ -135,52 +139,25 @@ export class UsuarioComponent implements OnInit {
         this.getPrimerCommit(this.commits);
         this.getUltimoCommit(this.commits);
         // this.dataLenguajes$ = repositorio.lenguajes;
+        console.log(repositorio);
         this.cargarLenguajes(repositorio.lenguajes, this.usuario.tipo);
         this.cargarUsuarios(this.commits, this.usuario.tipo);
         this.showUsuarios = true;
       });
-      this.configRepo$ = {
-        legend: "Commits",
-        xAxisLabel: "Fecha",
-        yAxisLabel: "Commits",
-        series:"total"
-      };
-      this.dataRepo$ = await this.renderGraph(
-        "repo",
-        repositorio
-      );
-      console.log(this.dataRepo$);
+    this.configRepo$ = {
+      legend: "Commits",
+      xAxisLabel: "Fecha",
+      yAxisLabel: "Commits",
+      series: "total"
+    };
+    this.dataRepo$ = await this.renderGraph(
+      "repo",
+      repositorio
+    );
+    this.showCommitsRepo = this.dataRepo$.total.length >= 2 ? true : false;
 
-    // this._httpService
-    //   .obtener("commits/" + repositorio._id + "/repositorio/graficos")
-    //   .subscribe(resp => {
-    //     const series = [];
-    //     let max = 0;
-    //     let min = 100;
-    //     for (const data of resp.mes) {
-    //       series.push({
-    //         name: moment(data.date).format("YYYY MMM"),
-    //         value: data.total
-    //       });
-    //       if (max <= data.total) {
-    //         max = data.total;
-    //       }
-    //       if (data.total <= min) {
-    //         min = data.total;
-    //       }
-    //     }
-    //     // colocar el config para datos
-    //     max = max + max * 0.1;
-    //     min = min - min * 0.1;
-    //     this.config$ = {
-    //       legend: repositorio.nombre,
-    //       xAxisLabel: "Fecha",
-    //       yAxisLabel: "Commits",
-    //       yScaleMin: min,
-    //       yScaleMax: max
-    //     };
-    //     this.dataRepo$ = series;
-    //   });
+    this.showMonth = (this.dataRepo$.mes.length >= 2) ? true : false;
+    this.showYear = (this.dataRepo$.años.length >= 2) ? true : false;
   }
   // Calcula el primer commit del repositorio
   getPrimerCommit(commits) {
@@ -202,6 +179,7 @@ export class UsuarioComponent implements OnInit {
 
   // Obtiene los lenguajes del repositorio
   cargarLenguajes(dataLenguaje, tipo) {
+    console.log(dataLenguaje);
     setTimeout(() => {
       const lenguaje = dataLenguaje.datos;
       if (this.usuario) {
@@ -225,7 +203,8 @@ export class UsuarioComponent implements OnInit {
             }
           }
         }
-        this.showLenguajes = true;
+        console.log(dataLenguaje.datos);
+        this.showLenguajes = lenguaje!='' ? true : false;
       }
     }, 200);
   }
@@ -241,7 +220,7 @@ export class UsuarioComponent implements OnInit {
     }
     const hash = {};
     // elimina repetidos
-    datos = datos.filter(function(current) {
+    datos = datos.filter(function (current) {
       const exists = !hash[current.name] || false;
       hash[current.name] = true;
       return exists;
@@ -275,37 +254,24 @@ export class UsuarioComponent implements OnInit {
 
   getDataGraph(tipo: string, data) {
     return new Promise((resolve, reject) => {
-      console.log(tipo, data);
-      switch (tipo) {
-        case "user":
-          this._httpService
-            .obtener("commits/" + data._id + "/usuarios/graficos")
-            .subscribe(
-              resp => {
-                resolve(resp);
-              },
-              err => {
-                reject(err);
-              }
-            );
-          break;
-        case "repo":
-          this._httpService
-            .obtener("commits/" + data._id + "/repositorio/graficos")
-            .subscribe(
-              resp => {
-                resolve(resp);
-              },
-              err => {
-                reject(err);
-              }
-            );
-          break;
+      let url = {
+        user: '/usuarios/graficos',
+        repo: '/repositorio/graficos'
       }
+      this._httpService
+        .obtener("commits/" + data._id + url[tipo])
+        .subscribe(
+          resp => {
+            resolve(resp);
+          },
+          err => {
+            reject(err);
+          }
+        );
     });
   }
 
-  async renderGraph(tipo: string,data) {
+  async renderGraph(tipo: string, data) {
     let series = await this.getDataGraph(tipo, data)
       .then((resp: any) => {
         return resp;
@@ -316,22 +282,13 @@ export class UsuarioComponent implements OnInit {
     return series;
   }
 
-  changeGraph(config,serie){
-    if(config=='config'){
-      this.config$ = {
-        legend: "Commits",
-        xAxisLabel: "Fecha",
-        yAxisLabel: "Commits",
-        series:serie
-      };
+  changeGraph(config, serie) {
+    let objectConfig = {
+      legend: "Commits",
+      xAxisLabel: "Fecha",
+      yAxisLabel: "Commits",
+      series: serie
     }
-    else{
-      this.configRepo$ = {
-        legend: "Commits",
-        xAxisLabel: "Fecha",
-        yAxisLabel: "Commits",
-        series:serie
-      };
-    }
+    config == 'config' ? this.config$ = objectConfig : this.configRepo$ = objectConfig;
   }
 }

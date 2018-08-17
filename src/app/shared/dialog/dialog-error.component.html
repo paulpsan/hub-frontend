@@ -1,0 +1,8 @@
+<h2 mat-dialog-title style="color:rgb(212, 72, 72)">Se produjo un error!</h2>
+<mat-dialog-content>
+  {{data.errors.message}}
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Aceptar</button>
+</mat-dialog-actions>

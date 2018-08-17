@@ -24,7 +24,6 @@ export class UsuarioService {
     this.url = environment.url;
     this.getCurrentUser().then(exists => {
       let usuario = exists;
-      console.log(exists);
       if (usuario) {
         this.usuario.next(usuario);
       }

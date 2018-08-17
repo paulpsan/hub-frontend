@@ -14,6 +14,7 @@ import { LineChartComponent } from './charts/line-chart.component';
 import { NgxChartsModule, PieChartModule } from '@swimlane/ngx-charts';
 import { PieChartComponent } from './charts/pie-chart.component';
 import { HeatMapComponent } from './charts/heat-map.component';
+import { DialogErrorComponent } from './dialog/dialog-error.component';
 
 @NgModule({
   imports: [RouterModule, CommonModule, PipesModule, MaterialModule, ChartsModule, PieChartModule, NgxChartsModule],
@@ -27,6 +28,7 @@ import { HeatMapComponent } from './charts/heat-map.component';
     HeaderComponent,
     NopagefoundComponent,
     Oauth2Component,
+    DialogErrorComponent
   ],
   exports: [
     LenguajesComponent,
@@ -37,7 +39,9 @@ import { HeatMapComponent } from './charts/heat-map.component';
     PieChartComponent,
     HeaderComponent,
     NopagefoundComponent,
-    Oauth2Component
-  ]
+    Oauth2Component,
+    DialogErrorComponent
+  ],
+  entryComponents:[DialogErrorComponent]
 })
-export class SharedModule {}
+export class SharedModule { }

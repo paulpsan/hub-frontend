@@ -13,9 +13,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
   }
   showSuccess() {
+    this.options.positionClass = "toast-top-right";
     console.log(this.options);
-    // this.options.positionClass = "toast-top-left";
-    this.toastr.error("paul", "title");
+    this.toastr.error("paul", "title");    
   }
   setClass(enableBootstrap: boolean) {
     const add = enableBootstrap ? "bootstrap" : "normal";

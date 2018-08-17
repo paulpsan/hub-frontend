@@ -48,7 +48,7 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
     private _subirArchivoService: SubirArchivoService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
@@ -128,7 +128,7 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
-  seleccionImage(archivo: File) {
+  selectImage(archivo: File) {
     console.log(this.imagenTemp, this.usuario);
     if (!archivo) {
       this.imagenSubir = null;
@@ -166,6 +166,7 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
   //   };
   //   this.showAdd = false;
   // }
+
   onSubmit() {
     if (this.addForm.valid) {
       let repositorio = {
@@ -193,28 +194,36 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   save() {
+
     for (const key in this.repositorios) {
       if (
         this.repositorios[key].visibilidad != this.repoCopy[key].visibilidad
       ) {
         this._httpService
           .editar("repositorios", this.repositorios[key])
-          .subscribe(repor => {
-            this._httpService
-              .post("commits", this.repositorios[key])
-              .subscribe(response => {
-                console.log(response);
-              });
+          .subscribe((repo: any) => {
+              this._httpService
+                .post("commits", this.repositorios[key])
+                .subscribe(response => {
+                  console.log(response);
+                });
           });
-        //set issues, downloads,forks,stars,
-        console.log("object");
-        this._httpService
-          .post("repositorios/datos", this.repositorios[key])
-          .subscribe();
+        if (this.repositorios[key].visibilidad == true) {
+          //set issues, downloads,forks,stars,
+          this._httpService
+            .post("repositorios/datos", this.repositorios[key])
+            .subscribe();
+        }
       }
     }
     this.repoCopy = JSON.parse(JSON.stringify(this.repositorios));
   }
+
+  changeVisibility(project) {
+    project.visibilidad = !project.visibilidad
+
+  }
+
   showAll() {
     for (const repo of this.repositorios) {
       repo.visibilidad = true;
@@ -240,7 +249,7 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
       case "gitlab":
         localStorage.setItem("type", "gitlab");
         console.log(environment[this.usuario.cuentas[0]]);
-        if (this.usuario.cuentas.indexOf("gitlab")>=0) {
+        if (this.usuario.cuentas.indexOf("gitlab") >= 0) {
           window.location.href =
             environment.gitlab.domain +
             environment.gitlab.clientId +
