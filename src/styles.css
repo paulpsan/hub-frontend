@@ -1,6 +1,5 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "../node_modules/ngx-toastr/toastr.css";
-
 html {
   font-size: 14px;
 }
@@ -10,43 +9,57 @@ html {
   color: #3f51b5;
   cursor: pointer;
 }
+
 .fa-star {
   color: #ffc058;
   font-size: 1.5em !important;
 }
+
 .fa-star-o {
   color: #ffc058;
   font-size: 1.5em !important;
 }
+
 .toast-success {
   background-color: #735356;
 }
 
 .background-success {
-  background-color: rgb(151, 240, 124);
+  background-color: #CDEBF0;
+  color: #00555F;
+}
+
+.background-warning {
+  background-color: #FBD6D9;
+  color: #4D191E;
 }
 
 .background-alert {
   background-color: #735356;
 }
+
 button .mat-simple-snackbar-action {
   color: black;
 }
+
 .title-description {
   font-size: 14px;
   color: #3b1c1f;
 }
+
 .title-card {
   font-size: 14px;
   text-transform: uppercase;
   color: #3b1c1f;
 }
+
 .title-repo {
   font-size: 14px;
   text-transform: uppercase;
   color: #3b1c1f;
   font-weight: bold;
 }
+
 .subtitle-repo {
   font-size: 14px;
   color: #3b1c1f;

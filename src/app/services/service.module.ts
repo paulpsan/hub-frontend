@@ -8,9 +8,10 @@ import {
   SubirArchivoService,
   UsuarioService,
   HttpService,
+  LoadDataService,
+  MessageDataService
 
 } from './service.index';
-
 
 @NgModule({
   imports: [
@@ -23,6 +24,8 @@ import {
     SubirArchivoService,
     UsuarioService,
     HttpService,
+    LoadDataService,
+    MessageDataService
   ],
   declarations: []
 })

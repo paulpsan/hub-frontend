@@ -44,6 +44,23 @@ export class UsuarioService {
     });
   }
 
+  isCompleteInfo() {
+    let user = JSON.parse(localStorage.getItem("usuario"));
+    let respuesta = []
+    if(user){
+      if (!user.nombre||user.nombre==="") {
+        respuesta.push("Complete el campo del Nombre")
+      }
+      if (!user.descripcion||user.descripcion==="") {
+        respuesta.push("Complete el campo del Descripcion")
+      }
+      if (!user.email||user.email==="" ) {
+        respuesta.push("Complete el campo del Email")
+      }
+    }
+    return respuesta
+  }
+
   addUserOauth(type: string, object) {
     return new Promise((resolve, reject) => {
       this._http.post(this.url + `auth/add/${type}`, object).subscribe(
@@ -100,6 +117,7 @@ export class UsuarioService {
     localStorage.removeItem("usuario");
     localStorage.removeItem("action");
     localStorage.removeItem("type");
+    localStorage.removeItem("isLoadinData");
     this.router.navigate(["/login"]);
   }
 

@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { Usuario } from '../../models/usuario';
 import { GLOBAL } from '../../services/global';
 import { environment } from '../../../environments/environment';
-import { UsuarioService } from '../../services/service.index';
+import { UsuarioService, MessageDataService } from '../../services/service.index';
+import { MatSnackBar } from '@angular/material';
+import { SnackbarComponent } from '../../shared/snackbar/snackbar.component';
 
 @Component({
   selector: 'hub-login',
@@ -14,9 +16,16 @@ import { UsuarioService } from '../../services/service.index';
 export class LoginComponent implements OnInit {
   public token;
   public errorMessage;
+  public gitlab: boolean = true;
+
   loginForm: FormGroup;
 
-  constructor(private router: Router, public _usuarioService: UsuarioService) {}
+  constructor(
+    private router: Router,
+    public _usuarioService: UsuarioService,
+    public snackBar: MatSnackBar,
+    private _messageDataService: MessageDataService
+  ) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -105,10 +114,33 @@ export class LoginComponent implements OnInit {
         }
       })
       .catch(error => {
-        console.log(error);
         const errorMessage = <any>error;
-        if (errorMessage != null) {
-          this.errorMessage = errorMessage.error.mensaje;
+        if (errorMessage.error.message != null) {
+          console.log(errorMessage);
+          const objMessage = {
+            text: errorMessage.error.message,
+            type: "Info",
+          }
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: 'right',
+            verticalPosition: "top",
+            panelClass: "background-success",
+            duration: 3000
+          });
+          // this.errorMessage = errorMessage.error.message;
+        } else {
+          const objMessage = {
+            text: 'Error en Servidor o Servidor No Disponible',
+            type: "Advertencia",
+          }
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: 'right',
+            verticalPosition: "top",
+            panelClass: "background-warning",
+            duration: 3000
+          });
         }
       });
   }

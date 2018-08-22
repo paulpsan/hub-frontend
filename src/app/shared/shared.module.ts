@@ -15,6 +15,9 @@ import { NgxChartsModule, PieChartModule } from '@swimlane/ngx-charts';
 import { PieChartComponent } from './charts/pie-chart.component';
 import { HeatMapComponent } from './charts/heat-map.component';
 import { DialogErrorComponent } from './dialog/dialog-error.component';
+import { DialogLoadingComponent } from './dialog/dialog-loading.component';
+import { LoadingComponent } from './loading/loading.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
 
 @NgModule({
   imports: [RouterModule, CommonModule, PipesModule, MaterialModule, ChartsModule, PieChartModule, NgxChartsModule],
@@ -28,7 +31,10 @@ import { DialogErrorComponent } from './dialog/dialog-error.component';
     HeaderComponent,
     NopagefoundComponent,
     Oauth2Component,
-    DialogErrorComponent
+    DialogErrorComponent,
+    DialogLoadingComponent,
+    LoadingComponent,
+    SnackbarComponent
   ],
   exports: [
     LenguajesComponent,
@@ -40,8 +46,11 @@ import { DialogErrorComponent } from './dialog/dialog-error.component';
     HeaderComponent,
     NopagefoundComponent,
     Oauth2Component,
-    DialogErrorComponent
+    DialogErrorComponent,
+    DialogLoadingComponent,
+    LoadingComponent,
+    SnackbarComponent
   ],
-  entryComponents:[DialogErrorComponent]
+  entryComponents: [DialogErrorComponent, DialogLoadingComponent, SnackbarComponent]
 })
 export class SharedModule { }

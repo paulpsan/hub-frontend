@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark nav-hub">
   <div class="container-fluid">
-    <button mat-button  class="navbar-brand nav-title">CATALOGO SOFTWARE LIBRE</button>
+    <button mat-button class="navbar-brand nav-title">CATALOGO SOFTWARE LIBRE</button>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -14,6 +14,7 @@
       </ul>
       <span *ngIf="usuario">
         <ul class="nav navbar-nav navbar-right">
+
           <li>
             <div class="btn-group">
               <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
@@ -21,7 +22,6 @@
                   <img *ngIf="usuario.avatar" style="width: 15px !important" class="avatar" [src]="usuario.avatar | imagen:'usuario'">
                   <img *ngIf="!usuario.avatar" class="avatar" src="assets/images/avatar-user.png">
                   <span class="username mr-12" fxHide fxShow.gt-sm>{{usuario.nombre}}</span>
-                  <mat-icon class="icon-16" fxHide.xs>keyboard_arrow_down</mat-icon>
                 </div>
               </button>
               <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
@@ -37,6 +37,20 @@
                   <mat-icon>exit_to_app</mat-icon>
                   <span>Salir</span>
                 </button>
+              </mat-menu>
+            </div>
+            <div class="btn-group" *ngIf="badgeCount>0">
+              <button mat-icon-button [matMenuTriggerFor]="notifyMenu">
+                <mat-icon class="icon-notify">notifications</mat-icon>
+                <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
+              </button>
+              <mat-menu #notifyMenu="matMenu" [overlapTrigger]="false">
+                <div *ngFor="let badge of badges">
+                  <button mat-menu-item class="button-menu" (click)="resolveBadge(badge)" *ngIf="usuario.estado">
+                    <!-- <mat-icon>account_circle</mat-icon> -->
+                    <span>{{badge}}</span>
+                  </button>
+                </div>
               </mat-menu>
             </div>
           </li>

@@ -2,24 +2,30 @@
   background-color: rgb(54, 22, 24);
   margin-bottom: 15px;
 }
+
 .nav-item {
   font-size: 14px;
   font-weight: bold;
 }
+
 .nav-title {
   color: #ffffff !important;
   font-size: 16px;
   font-weight: bold;
 }
+
 .nav-title:focus {
   outline: 0;
 }
+
 .user-button {
   color: #ffffff;
 }
+
 .button-menu {
   font-size: 14px;
 }
+
 .avatar {
   width: 30px;
   min-width: 30px;
@@ -32,27 +38,32 @@
   text-align: center;
   color: #ffffff;
 }
+
 .avatar.square {
   border-radius: 0;
 }
+
 .avatar.small {
   width: 20px;
   min-width: 20px;
   height: 20px;
   line-height: 20px;
 }
+
 .avatar.big {
   width: 72px;
   min-width: 72px;
   height: 72px;
   line-height: 72px;
 }
+
 .avatar.huge {
   width: 96px;
   min-width: 96px;
   height: 96px;
   line-height: 96px;
 }
+
 .icon-16 {
   font-size: 16px !important;
   width: 16px !important;
@@ -60,4 +71,23 @@
   min-width: 16px !important;
   min-height: 16px !important;
   line-height: 16px !important;
+}
+
+.icon-notify {
+  color: #ffffff;
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  font-size: 10px;
+  line-height: 9px;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  background-color: #ff0000;
+  /* border: 4px solid #ff0000; */
+  color: #ffffff;
+  text-align: center;
 }

@@ -12,6 +12,8 @@ import { UsuarioService } from "../../services/usuario/usuario.service";
 export class HeaderComponent implements OnInit, OnChanges {
   public urlAvatar;
   public usuario;
+  public badgeCount: number;
+  public badges;
   title = "hub";
   navLinks: any[] = [
     {
@@ -32,11 +34,16 @@ export class HeaderComponent implements OnInit, OnChanges {
     private _authService: AuthService,
     public _usuarioService: UsuarioService,
     private router: Router
-  ) {}
+  ) {
+
+  }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
+      this.badges = this._usuarioService.isCompleteInfo();
+      this.badgeCount = this.badges.length;
+      console.log(this.badges);
     });
   }
   logout() {
@@ -50,5 +57,9 @@ export class HeaderComponent implements OnInit, OnChanges {
     setTimeout(() => {
       this.router.navigate(["/usuarios", this.usuario._id]);
     }, 1);
+  }
+  resolveBadge(badge) {
+    console.log(badge);
+    this.router.navigate(["/usuarios/ajustes"]);
   }
 }

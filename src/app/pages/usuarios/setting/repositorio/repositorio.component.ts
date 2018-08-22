@@ -15,7 +15,7 @@ import { environment } from "../../../../../environments/environment";
 import { HttpService } from "../../../../services/http/http.service";
 import { UsuarioService } from "../../../../services/usuario/usuario.service";
 import { Subject } from "rxjs";
-import { SubirArchivoService } from "../../../../services/service.index";
+import { SubirArchivoService, LoadDataService } from "../../../../services/service.index";
 import { DataTableDirective } from "angular-datatables";
 
 @Component({
@@ -28,10 +28,12 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
   acciones: string;
   repositorios;
   repoCopy;
+  dataLoading;
   cuentas = [];
   userForm: FormGroup;
   addForm: FormGroup;
   show: boolean = true;
+  showData: boolean = true;
   showAdd: boolean = false;
   showRepo: boolean = false;
   usuario;
@@ -40,44 +42,53 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   imagenSubir: File;
-  imagenTemp: string;
+  imagenTemp;
   urlImg;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
-    private _subirArchivoService: SubirArchivoService
-  ) { }
+    private _subirArchivoService: SubirArchivoService,
+    private _loadDataService: LoadDataService,
+  ) {
+    this.dataLoading = {
+      content: 'Cargando los datos del Usuario..............',
+      type: 'info'
+    }
+  }
 
   ngOnInit() {
-    this._usuarioService.usuario$.subscribe(repUsuario => {
-      this.usuario = repUsuario;
-      if (this.usuario.github) this.cuentas.push("github");
-      if (this.usuario.gitlab) this.cuentas.push("gitlab");
-      if (this.usuario.bitbucket) this.cuentas.push("bitbucket");
-    });
-    console.log(this.usuario);
-    this.urlImg = GLOBAL.url;
-
-    this.id = this.usuario._id;
-
-    this.userForm = new FormGroup({
-      nombre: new FormControl("", Validators.required),
-      email: new FormControl("", [
-        Validators.required,
-        Validators.pattern("[^ @]*@[^ @]*")
-      ]),
-      avatar: new FormControl(""),
-      descripcion: new FormControl("", Validators.required),
-      url: new FormControl("", Validators.required),
-      password: new FormControl("", Validators.required)
-    });
-
-    if (this.id) {
-      //edit form
-      this.getRepositorios();
-    }
+    this._loadDataService.loadData$.subscribe(resp => {
+      console.log(resp);
+      if (resp) {
+        this.showData = false;
+        this._usuarioService.usuario$.subscribe(repUsuario => {
+          this.usuario = repUsuario;
+          if (this.usuario.github) this.cuentas.push("github");
+          if (this.usuario.gitlab) this.cuentas.push("gitlab");
+          if (this.usuario.bitbucket) this.cuentas.push("bitbucket");
+        });
+        console.log(this.usuario);
+        this.urlImg = GLOBAL.url;
+        this.id = this.usuario._id;
+        this.userForm = new FormGroup({
+          nombre: new FormControl("", Validators.required),
+          email: new FormControl("", [
+            Validators.required,
+            Validators.pattern("[^ @]*@[^ @]*")
+          ]),
+          avatar: new FormControl(""),
+          descripcion: new FormControl("", Validators.required),
+          url: new FormControl("", Validators.required),
+          password: new FormControl("", Validators.required)
+        });
+        if (this.id) {
+          //edit form
+          this.getRepositorios();
+        }
+      }
+    })
   }
   next(object) {
     this.siguiente.emit(object);
@@ -202,11 +213,11 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
         this._httpService
           .editar("repositorios", this.repositorios[key])
           .subscribe((repo: any) => {
-              this._httpService
-                .post("commits", this.repositorios[key])
-                .subscribe(response => {
-                  console.log(response);
-                });
+            this._httpService
+              .post("commits", this.repositorios[key])
+              .subscribe(response => {
+                console.log(response);
+              });
           });
         if (this.repositorios[key].visibilidad == true) {
           //set issues, downloads,forks,stars,

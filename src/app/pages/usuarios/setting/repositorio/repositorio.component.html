@@ -1,5 +1,6 @@
 <div class="">
-  <mat-card class="m-1">
+  <hub-loading *ngIf="showData" [data]="dataLoading"></hub-loading>
+  <mat-card *ngIf="!showData" class="m-1">
     <!-- <mat-card-header>
       <mat-card-title>Repositorios de usuario</mat-card-title>
     </mat-card-header> -->

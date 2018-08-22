@@ -15,10 +15,11 @@ import "rxjs/add/operator/catch";
 import { catchError } from "rxjs/operators";
 import { DialogErrorComponent } from "../../shared/dialog/dialog-error.component";
 import { MatDialog } from "@angular/material";
+import { UsuarioService } from "../../services/service.index";
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router, public dialog: MatDialog) { }
+  constructor(private router: Router, public dialog: MatDialog, private _usuarioService: UsuarioService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(catchError((err: any) => {
@@ -27,7 +28,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         if (err.error.errors) {
           this.openDialog(err);
         }
-        this.router.navigate(['/login'])
+        this._usuarioService.logout();
         // location.reload(true);
       }
       return Observable.throw(err);
@@ -37,7 +38,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   openDialog(err) {
     const dialogRef = this.dialog.open(DialogErrorComponent, {
       data: err.error,
-      disableClose:true,
+      disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe(result => {

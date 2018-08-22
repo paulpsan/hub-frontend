@@ -1,6 +1,7 @@
 
 import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { LoadDataService } from "../../services/data/load-data.service";
 
 @Component({
   selector: "dialog-loading",
@@ -10,12 +11,16 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 export class DialogLoadingComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DialogLoadingComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public _loadDataService: LoadDataService) {
   }
   ngOnInit() {
-    console.log(this.data);
-    setTimeout(() => {
-      this.dialogRef.close();
-    }, 3000);
+
+    this._loadDataService.loadData$.subscribe(resp => {
+      console.log(resp);
+      if (resp) {
+        this.dialogRef.close();
+      }
+    })
   }
 }

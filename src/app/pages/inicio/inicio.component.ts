@@ -2,11 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { LoginService } from "../../services/login/login.service";
 import { HttpService } from "../../services/http/http.service";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar, MatDialog } from "@angular/material";
 import { Usuario } from "../../models/usuario";
 import { UsuarioService } from "../../services/service.index";
-import { GLOBAL } from "../../services/global";
-import { resolve } from "path";
+import { LoadDataService } from "../../services/data/load-data.service";
+import { DialogLoadingComponent } from "../../shared/dialog/dialog-loading.component";
 let qs = require("querystringify");
 @Component({
   selector: "hub-inicio",
@@ -17,6 +17,7 @@ export class InicioComponent implements OnInit {
   public action;
   public type;
   public params;
+  public dataLoading;
   public usuario: Usuario;
   public cargando: Boolean = true;
 
@@ -25,8 +26,16 @@ export class InicioComponent implements OnInit {
     private _loginService: LoginService,
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
-    public snackBar: MatSnackBar
-  ) { }
+    public snackBar: MatSnackBar,
+    public _loadDataService: LoadDataService,
+    public dialog: MatDialog
+  ) {
+    this.dataLoading = {
+      title:'Bienvenido al Catalogo de Software Libre',
+      content: 'Cargando los datos del Usuario..............',
+      type: 'info'
+    }
+  }
 
   ngOnInit() {
     this.action = localStorage.getItem("action");
@@ -136,6 +145,16 @@ export class InicioComponent implements OnInit {
 
   cargarDatos(url, tipo, usuario) {
     return new Promise((resolve, reject) => {
+      this._loadDataService.startRequest();
+      // const dialogRef = this.dialog.open(DialogLoadingComponent, {
+      //   data: {},
+      //   disableClose: true,
+      // });
+      // dialogRef.afterClosed().subscribe(result => {
+      //   console.log(`Dialog result: ${result}`);
+      //   // this.router.navigate(['/login'])
+      // });
+
       let snackBarRef = this.snackBar.open(
         "Bienvenido se estan guardando los datos referentes a su cuenta por favor espere un momento!!",
         "",
@@ -150,6 +169,7 @@ export class InicioComponent implements OnInit {
         })
         .subscribe(
           resp => {
+            this._loadDataService.finishRequest();
             snackBarRef.dismiss();
             this.snackBarSuccess();
             resolve(true);

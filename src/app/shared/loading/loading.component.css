@@ -1,0 +1,12 @@
+.title-loading {
+  font-size: 22px;
+  text-transform: uppercase;
+  color: #3b1c1f;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.content-loading {
+  text-align: center
+}
