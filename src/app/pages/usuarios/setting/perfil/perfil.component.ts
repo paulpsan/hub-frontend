@@ -18,7 +18,7 @@ export class PerfilComponent implements OnInit {
   showButton: boolean = true;
   showPass: boolean = false;
   imagenSubir: File;
-  imagenTemp: string;
+  imagenTemp: any;
 
   @Output() siguiente = new EventEmitter<any>();
 
@@ -35,7 +35,7 @@ export class PerfilComponent implements OnInit {
     console.log(this.usuario);
     this.userForm = new FormGroup({
       nombre: new FormControl("", Validators.required),
-      descripcion: new FormControl("", Validators.required),
+      descripcion: new FormControl("", [Validators.required,Validators.minLength(5)]),
       email: new FormControl("", Validators.required),
       url: new FormControl(""),
       password: new FormControl("")

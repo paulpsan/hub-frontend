@@ -12,6 +12,7 @@ import { Observable } from "rxjs/Observable";
 
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class HubInterceptor implements HttpInterceptor {
@@ -21,12 +22,15 @@ export class HubInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    req = req.clone({
-      setHeaders: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem('token')}`
-      }
-    });
+    console.log(req);
+    if(req.url!==`${environment.url}usuarios/captcha`){
+      req = req.clone({
+        setHeaders: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+    }
     return next
       .handle(req)
       .map((event: HttpEvent<any>) => {

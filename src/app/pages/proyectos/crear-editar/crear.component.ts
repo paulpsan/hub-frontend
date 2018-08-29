@@ -23,7 +23,7 @@ export class CrearComponent implements OnInit {
   proyecto: Proyecto;
   proyForm: FormGroup;
   imagenSubir: File;
-  imagenTemp: string;
+  imagenTemp: any;
   itemSelect;
   usuario;
   repositorios;

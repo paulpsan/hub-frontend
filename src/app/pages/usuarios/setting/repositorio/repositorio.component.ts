@@ -70,7 +70,7 @@ export class RepositorioComponent implements AfterViewInit, OnDestroy, OnInit {
           if (this.usuario.bitbucket) this.cuentas.push("bitbucket");
         });
         console.log(this.usuario);
-        this.urlImg = GLOBAL.url;
+        this.urlImg = environment.url;
         this.id = this.usuario._id;
         this.userForm = new FormGroup({
           nombre: new FormControl("", Validators.required),

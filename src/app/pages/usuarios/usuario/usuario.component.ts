@@ -110,6 +110,7 @@ export class UsuarioComponent implements OnInit {
                 "user",
                 this.usuario
               );
+              console.log(this.data$);
               this.dataCalendar$ = this.data$.heatMap;
               this.showCommits = this.data$.total.length >= 2 ? true : false;
             }

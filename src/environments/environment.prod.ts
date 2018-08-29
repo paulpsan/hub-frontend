@@ -1,6 +1,11 @@
 export const environment = {
   production: true,
   url: 'https://test.adsib.gob.bo/api_backend/api/',
+  createGitlab:true,
+  gitlabAdmin:{
+    domain: 'http://gitla.paul.com:30080/api/v4/users',    
+    privateToken:"TjcyysBSszxTYFgUFuAP"
+  },
   github: {
     domain: "https://github.com/login/oauth/authorize?client_id=",
     clientId: "becb33a39e525721517c",

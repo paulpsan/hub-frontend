@@ -9,7 +9,8 @@ import {
   UsuarioService,
   HttpService,
   LoadDataService,
-  MessageDataService
+  MessageDataService,
+  GitlabService
 
 } from './service.index';
 
@@ -24,6 +25,7 @@ import {
     SubirArchivoService,
     UsuarioService,
     HttpService,
+    GitlabService,
     LoadDataService,
     MessageDataService
   ],

@@ -6,6 +6,11 @@
 export const environment = {
   production: false,
   url: "miUrlBackend",
+  createGitlab:true,
+  gitlabAdmin:{
+    domain: 'http://gitla.paul.com:30080/api/v4/users',    
+    privateToken:"TjcyysBSszxTYFgUFuAP"
+  },
   github: {
     domain: "urlGithubOauth",
     clientId: "miClientId", //deafb08eb71ea00e531c

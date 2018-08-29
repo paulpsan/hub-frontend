@@ -14,8 +14,21 @@
       </ul>
       <span *ngIf="usuario">
         <ul class="nav navbar-nav navbar-right">
-
           <li>
+            <div class="btn-group" *ngIf="badgeCount>0">
+              <button mat-icon-button [matMenuTriggerFor]="notifyMenu">
+                <mat-icon class="icon-notify">notifications</mat-icon>
+                <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
+              </button>
+              <mat-menu #notifyMenu="matMenu" [overlapTrigger]="false">
+                <div *ngFor="let badge of badges">
+                  <button mat-menu-item class="button-menu" (click)="resolveBadge(badge)" *ngIf="usuario.estado">
+                    <!-- <mat-icon>account_circle</mat-icon> -->
+                    <span>{{badge}}</span>
+                  </button>
+                </div>
+              </mat-menu>
+            </div>
             <div class="btn-group">
               <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
                 <div fxLayout="row" fxLayoutAlign="center center">
@@ -37,20 +50,6 @@
                   <mat-icon>exit_to_app</mat-icon>
                   <span>Salir</span>
                 </button>
-              </mat-menu>
-            </div>
-            <div class="btn-group" *ngIf="badgeCount>0">
-              <button mat-icon-button [matMenuTriggerFor]="notifyMenu">
-                <mat-icon class="icon-notify">notifications</mat-icon>
-                <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
-              </button>
-              <mat-menu #notifyMenu="matMenu" [overlapTrigger]="false">
-                <div *ngFor="let badge of badges">
-                  <button mat-menu-item class="button-menu" (click)="resolveBadge(badge)" *ngIf="usuario.estado">
-                    <!-- <mat-icon>account_circle</mat-icon> -->
-                    <span>{{badge}}</span>
-                  </button>
-                </div>
               </mat-menu>
             </div>
           </li>

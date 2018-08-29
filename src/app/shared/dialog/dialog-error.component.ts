@@ -25,6 +25,6 @@ export class DialogErrorComponent implements OnInit {
     console.log(this.data);
     setTimeout(() => {
       this.dialogRef.close();
-    }, 3000);
+    }, 5000);
   }
 }
