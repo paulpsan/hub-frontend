@@ -10,10 +10,10 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
       <ul class="nav navbar-nav">
         <li>
-          <a class="nav-link" [routerLink]="['/login']">Acceder</a>
+          <a class="nav-link" [routerLink]="['/auth/login']">Acceder</a>
         </li>
         <li>
-          <a class="nav-link" [routerLink]="['/registro']">Regístrate</a>
+          <a class="nav-link" [routerLink]="['/auth/registro']">Regístrate</a>
         </li>
       </ul>
     </div>
@@ -117,7 +117,7 @@
               <mat-icon mat-list-icon>done</mat-icon>
               Aceptar
             </button>
-            <button mat-button [routerLink]="['/login']" color="warn">
+            <button mat-button [routerLink]="['/auth/login']" color="warn">
               <mat-icon mat-list-icon>cancel</mat-icon>
               Cancelar
             </button>

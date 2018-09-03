@@ -31,7 +31,7 @@ export class InicioComponent implements OnInit {
     public dialog: MatDialog
   ) {
     this.dataLoading = {
-      title:'Bienvenido al Catalogo de Software Libre',
+      title: 'Bienvenido al Catalogo de Software Libre',
       content: 'Cargando los datos del Usuario..............',
       type: 'info'
     }
@@ -48,7 +48,7 @@ export class InicioComponent implements OnInit {
     if (url !== "/inicio") {
       let urlCallback = url.split("?");
       this.params = qs.parse(urlCallback[1]);
-      console.log(this.action);
+      console.log(url);
       if (this.action && this.params.code) {
         let objPost = {
           code: this.params.code,
@@ -81,7 +81,7 @@ export class InicioComponent implements OnInit {
               .loginUserOauth(this.type, objPost)
               .subscribe(resp => {
                 if (resp.error || !resp.usuario) {
-                  this.router.navigate(["/login"]);
+                  this.router.navigate(["/auth/login"]);
                 } else {
                   console.log(resp);
                   this._usuarioService.guardarStorage(resp.usuario, resp.token);
@@ -113,14 +113,14 @@ export class InicioComponent implements OnInit {
               });
             break;
           default:
-            this.router.navigate(["/login"]);
+            this.router.navigate(["/auth/login"]);
             break;
         }
       } else {
         this.router.navigate(["/usuarios/ajustes"]);
       }
     } else {
-      this.router.navigate(["/login"]);
+      this.router.navigate(["/auth/login"]);
     }
   }
 
@@ -146,15 +146,6 @@ export class InicioComponent implements OnInit {
   cargarDatos(url, tipo, usuario) {
     return new Promise((resolve, reject) => {
       this._loadDataService.startRequest();
-      // const dialogRef = this.dialog.open(DialogLoadingComponent, {
-      //   data: {},
-      //   disableClose: true,
-      // });
-      // dialogRef.afterClosed().subscribe(result => {
-      //   console.log(`Dialog result: ${result}`);
-      //   // this.router.navigate(['/login'])
-      // });
-
       let snackBarRef = this.snackBar.open(
         "Bienvenido se estan guardando los datos referentes a su cuenta por favor espere un momento!!",
         "",

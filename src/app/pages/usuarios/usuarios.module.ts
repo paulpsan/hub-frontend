@@ -20,6 +20,9 @@ import { DataTablesModule } from "angular-datatables";
 import { SettingModule } from "./setting/setting.module";
 import { SharedModule } from "../../shared/shared.module";
 import { PipesModule } from "../../pipes/pipes.module";
+import { LoadingBarHttpClientModule } from "@ngx-loading-bar/http-client";
+import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
+import { LoadingBarModule } from "@ngx-loading-bar/core";
 
 @NgModule({
   declarations: [
@@ -39,10 +42,13 @@ import { PipesModule } from "../../pipes/pipes.module";
     ComunModule,
     ChartsModule,
     DataTablesModule,
+    LoadingBarHttpClientModule,
+    LoadingBarRouterModule,
+    LoadingBarModule,
     SettingModule,
     SharedModule,
     PipesModule,
   ],
   exports: []
 })
-export class UsuariosModule {}
+export class UsuariosModule { }

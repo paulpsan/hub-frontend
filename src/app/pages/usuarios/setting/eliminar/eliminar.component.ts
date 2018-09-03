@@ -36,7 +36,7 @@ export class EliminarComponent implements OnInit {
           //   this.obtenerUsuarios();
           // }, 1000);
           // console.log('done');
-          this.router.navigate(["/login"]);
+          this.router.navigate(["/auth/login"]);
         });
       }
     });

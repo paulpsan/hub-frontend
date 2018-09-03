@@ -118,7 +118,7 @@ export class UsuarioService {
     localStorage.removeItem("action");
     localStorage.removeItem("type");
     localStorage.removeItem("isLoadinData");
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/auth/login"]);
   }
 
   login(usuario: Usuario) {

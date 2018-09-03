@@ -6,15 +6,15 @@ import {
   FormBuilder
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { Usuario } from "../../../models/usuario";
-import { HttpService } from "../../../services/http/http.service";
+import { Usuario } from "../../models/usuario";
+import { HttpService } from "../../services/http/http.service";
 import { CustomValidators, ConfirmValidParentMatcher, errorMessages, regExps } from "./CustomValidators";
-import { environment } from "../../../../environments/environment"
-import { GitlabService } from "../../../services/gitlab/gitlab.service";
+import { environment } from "../../../environments/environment"
+import { GitlabService } from "../../services/gitlab/gitlab.service";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { SnackbarComponent } from '../../../shared/snackbar/snackbar.component';
+import { SnackbarComponent } from '../../shared/snackbar/snackbar.component';
 import { MatSnackBar } from "@angular/material";
-import { MessageDataService } from "../../../services/service.index";
+import { MessageDataService } from "../../services/service.index";
 import { timeout } from "q";
 
 @Component({
@@ -176,7 +176,7 @@ export class RegistroComponent implements OnInit {
         });
         this.registroFormGroup.reset();
         setTimeout(() => {
-          this.router.navigate(["/login"]);
+          this.router.navigate(["/auth/login"]);
         }, 2000);
       }
       , err => {

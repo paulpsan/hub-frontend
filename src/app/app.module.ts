@@ -14,19 +14,16 @@ import { ComunModule } from './common/comun.module';
 import { InicioModule } from './pages/inicio/inicio.module';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegistroComponent } from './pages/login/registro/registro.component';
-
 import { AuthGuard } from './common/guard/auth.guard';
 import { OrganizacionesComponent } from './pages/organizaciones/organizaciones.component';
 import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component';
 import { HubInterceptor } from './common/interceptor/hub.interceptor';
 import { ToastrModule } from 'ngx-toastr';
-import { PagesComponent } from './pages/pages.component';
 import { SharedModule } from './shared/shared.module';
 import { ServiceModule } from './services/service.module';
 import { HttpErrorInterceptor } from './common/interceptor/http-error.interceptor';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AutenticacionModule } from './autenticacion/autenticacion.module';
 
 
 // import { AdicionarComponent } from './pages/usuarios/adicionar/adicionar.component';
@@ -35,10 +32,6 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegistroComponent,
-    PagesComponent,
-    // NopagefoundComponent,
     OrganizacionesComponent,
   ],
   imports: [
@@ -55,7 +48,6 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,
     LoadingBarModule,
-    InicioModule,
     SharedModule,
     ToastrModule.forRoot(),
     ServiceModule

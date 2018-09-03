@@ -1,0 +1,62 @@
+<!-- <hub-header></hub-header> -->
+<!-- <ngx-loading-bar></ngx-loading-bar> -->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(54, 22, 24); margin-bottom: 50px">
+  <div class="container-fluid">
+    <p class="navbar-brand">CATALOGO SOFTWARE LIBRE</p>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="nav navbar-nav">
+        <li>
+          <a class="nav-link" [routerLink]="['/login']">Acceder</a>
+        </li>
+        <li>
+          <a class="nav-link" [routerLink]="['/registro']">Regístrate</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+<div class="container">
+  <div class="row justify-content-md-center m-1">
+    <div class="card-reset card bg-light col-md-6 col-sm-12" style="padding: 0;">
+      <div class="card-header card-header-reset">
+        <div class="row justify-content-center">
+          <span class="titulo-reset">Recuperar Contraseña</span>
+        </div>
+      </div>
+      <div class="card-body card-body-reset">
+
+        <form novalidate [formGroup]="resetForm" (ngSubmit)="onSubmit()">
+          <fieldset>
+            <div class="form-group row justify-content-center">
+              <mat-form-field class="col-6 ">
+                <input matInput placeholder="Email" formControlName="email">
+                <mat-error *ngIf="resetForm.controls['email'].hasError('email') && !resetForm.controls['email'].hasError('required')">
+                  Ingrese su email
+                </mat-error>
+                <mat-error *ngIf="resetForm.controls['email'].hasError('required')">
+                  Email es
+                  <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </fieldset>
+
+          <div class="row justify-content-center">
+            <button mat-raised-button [disabled]="!resetForm.valid" color="primary" type="submit" color="primary">
+              Enviar Correo de Recuperacion
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="row justify-content-center">
+        <a [routerLink]="[ '/auth/login']">Iniciar Sesión</a>
+      </div>
+    </div>
+  </div>
+</div>

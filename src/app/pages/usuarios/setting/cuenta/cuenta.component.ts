@@ -60,7 +60,7 @@ export class CuentaComponent implements OnInit {
           bitbucket: this.usuario.bitbucket
         };
         // this._httpService.eliminarId("usuarios", result._id).subscribe(res => {
-        //   this.router.navigate(["/login"]);
+        //   this.router.navigate(["/auth/login"]);
         // });
       }
     });

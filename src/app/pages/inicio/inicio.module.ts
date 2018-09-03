@@ -16,10 +16,6 @@ import { SharedModule } from "../../shared/shared.module";
 @NgModule({
   declarations: [
     InicioComponent,
-    // HeaderComponent,
-    // OrganizacionesComponent,
-    // LoginComponent,
-    // RegistroComponent
   ],
   imports: [
     CommonModule,
@@ -34,8 +30,6 @@ import { SharedModule } from "../../shared/shared.module";
     SharedModule,
     ComunModule
 
-    // UsuariosModule,
-    // ProyectosModule,
   ],
   exports: [
     // HeaderComponent,
