@@ -43,7 +43,7 @@ export class RecuperarComponent implements OnInit {
           horizontalPosition: "right",
           verticalPosition: "top",
           panelClass: "background-success",
-          duration: 3000
+          duration: 4000
         });
         this.router.navigate(["/auth/login"]);
         console.log(resp);
@@ -57,7 +57,21 @@ export class RecuperarComponent implements OnInit {
         this._httpService
           .get("usuarios/verificacion?token=" + token)
           .subscribe(resp => {
+            console.log(resp);
             this.usuario = resp.usuario;
+          },error=>{
+            const objMessage = {
+              text: error.error.message,
+              type: "Warning"
+            };
+            this._messageDataService.changeMessage(objMessage);
+            this.snackBar.openFromComponent(SnackbarComponent, {
+              horizontalPosition: "right",
+              verticalPosition: "top",
+              panelClass: "background-warning",
+              duration: 4000
+            });
+            this.router.navigate(["/auth/login"]);
           });
       } else {
         const objMessage = {
@@ -69,7 +83,7 @@ export class RecuperarComponent implements OnInit {
           horizontalPosition: "right",
           verticalPosition: "top",
           panelClass: "background-warning",
-          duration: 3000
+          duration: 4000
         });
         this.router.navigate(["/auth/login"]);
       }
