@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from '../material/material.module';
 import { RegistroComponent } from './registro/registro.component';
 import { ResetComponent } from './reset/reset.component';
+import { RecuperarComponent } from './recuperar/recuperar.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { ResetComponent } from './reset/reset.component';
   declarations: [
     LoginComponent,
     RegistroComponent,
-    ResetComponent
+    ResetComponent,
+    RecuperarComponent
   ]
 })
 export class AutenticacionModule { }
