@@ -10,6 +10,7 @@ import { MaterialModule } from '../material/material.module';
 import { RegistroComponent } from './registro/registro.component';
 import { ResetComponent } from './reset/reset.component';
 import { RecuperarComponent } from './recuperar/recuperar.component';
+import { VerificacionComponent } from './verificacion/verificacion.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { RecuperarComponent } from './recuperar/recuperar.component';
     LoginComponent,
     RegistroComponent,
     ResetComponent,
-    RecuperarComponent
+    RecuperarComponent,
+    VerificacionComponent
   ]
 })
 export class AutenticacionModule { }

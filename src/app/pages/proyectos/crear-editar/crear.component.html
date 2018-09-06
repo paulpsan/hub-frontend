@@ -1,7 +1,10 @@
 <div class="container">
   <div class="row justify-content-md-center m-1">
-    <div class="card bg-light col-md-6 col-sm-12" style="padding: 0;">
-      <div class="card-header">Crear Nuevo Proyecto
+    <div class="card card-catalogo bg-light col-md-6 col-sm-12" style="padding: 0;">
+      <div class="card-header card-header-catalogo">
+        <span class="titulo-catalogo">
+          Crear Nuevo Proyecto
+        </span>
       </div>
       <div class="card-body">
         <div *ngIf="!showRepos">
@@ -12,52 +15,7 @@
             <mat-icon>add</mat-icon>
           </button>
         </div>
-        <!-- <form novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="usuario.tipo=='local'">
-          <fieldset>
-            <legend></legend>
-            {{usuario.tipo}}
-            <div class="form-group">
-              <label class="col-form-label required">Nombre de Proyecto</label>
-              <br>
-              <mat-form-field class="col">
-                <input matInput placeholder="" formControlName="nombre">
-              </mat-form-field>
-              <p>
-                Este nombre debe ser único en todos los proyectos
-              </p>
-            </div>
 
-            <div class="form-group">
-              <label class="col-form-label ">Dirección del proyecto</label>
-              <br>
-              <mat-form-field class="col">
-                <input matInput placeholder="" formControlName="urlRepositorio">
-              </mat-form-field>
-              <p>
-                Este debe contener el path del proyecto Addicionar
-              </p>
-            </div>
-            <div class="form-group">
-              <label class="col-form-label ">Descripcion</label>
-              <br>
-              <mat-form-field class="col">
-                <textarea matInput placeholder="" formControlName="descripcion"></textarea>
-              </mat-form-field>
-              <p>
-                Detalle una descripción del proyecto centrado en las caracteristicas
-                <br> Máximo 800 caracteres
-              </p>
-            </div>
-          </fieldset>
-          <button mat-button [disabled]="!userForm.valid" type="submit" color="primary">
-            <mat-icon mat-list-icon>done</mat-icon>
-            Guardar
-          </button>
-          <button mat-button routerLink="/proyectos" color="warn">
-            <mat-icon mat-list-icon>cancel</mat-icon>
-            Cancelar
-          </button>
-        </form> -->
         <form novalidate [formGroup]="proyForm" (ngSubmit)="onSubmit()" *ngIf="showRepos">
           <fieldset>
             <div class="form-group">
@@ -70,13 +28,12 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <p>
-
-              </p>
             </div>
-            <ng-container *ngIf="itemSelect">
 
+            <ng-container *ngIf="itemSelect">
               <div class="form-group">
+                <label class="col-form-label "> Nombre </label>
+                <br>
                 <mat-form-field class="col">
                   <input matInput placeholder="Nombre de Proyecto (*)" formControlName="nombre">
                   <mat-error *ngIf="proyForm.controls['nombre'].hasError('required')">
@@ -90,7 +47,8 @@
                 <div class="container">
                   <div class="row">
                     <div class="col-md-4">
-                      <img class="col-4 col-sm-4 col-md-12" *ngIf="!imagenTemp" [src]="itemSelect.avatar |imagen:'proyecto'" style="height: 75px;">
+                      <img class="col-4 col-sm-4 col-md-12" *ngIf="!imagenTemp" [src]="itemSelect.avatar |imagen:'proyecto'"
+                        style="height: 75px;">
                       <img class="col-4 col-sm-4 col-md-12" *ngIf="imagenTemp" [src]="imagenTemp" style="height: 75px;">
                     </div>
                     <div class="col-md-6">
@@ -119,7 +77,37 @@
                   <br> Máximo 800 caracteres
                 </mat-hint>
               </mat-form-field>
+            </div>
 
+            <div class="form-group" *ngIf="itemSelect">
+              <label class="col-form-label ">Categorias</label>
+              <br>
+              <!-- //aqui -->
+              <hub-input-categorias>
+
+              </hub-input-categorias>
+            </div>
+            <div class="form-group" *ngIf="itemSelect">
+              <label class="col-form-label ">Usuarios</label>
+              <br>
+              <mat-form-field class="col">
+                <textarea matInput placeholder="Usuarios(*)" formControlName="descripcion" value="{{itemSelect.descripcion}}"></textarea>
+                <mat-hint>
+                  Detalle una descripción del proyecto centrado en las caracteristicas
+                  <br> Máximo 800 caracteres
+                </mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-group" *ngIf="itemSelect">
+              <label class="col-form-label ">Institucion</label>
+              <br>
+              <mat-form-field class="col">
+                <textarea matInput placeholder="Institucion(*)" formControlName="descripcion" value="{{itemSelect.descripcion}}"></textarea>
+                <mat-hint>
+                  Detalle una descripción del proyecto centrado en las caracteristicas
+                  <br> Máximo 800 caracteres
+                </mat-hint>
+              </mat-form-field>
             </div>
             <div class="form-group" *ngIf="itemSelect">
               <label class="col-form-label ">Dirección del proyecto</label>

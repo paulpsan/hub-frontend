@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(54, 22, 24); margin-bottom: 50px">
+  <div class="container-fluid">
+    <p class="navbar-brand">CATALOGO SOFTWARE LIBRE</p>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="nav navbar-nav">
+        <li>
+          <a class="nav-link" [routerLink]="['/auth/login']">Acceder</a>
+        </li>
+        <li>
+          <a class="nav-link" [routerLink]="['/auth/registro']">Regístrate</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row justify-content-md-center m-1">
+    <div class="card-catalogo bg-light col-md-6 col-sm-12" style="padding: 0;">
+      <div class="card-header card-header-catalogo">
+        <div class="row justify-content-center">
+          <span class="titulo-catalogo">Verificacion de Correo Electronico</span>
+        </div>
+      </div>
+      <div class="titulo-verificacion" [ngClass]="{red: messageWarning==true}">
+        {{message}}
+      </div>
+      <div class="row justify-content-center">
+        <a [routerLink]="[ '/auth/login']">Iniciar Sesión</a>
+      </div>
+    </div>
+  </div>
+</div>

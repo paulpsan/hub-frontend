@@ -6,10 +6,10 @@
 export const environment = {
   production: false,
   url: 'http://localhost:3000/api/',
-  createGitlab: false,
+  createGitlab: true,
   gitlabAdmin: {
-    domain: 'http://gitlab.paul.com:30080/api/v4/users',
-    privateToken: "TjcyysBSszxTYFgUFuAP"
+    domain: 'http://192.168.5.217/api/v4/users',
+    privateToken: "tHJ9mhRcLX7tjZGCM5PM"
   },
   github: {
     domain: 'https://github.com/login/oauth/authorize?client_id=',

@@ -1,7 +1,14 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "../node_modules/ngx-toastr/toastr.css";
+
 html {
   font-size: 14px;
+}
+
+.card-catalogo .card-header-catalogo {
+  background: #3e191e;
+  font-size: 20px;
+  color: #fff;
 }
 
 .enlaces {

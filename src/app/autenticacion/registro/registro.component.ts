@@ -123,6 +123,7 @@ export class RegistroComponent implements OnInit {
             panelClass: "background-warning",
             duration: 5000
           });
+          this.getCaptcha();
         } else {
           this.crearUsuario(user)
         }

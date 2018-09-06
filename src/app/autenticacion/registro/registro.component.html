@@ -2,8 +2,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(54, 22, 24); margin-bottom: 50px">
   <div class="container-fluid">
     <p class="navbar-brand">CATALOGO SOFTWARE LIBRE</p>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-      aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -36,7 +36,7 @@
                     <a href="#" class="btn btn-block btn-social btn-odnoklassniki"><i class="fa fa-gitlab"></i>Entrar Con <strong>Gitlab</strong></a>
                     <a href="#" class="btn btn-block btn-social btn-bitbucket"><i class="fa fa-bitbucket"></i>Entrar Con <strong>Bitbucket</strong></a>
                 </div> -->
-        <form novalidate [formGroup]="registroFormGroup" (ngSubmit)="onSubmit()">
+        <form novalidate [formGroup]="registroFormGroup" (ngSubmit)="onSubmit()" autocomplete="nope">
           <fieldset>
             <div class="form-group">
               <mat-form-field class="col">
@@ -47,13 +47,14 @@
               </mat-form-field>
             </div>
             <div class="form-group" (click)="gitlab">
-                    <mat-form-field class="col">
-                      <input matInput placeholder="Username" formControlName="username">
-                      <mat-error>
-                        Ingrese Su Username
-                      </mat-error>
-                    </mat-form-field>
-                  </div>
+              <mat-form-field class="col">
+                <input id="username" matInput placeholder="Username" formControlName="username" type="text"
+                  autocomplete="new-password">
+                <mat-error>
+                  Ingrese Su Username
+                </mat-error>
+              </mat-form-field>
+            </div>
             <div [formGroup]="emailFromGroup">
               <div class="form-group">
                 <mat-form-field class="col">
@@ -68,7 +69,8 @@
               </div>
               <div class="form-group">
                 <mat-form-field class="col">
-                  <input matInput placeholder="Verifique Correo Electronico" formControlName="confirmarEmail" [errorStateMatcher]="confirmValidParentMatcher">
+                  <input matInput placeholder="Verifique Correo Electronico" formControlName="confirmarEmail"
+                    [errorStateMatcher]="confirmValidParentMatcher" autocomplete="off">
                   <mat-error>
                     {{errors.confirmarEmail}}
                   </mat-error>
@@ -78,7 +80,7 @@
             <div [formGroup]="passFormGroup">
               <div class="form-group">
                 <mat-form-field class="col">
-                  <input matInput type="password" placeholder="Contraseña" formControlName="password">
+                  <input matInput type="password" placeholder="Contraseña" formControlName="password" autocomplete="off">
                   <mat-error>
                     {{errors.password}}
                   </mat-error>
@@ -86,7 +88,8 @@
               </div>
               <div class="form-group">
                 <mat-form-field class="col">
-                  <input matInput type="password" placeholder="Verifique Contraseña" formControlName="confirmarPassword" [errorStateMatcher]="confirmValidParentMatcher">
+                  <input matInput type="password" placeholder="Verifique Contraseña" formControlName="confirmarPassword"
+                    [errorStateMatcher]="confirmValidParentMatcher" autocomplete="off">
                   <mat-error>
                     {{errors.confirmarPassword}}
                   </mat-error>
@@ -104,7 +107,7 @@
             </div>
             <div class="form-group">
               <mat-form-field class="col-6">
-                <input matInput placeholder="Código Captcha" type="text" formControlName="captcha"> 
+                <input matInput placeholder="Código Captcha" type="text" formControlName="captcha">
                 <mat-error *ngIf="registroFormGroup.controls['captcha'].hasError('required')">
                   El captcha es Requerido
                 </mat-error>

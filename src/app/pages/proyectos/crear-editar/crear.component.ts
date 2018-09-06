@@ -34,7 +34,7 @@ export class CrearComponent implements OnInit {
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
     private _subirArchivoService: SubirArchivoService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
@@ -154,4 +154,5 @@ export class CrearComponent implements OnInit {
       console.log('ya existe el proyecto');
     }
   }
+
 }

@@ -4,12 +4,14 @@ import { LoginComponent } from './login/login.component';
 import { RegistroComponent } from './registro/registro.component';
 import { ResetComponent } from './reset/reset.component';
 import { RecuperarComponent } from './recuperar/recuperar.component';
+import { VerificacionComponent } from './verificacion/verificacion.component';
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "registro", component: RegistroComponent },
   { path: "reset", component: ResetComponent },
-  { path: "recuperar", component: RecuperarComponent }
+  { path: "recuperar", component: RecuperarComponent },
+  { path: "verificacion", component: VerificacionComponent }
 ];
 
 @NgModule({

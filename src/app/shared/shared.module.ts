@@ -18,9 +18,11 @@ import { DialogErrorComponent } from './dialog/dialog-error.component';
 import { DialogLoadingComponent } from './dialog/dialog-loading.component';
 import { LoadingComponent } from './loading/loading.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
+import { CategoriasComponent } from './inputs/categorias/categorias.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
-  imports: [RouterModule, CommonModule, PipesModule, MaterialModule, ChartsModule, PieChartModule, NgxChartsModule],
+  imports: [RouterModule, CommonModule, PipesModule, MaterialModule, ChartsModule, PieChartModule, NgxChartsModule, FormsModule, ReactiveFormsModule],
   declarations: [
     LenguajesComponent,
     CodigoComponent,
@@ -34,7 +36,8 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     DialogErrorComponent,
     DialogLoadingComponent,
     LoadingComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    CategoriasComponent
   ],
   exports: [
     LenguajesComponent,
@@ -49,7 +52,9 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     DialogErrorComponent,
     DialogLoadingComponent,
     LoadingComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    CategoriasComponent
+
   ],
   entryComponents: [DialogErrorComponent, DialogLoadingComponent, SnackbarComponent]
 })
