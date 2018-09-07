@@ -23,11 +23,11 @@ export class HeaderComponent implements OnInit, OnChanges {
     {
       label: "Usuarios",
       path: "/usuarios"
-    }
-    // {
-    //   label:'Organizaciones',
-    //   path:'/organizaciones'
-    // },
+    },
+    {
+      label: "Mis Repositorios",
+      path: '/repositorios'
+    },
   ];
 
   constructor(

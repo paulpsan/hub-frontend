@@ -7,28 +7,35 @@
         </span>
       </div>
       <div class="card-body">
-        <div *ngIf="!showRepos">
-          <h4>
-            Adicione Repositorios en su cuenta
-          </h4>
-          <button mat-mini-fab [routerLink]="['/usuarios/ajustes']" [queryParams]="{index: 1}" color="primary">
-            <mat-icon>add</mat-icon>
+
+
+        <div class="row">
+          <button mat-button color="primary" >
+            <mat-icon>add</mat-icon>Adicionar
           </button>
+          <button mat-button color="primary" (click)="importar=true">
+            <mat-icon>add</mat-icon>Importar
+          </button>
+        </div>
+
+        <div>
         </div>
 
         <form novalidate [formGroup]="proyForm" (ngSubmit)="onSubmit()" *ngIf="showRepos">
           <fieldset>
-            <div class="form-group">
-              <label class="col-form-label "> Selecione un proyecto de su repositorio </label>
-              <br>
-              <mat-form-field class="col">
-                <mat-select placeholder="Selecione uno de sus repositorios" (selectionChange)="setValues($event)">
-                  <mat-option *ngFor="let data of repositorios" [value]="data">
-                    {{ data.nombre }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
+            <ng-container *ngIf="importar">
+              <div class="form-group">
+                <label class="col-form-label "> Selecione un proyecto de su repositorio </label>
+                <br>
+                <mat-form-field class="col">
+                  <mat-select placeholder="Selecione uno de sus repositorios" (selectionChange)="setValuesRepo($event)">
+                    <mat-option *ngFor="let data of repositorios" [value]="data">
+                      {{ data.nombre }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </ng-container>
 
             <ng-container *ngIf="itemSelect">
               <div class="form-group">
@@ -67,7 +74,7 @@
 
             </ng-container>
 
-            <div class="form-group" *ngIf="itemSelect">
+            <div class="form-group">
               <label class="col-form-label ">Descripcion</label>
               <br>
               <mat-form-field class="col">
@@ -79,7 +86,7 @@
               </mat-form-field>
             </div>
 
-            <div class="form-group" *ngIf="itemSelect">
+            <div class="form-group">
               <label class="col-form-label ">Categorias</label>
               <br>
               <!-- //aqui -->
@@ -87,25 +94,20 @@
 
               </hub-input-categorias>
             </div>
-            <div class="form-group" *ngIf="itemSelect">
+            <div class="form-group">
               <label class="col-form-label ">Usuarios</label>
               <br>
-              <mat-form-field class="col">
-                <textarea matInput placeholder="Usuarios(*)" formControlName="descripcion" value="{{itemSelect.descripcion}}"></textarea>
-                <mat-hint>
-                  Detalle una descripción del proyecto centrado en las caracteristicas
-                  <br> Máximo 800 caracteres
-                </mat-hint>
-              </mat-form-field>
+              <hub-input-usuarios>
+
+              </hub-input-usuarios>
             </div>
-            <div class="form-group" *ngIf="itemSelect">
-              <label class="col-form-label ">Institucion</label>
+            <div class="form-group">
+              <label class="col-form-label ">Institución</label>
               <br>
               <mat-form-field class="col">
-                <textarea matInput placeholder="Institucion(*)" formControlName="descripcion" value="{{itemSelect.descripcion}}"></textarea>
+                <input matInput placeholder="Institución(*)" formControlName="descripcion">
                 <mat-hint>
-                  Detalle una descripción del proyecto centrado en las caracteristicas
-                  <br> Máximo 800 caracteres
+                  Introduzca el nombre de la institución para la que fue desarrollada
                 </mat-hint>
               </mat-form-field>
             </div>
@@ -115,7 +117,7 @@
               <mat-form-field class="col">
                 <input matInput placeholder="" formControlName="urlRepositorio">
                 <mat-hint>
-                  Este debe contener el path del proyecto Addicionar
+                  Si su proyecto esta publicado introduzca la direccion url
                 </mat-hint>
               </mat-form-field>
             </div>

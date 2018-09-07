@@ -6,27 +6,28 @@ import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 
+
 @Component({
-  selector: 'hub-input-categorias',
-  templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.css']
+  selector: 'hub-input-usuarios',
+  templateUrl: './usuarios.component.html',
+  styleUrls: ['./usuarios.component.css']
 })
-export class CategoriasComponent implements OnInit {
+export class UsuariosComponent implements OnInit {
   visible: boolean = true;
   selectable: boolean = true;
   removable: boolean = true;
   addOnBlur: boolean = true;
   myControl = new FormControl();
-  categorias = []; //variable resultado
+  usuarios = []; //variable resultado
   filteredOptions: Observable<string[]>;
-  items = ['correspondencia', 'control de personal', 'inventarios', 'contabilidad'
-    // { nombre: 'correspondencia' },
+  items = ['Paul sanchez', 'Djalmar Gutierres', 'Ronald Coartie', 'Alvaro Apaza'
+    , 'Paul sanchez', 'Djalmar Gutierres', 'Ronald Coartie', 'Alvaro Apaza', 'Paul sanchez', 'Djalmar Gutierres', 'Ronald Coartie', 'Alvaro Apaza', 'Paul sanchez', 'Djalmar Gutierres', 'Ronald Coartie', 'Alvaro Apaza' // { nombre: 'correspondencia' },
     // { nombre: 'control de personal' },
     // { nombre: 'inventarios' },
     // { nombre: 'contabilidad' },
   ]
   separatorKeysCodes = [ENTER, COMMA];
-  @ViewChild('categoriaInput') categoriaInput: ElementRef;
+  @ViewChild('usuarioInput') usuarioInput: ElementRef;
 
   constructor() {
     this.filteredOptions = this.myControl.valueChanges
@@ -51,7 +52,7 @@ export class CategoriasComponent implements OnInit {
     let value = event.value;
     if (this.items.indexOf(value) !== -1) {
       if ((value || '').trim()) {
-        this.categorias.push({ nombre: value.trim() });
+        this.usuarios.push({ nombre: value.trim() });
       }
       if (input) {
         input.value = '';
@@ -62,19 +63,19 @@ export class CategoriasComponent implements OnInit {
 
   remove(item: any): void {
     console.log(item);
-    let index = this.categorias.indexOf(item);
+    let index = this.usuarios.indexOf(item);
 
     if (index >= 0) {
-      this.categorias.splice(index, 1);
+      this.usuarios.splice(index, 1);
     }
   }
   addSelect(event) {
     let option = event.option;
     let value = option.value;
     if ((value || '').trim()) {
-      this.categorias.push({ nombre: value.trim() });
+      this.usuarios.push({ nombre: value.trim() });
     }
-    this.categoriaInput.nativeElement.value = "";
+    this.usuarioInput.nativeElement.value = "";
     this.myControl.setValue(null);
     console.log(this.filteredOptions);
   }

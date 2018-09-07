@@ -1,5 +1,6 @@
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../common/guard/auth.guard';
+import { RepositoriosComponent } from './repositorios/repositorios.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,12 @@ const routes: Routes = [
   {
     path: 'proyectos',
     loadChildren: './proyectos/proyectos.module#ProyectosModule',
+    // component: ProyectosComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'repositorios',
+    component:RepositoriosComponent,
     // component: ProyectosComponent,
     canActivate: [AuthGuard]
   }

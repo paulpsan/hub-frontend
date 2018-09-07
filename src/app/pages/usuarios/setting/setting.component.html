@@ -4,10 +4,10 @@
       <hub-perfil (siguiente)="next($event)">
       </hub-perfil>
     </mat-tab>
-    <mat-tab label="Mis Repositorios" [disabled]="showTabs">
+    <!-- <mat-tab label="Mis Repositorios" [disabled]="showTabs">
       <hub-repositorio matTabContent (siguiente)="next($event)" *ngIf="selectedIndex==1">
       </hub-repositorio>
-    </mat-tab>
+    </mat-tab> -->
     <mat-tab label="Mis Cuentas" [disabled]="showTabs">
       <hub-cuenta *ngIf="!showTabs">
       </hub-cuenta>

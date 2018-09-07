@@ -105,48 +105,50 @@ export class RegistroComponent implements OnInit {
       email: this.emailFromGroup.controls["email"].value,
       password: this.passFormGroup.controls["password"].value,
       captcha: this.registroFormGroup.controls["captcha"].value,
-      sessionID: this.sessionID
+      sessionID: this.sessionID,
+      gitlab: true,
     }
+    this.crearUsuario(user)
 
-    if (this.gitlab && this.token !== "") {
-      this._gitlabService.createUser(user, this.token, this.domain).subscribe(resp => {
-        console.log(resp);
-        if (resp.message) {
-          const objMessage = {
-            text: resp.message.password || resp.message,
-            type: "Advertencia",
-          }
-          this._messageDataService.changeMessage(objMessage);
-          this.snackBar.openFromComponent(SnackbarComponent, {
-            horizontalPosition: 'right',
-            verticalPosition: "top",
-            panelClass: "background-warning",
-            duration: 5000
-          });
-          this.getCaptcha();
-        } else {
-          this.crearUsuario(user)
-        }
-      }, err => {
-        this.registroFormGroup.patchValue({
-          captcha: ""
-        })
-        const objMessage = {
-          text: err.error.message,
-          type: "Advertencia",
-        }
-        this._messageDataService.changeMessage(objMessage);
-        this.snackBar.openFromComponent(SnackbarComponent, {
-          horizontalPosition: 'right',
-          verticalPosition: "top",
-          panelClass: "background-warning",
-          duration: 5000
-        });
-        this.getCaptcha();
-      })
-    } else {
-      this.crearUsuario(user)
-    }
+    // if (this.gitlab && this.token !== "") {
+    //   this._gitlabService.createUser(user, this.token, this.domain).subscribe(resp => {
+    //     console.log(resp);
+    //     if (resp.message) {
+    //       const objMessage = {
+    //         text: resp.message.password || resp.message,
+    //         type: "Advertencia",
+    //       }
+    //       this._messageDataService.changeMessage(objMessage);
+    //       this.snackBar.openFromComponent(SnackbarComponent, {
+    //         horizontalPosition: 'right',
+    //         verticalPosition: "top",
+    //         panelClass: "background-warning",
+    //         duration: 5000
+    //       });
+    //       this.getCaptcha();
+    //     } else {
+    //       this.crearUsuario(user)
+    //     }
+    //   }, err => {
+    //     this.registroFormGroup.patchValue({
+    //       captcha: ""
+    //     })
+    //     const objMessage = {
+    //       text: err.error.message,
+    //       type: "Advertencia",
+    //     }
+    //     this._messageDataService.changeMessage(objMessage);
+    //     this.snackBar.openFromComponent(SnackbarComponent, {
+    //       horizontalPosition: 'right',
+    //       verticalPosition: "top",
+    //       panelClass: "background-warning",
+    //       duration: 5000
+    //     });
+    //     this.getCaptcha();
+    //   })
+    // } else {
+    //   this.crearUsuario(user)
+    // }
   }
   getCaptcha() {
     this._httpService.get("usuarios/captcha").subscribe(resp => {

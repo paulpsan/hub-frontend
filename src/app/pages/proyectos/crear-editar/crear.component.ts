@@ -19,7 +19,7 @@ import * as _ from 'lodash';
 export class CrearComponent implements OnInit {
   id: number;
   acciones: string;
-  private sub: any;
+  sub: any;
   proyecto: Proyecto;
   proyForm: FormGroup;
   imagenSubir: File;
@@ -28,6 +28,9 @@ export class CrearComponent implements OnInit {
   usuario;
   repositorios;
   showRepos = false;
+
+  importar:boolean=false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -53,9 +56,7 @@ export class CrearComponent implements OnInit {
         }
         this.repositorios = objRepo;
         if (this.repositorios.length === 0) {
-          this.router.navigate(['/usuarios/ajustes'], {
-            queryParams: { index: 1 }
-          });
+          this.router.navigate(['/repositorios'])
         }
       });
     this.proyForm = new FormGroup({
@@ -64,7 +65,7 @@ export class CrearComponent implements OnInit {
       urlRepositorio: new FormControl('', Validators.required)
     });
   }
-  setValues(event: MatSelectChange) {
+  setValuesRepo(event: MatSelectChange) {
     this.itemSelect = event.value;
     this.proyForm.setValue({
       nombre: this.itemSelect.nombre,
@@ -73,6 +74,8 @@ export class CrearComponent implements OnInit {
     });
     console.log(event);
   }
+
+
   seleccionImage(archivo: File) {
     console.log(this.imagenTemp, this.usuario);
     if (!archivo) {
@@ -135,7 +138,7 @@ export class CrearComponent implements OnInit {
             this.router.navigate(['/proyectos']);
           }
         } else {
-          console.log('errror ');
+          console.log('error ');
         }
       });
       this.proyForm.reset();
