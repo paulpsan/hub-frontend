@@ -32,13 +32,13 @@ html {
 }
 
 .background-success {
-  background-color: #CDEBF0;
-  color: #00555F;
+  background-color: #cdebf0;
+  color: #00555f;
 }
 
 .background-warning {
-  background-color: #FBD6D9;
-  color: #4D191E;
+  background-color: #fbd6d9;
+  color: #4d191e;
 }
 
 .background-alert {
@@ -70,4 +70,13 @@ button .mat-simple-snackbar-action {
 .subtitle-repo {
   font-size: 14px;
   color: #3b1c1f;
+}
+
+.mat-form-field-empty.mat-form-field-label {
+  color: #461a23;
+  font-weight: 500;
+}
+
+.mat-form-field-invalid .mat-form-field-label {
+  color: red;
 }

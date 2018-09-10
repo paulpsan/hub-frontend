@@ -167,7 +167,7 @@ export class RegistroComponent implements OnInit {
         console.log(resp);
         this.getCaptcha()
         const objMessage = {
-          text: "Se Adiciono al usuario correctamente",
+          text: "Por favor verifique su email para confirmar",
           type: "Info",
         }
         this._messageDataService.changeMessage(objMessage);

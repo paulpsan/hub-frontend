@@ -1,22 +1,23 @@
-import { Usuario } from '../../../models/usuario';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpService } from '../../../services/http/http.service';
-import { Proyecto } from '../../../models/proyecto';
+import { Usuario } from "../../../models/usuario";
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { HttpService } from "../../../services/http/http.service";
+import { Proyecto } from "../../../models/proyecto";
 import {
   UsuarioService,
   SubirArchivoService
-} from '../../../services/service.index';
-import { MatSelectChange } from '@angular/material';
-import * as _ from 'lodash';
+} from "../../../services/service.index";
+import { MatSelectChange } from "@angular/material";
+import * as _ from "lodash";
+import { environment } from "../../../../environments/environment";
 
 @Component({
-  selector: 'hub-crear',
-  templateUrl: './crear.component.html',
-  styleUrls: ['./crear.component.css']
+  selector: "hub-importar",
+  templateUrl: "./importar.component.html",
+  styleUrls: ["./importar.component.css"]
 })
-export class CrearComponent implements OnInit {
+export class ImportarComponent implements OnInit {
   id: number;
   acciones: string;
   sub: any;
@@ -27,9 +28,11 @@ export class CrearComponent implements OnInit {
   itemSelect;
   usuario;
   repositorios;
+  usuarios: any[];
+  categorias: any[];
   showRepos = false;
 
-  importar:boolean=false;
+  importar: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,14 +40,14 @@ export class CrearComponent implements OnInit {
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
     private _subirArchivoService: SubirArchivoService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
     });
     this._httpService
-      .obtener('repositorios/' + this.usuario._id + '/usuarios')
+      .obtener("repositorios/" + this.usuario._id + "/usuarios")
       .subscribe(response => {
         const objRepo = [];
         for (const repo of response.datos) {
@@ -56,13 +59,20 @@ export class CrearComponent implements OnInit {
         }
         this.repositorios = objRepo;
         if (this.repositorios.length === 0) {
-          this.router.navigate(['/repositorios'])
+          this.router.navigate(["/repositorios"]);
         }
       });
     this.proyForm = new FormGroup({
-      nombre: new FormControl('', Validators.required),
-      descripcion: new FormControl('', Validators.required),
-      urlRepositorio: new FormControl('', Validators.required)
+      nombre: new FormControl("", Validators.required),
+      descripcion: new FormControl("", Validators.required),
+      urlRepositorio: new FormControl("", Validators.required),
+      institucion: new FormControl("", Validators.required)
+    });
+    this.proyForm.controls["nombre"].valueChanges.subscribe(value => {
+      this.proyForm.controls["urlRepositorio"].setValue(
+        `${environment.gitlabAdmin.domain}/${this.usuario.login}/${value}`
+      );
+      console.log(value);
     });
   }
   setValuesRepo(event: MatSelectChange) {
@@ -70,11 +80,13 @@ export class CrearComponent implements OnInit {
     this.proyForm.setValue({
       nombre: this.itemSelect.nombre,
       descripcion: this.itemSelect.descripcion,
-      urlRepositorio: this.itemSelect.html_url
+      urlRepositorio: `${environment.gitlabAdmin.domain}/${
+        this.usuario.login
+      }/${this.itemSelect.nombre}`,
+      institucion: ""
     });
     console.log(event);
   }
-
 
   seleccionImage(archivo: File) {
     console.log(this.imagenTemp, this.usuario);
@@ -82,7 +94,7 @@ export class CrearComponent implements OnInit {
       this.imagenSubir = null;
       return;
     }
-    if (archivo.type.indexOf('image') < 0) {
+    if (archivo.type.indexOf("image") < 0) {
       this.imagenSubir = null;
       return;
     }
@@ -99,9 +111,9 @@ export class CrearComponent implements OnInit {
       let proyecto: Proyecto;
       proyecto = new Proyecto(
         null,
-        this.proyForm.controls['nombre'].value,
-        this.proyForm.controls['descripcion'].value,
-        this.proyForm.controls['urlRepositorio'].value,
+        this.proyForm.controls["nombre"].value,
+        this.proyForm.controls["descripcion"].value,
+        this.proyForm.controls["urlRepositorio"].value,
         datos._id,
         this.usuario._id,
         this.usuario,
@@ -109,20 +121,22 @@ export class CrearComponent implements OnInit {
         datos.tipo,
         this.itemSelect.html_url,
         { datos: [], valor: 0 },
-        ['categorias'],
-        ['licencias'],
-        ['usuarios'],
+        this.categorias,
+        ["licencias"],
+        this.usuarios,
         datos.commits
       );
 
-      this._httpService.adicionar('proyectos', proyecto).subscribe(response => {
-        this.getUsuariosCommit(response);
+      console.log(proyecto);
+      this._httpService.post("proyectos?import=true", proyecto).subscribe(response => {
+        console.log(response);
+        // this.getUsuariosCommit(response);
         if (!response.mensaje) {
           if (this.imagenTemp) {
             this._subirArchivoService
               .subirArchivo(
                 this.imagenSubir,
-                'proyectos',
+                "proyectos",
                 response.proyecto._id
               )
               .then((resp: any) => {
@@ -131,16 +145,16 @@ export class CrearComponent implements OnInit {
                   avatar: resp.proyecto.avatar
                 };
                 this._httpService
-                  .patch('proyectos', response.proyecto._id, objPatch)
+                  .patch("proyectos", response.proyecto._id, objPatch)
                   .subscribe(() => {
-                    this.router.navigate(['/proyectos']);
+                    this.router.navigate(["/proyectos"]);
                   });
               });
           } else {
-            this.router.navigate(['/proyectos']);
+            this.router.navigate(["/proyectos"]);
           }
         } else {
-          console.log('error ');
+          console.log("error ");
         }
       });
       this.proyForm.reset();
@@ -153,11 +167,16 @@ export class CrearComponent implements OnInit {
       for (const commit of proy.proyecto.commits) {
         usuarios.push({ autor: commit.autor, url: commit.web_url_autor });
       }
-      usuarios = _.uniqBy(usuarios, 'autor');
+      usuarios = _.uniqBy(usuarios, "autor");
       console.log(usuarios);
     } else {
-      console.log('ya existe el proyecto');
+      console.log("ya existe el proyecto");
     }
   }
-
+  setCategorias(categorias: any) {
+    this.categorias = categorias;
+  }
+  setUsuarios(usuario: any) {
+    this.usuarios = usuario;
+  }
 }

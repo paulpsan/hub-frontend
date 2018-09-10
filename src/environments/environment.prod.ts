@@ -3,7 +3,7 @@ export const environment = {
   url: 'https://desarrollo.adsib.gob.bo/catalogo/api/',
   createGitlab: true,
   gitlabAdmin: {
-    domain: 'http://192.168.5.217/api/v4/users',
+    domain: 'http://192.168.5.217',
     privateToken: "tHJ9mhRcLX7tjZGCM5PM"
   },
   github: {

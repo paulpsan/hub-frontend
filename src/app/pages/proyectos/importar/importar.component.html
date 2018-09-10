@@ -1,0 +1,125 @@
+<div class="container">
+  <div class="row justify-content-md-center m-1">
+    <div class="card card-catalogo bg-light col-md-6 col-sm-12" style="padding: 0;">
+      <div class="card-header card-header-catalogo">
+        <span class="titulo-catalogo">
+          Importar Proyecto
+        </span>
+      </div>
+      <div class="card-body">
+        <form novalidate [formGroup]="proyForm" (ngSubmit)="onSubmit()" *ngIf="showRepos">
+          <fieldset>
+            <ng-container>
+              <div class="form-group">
+                <label class="col-form-label "> Selecione un proyecto de su repositorio </label>
+                <br>
+                <mat-form-field class="col">
+                  <mat-select placeholder="Selecione uno de sus repositorios" (selectionChange)="setValuesRepo($event)">
+                    <mat-option *ngFor="let data of repositorios" [value]="data">
+                      {{ data.nombre }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="itemSelect">
+              <div class="form-group">
+                <!-- <label class="col-form-label "> Nombre </label>
+                <br> -->
+                <mat-form-field class="col">
+                  <input matInput placeholder="Nombre de Proyecto (*)" formControlName="nombre">
+                  <mat-error *ngIf="proyForm.controls['nombre'].hasError('required')">
+                    Nombre es
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <img class="col-4 col-sm-4 col-md-12" *ngIf="!imagenTemp" [src]="itemSelect.avatar |imagen:'proyecto'"
+                        style="height: 75px;">
+                      <img class="col-4 col-sm-4 col-md-12" *ngIf="imagenTemp" [src]="imagenTemp" style="height: 75px;">
+                    </div>
+                    <div class="col-md-6">
+                      <div>
+                        <label for="">Selecione una imagen</label>
+                      </div>
+                      <button mat-button type="button" (click)="fileToUpload.click()" color="primary">
+                        <mat-icon mat-list-icon>add_photo_alternate</mat-icon>
+                        Imagen
+                      </button>
+                      <input #fileToUpload (change)="seleccionImage($event.target.files[0])" type="file" style="display:none;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <!-- <label class="col-form-label ">Descripcion</label>
+                <br> -->
+                <mat-form-field class="col">
+                  <textarea matInput placeholder="Descripcion(*)" formControlName="descripcion" value="{{itemSelect.descripcion}}"></textarea>
+                  <mat-hint>
+                    Detalle una descripción del proyecto centrado en las caracteristicas
+                    <br> Máximo 800 caracteres
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <!-- <label class="col-form-label ">Categorias</label>
+                <br> -->
+                <!-- //aqui -->
+                <hub-input-categorias (onCategorias)="setCategorias($event)">
+
+                </hub-input-categorias>
+              </div>
+              <div class="form-group">
+                <!-- <label class="col-form-label ">Usuarios</label>
+                <br> -->
+                <hub-input-usuarios (onUsuarios)="setUsuarios($event)">
+
+                </hub-input-usuarios>
+              </div>
+              <div class="form-group">
+                <!-- <label class="col-form-label ">Institución</label>
+                <br> -->
+                <mat-form-field class="col">
+                  <input matInput placeholder="Institución(*)" formControlName="institucion">
+                  <mat-hint>
+                    Introduzca el nombre de la institución para la que fue desarrollada
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <!-- <label class="col-form-label ">Dirección del proyecto</label>
+                <br> -->
+                <mat-form-field class="col">
+                  <input matInput placeholder="Direccion URL" formControlName="urlRepositorio">
+                  <mat-hint>
+                    Si su proyecto estara publicado en la direccion url
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </fieldset>
+          <div class="row justify-content-center">
+            <button mat-button [disabled]="!proyForm.valid" type="submit" color="primary">
+              <mat-icon mat-list-icon>done</mat-icon>
+              Guardar
+            </button>
+            <button mat-button routerLink="/proyectos" color="warn">
+              <mat-icon mat-list-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

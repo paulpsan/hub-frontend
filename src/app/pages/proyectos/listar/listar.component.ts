@@ -119,7 +119,10 @@ export class ListarComponent implements OnInit {
     }
   }
 
-  adicionar() {
-    this.router.navigate(["/proyectos/adicionar"]);
+  importar() {
+    this.router.navigate(["/proyectos/importar"]);
+  }
+  nuevo() {
+    this.router.navigate(["/proyectos/nuevo"]);
   }
 }

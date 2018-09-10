@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
@@ -27,6 +27,7 @@ export class UsuariosComponent implements OnInit {
     // { nombre: 'contabilidad' },
   ]
   separatorKeysCodes = [ENTER, COMMA];
+  @Output() onUsuarios = new EventEmitter<any>();
   @ViewChild('usuarioInput') usuarioInput: ElementRef;
 
   constructor() {
@@ -53,6 +54,7 @@ export class UsuariosComponent implements OnInit {
     if (this.items.indexOf(value) !== -1) {
       if ((value || '').trim()) {
         this.usuarios.push({ nombre: value.trim() });
+        this.onUsuarios.emit(this.usuarios)
       }
       if (input) {
         input.value = '';
@@ -68,6 +70,7 @@ export class UsuariosComponent implements OnInit {
     if (index >= 0) {
       this.usuarios.splice(index, 1);
     }
+    this.onUsuarios.emit(this.usuarios);
   }
   addSelect(event) {
     let option = event.option;
@@ -77,6 +80,7 @@ export class UsuariosComponent implements OnInit {
     }
     this.usuarioInput.nativeElement.value = "";
     this.myControl.setValue(null);
+    this.onUsuarios.emit(this.usuarios)
     console.log(this.filteredOptions);
   }
 }

@@ -24,6 +24,8 @@ import {
 } from "./proyecto/proyecto.component";
 import { ComunModule } from "../../common/comun.module";
 import { ListarComponent } from "./listar/listar.component";
+import { NuevoComponent } from './nuevo/nuevo.component';
+import { ImportarComponent } from './importar/importar.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { ListarComponent } from "./listar/listar.component";
     ProyectosComponent,
     ProyectoComponent,
     ListarComponent,
+    NuevoComponent,
+    ImportarComponent,
 
   ],
   imports: [

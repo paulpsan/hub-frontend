@@ -6,8 +6,10 @@ export class Proyecto {
     public urlRepositorio: string,
     public fk_repositorio: number,
     public fk_usuario: number,
+    public usuario: any[],
     public avatar: string,
     public tipo: string,
+    public origenUrl:string,
     public clasificacion?: any,
     public categorias?: any[],
     public licencias?: any[],
@@ -15,6 +17,6 @@ export class Proyecto {
     public commits?: string,
     public datos?: any[],
     public fechaCreacion?:any,
-    public ultimaActividad?:any    
+    public ultimaActividad?:any
   ) {}
 }

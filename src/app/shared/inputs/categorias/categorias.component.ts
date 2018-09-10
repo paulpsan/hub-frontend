@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, EventEmitter,ViewChild, Output } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
@@ -18,6 +18,9 @@ export class CategoriasComponent implements OnInit {
   addOnBlur: boolean = true;
   myControl = new FormControl();
   categorias = []; //variable resultado
+  @Output() onCategorias = new EventEmitter <any> ();
+
+
   filteredOptions: Observable<string[]>;
   items = ['correspondencia', 'control de personal', 'inventarios', 'contabilidad'
     // { nombre: 'correspondencia' },
@@ -52,6 +55,7 @@ export class CategoriasComponent implements OnInit {
     if (this.items.indexOf(value) !== -1) {
       if ((value || '').trim()) {
         this.categorias.push({ nombre: value.trim() });
+        this.onCategorias.emit(this.categorias)
       }
       if (input) {
         input.value = '';
@@ -67,6 +71,7 @@ export class CategoriasComponent implements OnInit {
     if (index >= 0) {
       this.categorias.splice(index, 1);
     }
+    this.onCategorias.emit(this.categorias)
   }
   addSelect(event) {
     let option = event.option;
@@ -77,5 +82,6 @@ export class CategoriasComponent implements OnInit {
     this.categoriaInput.nativeElement.value = "";
     this.myControl.setValue(null);
     console.log(this.filteredOptions);
+    this.onCategorias.emit(this.categorias)
   }
 }
