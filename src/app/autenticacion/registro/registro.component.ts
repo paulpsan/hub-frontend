@@ -77,7 +77,7 @@ export class RegistroComponent implements OnInit {
     );
     this.passFormGroup = this.fb.group(
       {
-        password: ["", Validators.required],
+        password: ["", [Validators.required,Validators.minLength(8)]],
         // password: ["",[Validators.required, Validators.pattern(regExps.password)]],
         confirmarPassword: ["", Validators.required]
       },

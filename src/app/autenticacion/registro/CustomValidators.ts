@@ -50,9 +50,9 @@ export const regExps: { [key: string]: RegExp } = {
  * Collection of reusable error messages
  */
 export const errorMessages: { [key: string]: string } = {
-  email: "Email debe tener el formato de (usuario@dominio)",
+  email: "Email debe tener el formato de (usuario@dominio.com)",
   confirmarEmail: "Debe Coincidir con email",
-  password: "Ingrese su pasword mayor a 7 caracteres",
+  password: "Ingrese su contraseña mayor a 8 caracteres",
   // "Password must be between 7 and 15 characters, and contain at least one number and special character",
   confirmarPassword: "Contraseña no coincide"
 };

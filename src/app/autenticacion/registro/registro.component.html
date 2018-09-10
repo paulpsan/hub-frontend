@@ -81,9 +81,12 @@
               <div class="form-group">
                 <mat-form-field class="col">
                   <input matInput type="password" placeholder="Contraseña" formControlName="password" autocomplete="off">
-                  <mat-error>
+                  <mat-error *ngIf="passFormGroup.controls['password'].hasError('minlength') && !passFormGroup.controls['password'].hasError('required')">
                     {{errors.password}}
-                  </mat-error>
+                    </mat-error>
+                  <!-- <mat-error>
+                    {{errors.password}}
+                  </mat-error> -->
                 </mat-form-field>
               </div>
               <div class="form-group">

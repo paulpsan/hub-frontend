@@ -130,6 +130,7 @@ export class UsuarioComponent implements OnInit {
   }
   // Repositorio seleccionado
   async detalleRepositorio(repositorio, tipo) {
+    this.showCommitsRepo=false;
     this._httpService.obtener("repositorios" + repositorio._id)
     this._httpService
       .obtener("commits/" + repositorio._id)
