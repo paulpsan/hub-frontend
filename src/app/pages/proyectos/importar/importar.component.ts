@@ -160,19 +160,7 @@ export class ImportarComponent implements OnInit {
       this.proyForm.reset();
     }
   }
-  getUsuariosCommit(proy) {
-    console.log(proy);
-    if (!proy.mensaje) {
-      let usuarios = [];
-      for (const commit of proy.proyecto.commits) {
-        usuarios.push({ autor: commit.autor, url: commit.web_url_autor });
-      }
-      usuarios = _.uniqBy(usuarios, "autor");
-      console.log(usuarios);
-    } else {
-      console.log("ya existe el proyecto");
-    }
-  }
+
   setCategorias(categorias: any) {
     this.categorias = categorias;
   }

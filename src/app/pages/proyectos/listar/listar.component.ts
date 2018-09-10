@@ -88,6 +88,7 @@ export class ListarComponent implements OnInit {
         this.total = this.respuesta.paginacion.total;
         this.pagina = this.respuesta.paginacion.paginaActual - 1;
         this.limite = this.respuesta.paginacion.limite;
+        console.log(this.proyectos);
       },
       err => {
         console.log(err);

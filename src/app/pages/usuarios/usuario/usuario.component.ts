@@ -25,8 +25,8 @@ export class UsuarioComponent implements OnInit {
   repositorios;
   token;
   lenguajes = [];
-  pieChartData;
-  pieChartLabels;
+  pieChartData =[];
+  pieChartLabels=[];
   primerCommit;
   UltimoCommit;
   dataCalendar$;
@@ -98,6 +98,7 @@ export class UsuarioComponent implements OnInit {
               }
             }
             this.repositorios = objRepo;
+            console.log(this.repositorios);
             if (this.repositorios.length >= 1) {
               this.totalCommits();
               this.config$ = {
@@ -180,12 +181,13 @@ export class UsuarioComponent implements OnInit {
 
   // Obtiene los lenguajes del repositorio
   cargarLenguajes(dataLenguaje, tipo) {
-    console.log(dataLenguaje);
+    console.log(dataLenguaje.datos);
     setTimeout(() => {
       const lenguaje = dataLenguaje.datos;
-      if (this.usuario) {
-        this.pieChartLabels = [];
-        this.pieChartData = [];
+      this.pieChartLabels=[];
+      this.pieChartData=[];
+      if (typeof lenguaje == "object") {
+
         const leng = JSON.stringify(lenguaje);
         const array = leng.split(",");
         const lengRepositorios = [];
@@ -203,9 +205,18 @@ export class UsuarioComponent implements OnInit {
               this.pieChartData.push(0);
             }
           }
+        this.showLenguajes = true;
         }
-        console.log(dataLenguaje.datos);
-        this.showLenguajes = lenguaje!='' ? true : false;
+      }else{
+        console.log(lenguaje);
+      if (typeof lenguaje == "string" && lenguaje!=="") {
+        this.pieChartLabels.push(lenguaje);
+        this.pieChartData.push(100);
+        this.showLenguajes = true;
+      } else{
+        this.showLenguajes = false;
+
+      }
       }
     }, 200);
   }

@@ -17,17 +17,18 @@ export class ProyectoComponent implements OnInit {
   private sub: any;
   proyecto: Proyecto;
   show: boolean = false;
-  lenguajes = [];
-  pieChartData;
-  pieChartLabels;
-  data$;
-  configProy$;
+  lenguajes: boolean = false;
+  pieChartData = [];
+  pieChartLabels = [];
+  dataRepo$;
+  dataCalendar$;
+  config$;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private _httpService: HttpService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     moment.locale("es");
@@ -38,20 +39,27 @@ export class ProyectoComponent implements OnInit {
     this.obtenerProyecto();
   }
   obtenerProyecto() {
-    this._httpService.buscarId("proyectos", this.id).subscribe(result => {
+    this._httpService.buscarId("proyectos", this.id).subscribe(async result => {
       this.proyecto = result;
       this.show = true;
-      this.getCommitRepo(this.proyecto.fk_repositorio);
       this.cargarLenguajes(this.proyecto.datos);
+      this.config$ = {
+        legend: "Commits",
+        xAxisLabel: "Fecha",
+        yAxisLabel: "Commits",
+        series: "total"
+      };
+      this.dataRepo$ = await this.renderGraph(this.proyecto.fk_repositorio);
+      this.dataCalendar$ = this.dataRepo$.heatMap;
       console.log(this.proyecto);
     });
   }
   //Obtiene los lenguajes del repositorio
   cargarLenguajes(dataLenguaje) {
     let lenguaje = dataLenguaje.lenguajes.datos;
-    if (dataLenguaje) {
-      this.pieChartLabels = [];
-      this.pieChartData = [];
+    console.log(typeof (dataLenguaje.lenguajes.datos));
+
+    if (typeof lenguaje == "object") {
       let arrarResp = [];
       let leng = JSON.stringify(lenguaje);
       let array = leng.split(",");
@@ -71,62 +79,53 @@ export class ProyectoComponent implements OnInit {
             this.pieChartData.push(0);
           }
         }
+        this.lenguajes = true;
       }
       console.log(this.pieChartLabels, this.pieChartData);
+    } else {
+      console.log(lenguaje);
+      if (typeof lenguaje == "string") {
+        this.pieChartLabels.push(lenguaje);
+        this.pieChartData.push(100);
+        this.lenguajes = true;
+      } 
     }
   }
 
-  getCommitRepo(id) {
-    console.log(id);
-    this._httpService
-      .obtener("commits/" + id + "/repositorio/graficos")
-      .subscribe(respuesta => {
-        var series = [];
-        let max = 0;
-        let min = 100;
-        for (const data of respuesta.mes) {
-          series.push({
-            name: moment(data.date).format("YYYY MMM"),
-            value: data.total
-          });
-          if (max <= data.total) {
-            max = data.total;
-          }
-          if (data.total <= min) {
-            min = data.total;
-          }
-        }
-        max = max + max * 0.1;
-        min = min - min * 0.1;
+  changeGraph(serie) {
+    let objectConfig = {
+      legend: "Commits",
+      xAxisLabel: "Fecha",
+      yAxisLabel: "Commits",
+      series: serie
+    }
+    this.config$ = objectConfig
+  }
 
-        console.log(max, min);
-        console.log(series);
-        this.configProy$ = {
-          legend: "Commit Total",
-          xAxisLabel: "Fecha",
-          yAxisLabel: "Commits",
-          yScaleMin: min,
-          yScaleMax: max
-        };
+  getDataGraph(data) {
+    return new Promise((resolve, reject) => {
+      this._httpService
+        .obtener("commits/" + data + '/repositorio/graficos')
+        .subscribe(
+          resp => {
+            resolve(resp);
+          },
+          err => {
+            reject(err);
+          }
+        );
+    });
+  }
 
-        this.data$ = series;
-        // let arraySum = respuesta.barChartData[0].data;
-        // for (let i = 1; i < respuesta.barChartData.length; i++) {
-        //   for (
-        //     let index = 0;
-        //     index < respuesta.barChartData[i].data.length;
-        //     index++
-        //   ) {
-        //     arraySum[index] =
-        //       arraySum[index] + respuesta.barChartData[i].data[index];
-        //   }
-        // }
-        // console.log(arraySum);
-        // this.data$ = {
-        //   lineChartData: respuesta.barChartData[0].data,
-        //   lineChartLabels: respuesta.años
-        // };
+  async renderGraph(data) {
+    let series = await this.getDataGraph(data)
+      .then((resp: any) => {
+        return resp;
+      })
+      .catch(err => {
+        console.log(err);
       });
+    return series;
   }
 
   editarProyecto(proyecto) {
@@ -165,7 +164,7 @@ export class ModalEliminarProyecto {
   constructor(
     public dialogRef: MatDialogRef<ModalEliminarProyecto>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
   cancelarClick(): void {
     this.dialogRef.close();

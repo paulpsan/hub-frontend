@@ -42,8 +42,9 @@
               <span> Usuarios: </span>
             </div>
             <div class="col-md-7">
-              <span *ngFor="let usuario of usuarios">
-                <a href="{{usuario.web_url}}" target="#">{{usuario}} ,</a>
+                <!-- {{proyecto.usuarios}} -->
+              <span *ngFor="let usuario of proyecto.usuarios">
+                <a href="{{usuario.web_url}}" target="#">{{usuario.nombre}} ,</a>
               </span>
             </div>
           </div>
@@ -62,7 +63,7 @@
               <span>Fecha Creacion: </span>
             </div>
             <div class="col-md-7">
-              <span>{{proyecto.fechaCreacion | fecha}}</span>
+              <span>{{proyecto.fecha_creacion | fecha}}</span>
             </div>
           </div>
           <div class="row">
@@ -71,7 +72,7 @@
               <span> Ultima actividad: </span>
             </div>
             <div class="col-md-7">
-              <span>{{proyecto.ultimaActividad |fecha}}</span>
+              <span>{{proyecto.fecha_modificacion |fecha}}</span>
             </div>
           </div>
           <div class="row">
