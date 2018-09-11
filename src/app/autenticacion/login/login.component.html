@@ -3,8 +3,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(54, 22, 24); margin-bottom: 50px">
   <div class="container-fluid">
     <p class="navbar-brand">CATALOGO SOFTWARE LIBRE</p>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-      aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -34,7 +34,7 @@
           <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
         </div>
 
-        <div class="row justify-content-center">
+        <!-- <div class="row justify-content-center">
           <div class="col-6
            pb-3">
             <button (click)="login('github')" class="btn btn-block btn-social btn-github">
@@ -59,25 +59,13 @@
                 <strong class="nombre-repo">Gitlab.Geo</strong>
               </button>
             </div>
-            <!-- <div class="dropdown" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-block btn-social btn-odnoklassniki dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-gitlab"></i>
-                    <span class="nombre-repo">Entrar Con</span>
-                    <strong class="nombre-repo">Gitlab          </strong>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                  <a class="dropdown-item" href="#">Dropdown link</a>
-                  <a class="dropdown-item" href="#">Dropdown link</a>
-                </div>
-              </div> -->
-
             <button (click)="login('bitbucket')" class="btn btn-block btn-social btn-bitbucket">
               <i class="fa fa-bitbucket"></i>
               <span class="nombre-repo">Entrar Con</span>
               <strong class="nombre-repo">Bitbucket</strong>
             </button>
           </div>
-        </div>
+        </div> -->
 
         <form novalidate [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <fieldset>
@@ -106,8 +94,16 @@
               <input type="checkbox" value="remember-me"> Recuérdame
             </label>
           </div> -->
-          <div class="col">
-            <a [routerLink]="[ '/auth/reset' ]" class="">Olvidaste tu contraseña</a>
+          <div class="row justify-content-between">
+            <div class="col-5 ml-2">
+              <a [routerLink]="[ '/auth/reset' ]" class="">Olvidaste tu contraseña?</a>
+            </div>
+            <div class="col-4 text-right">
+              No tienes una cuenta?
+              <div class="">
+                <a [routerLink]="[ '/auth/registro' ]" class="">Regístrate</a>
+              </div>
+            </div>
           </div>
 
           <!-- <div class="col" *ngIf="errorMessage">
@@ -116,10 +112,9 @@
             </div>
           </div> -->
 
-          <div class="row justify-content-center">
+          <div class="row justify-content-center mt-4">
             <button mat-button [disabled]="!loginForm.valid" type="submit" color="primary">
-              <mat-icon mat-list-icon>done</mat-icon>
-              Acceder
+              Iniciar Sesión
             </button>
           </div>
         </form>

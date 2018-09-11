@@ -78,7 +78,7 @@
 
               </hub-input-usuarios>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="usuario.admin_group||usuario.admin">
               <!-- <label class="col-form-label ">Institución</label>
               <br> -->
               <mat-form-field class="col">

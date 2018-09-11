@@ -33,6 +33,7 @@ export class InicioComponent implements OnInit {
     this.dataLoading = {
       title: 'Bienvenido al Catalogo de Software Libre',
       content: 'Cargando los datos del Usuario..............',
+      icon:true,
       type: 'info'
     }
   }

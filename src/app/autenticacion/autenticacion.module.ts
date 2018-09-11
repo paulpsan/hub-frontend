@@ -11,6 +11,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { ResetComponent } from './reset/reset.component';
 import { RecuperarComponent } from './recuperar/recuperar.component';
 import { VerificacionComponent } from './verificacion/verificacion.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { VerificacionComponent } from './verificacion/verificacion.component';
     HttpClientModule,
     MaterialModule,
     ReactiveFormsModule,
+    SharedModule,
 
   ],
   declarations: [

@@ -82,14 +82,14 @@
               <div class="form-group">
                 <!-- <label class="col-form-label ">Usuarios</label>
                 <br> -->
-                <hub-input-usuarios (onUsuarios)="setUsuarios($event)">
+                <hub-input-usuarios [usuario]="usuario" (onUsuarios)="setUsuarios($event)">
 
                 </hub-input-usuarios>
               </div>
               <div class="form-group">
                 <!-- <label class="col-form-label ">Institución</label>
                 <br> -->
-                <mat-form-field class="col">
+                <mat-form-field class="col" *ngIf="usuario.admin_group||usuario.admin">
                   <input matInput placeholder="Institución(*)" formControlName="institucion">
                   <mat-hint>
                     Introduzca el nombre de la institución para la que fue desarrollada
@@ -108,7 +108,7 @@
               </div>
             </ng-container>
           </fieldset>
-          <div class="row justify-content-center">
+          <div class="row justify-content-center" *ngIf="!request">
             <button mat-button [disabled]="!proyForm.valid" type="submit" color="primary">
               <mat-icon mat-list-icon>done</mat-icon>
               Guardar
@@ -117,6 +117,10 @@
               <mat-icon mat-list-icon>cancel</mat-icon>
               Cancelar
             </button>
+          </div>
+          <div class="row justify-content-center" *ngIf="request">
+              <hub-loading [data]="dataLoading">
+                </hub-loading>
           </div>
         </form>
       </div>

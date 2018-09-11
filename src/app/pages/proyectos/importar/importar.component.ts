@@ -6,11 +6,13 @@ import { HttpService } from "../../../services/http/http.service";
 import { Proyecto } from "../../../models/proyecto";
 import {
   UsuarioService,
-  SubirArchivoService
+  SubirArchivoService,
+  MessageDataService
 } from "../../../services/service.index";
-import { MatSelectChange } from "@angular/material";
+import { MatSelectChange, MatSnackBar } from "@angular/material";
 import * as _ from "lodash";
 import { environment } from "../../../../environments/environment";
+import { SnackbarComponent } from "../../../shared/snackbar/snackbar.component";
 
 @Component({
   selector: "hub-importar",
@@ -27,6 +29,8 @@ export class ImportarComponent implements OnInit {
   imagenTemp: any;
   itemSelect;
   usuario;
+  request;
+  dataLoading;
   repositorios;
   usuarios: any[];
   categorias: any[];
@@ -39,8 +43,15 @@ export class ImportarComponent implements OnInit {
     private router: Router,
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
-    private _subirArchivoService: SubirArchivoService
-  ) {}
+    private _subirArchivoService: SubirArchivoService,
+    private snackBar: MatSnackBar,
+    private _messageDataService: MessageDataService
+  ) {
+    this.dataLoading = {
+      content: 'Cargando .........',
+      icon: false,
+    }
+  }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
@@ -66,7 +77,7 @@ export class ImportarComponent implements OnInit {
       nombre: new FormControl("", Validators.required),
       descripcion: new FormControl("", Validators.required),
       urlRepositorio: new FormControl("", Validators.required),
-      institucion: new FormControl("", Validators.required)
+      institucion: new FormControl("")
     });
     this.proyForm.controls["nombre"].valueChanges.subscribe(value => {
       this.proyForm.controls["urlRepositorio"].setValue(
@@ -82,7 +93,7 @@ export class ImportarComponent implements OnInit {
       descripcion: this.itemSelect.descripcion,
       urlRepositorio: `${environment.gitlabAdmin.domain}/${
         this.usuario.login
-      }/${this.itemSelect.nombre}`,
+        }/${this.itemSelect.nombre}`,
       institucion: ""
     });
     console.log(event);
@@ -106,6 +117,7 @@ export class ImportarComponent implements OnInit {
   }
 
   onSubmit() {
+    this.request = true;
     if (this.proyForm.valid) {
       const datos = this.itemSelect;
       let proyecto: Proyecto;
@@ -129,8 +141,20 @@ export class ImportarComponent implements OnInit {
 
       console.log(proyecto);
       this._httpService.post("proyectos?import=true", proyecto).subscribe(response => {
-        console.log(response);
-        // this.getUsuariosCommit(response);
+        this.snackBar.dismiss();
+        const objMessage = {
+          text: "El proyecto fue creado exitosamente",
+          type: "Info",
+        }
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: 'right',
+          verticalPosition: "top",
+          panelClass: "background-success",
+          duration: 5000
+        });
+        this.request = false
+
         if (!response.mensaje) {
           if (this.imagenTemp) {
             this._subirArchivoService
@@ -151,20 +175,46 @@ export class ImportarComponent implements OnInit {
                   });
               });
           } else {
+            this.proyForm.reset();
             this.router.navigate(["/proyectos"]);
           }
         } else {
           console.log("error ");
         }
+      }, err => {
+        console.log(err);
+        let objMessage = {}
+        if (err.error.message.path[0]== 'has already been taken') {
+          console.log(typeof err.message);
+          objMessage = {
+            text: "El nombre del proyecto ya existe",
+            type: "Info",
+          }
+        } else {
+          objMessage = {
+            text: err.message,
+            type: "Info",
+          }
+        }
+
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: 'right',
+          verticalPosition: "top",
+          panelClass: "background-warning",
+          duration: 5000
+        });
+        this.request = false
+        console.log(err);
       });
-      this.proyForm.reset();
     }
   }
 
   setCategorias(categorias: any) {
     this.categorias = categorias;
   }
-  setUsuarios(usuario: any) {
-    this.usuarios = usuario;
+  setUsuarios(usuarios: any) {
+    console.log(usuarios);
+    this.usuarios = usuarios;
   }
 }

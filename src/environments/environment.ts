@@ -8,8 +8,8 @@ export const environment = {
   url: 'http://localhost:3000/api/',
   createGitlab: true,
   gitlabAdmin: {
-    domain: 'http://192.168.5.217',
-    privateToken: "tHJ9mhRcLX7tjZGCM5PM"
+    domain: 'http://gitlab.dev.com:30081',
+    privateToken: "5ogBVMDPzuyyzfaVv7Zz"
   },
   github: {
     domain: 'https://github.com/login/oauth/authorize?client_id=',

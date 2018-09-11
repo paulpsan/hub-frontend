@@ -9,8 +9,8 @@
       [formControl]="myControl" />
   </mat-chip-list>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addSelect($event)">
-    <mat-option *ngFor="let item of filteredOptions|async" [value]="item">
-      {{ item }}
+    <mat-option *ngFor="let item of filteredOptions" [value]="item">
+      {{ item.nombre }}
     </mat-option>
   </mat-autocomplete>
   <mat-hint>

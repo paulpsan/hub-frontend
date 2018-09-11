@@ -49,7 +49,7 @@ export class NuevoComponent implements OnInit {
       nombre: new FormControl("", Validators.required),
       descripcion: new FormControl("", Validators.required),
       urlRepositorio: new FormControl("", Validators.required),
-      institucion: new FormControl("", Validators.required)
+      institucion: new FormControl("")
     });
     this.nuevoForm.controls["nombre"].valueChanges.subscribe(value => {
       this.nuevoForm.controls["urlRepositorio"].setValue(

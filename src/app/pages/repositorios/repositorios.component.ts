@@ -37,6 +37,7 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
   showData: boolean = true;
   showAdd: boolean = false;
   showRepo: boolean = false;
+  checked: boolean = false;
   usuario;
   @Output() siguiente = new EventEmitter<any>();
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
@@ -106,7 +107,12 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
           this.repositorios = repositorios.datos;
           this.repoCopy = JSON.parse(JSON.stringify(repositorios.datos));
           this.showRepo = this.repositorios.length !== 0 ? true : false;
+          this.repositorios.map(repositorio => {
+            return repositorio.request = ""
+          })
           console.log(this.repositorios, this.showRepo);
+
+
           // this.id = usuario._id;
           // this.userForm.patchValue({
           //   nombre: usuario.nombre,
@@ -205,41 +211,44 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  save() {
-
-    for (const key in this.repositorios) {
-      if (
-        this.repositorios[key].visibilidad != this.repoCopy[key].visibilidad
-      ) {
-        this._httpService
-          .editar("repositorios", this.repositorios[key])
-          .subscribe((repo: any) => {
-            this._httpService
-              .post("commits", this.repositorios[key])
-              .subscribe(response => {
-                console.log(response);
-              });
-          });
-        if (this.repositorios[key].visibilidad == true) {
-          //set issues, downloads,forks,stars,
-          this._httpService
-            .post("repositorios/datos", this.repositorios[key])
-            .subscribe();
-        }
-      }
-    }
-    this.repoCopy = JSON.parse(JSON.stringify(this.repositorios));
-  }
-
   changeVisibility(project) {
     project.visibilidad = !project.visibilidad
 
+  }
+  changeAll(event) {
+    console.log(event);
+    this.checked = !this.checked;
+  }
+  changeRow(event, project) {
+    project.visibilidad = event.checked;
+    project.request = 'start';
+    console.log(project);
+    this._httpService
+      .editar("repositorios", project)
+      .subscribe((repo: any) => {
+        this._httpService
+          .post("commits", project)
+          .subscribe(response => {
+            console.log(response);
+            project.request = 'finish';
+            setTimeout(() => {
+              project.request='';
+            }, 5000);
+          });
+      });
+    if (project.visibilidad == true) {
+      this._httpService
+        .post("repositorios/datos", project)
+        .subscribe();
+    }
   }
 
   showAll() {
     for (const repo of this.repositorios) {
       repo.visibilidad = true;
     }
+
+
   }
   hideAll() {
     for (const repo of this.repositorios) {

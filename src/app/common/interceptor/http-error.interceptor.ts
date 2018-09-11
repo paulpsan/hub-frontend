@@ -25,11 +25,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(catchError((err: any) => {
       if (err.status === 401) {
         console.log(err);
-        if (err.error.errors) {
+        if (err.error) {
           this.openDialog(err);
         }
         this._usuarioService.logout();
         // location.reload(true);
+      }
+      if(err.status===409){
+        if (err.error.errors) {
+          this.openDialog(err);
+        }
       }
       return Observable.throw(err);
     })
@@ -43,7 +48,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
     dialogRef.afterClosed().subscribe(result => {
       // console.log(`Dialog result: ${result}`);
-      this.router.navigate(['/login'])
+      this.router.navigate(['/auth/login'])
     });
   }
 }

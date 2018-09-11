@@ -3,141 +3,31 @@
 <div class="container">
   <hub-loading *ngIf="showData" [data]="dataLoading"></hub-loading>
   <mat-card *ngIf="!showData" class="m-1">
-    <!-- <mat-card-header>
-        <mat-card-title>Repositorios de usuario</mat-card-title>
-      </mat-card-header> -->
-    <!-- Lista los repositorios -->
     <mat-card-content class="">
       <div *ngIf="!showRepo" class="row">
         <div class="col">
           <div class="text-center text-success">
             Usted no cuenta con Repositorios
           </div>
-          <!-- <div class="row justify-content-md-end">
-                <button mat-button (click)="rerender()" color="primary">
-                  <mat-icon mat-list-icon>add</mat-icon>
-                  Actualizar
-                </button>
-                <mat-form-field>
-                  <mat-select placeholder="Recargar Token">
-                    <mat-option *ngFor="let cuenta of cuentas" [value]="cuenta">
-                      {{cuenta}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div> -->
         </div>
-      </div>
-      <!-- <div class="row justify-content-between">
-          <div class="col-md-4">
-            O adicione una cuenta de:
-            <button mat-button (click)="next({value:false,index:2})" color="primary">
-              <mat-icon>add</mat-icon>
-              Aqui </button>
-          </div>
-          <div class="col-md-3 text-right">
-            Adicione Repositorios
-            <button mat-mini-fab (click)="adicionarRepo()" color="primary">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-        </div> -->
-      <div *ngIf="showAdd">
-        <form novalidate [formGroup]="addForm" (ngSubmit)="onSubmit()" class="mt-4">
-          <fieldset>
-            <div class="form-group">
-              <mat-form-field class="col">
-                <input matInput placeholder="Nombre del proyecto" formControlName="nombreRepo">
-                <mat-error *ngIf="addForm.controls['nombreRepo'].hasError('required')">
-                  Nombre es
-                  <strong>requerido</strong>
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="form-group">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-4">
-                    <img class="col-4 col-sm-4 col-md-12" *ngIf="!imagenTemp" [src]="urlAvatar" style="height: 75px;">
-                    <img class="col-4 col-sm-4 col-md-12" *ngIf="imagenTemp" [src]="imagenTemp" style="height: 75px;">
-                  </div>
-                  <div class="col-md-6">
-                    <div>
-                      <label for="">Selecione una imagen</label>
-                    </div>
-                    <button mat-button type="button" (click)="fileToUpload.click()" color="primary">
-                      <mat-icon mat-list-icon>add_photo_alternate</mat-icon>
-                      Imagen
-                    </button>
-                    <input #fileToUpload (change)="selectImage($event.target.files[0])" type="file" style="display:none;">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <mat-form-field class="col">
-                <textarea matInput placeholder="Descripcion" formControlName="descripcionRepo"></textarea>
-                <mat-hint>Descripcion del repositorio</mat-hint>
-                <mat-error *ngIf="addForm.controls['descripcionRepo'].hasError('required')">
-                  La Descripcion es
-                  <strong>requerido</strong>
-                </mat-error>
-              </mat-form-field>
-            </div>
-
-            <div class="form-group">
-              <mat-form-field class="col">
-                <input matInput placeholder="Direccion del proyecto" formControlName="urlRepo">
-                <mat-hint>Ejemplo: https://www.github.com/miUsuario/mi-proyecto</mat-hint>
-              </mat-form-field>
-            </div>
-
-            <!-- <div class="form-group">
-                  <mat-form-field class="col">
-                    <input matInput [matDatepicker]="picker1" placeholder="Fecha de primer commit" formControlName="datePri">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                  </mat-form-field>
-                </div>
-                <div class="form-group">
-                  <mat-form-field class="col">
-                    <input matInput [matDatepicker]="picker2" placeholder="Fecha de ultimo commit" formControlName="dateUlt">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                  </mat-form-field>
-                </div> -->
-          </fieldset>
-          <div class="row justify-content-center">
-            <button mat-button [disabled]="!addForm.valid" type="submit" color="primary">
-              <mat-icon mat-list-icon>done</mat-icon>
-              Guardar
-            </button>
-            <button mat-button (click)="showAdd=false" color="primary">
-              <mat-icon mat-list-icon>cancel</mat-icon>
-              Cancelar
-            </button>
-          </div>
-        </form>
-        <mat-divider class="mt-2">
-        </mat-divider>
       </div>
     </mat-card-content>
     <mat-card-content>
       <div class="row justify-content-between mb-3">
         <div class="col">
-<button mat-mini-fab [routerLink]="[ '/usuarios/ajustes']" color="primary">
+          <button mat-mini-fab [routerLink]="[ '/usuarios/ajustes']" [queryParams]="{ index: '1'}" color="primary">
             <mat-icon>add</mat-icon>
           </button> Adicione Repositorios
         </div>
         <div class="col-md-4" *ngIf="showRepo">
-          <button mat-button (click)="showAll()" color="primary">
+          <!-- <button mat-button (click)="showAll()" color="primary">
             <mat-icon mat-list-icon>visibility</mat-icon>
             Mostrar Todos
           </button>
           <button mat-button (click)="hideAll()" color="warn">
             <mat-icon mat-list-icon>visibility_off</mat-icon>
             Ocultar Todos
-          </button>
+          </button> -->
         </div>
       </div>
       <div class="table-responsive" *ngIf="showRepo">
@@ -153,8 +43,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let proy of repositorios" (click)="proy.visibilidad=!proy.visibilidad" style="cursor: pointer"
-              [ngClass]="{red: proy.visibilidad==false}">
+            <tr *ngFor="let proy of repositorios">
               <td class="icon-center" scope="row">
                 <img [src]="proy.avatar |imagen:'repositorios'" alt="" height="24" width="24">
               </td>
@@ -168,11 +57,15 @@
                 <img *ngIf="proy.tipo=='bitbucket'" src="assets/images/bitbucket.png" alt="" height="30" width="30">
               </td>
 
-              <td class="icon-center" *ngIf="proy.visibilidad">
-                <mat-icon aria-label="habilitado" color="primary">visibility</mat-icon>
-              </td>
-              <td class="icon-center" *ngIf="!proy.visibilidad">
-                <mat-icon aria-label="deshabilitado" color="warn">visibility_off</mat-icon>
+              <td class="row justify-content-center">
+                <mat-slide-toggle class="" (change)="changeRow($event,proy)" [color]="primary" [checked]="proy.visibilidad">
+                </mat-slide-toggle>
+                <div *ngIf="proy.request=='start'">
+                  <i class="fa fa-spinner fa-spin" style="font-size:20px;"></i>
+                </div>
+                <div *ngIf="proy.request=='finish'">
+                  <i class="fa fa-check" style="font-size:20px;"></i>
+                </div>
               </td>
               <td>
                 <a target="#" [href]="proy.html_url">{{proy.html_url}} </a>
@@ -210,12 +103,12 @@
             </button>
           </div>
         </div>
-        <div class="row justify-content-center mt-3">
+        <!-- <div class="row justify-content-center mt-3">
           <button mat-button (click)="save()" color="primary">
             <mat-icon mat-list-icon>save</mat-icon>
             Guardar
           </button>
-        </div>
+        </div> -->
       </div>
 
     </mat-card-content>

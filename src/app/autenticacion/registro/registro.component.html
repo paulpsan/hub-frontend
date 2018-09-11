@@ -83,7 +83,7 @@
                   <input matInput type="password" placeholder="Contraseña" formControlName="password" autocomplete="off">
                   <mat-error *ngIf="passFormGroup.controls['password'].hasError('minlength') && !passFormGroup.controls['password'].hasError('required')">
                     {{errors.password}}
-                    </mat-error>
+                  </mat-error>
                   <!-- <mat-error>
                     {{errors.password}}
                   </mat-error> -->
@@ -118,7 +118,7 @@
             </div>
           </fieldset>
 
-          <div class="row justify-content-center">
+          <div class="row justify-content-center" *ngIf="!request">
             <button mat-button type="submit" [disabled]="!registroFormGroup.valid" color="primary">
               <mat-icon mat-list-icon>done</mat-icon>
               Aceptar
@@ -127,6 +127,10 @@
               <mat-icon mat-list-icon>cancel</mat-icon>
               Cancelar
             </button>
+          </div>
+          <div class="row justify-content-center" *ngIf="request">
+                <hub-loading [data]="dataLoading">
+                  </hub-loading>
           </div>
         </form>
       </div>

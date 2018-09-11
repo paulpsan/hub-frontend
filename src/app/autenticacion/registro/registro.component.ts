@@ -25,7 +25,6 @@ import { timeout } from "q";
 export class RegistroComponent implements OnInit {
   id: number;
   acciones: string;
-  user: Usuario;
   confirmValidParentMatcher = new ConfirmValidParentMatcher();
   errors = errorMessages;
   captchaSvg;
@@ -33,9 +32,10 @@ export class RegistroComponent implements OnInit {
   gitlab: boolean = false;;
   token;
   domain;
+  dataLoading;
   captchaIcon: SafeHtml;
   sanitize: DomSanitizer;
-
+  request:boolean=false;
   registroFormGroup: FormGroup;
   passFormGroup: FormGroup;
   emailFromGroup: FormGroup;
@@ -62,6 +62,10 @@ export class RegistroComponent implements OnInit {
     this.token = environment.gitlabAdmin.privateToken;
     this.domain = environment.gitlabAdmin.domain;
     this.gitlab = environment.createGitlab;
+    this.dataLoading = {
+      content: 'Cargando .........',
+      icon:false,
+    }
   }
 
   ngOnInit() {
@@ -77,7 +81,7 @@ export class RegistroComponent implements OnInit {
     );
     this.passFormGroup = this.fb.group(
       {
-        password: ["", [Validators.required,Validators.minLength(8)]],
+        password: ["", [Validators.required, Validators.minLength(8)]],
         // password: ["",[Validators.required, Validators.pattern(regExps.password)]],
         confirmarPassword: ["", Validators.required]
       },
@@ -99,6 +103,7 @@ export class RegistroComponent implements OnInit {
   }
 
   onSubmit() {
+    this.request = true
     let user = {
       nombre: this.registroFormGroup.controls["nombre"].value,
       username: this.registroFormGroup.controls["username"].value,
@@ -162,9 +167,11 @@ export class RegistroComponent implements OnInit {
     })
   }
   crearUsuario(user) {
+
     this._httpService.adicionar("usuarios", user).subscribe(
       resp => {
         console.log(resp);
+        this.request = false;
         this.getCaptcha()
         const objMessage = {
           text: "Por favor verifique su email para confirmar",
@@ -184,6 +191,7 @@ export class RegistroComponent implements OnInit {
       }
       , err => {
         //mensaje de Error
+        this.request = false;
         this.registroFormGroup.patchValue({
           captcha: ""
         })
