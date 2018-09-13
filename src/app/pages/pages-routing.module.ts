@@ -20,6 +20,12 @@ const routes: Routes = [
     component:RepositoriosComponent,
     // component: ProyectosComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin',
+    loadChildren: './admin/admin.module#AdminModule',
+    // component:AdminComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

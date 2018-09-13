@@ -26,6 +26,13 @@
   font-size: 14px;
 }
 
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  color: #404040;
+  text-decoration: none;
+}
+
 .avatar {
   width: 30px;
   min-width: 30px;
@@ -75,6 +82,9 @@
 
 .icon-notify {
   color: #ffffff;
+}
+.icon-settings {
+  color: #A99A9B;
 }
 
 .badge {

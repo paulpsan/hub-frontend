@@ -9,10 +9,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { SharedModule } from "../../shared/shared.module";
 import { PipesModule } from "../../pipes/pipes.module";
 
-import { LoadingBarModule } from "@ngx-loading-bar/core";
-import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
-import { LoadingBarHttpClientModule } from "@ngx-loading-bar/http-client";
-
 import { EditarComponent } from "./crear-editar/editar.component";
 import { CrearComponent } from "./crear-editar/crear.component";
 import { ProyectosComponent } from "./proyectos.component";
@@ -47,9 +43,6 @@ import { ImportarComponent } from './importar/importar.component';
     ReactiveFormsModule,
     HttpClientModule,
     ComunModule,
-    LoadingBarHttpClientModule,
-    LoadingBarRouterModule,
-    LoadingBarModule,
     SharedModule,
     PipesModule
   ],

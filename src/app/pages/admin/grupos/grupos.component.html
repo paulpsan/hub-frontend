@@ -1,0 +1,58 @@
+<div class="container">
+  <h4>Grupos </h4>
+  <div class="row">
+    <div class="col-md-2" style="text-align: left">
+      <button mat-button routerLink="nuevo" color="primary">
+        <mat-icon mat-list-icon>add</mat-icon>Nuevo
+      </button>
+    </div>
+    <div class="col-md-8" style="text-align: center">
+      <span>Buscar:</span>
+      <mat-form-field class="">
+        <input matInput [(ngModel)]="buscar" type="text" placeholder="Buscar Personas" (keyup)="obtenerDatos()" />
+        <button mat-button matSuffix mat-icon-button aria-label="Search" (click)="obtenerDatos()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+  <table class="table table-responsive">
+    <thead class="thead-inverse">
+      <tr>
+        <th style="width:250px">Nombre Grupo</th>
+        <th style="width:250px">Url</th>
+        <th style="width:150px">Nro. de Usuarios</th>
+        <th style="width:150px">Nro. de Proyectos</th>
+        <th style="width:150px">Fecha de Creación</th>
+        <th style="width:120px">Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let grupo of grupos">
+        <td scope="row">
+          <h4 mat-line>{{grupo.nombre}}</h4>
+        </td>
+        <td>
+            <p mat-line> {{grupo.path }} </p>
+          </td>
+        <td>
+          <p mat-line> {{grupo.usuarios.length }} <a href="#"(click)="usuarios(grupo)">Usuarios</a></p>
+        </td>
+        <td>
+          <p mat-line> {{grupo.Proyectos.length }} <a href="#"(click)="usuarios(grupo)">Proyectos</a></p>
+        </td>
+        <td>
+          <p mat-line> {{grupo.fecha_creacion |date }} </p>
+        </td>
+        <td>
+          <div class="row justify-content-center">
+
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <mat-paginator #paginator [length]="total" [pageIndex]="pagina" [pageSize]="limite" [pageSizeOptions]="pageSizeOptions"
+    (page)="obtenerDatos($event)">
+  </mat-paginator>
+</div>

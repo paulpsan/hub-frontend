@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark nav-hub">
   <div class="container-fluid">
     <button mat-button class="navbar-brand nav-title">CATALOGO SOFTWARE LIBRE</button>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-      aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -11,6 +11,7 @@
         <li class="nav-item" *ngFor="let link of navLinks" routerLinkActive="active">
           <a class="nav-link" [routerLink]="link.path">{{link.label}}</a>
         </li>
+        
       </ul>
       <span *ngIf="usuario">
         <ul class="nav navbar-nav navbar-right">

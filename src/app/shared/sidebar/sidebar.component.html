@@ -1,0 +1,35 @@
+<ul class="nav">
+  <!-- Main menu -->
+  <li class="current">
+  
+    <mat-accordion class="example-headers-align">
+
+      <mat-expansion-panel #matExpansionPanel class="panel-hub" hideToggle="true">
+        <mat-expansion-panel-header (click)="matExpansionPanel.close();" [routerLink]="['/admin/usuarios']">
+          <mat-icon>account_circle</mat-icon>
+          <span class="ml-2">
+            Usuarios
+          </span>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+
+      <mat-expansion-panel class="panel-hub" hideToggle="true">
+        <mat-expansion-panel-header [routerLink]="['/admin/grupos']">
+          <mat-icon>group</mat-icon>
+          <span class="ml-2">
+            Grupos
+          </span>
+        </mat-expansion-panel-header>
+        <button mat-menu-item class="button-menu" [routerLink]="['/admin/grupos/usuarios']">
+          <mat-icon>account_circle</mat-icon>
+          <span>Usuarios</span>
+        </button>
+        <button mat-menu-item class="button-menu" [routerLink]="['/admin/grupos/proyectos']">
+          <mat-icon>code</mat-icon>
+          <span>Proyectos</span>
+        </button>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </li>
+</ul>

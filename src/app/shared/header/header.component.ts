@@ -28,6 +28,10 @@ export class HeaderComponent implements OnInit, OnChanges {
       label: "Mis Repositorios",
       path: '/repositorios'
     },
+    {
+      label: "Admin",
+      path: '/admin'
+    },
   ];
 
   constructor(

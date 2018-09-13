@@ -39,6 +39,9 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
   showRepo: boolean = false;
   checked: boolean = false;
   usuario;
+  datos: boolean = false;
+  commits: boolean = false
+
   @Output() siguiente = new EventEmitter<any>();
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -220,6 +223,9 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
     this.checked = !this.checked;
   }
   changeRow(event, project) {
+    this.datos = false
+    this.commits = false
+
     project.visibilidad = event.checked;
     project.request = 'start';
     console.log(project);
@@ -230,16 +236,23 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
           .post("commits", project)
           .subscribe(response => {
             console.log(response);
-            project.request = 'finish';
+            this.commits = true
+            project.request = this.datos ? 'finish' : 'start';
             setTimeout(() => {
-              project.request='';
+              project.request = '';
             }, 5000);
           });
       });
     if (project.visibilidad == true) {
       this._httpService
         .post("repositorios/datos", project)
-        .subscribe();
+        .subscribe(resp => {
+          this.datos = true
+          project.request = this.commits ? 'finish' : 'start';
+          setTimeout(() => {
+            project.request = '';
+          }, 5000);
+        });
     }
   }
 
