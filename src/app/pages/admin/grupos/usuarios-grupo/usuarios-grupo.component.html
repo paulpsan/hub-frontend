@@ -1,3 +1,99 @@
-<p>
-  usuarios-grupo works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12" style="text-align: center">
+      <mat-list-item>
+        <h4 class="title-repo" mat-line>
+          nombre del grupo
+        </h4>
+        <p mat-line>
+          url del repositorio
+        </p>
+      </mat-list-item>
+    </div>
+
+    <form class="col-12" novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="" class="title-repo">Nuevo</label>
+      </div>
+      <mat-form-field class="col-md-4 col-12">
+        <input matInput placeholder="Usuario" [matAutocomplete]="auto" formControlName="nombre">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let item of usuariosSearch" [value]="item.nombre">
+            {{ item.nombre }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint>
+          Buscar un usuario
+        </mat-hint>
+
+      </mat-form-field>
+      <mat-form-field class="col-md-2 col-12">
+        <mat-select placeholder="Permiso(*)" formControlName="permiso">
+          <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso">
+            {{ permiso.nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="userForm.hasError('required')">Escoja una opción</mat-error>
+      </mat-form-field>
+      <button mat-icon-button color="primary" type="submit" (click)="addUser()" [disabled]="!userForm.valid" matTooltip="Adiciona Usuario">
+        <mat-icon aria-label="addicona">add</mat-icon>
+      </button>
+    </form>
+    <div class="col-md-8 col-lg-12" style="text-align: end">
+      <span>Buscar:</span>
+      <mat-form-field class="">
+        <input matInput [(ngModel)]="buscar" type="text" placeholder="Buscar Personas" (keyup)="obtenerDatos()" />
+        <button mat-button matSuffix mat-icon-button aria-label="Search" (click)="obtenerDatos()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+  <br>
+  <div class="row" *ngIf="grupo">
+    <table class="table table-responsive">
+      <thead class="thead-inverse">
+        <tr>
+          <th style="width:250px">Usuario</th>
+          <th style="width:150px">Username</th>
+          <th style="width:150px">Permisos</th>
+          <th style="width:120px">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of grupo.Usuarios">
+          <td scope="row">
+            <h4 mat-line>{{usuario.nombre}}</h4>
+          </td>
+          <td>
+            <p mat-line> {{usuario.login }} </p>
+          </td>
+          <td>
+            <mat-form-field class="col-12">
+              <mat-select placeholder="Permiso(*)" [(value)]="usuario.UsuarioGrupo.access_level">
+                <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso.access">
+                  {{ permiso.nombre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <div style="display: flex;">
+              <div *ngIf="true">
+                <button mat-icon-button (click)="guardar(usuario)" color="primary">
+                  <mat-icon mat-list-icon>save</mat-icon>
+                </button>
+              </div>
+              <button mat-icon-button (click)="eliminar(usuario)" color="warn">
+                <mat-icon mat-list-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator #paginator [length]="total" [pageIndex]="pagina" [pageSize]="limite" [pageSizeOptions]="pageSizeOptions"
+    (page)="obtenerDatos($event)">
+  </mat-paginator>
+</div>

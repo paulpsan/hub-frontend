@@ -36,10 +36,12 @@
             <p mat-line> {{grupo.path }} </p>
           </td>
         <td>
-          <p mat-line> {{grupo.usuarios.length }} <a href="#"(click)="usuarios(grupo)">Usuarios</a></p>
+          <p mat-line> {{grupo.usuarios.length }} 
+            <a [routerLink]="[ 'usuarios', grupo._id ]">Usuarios</a>
+          </p>
         </td>
         <td>
-          <p mat-line> {{grupo.Proyectos.length }} <a href="#"(click)="usuarios(grupo)">Proyectos</a></p>
+          <p mat-line> {{grupo.Proyectos.length }} <a  [routerLink]="[ 'proyectos', grupo._id ]">Proyectos</a></p>
         </td>
         <td>
           <p mat-line> {{grupo.fecha_creacion |date }} </p>

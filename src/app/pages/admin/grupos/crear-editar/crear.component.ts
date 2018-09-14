@@ -61,6 +61,7 @@ export class CrearComponent implements OnInit {
 
     });
     this.usuarios.push({
+      _id: this.usuario._id,
       nombre: this.usuario.nombre,
       user_id: this.usuario.usuarioGitlab,
       permiso: 'owner',
@@ -126,7 +127,7 @@ export class CrearComponent implements OnInit {
     })
     if (user) {
       this.usuarios.push({
-        _id:user._id,
+        _id: user._id,
         nombre: user.nombre,
         user_id: user.usuarioGitlab,
         permiso: this.groupForm.controls['permiso'].value.nombre,

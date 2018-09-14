@@ -18,8 +18,8 @@ const routes: Routes = [
       { path: "grupos", component: GruposComponent },
       { path: "grupos/nuevo", component: CrearComponent },
       { path: "grupos/editar", component: EditarComponent },
-      { path: "grupos/usuarios", component: UsuariosGrupoComponent },
-      { path: "grupos/proyectos", component: ProyectosGrupoComponent },
+      { path: "grupos/usuarios/:id", component: UsuariosGrupoComponent },
+      { path: "grupos/proyectos/:id", component: ProyectosGrupoComponent },
     ]
   }
 ];
