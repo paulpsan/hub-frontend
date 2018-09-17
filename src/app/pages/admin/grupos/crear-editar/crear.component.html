@@ -25,13 +25,13 @@
               <div class="form-group">
                 <div class="container">
                   <div class="row">
-                    <mat-form-field class="col pr-0">
+                    <mat-form-field class="col-auto pr-0">
                       <input matInput placeholder="http://gitlab.dev.com:30081/" disabled>
                       <mat-hint>
                         La direccion ejemplo del grupo sera http://gitlab.dev.com:30081/miGrupo
                       </mat-hint>
                     </mat-form-field>
-                    <mat-form-field class="col-7 pl-0">
+                    <mat-form-field class="col pl-0">
                       <input matInput placeholder="Path del grupo (*)" formControlName="path">
                       <mat-error *ngIf="groupForm.controls['path'].hasError('required')">
                         Path es
@@ -78,6 +78,7 @@
               <div class="form-group">
                 <div class="container">
                   <div *ngIf="usuarios.length!==0">
+                    <label for="">Usuarios</label>
                     <table class="table">
                       <thead class="thead-inverse">
                         <tr>
@@ -87,11 +88,13 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let usuario of usuarios">
+                        <tr *ngFor="let usuario of usuarios; let i=index">
                           <td scope="row">{{usuario.nombre}}</td>
                           <td>{{usuario.permiso}}</td>
-                          <td>
-                            <a href="#" (click)="delUser(usuario)">Eliminar</a>
+                          <td class="p-0" *ngIf="i!=0">
+                            <button mat-icon-button (click)="delUser(usuario)" color="warn">
+                              <mat-icon mat-list-icon>delete</mat-icon>
+                            </button>
                           </td>
                         </tr>
                       </tbody>
@@ -111,7 +114,7 @@
                       </mat-hint>
 
                     </mat-form-field>
-                    <mat-form-field class="col-5">
+                    <mat-form-field class="col-4">
                       <mat-select placeholder="Permiso(*)" formControlName="permiso">
                         <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso">
                           {{ permiso.nombre }}
@@ -119,7 +122,8 @@
                       </mat-select>
                       <mat-error *ngIf="groupForm.hasError('required')">Escoja una opción</mat-error>
                     </mat-form-field>
-                    <button mat-icon-button color="primary" type="button" (click)="addUser()" matTooltip="Adiciona Usuario">
+                    <button mat-icon-button color="primary" type="button" (click)="addUser()" matTooltip="Adiciona Usuario"
+                      [disabled]="groupForm.controls['usuario'].value==''|| groupForm.controls['permiso'].value==''">
                       <mat-icon aria-label="addicona">add</mat-icon>
                     </button>
                   </div>

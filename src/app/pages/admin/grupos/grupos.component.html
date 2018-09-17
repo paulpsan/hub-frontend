@@ -24,6 +24,7 @@
         <th style="width:150px">Nro. de Usuarios</th>
         <th style="width:150px">Nro. de Proyectos</th>
         <th style="width:150px">Fecha de Creación</th>
+        <th style="width:150px">Permiso</th>
         <th style="width:120px">Accion</th>
       </tr>
     </thead>
@@ -33,22 +34,38 @@
           <h4 mat-line>{{grupo.nombre}}</h4>
         </td>
         <td>
-            <p mat-line> {{grupo.path }} </p>
-          </td>
+          <p mat-line> {{grupo.path }} </p>
+        </td>
         <td>
-          <p mat-line> {{grupo.usuarios.length }} 
+          <p mat-line> {{grupo.usuarios.length }}
             <a [routerLink]="[ 'usuarios', grupo._id ]">Usuarios</a>
           </p>
         </td>
         <td>
-          <p mat-line> {{grupo.Proyectos.length }} <a  [routerLink]="[ 'proyectos', grupo._id ]">Proyectos</a></p>
+          <p mat-line> {{grupo.Proyectos.length }} <a [routerLink]="[ 'proyectos', grupo._id ]">Proyectos</a></p>
         </td>
         <td>
           <p mat-line> {{grupo.fecha_creacion |date }} </p>
         </td>
         <td>
+          <mat-form-field class="col-12">
+            <mat-select placeholder="Permiso(*)" [(value)]="usuario.UsuarioGrupo.access_level">
+              <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso.access">
+                {{ permiso.nombre }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
           <div class="row justify-content-center">
-
+            <div *ngIf="true">
+              <button mat-icon-button (click)="guardar(usuario)" color="primary">
+                <mat-icon mat-list-icon>save</mat-icon>
+              </button>
+            </div>
+            <button mat-icon-button (click)="eliminar(usuario)" color="warn">
+              <mat-icon mat-list-icon>delete</mat-icon>
+            </button>
           </div>
         </td>
       </tr>

@@ -64,6 +64,9 @@
         <tr *ngFor="let usuario of grupo.Usuarios">
           <td scope="row">
             <h4 mat-line>{{usuario.nombre}}</h4>
+            <p>
+              {{usuario.descripcion}}
+            </p>
           </td>
           <td>
             <p mat-line> {{usuario.login }} </p>
@@ -79,7 +82,7 @@
           </td>
           <td>
             <div style="display: flex;">
-              <div *ngIf="true">
+              <div *ngIf="usuario.change">
                 <button mat-icon-button (click)="guardar(usuario)" color="primary">
                   <mat-icon mat-list-icon>save</mat-icon>
                 </button>
