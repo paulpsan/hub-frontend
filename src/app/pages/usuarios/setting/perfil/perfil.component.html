@@ -33,7 +33,8 @@
               <div class="container">
                 <div class="row">
                   <div class="col-md-4">
-                    <img class="col-4 col-sm-4 col-md-12" *ngIf="!imagenTemp" [src]="usuario.avatar| imagen:'usuario'" style="height: 75px;">
+                    <img class="col-4 col-sm-4 col-md-12" *ngIf="!imagenTemp" [src]="usuario.avatar| imagen:'usuario'"
+                      style="height: 75px;">
                     <img class="col-4 col-sm-4 col-md-12" *ngIf="imagenTemp" [src]="imagenTemp" style="height: 75px;">
                   </div>
                   <div class="col-md-6">
@@ -74,7 +75,43 @@
                 <input matInput placeholder="Email (*)" formControlName="email">
               </mat-form-field>
             </div>
+            <!-- <div class="form-group">
+              <div class="col text-right">
+                <mat-checkbox formControlName="requestEntidad" color="primary">Solicitar Titularidad de Entidad Publica </mat-checkbox>
+              </div>
+            </div> -->
+            <!-- <ng-container *ngIf="userForm.controls['requestEntidad'].value">
+              <div class="col">
+                <div class="alert alert-info" role="alert">
+                  <strong>Nota:</strong> La solicitud esta sujeta a verificación por el Soporte Técnico. <br>Una vez
+                  verificado, se creara un grupo por entidad publica y podrá ser administrado por el solicitante
+                </div>
+                <div [formGroup]="solicitudFrom">
+                  <div class="form-group">
+                    <mat-form-field class="col">
+                      <input matInput placeholder="Nombre de la Institución" formControlName="entidad">
+                      <mat-hint>Ejemplo: Ministerio de Economía </mat-hint>
+                    </mat-form-field>
+                  </div>
 
+                  <div class="form-group">
+                    <mat-form-field class="col">
+                      <span matPrefix>http://gitlab-dev.com/ &nbsp;</span>
+                      <input type="text" matInput placeholder="path">
+                      <mat-hint>Ejemplo: http://gitlab-dev.com/miGrupo</mat-hint>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-group">
+                    <mat-form-field class="col">
+                      <input matInput placeholder="Cargo " formControlName="cargo">
+                      <mat-hint>Ejemplo: https//miPaginaWeb.com</mat-hint>
+                    </mat-form-field>
+                    
+                  </div>
+                </div>
+              </div>
+            </ng-container> -->
             <!-- <button mat-button (click)="showPass=!showPass" color="primary" class="mb-2">
               <mat-icon *ngIf="!showPass" mat-list-icon>add</mat-icon>
               <mat-icon *ngIf="showPass" mat-list-icon>keyboard_arrow_up</mat-icon>

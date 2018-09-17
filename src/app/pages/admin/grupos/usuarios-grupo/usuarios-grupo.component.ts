@@ -13,6 +13,8 @@ export class UsuariosGrupoComponent implements OnInit {
   userForm: FormGroup;
   grupo;
   usuario;
+  usuariosSearch;
+
   edit:boolean=false;
   permisosUsuario = [
     { nombre: "propietario", rol: "owner", access: "50" },
@@ -37,13 +39,67 @@ export class UsuariosGrupoComponent implements OnInit {
       console.log(this.id);
       this._httpService.obtener(`grupos/${this.id}/usuarios`).subscribe(resp => {
         this.grupo=resp
+        this.grupo.Usuarios.map(usuario => {
+          usuario.request = '';
+          usuario.change = false;
+          return usuario
+        })
         console.log(resp);
       })
+    });
+
+    this.userForm.controls["nombre"].valueChanges.subscribe(resp => {
+      let pagData = {
+        ordenar: "nombre",
+        pagina: 1,
+        limite: 10,
+        buscar: resp
+      };
+      this._httpService.obtenerPaginado("usuarios", pagData).subscribe(
+        (result: any) => {
+          this.usuariosSearch = result.datos;
+        },
+        err => {
+          console.log(err);
+        }
+      );
     });
   }
   
   guardar(usuario){
-    console.log(usuario);
-  }
+    usuario.request = 'start';
+    usuario.change = false;
+    this._httpService.editar("grupos", usuario).subscribe(result => {
+      usuario.request = 'ok';
 
+    }, err => {
+      usuario.request = 'error'
+    })
+  }
+  addUser( event){
+
+    console.log(event);
+    this._httpService.post(`grupos/${this.id}/usuarios`,event).subscribe(resp => {
+      this.grupo=resp
+      this.grupo.Usuarios.map(usuario => {
+        usuario.request = '';
+        usuario.change = false;
+        return usuario
+      })
+      console.log(resp);
+    })
+  }
+  
+  eliminar( event){
+    console.log(event);
+    this._httpService.eliminarId(`grupos/${this.id}/usuarios`,event).subscribe(resp => {
+      this.grupo=resp
+      this.grupo.Usuarios.map(usuario => {
+        usuario.request = '';
+        usuario.change = false;
+        return usuario
+      })
+      console.log(resp);
+    })
+  }
 }

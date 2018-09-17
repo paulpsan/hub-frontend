@@ -47,10 +47,10 @@
         <td>
           <p mat-line> {{grupo.fecha_creacion |date }} </p>
         </td>
-        <td>
+        <td class="p-0">
           <mat-form-field class="col-12">
-            <mat-select placeholder="Permiso(*)" [(value)]="usuario.UsuarioGrupo.access_level">
-              <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso.access">
+            <mat-select (selectionChange)="grupo.change=true;" [(value)]="grupo.visibilidad">
+              <mat-option *ngFor="let permiso of permisosGrupo" [value]="permiso.value">
                 {{ permiso.nombre }}
               </mat-option>
             </mat-select>
@@ -58,11 +58,13 @@
         </td>
         <td>
           <div class="row justify-content-center">
-            <div *ngIf="true">
-              <button mat-icon-button (click)="guardar(usuario)" color="primary">
+            <div *ngIf="grupo.change">
+              <button mat-icon-button (click)="guardar(grupo)" color="primary">
                 <mat-icon mat-list-icon>save</mat-icon>
               </button>
             </div>
+            <hub-button-loading [request]="grupo.request" >
+            </hub-button-loading>
             <button mat-icon-button (click)="eliminar(usuario)" color="warn">
               <mat-icon mat-list-icon>delete</mat-icon>
             </button>

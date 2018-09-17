@@ -22,6 +22,8 @@ import { CategoriasComponent } from './inputs/categorias/categorias.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { UsuariosComponent } from './inputs/usuarios/usuarios.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { ButtonLoadingComponent } from './button-loading/button-loading.component';
+import { UsuarioComponent } from './inputs/usuario/usuario.component';
 
 @NgModule({
   imports: [RouterModule, CommonModule, PipesModule, MaterialModule, ChartsModule, PieChartModule, NgxChartsModule, FormsModule, ReactiveFormsModule],
@@ -41,7 +43,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     SnackbarComponent,
     CategoriasComponent,
     UsuariosComponent,
-    SidebarComponent
+    SidebarComponent,
+    ButtonLoadingComponent,
+    UsuarioComponent
   ],
   exports: [
     LenguajesComponent,
@@ -59,7 +63,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     SnackbarComponent,
     CategoriasComponent,
     UsuariosComponent,
-    SidebarComponent
+    SidebarComponent,
+    ButtonLoadingComponent,
+    UsuarioComponent
 
   ],
   entryComponents: [DialogErrorComponent, DialogLoadingComponent, SnackbarComponent]

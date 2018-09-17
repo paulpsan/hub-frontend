@@ -1,0 +1,11 @@
+<div class="button-loading">
+  <div class="start" *ngIf="request=='start'">
+    <i class="fa fa-spinner fa-spin" style="font-size:20px;"></i>
+  </div>
+  <div class="ok" *ngIf="request=='ok'">
+    <i class="fa fa-check" style="font-size:20px;"></i>
+  </div>
+  <div class="error"  *ngIf="request=='error'">
+    <i class="fa fa-times" style="font-size:20px;"></i>
+  </div>
+</div>

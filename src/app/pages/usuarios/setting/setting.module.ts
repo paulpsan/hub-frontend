@@ -20,6 +20,7 @@ import {
 } from "./eliminar/eliminar.component";
 import { SharedModule } from "../../../shared/shared.module";
 import { PipesModule } from "../../../pipes/pipes.module";
+import { SolicitudesComponent } from "./solicitudes/solicitudes.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { PipesModule } from "../../../pipes/pipes.module";
     PerfilComponent,
     RepositorioComponent,
     CuentaComponent,
-    EliminarComponent
+    EliminarComponent,
+    SolicitudesComponent
   ],
   imports: [
     CommonModule,

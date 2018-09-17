@@ -10,35 +10,13 @@
         </p>
       </mat-list-item>
     </div>
+    <div>
+      <label for="" class="title-repo">Nuevo</label>
+    </div>
+    <hub-input-usuario class="col-12" (emitUser)="addUser($event)">
 
-    <form class="col-12" novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()">
-      <div>
-        <label for="" class="title-repo">Nuevo</label>
-      </div>
-      <mat-form-field class="col-md-4 col-12">
-        <input matInput placeholder="Usuario" [matAutocomplete]="auto" formControlName="nombre">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let item of usuariosSearch" [value]="item.nombre">
-            {{ item.nombre }}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-hint>
-          Buscar un usuario
-        </mat-hint>
+    </hub-input-usuario>
 
-      </mat-form-field>
-      <mat-form-field class="col-md-2 col-12">
-        <mat-select placeholder="Permiso(*)" formControlName="permiso">
-          <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso">
-            {{ permiso.nombre }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="userForm.hasError('required')">Escoja una opción</mat-error>
-      </mat-form-field>
-      <button mat-icon-button color="primary" type="submit" (click)="addUser()" [disabled]="!userForm.valid" matTooltip="Adiciona Usuario">
-        <mat-icon aria-label="addicona">add</mat-icon>
-      </button>
-    </form>
     <div class="col-md-8 col-lg-12" style="text-align: end">
       <span>Buscar:</span>
       <mat-form-field class="">
@@ -71,9 +49,9 @@
           <td>
             <p mat-line> {{usuario.login }} </p>
           </td>
-          <td>
+          <td class="p-0">
             <mat-form-field class="col-12">
-              <mat-select placeholder="Permiso(*)" [(value)]="usuario.UsuarioGrupo.access_level">
+              <mat-select (selectionChange)="usuario.change=true;" [(value)]="usuario.UsuarioGrupo.access_level">
                 <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso.access">
                   {{ permiso.nombre }}
                 </mat-option>
@@ -81,12 +59,14 @@
             </mat-form-field>
           </td>
           <td>
-            <div style="display: flex;">
+            <div class="row justify-content-center">
               <div *ngIf="usuario.change">
                 <button mat-icon-button (click)="guardar(usuario)" color="primary">
                   <mat-icon mat-list-icon>save</mat-icon>
                 </button>
               </div>
+              <hub-button-loading [request]="usuario.request">
+              </hub-button-loading>
               <button mat-icon-button (click)="eliminar(usuario)" color="warn">
                 <mat-icon mat-list-icon>delete</mat-icon>
               </button>
