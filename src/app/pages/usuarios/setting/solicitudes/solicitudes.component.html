@@ -1,14 +1,19 @@
 <div class="container">
-  <!-- <mat-checkbox formControlName="requestEntidad" color="primary">Solicitar Titularidad de Entidad Publica
-    </mat-checkbox> -->
-  <div class="row justify-content-center mt-3" *ngIf="!usuario.admin_group">
-    <button mat-button (click)="estado=true">Realizar solicitud</button>
-  </div>
-  <div class="row justify-content-center mt-3" *ngIf="usuario.admin_group">
-    <div class="alert alert-info" role="alert">
-      Usted ya adminstra un grupo
+  <ng-container *ngIf="solicitud">
+    <div class="row justify-content-center mt-3" *ngIf="solicitud.estado!=='solicitado'&&solicitud.estado!=='aprobado'">
+      <button mat-button (click)="estado=true">Realizar solicitud</button>
     </div>
-  </div>
+    <div class="row justify-content-center mt-3" *ngIf="solicitud.estado=='solicitado'">
+      <div class="alert alert-info" role="alert">
+        Su solicitud esta siendo procesada
+      </div>
+    </div>
+    <div class="row justify-content-center mt-3" *ngIf="solicitud.estado=='aprobado'">
+      <div class="alert alert-info" role="alert">
+        Usted ya adminstra un grupo
+      </div>
+    </div>
+  </ng-container>
 </div>
 <div class="container" *ngIf="estado">
   <div class="row justify-content-md-center mt-2">
@@ -24,7 +29,7 @@
         <form novalidate [formGroup]="solicitudFrom" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <mat-form-field class="col">
-              <input matInput placeholder="Nombre de la Institución (*)" formControlName="entidad">
+              <input matInput placeholder="Nombre de la Institución (*)" formControlName="institucion">
               <mat-hint>Ejemplo: Ministerio de Economía </mat-hint>
             </mat-form-field>
           </div>

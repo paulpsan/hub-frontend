@@ -1,18 +1,26 @@
 <ul class="nav">
   <!-- Main menu -->
   <li class="current">
-  
-    <mat-accordion class="example-headers-align">
 
-      <mat-expansion-panel #matExpansionPanel class="panel-hub" hideToggle="true">
+    <mat-accordion>
+
+      <mat-expansion-panel #matExpansionPanel class="panel-hub" hideToggle="true" *ngIf="usuario.admin">
+        <mat-expansion-panel-header (click)="matExpansionPanel.close();" [routerLink]="['/admin/solicitudes']">
+          <mat-icon>announcement</mat-icon>
+          <span class="ml-2">
+            Solicitudes
+          </span>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <!-- <mat-expansion-panel #matExpansionPanel class="panel-hub" hideToggle="true">
         <mat-expansion-panel-header (click)="matExpansionPanel.close();" [routerLink]="['/admin/usuarios']">
           <mat-icon>account_circle</mat-icon>
           <span class="ml-2">
             Usuarios
           </span>
         </mat-expansion-panel-header>
-      </mat-expansion-panel>
-
+      </mat-expansion-panel> -->
 
       <mat-expansion-panel class="panel-hub" hideToggle="true">
         <mat-expansion-panel-header [routerLink]="['/admin/grupos']">
