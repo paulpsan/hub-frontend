@@ -24,6 +24,7 @@ import { UsuariosComponent } from './inputs/usuarios/usuarios.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ButtonLoadingComponent } from './button-loading/button-loading.component';
 import { UsuarioComponent } from './inputs/usuario/usuario.component';
+import { GruposComponent } from './inputs/grupos/grupos.component';
 
 @NgModule({
   imports: [RouterModule, CommonModule, PipesModule, MaterialModule, ChartsModule, PieChartModule, NgxChartsModule, FormsModule, ReactiveFormsModule],
@@ -45,7 +46,8 @@ import { UsuarioComponent } from './inputs/usuario/usuario.component';
     UsuariosComponent,
     SidebarComponent,
     ButtonLoadingComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    GruposComponent
   ],
   exports: [
     LenguajesComponent,
@@ -65,7 +67,8 @@ import { UsuarioComponent } from './inputs/usuario/usuario.component';
     UsuariosComponent,
     SidebarComponent,
     ButtonLoadingComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    GruposComponent,
 
   ],
   entryComponents: [DialogErrorComponent, DialogLoadingComponent, SnackbarComponent]

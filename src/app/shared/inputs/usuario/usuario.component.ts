@@ -50,13 +50,13 @@ export class UsuarioComponent implements OnInit {
       );
     });
   }
-  onSubmit(event) {
-    let usuarioEmit = this.usuariosSearch.map(user => {
+  save(event) {
+    let usuario = this.usuariosSearch.map(user => {
       if (user.nombre == this.userForm.controls["nombre"].value) {
         return user
       }
     })
-    if (!usuarioEmit[0]) {
+    if (!usuario[0]) {
       const objMessage = {
         text: "No existe el usuario.",
         type: "Advertencia",
@@ -69,6 +69,15 @@ export class UsuarioComponent implements OnInit {
         duration: 5000
       });
     }
-    this.emitUser.emit(usuarioEmit[0]);
+    let usuarioEmit = {
+      _id: usuario[0]._id,
+      nombre: usuario[0].nombre,
+      usuarioGitlab: usuario[0].usuarioGitlab,
+      access_level: this.userForm.controls["permiso"].value,
+      nombre_permiso: this.permisosUsuario.find(permiso => 
+        permiso.access == this.userForm.controls["permiso"].value
+      ).nombre
+    }
+    this.emitUser.emit(usuarioEmit);
   }
 }

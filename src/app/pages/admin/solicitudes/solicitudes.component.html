@@ -14,27 +14,31 @@
     <table class="table table-responsive-sm">
       <thead class="thead-inverse">
         <tr>
-          <th style="width:250px">Usuario</th>
-          <th style="width:150px">Username</th>
-          <th style="width:150px">Email</th>
-          <th style="width:150px">Institucion</th>
-          <th style="width:150px">Estado</th>
-          <th style="width:150px">Fecha de creación</th>
-          <th style="width:120px">Acción</th>
+          <th style="width:200px">Usuario</th>
+          <th>Descripción</th>
+          <th>Path</th>
+          <th>Institución</th>
+          <th style="width:80px">Estado</th>
+          <th style="width:120px">Fecha de creación</th>
+          <th style="width:80px">Acción</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let solicitud of solicitudes">
           <td scope="row">
-            <p>
+            <div class="title-nombre">
               {{solicitud.Usuario.nombre}}
-            </p>
+            </div>
+            <div>
+              {{solicitud.Usuario.email }} <br>
+              {{solicitud.Usuario.login }}
+            </div>
           </td>
           <td>
-            <p mat-line> {{solicitud.Usuario.login }} </p>
+            <p mat-line> {{solicitud.descripcion }} </p>
           </td>
           <td>
-            <p mat-line> {{solicitud.Usuario.email }} </p>
+            <p mat-line>https://localhost/{{solicitud.path }} </p>
           </td>
           <td>
             <p mat-line> {{solicitud.institucion }} </p>
@@ -47,10 +51,13 @@
           </td>
           <td>
             <div class="row justify-content-center">
-<mat-slide-toggle class="" (change)="setAdmin($event,solicitud)" [color]="primary" [checked]="solicitud.estado=='aprobado'">
-              </mat-slide-toggle>
-              <hub-button-loading style="margin-top: -8px" [request]="solicitud.request">
-              </hub-button-loading>
+              <ng-container *ngIf="solicitud.estado!='aprobado'">
+                <button mat-button (click)="setAdmin(solicitud)" color="primary">
+                  Aprobar
+                </button>
+                <hub-button-loading style="margin-top: -8px" [request]="solicitud.request">
+                </hub-button-loading>
+              </ng-container>
             </div>
           </td>
         </tr>

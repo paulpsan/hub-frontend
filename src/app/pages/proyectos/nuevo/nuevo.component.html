@@ -49,57 +49,51 @@
                 </div>
               </div>
 
-            </ng-container>
 
-            <div class="form-group">
-              <!-- <label class="col-form-label ">Descripcion</label>
+              <div class="form-group">
+                <!-- <label class="col-form-label ">Descripcion</label>
               <br> -->
-              <mat-form-field class="col">
-                <textarea matInput placeholder="Descripcion(*)" formControlName="descripcion"></textarea>
-                <mat-hint>
-                  Detalle una descripción del proyecto centrado en las caracteristicas
-                  <br> Máximo 800 caracteres
-                </mat-hint>
-              </mat-form-field>
-            </div>
+                <mat-form-field class="col">
+                  <textarea matInput placeholder="Descripcion(*)" formControlName="descripcion"></textarea>
+                  <mat-hint>
+                    Detalle una descripción del proyecto centrado en las caracteristicas
+                    <br> Máximo 800 caracteres
+                  </mat-hint>
+                </mat-form-field>
+              </div>
 
-            <div class="form-group">
-              <!-- <label class="col-form-label ">Categorias</label>
+              <div class="form-group">
+                <!-- <label class="col-form-label ">Categorias</label>
               <br> -->
-              <!-- //aqui -->
-              <hub-input-categorias (onCategorias)="setCategorias($event)">
+                <!-- //aqui -->
+                <hub-input-categorias (onCategorias)="setCategorias($event)">
 
-              </hub-input-categorias>
-            </div>
-            <div class="form-group">
-              <!-- <label class="col-form-label ">Usuarios</label>
+                </hub-input-categorias>
+              </div>
+              <div class="form-group">
+                <!-- <label class="col-form-label ">Usuarios</label>
               <br> -->
-              <hub-input-usuarios (onUsuarios)="setUsuarios($event)">
+                <hub-input-usuarios [usuario]="usuario" (onUsuarios)="setUsuarios($event)">
 
-              </hub-input-usuarios>
-            </div>
-            <div class="form-group" *ngIf="usuario.admin_group||usuario.admin">
-              <!-- <label class="col-form-label ">Institución</label>
-              <br> -->
-              <mat-form-field class="col">
-                <input matInput placeholder="Institución(*)" formControlName="institucion">
-                <mat-hint>
-                  Introduzca el nombre de la institución para la que fue desarrollada
-                </mat-hint>
-              </mat-form-field>
-            </div>
-            <div class="form-group">
-              <!-- <label class="col-form-label ">Dirección del proyecto</label>
+                </hub-input-usuarios>
+              </div>
+              <div class="form-group" *ngIf="usuario.admin_grupo||usuario.admin">
+                <hub-input-grupos [usuario]="usuario" (emitGrupo)="setGrupo($event)">
+                </hub-input-grupos>
+              </div>
+              <div class="form-group">
+                <!-- <label class="col-form-label ">Dirección del proyecto</label>
                   <br> -->
-              <mat-form-field class="col">
-                <input matInput placeholder="Direccion URL" formControlName="urlRepositorio">
-                <mat-hint>
-                  Si su proyecto estara publicado en la direccion url
-                </mat-hint>
-              </mat-form-field>
-            </div>
+                <mat-form-field class="col">
+                  <input matInput placeholder="Direccion URL" formControlName="urlRepositorio">
+                  <mat-hint>
+                    Si su proyecto estara publicado en la dirección url
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+            </ng-container>
           </fieldset>
-          <div class="row justify-content-center">
+          <div class="row justify-content-center" *ngIf="!request">
             <button mat-button [disabled]="!nuevoForm.valid" type="submit" color="primary">
               <mat-icon mat-list-icon>done</mat-icon>
               Guardar
@@ -108,6 +102,10 @@
               <mat-icon mat-list-icon>cancel</mat-icon>
               Cancelar
             </button>
+          </div>
+          <div class="row justify-content-center" *ngIf="request">
+            <hub-loading [data]="dataLoading">
+            </hub-loading>
           </div>
         </form>
       </div>

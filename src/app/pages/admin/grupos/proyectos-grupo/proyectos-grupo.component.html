@@ -1,3 +1,83 @@
-<p>
-  proyectos-grupo works!
-</p>
+<div class="container" *ngIf="proyecto">
+  <div class="row">
+    <div class="col-12" style="text-align: center">
+      <mat-list-item>
+        <h4 class="title-repo" mat-line>
+          {{proyecto.nombre}}
+        </h4>
+        <p mat-line>
+          {{proyecto.path}}
+        </p>
+      </mat-list-item>
+    </div>
+    <div>
+      <label for="" class="title-repo">Nuevo Proyecto</label>
+    </div>
+    <hub-input-usuario class="col-12" (emitUser)="addUser($event)">
+
+    </hub-input-usuario>
+
+    <div class="col-md-8 col-lg-12" style="text-align: end">
+      <span>Buscar:</span>
+      <mat-form-field class="">
+        <input matInput [(ngModel)]="buscar" type="text" placeholder="Buscar Personas" (keyup)="obtenerDatos()" />
+        <button mat-button matSuffix mat-icon-button aria-label="Search" (click)="obtenerDatos()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+  <br>
+  <div class="row" *ngIf="proyecto">
+    <table class="table table-responsive">
+      <thead class="thead-inverse">
+        <tr>
+          <th style="width:250px">Proyecto</th>
+          <th style="width:150px">Descripción</th>
+          <th style="width:150px">Dirección del Proyecto </th>
+          <th style="width:150px">Permisos</th>
+          <th style="width:120px">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let proyecto of proyecto.Proyectos">
+          <td scope="row">
+            <h4 mat-line>{{proyecto.nombre}}</h4>
+          </td>
+          <td>
+            <p mat-line> {{proyecto.descripcion }} </p>
+          </td>
+          <td>
+            <p mat-line> {{proyecto.path }} </p>
+          </td>
+          <td class="p-0">
+            <mat-form-field class="col-12">
+              <mat-select (selectionChange)="proyecto.change=true;" [(value)]="proyecto.visibilidad">
+                <mat-option *ngFor="let permiso of permisosGrupo" [value]="permiso.value">
+                  {{ permiso.nombre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <div class="row justify-content-center">
+              <div *ngIf="proyecto.change">
+                <button mat-icon-button (click)="guardar(proyecto)" color="primary">
+                  <mat-icon mat-list-icon>save</mat-icon>
+                </button>
+              </div>
+              <hub-button-loading [request]="proyecto.request">
+              </hub-button-loading>
+              <button mat-icon-button (click)="eliminar(proyecto)" color="warn">
+                <mat-icon mat-list-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator #paginator [length]="total" [pageIndex]="pagina" [pageSize]="limite" [pageSizeOptions]="pageSizeOptions"
+    (page)="obtenerDatos($event)">
+  </mat-paginator>
+</div>

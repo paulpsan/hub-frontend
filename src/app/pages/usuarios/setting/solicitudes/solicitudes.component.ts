@@ -7,6 +7,7 @@ import {
 } from "../../../../services/service.index";
 import { MatSnackBar } from "@angular/material";
 import { SnackbarComponent } from "../../../../shared/snackbar/snackbar.component";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "hub-solicitudes",
@@ -19,11 +20,12 @@ export class SolicitudesComponent implements OnInit {
   solicitud;
   estado: boolean = false;
   constructor(
+    private router: Router,
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
@@ -62,6 +64,7 @@ export class SolicitudesComponent implements OnInit {
           duration: 5000
         });
         this.getSolicitud();
+        this.estado = false;
       },
       err => {
         const objMessage = {
@@ -84,6 +87,11 @@ export class SolicitudesComponent implements OnInit {
       .buscarId("solicitudes", this.usuario._id)
       .subscribe(resp => {
         this.solicitud = resp;
+      }, err => {
+        console.log(err);
+        if (err.status == 404) {
+          this.solicitud = err.statusText;
+        }
       });
   }
 }

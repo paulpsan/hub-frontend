@@ -5,11 +5,13 @@ import { HttpService } from "../../../services/http/http.service";
 import { Proyecto } from "../../../models/proyecto";
 import {
   UsuarioService,
-  SubirArchivoService
+  SubirArchivoService,
+  MessageDataService
 } from "../../../services/service.index";
-import { MatSelectChange } from "@angular/material";
+import { MatSelectChange, MatSnackBar } from "@angular/material";
 import * as _ from "lodash";
 import { environment } from "../../../../environments/environment";
+import { SnackbarComponent } from "../../../shared/snackbar/snackbar.component";
 
 @Component({
   selector: "hub-nuevo",
@@ -24,7 +26,9 @@ export class NuevoComponent implements OnInit {
   nuevoForm: FormGroup;
   imagenSubir: File;
   imagenTemp: any;
+  grupo;
   usuario;
+  request;
   usuarios: any[];
   categorias: any[];
   repositorios;
@@ -37,8 +41,10 @@ export class NuevoComponent implements OnInit {
     private router: Router,
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
-    private _subirArchivoService: SubirArchivoService
-  ) {}
+    private _subirArchivoService: SubirArchivoService,
+    private snackBar: MatSnackBar,
+    private _messageDataService: MessageDataService
+  ) { }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
@@ -48,14 +54,10 @@ export class NuevoComponent implements OnInit {
     this.nuevoForm = new FormGroup({
       nombre: new FormControl("", Validators.required),
       descripcion: new FormControl("", Validators.required),
-      urlRepositorio: new FormControl("", Validators.required),
-      institucion: new FormControl("")
+      urlRepositorio: new FormControl({ value: "", disabled: true }, Validators.required),
     });
     this.nuevoForm.controls["nombre"].valueChanges.subscribe(value => {
-      this.nuevoForm.controls["urlRepositorio"].setValue(
-        `${environment.gitlabAdmin.domain}/${this.usuario.login}/${value}`
-      );
-      console.log(value);
+      this.setUrl(value)
     });
   }
 
@@ -98,14 +100,27 @@ export class NuevoComponent implements OnInit {
         { datos: [], valor: 0 },
         this.categorias,
         ["licencias"],
-        this.usuarios,
-        ""
+        this.usuarios
       );
-
+      proyecto.grupo = this.grupo || ""
+      console.log(proyecto);
       this._httpService
         .adicionar("proyectos?nuevo=true", proyecto)
         .subscribe(response => {
-          console.log(response);
+          this.snackBar.dismiss();
+          const objMessage = {
+            text: "El proyecto fue creado exitosamente",
+            type: "Info",
+          }
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: 'right',
+            verticalPosition: "top",
+            panelClass: "background-success",
+            duration: 5000
+          });
+          this.request = false
+
           if (!response.mensaje) {
             if (this.imagenTemp) {
               this._subirArchivoService
@@ -126,13 +141,38 @@ export class NuevoComponent implements OnInit {
                     });
                 });
             } else {
+              this.nuevoForm.reset();
               this.router.navigate(["/proyectos"]);
             }
           } else {
             console.log("error ");
           }
+        }, err => {
+          console.log(err);
+          let objMessage = {}
+          if (err.error.message.path[0] == 'has already been taken') {
+            console.log(typeof err.message);
+            objMessage = {
+              text: "El nombre del proyecto ya existe",
+              type: "Info",
+            }
+          } else {
+            objMessage = {
+              text: err.message,
+              type: "Info",
+            }
+          }
+
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: 'right',
+            verticalPosition: "top",
+            panelClass: "background-warning",
+            duration: 5000
+          });
+          this.request = false
+          console.log(err);
         });
-      this.nuevoForm.reset();
     }
   }
   setCategorias(categorias: any) {
@@ -140,5 +180,22 @@ export class NuevoComponent implements OnInit {
   }
   setUsuarios(usuario: any) {
     this.usuarios = usuario;
+  }
+  setGrupo(grupo) {
+    console.log(grupo);
+    this.grupo = grupo;
+    this.setUrl(this.nuevoForm.controls["nombre"].value)
+  }
+
+  setUrl(value) {
+    if (this.grupo) {
+      this.nuevoForm.controls["urlRepositorio"].setValue(
+        `${environment.gitlabAdmin.domain}/${this.grupo.path}/${value}`
+      );
+    } else {
+      this.nuevoForm.controls["urlRepositorio"].setValue(
+        `${environment.gitlabAdmin.domain}/${this.usuario.login}/${value}`
+      );
+    }
   }
 }

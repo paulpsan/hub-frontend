@@ -1,12 +1,12 @@
-<div class="container">
+<div class="container" *ngIf="grupo">
   <div class="row">
     <div class="col-12" style="text-align: center">
       <mat-list-item>
         <h4 class="title-repo" mat-line>
-          nombre del grupo
+          {{grupo.nombre}}
         </h4>
         <p mat-line>
-          url del repositorio
+          {{grupo.path}}
         </p>
       </mat-list-item>
     </div>
@@ -34,6 +34,7 @@
         <tr>
           <th style="width:250px">Usuario</th>
           <th style="width:150px">Username</th>
+          <th style="width:150px">Correo</th>
           <th style="width:150px">Permisos</th>
           <th style="width:120px">Acción</th>
         </tr>
@@ -48,6 +49,9 @@
           </td>
           <td>
             <p mat-line> {{usuario.login }} </p>
+          </td>
+          <td>
+            <p mat-line> {{usuario.email }} </p>
           </td>
           <td class="p-0">
             <mat-form-field class="col-12">

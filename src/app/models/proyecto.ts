@@ -14,6 +14,7 @@ export class Proyecto {
     public categorias?: any[],
     public licencias?: any[],
     public usuarios?: any[],
+    public grupo?:any,
     public commits?: string,
     public datos?: any[],
     public fechaCreacion?:any,

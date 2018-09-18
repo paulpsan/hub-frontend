@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { UsuarioService } from "../../services/service.index";
+import { UsuarioService, HttpService } from "../../services/service.index";
 
 @Component({
   selector: "hub-sidebar",
@@ -9,10 +9,21 @@ import { UsuarioService } from "../../services/service.index";
 export class SidebarComponent implements OnInit {
   step = 0;
   usuario;
-  constructor(private _usuarioService: UsuarioService) {
+  grupo;
+  constructor(private _usuarioService: UsuarioService,
+    private _httpService: HttpService,
+  ) {
+
+  }
+
+  ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
       this.usuario = respUsuario;
+      this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
+        this.grupo = resp.Grupos[0];
+        console.log(this.grupo);
+      })
     });
+
   }
-  ngOnInit() {}
 }

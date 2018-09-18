@@ -1,0 +1,13 @@
+<form novalidate [formGroup]="groupForm">
+  <mat-form-field class="col">
+    <mat-select placeholder="Seleccione un Grupo" (selectionChange)="selectItem($event)">
+      <mat-option>Ninguno</mat-option>
+      <mat-option *ngFor="let grupo of grupoSearch" [value]="grupo">
+        {{ grupo.nombre }}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      Introducir un grupo valido
+    </mat-error>
+  </mat-form-field>
+</form>

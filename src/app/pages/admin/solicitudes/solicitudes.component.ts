@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpService } from "../../../services/service.index";
-import { PageEvent } from "@angular/material";
+import { HttpService, MessageDataService } from "../../../services/service.index";
+import { PageEvent, MatSnackBar } from "@angular/material";
+import { SnackbarComponent } from "../../../shared/snackbar/snackbar.component";
 
 @Component({
   selector: "hub-solicitudes",
@@ -15,7 +16,9 @@ export class SolicitudesComponent implements OnInit {
   public pagina = 1;
   public limite = 10;
   public total;
-  constructor(private _httpService: HttpService) {}
+  constructor(private _httpService: HttpService,
+    private snackBar: MatSnackBar,
+    private _messageDataService: MessageDataService) { }
 
   ngOnInit() {
     this.obtenerDatos();
@@ -56,22 +59,29 @@ export class SolicitudesComponent implements OnInit {
       }
     );
   }
-  setAdmin(event, solicitud) {
-    console.log(event);
-    if (event.checked) {
-      solicitud.estado = "aprobado";
-    } else {
-      solicitud.estado = "deshabilitado";
-    }
-
+  setAdmin(solicitud) {
     solicitud.request = "start";
     solicitud.change = false;
     this._httpService.editar("solicitudes", solicitud).subscribe(
       resp => {
         solicitud.request = "ok";
+        solicitud.estado = "aprobado";
       },
       err => {
+        console.log(err);
+        const objMessage = {
+          text: err.error.message,
+          type: "Info"
+        };
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: "right",
+          verticalPosition: "top",
+          panelClass: "background-warning",
+          duration: 5000
+        });
         solicitud.request = "error";
+        console.log(err);
       }
     );
   }

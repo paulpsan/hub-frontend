@@ -22,7 +22,6 @@ export class HubInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log(req);
     if(req.url!==`${environment.url}usuarios/captcha`){
       req = req.clone({
         setHeaders: {
