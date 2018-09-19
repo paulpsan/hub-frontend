@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material';
-import { HttpService, UsuarioService } from '../../../services/service.index';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { PageEvent } from "@angular/material";
+import { HttpService, UsuarioService } from "../../../services/service.index";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'hub-grupos',
-  templateUrl: './grupos.component.html',
-  styleUrls: ['./grupos.component.css']
+  selector: "hub-grupos",
+  templateUrl: "./grupos.component.html",
+  styleUrls: ["./grupos.component.css"]
 })
 export class GruposComponent implements OnInit {
-
   public usuario;
   public respuesta: any;
   public title = "Star Rating";
@@ -27,7 +26,11 @@ export class GruposComponent implements OnInit {
     { nombre: "interno", value: "internal" },
     { nombre: "publico", value: "public" }
   ];
-  constructor(private _httpService: HttpService, private _usuarioService: UsuarioService, private router: Router) { }
+  constructor(
+    private _httpService: HttpService,
+    private _usuarioService: UsuarioService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
@@ -37,11 +40,13 @@ export class GruposComponent implements OnInit {
   }
   obtenerDatos(event?: PageEvent) {
     this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
-      this._httpService.buscarId("grupos", resp.Grupos[0]._id).subscribe(resp => {
-        this.grupos.push(resp);
-      })
-      console.log(this.grupos);
-    })
+      this.usuario = resp;
+      this._httpService
+        .buscarId("grupos", resp.Grupos[0]._id)
+        .subscribe(resp => {
+          this.grupos.push(resp);
+        });
+    });
   }
   changeSelect(event, grupo) {
     console.log(event);
@@ -49,20 +54,19 @@ export class GruposComponent implements OnInit {
   }
   guardar(grupo) {
     console.log(grupo);
-    grupo.request = 'start';
+    grupo.request = "start";
     grupo.change = false;
-    this._httpService.editar("grupos", grupo).subscribe(result => {
-      console.log(result);
-      grupo.request = 'ok';
-
-
-    }, err => {
-      console.log(err);
-      grupo.request = 'error'
-    })
+    this._httpService.editar("grupos", grupo).subscribe(
+      result => {
+        console.log(result);
+        grupo.request = "ok";
+      },
+      err => {
+        console.log(err);
+        grupo.request = "error";
+      }
+    );
   }
 
-  eliminar(usuario) {
-
-  }
+  eliminar(usuario) {}
 }

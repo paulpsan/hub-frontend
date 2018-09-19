@@ -65,9 +65,11 @@
             </div>
             <hub-button-loading [request]="grupo.request">
             </hub-button-loading>
-            <button mat-icon-button (click)="eliminar(usuario)" color="warn">
-              <mat-icon mat-list-icon>delete</mat-icon>
-            </button>
+            <ng-container *ngIf="usuario.admin">
+              <button mat-icon-button (click)="eliminar(usuario)" color="warn">
+                <mat-icon mat-list-icon>delete</mat-icon>
+              </button>
+            </ng-container>
           </div>
         </td>
       </tr>

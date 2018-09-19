@@ -4,7 +4,7 @@
 
     <mat-accordion *ngIf="usuario">
 
-      <mat-expansion-panel #matExpansionPanel class="panel-hub" hideToggle="true" *ngIf="true">
+      <mat-expansion-panel #matExpansionPanel class="panel-hub" hideToggle="true" *ngIf="usuario.admin">
         <mat-expansion-panel-header (click)="matExpansionPanel.close();" [routerLink]="['/admin/solicitudes']">
           <mat-icon>announcement</mat-icon>
           <span class="ml-2">
@@ -22,21 +22,23 @@
         </mat-expansion-panel-header>
       </mat-expansion-panel> -->
 
-      <mat-expansion-panel *ngIf="grupo" class="panel-hub" hideToggle="true">
+      <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin || usuario.admin_grupo">
         <mat-expansion-panel-header [routerLink]="['/admin/grupos']">
           <mat-icon>group</mat-icon>
           <span class="ml-2">
             Grupos
           </span>
         </mat-expansion-panel-header>
-        <button mat-menu-item class="button-menu" [routerLink]="['/admin/grupos/usuarios',grupo._id]">
-          <mat-icon>account_circle</mat-icon>
-          <span>Usuarios</span>
-        </button>
-        <button mat-menu-item class="button-menu" [routerLink]="['/admin/grupos/proyectos',grupo._id]">
-          <mat-icon>code</mat-icon>
-          <span>Proyectos</span>
-        </button>
+        <ng-container *ngIf="grupo">
+          <button mat-menu-item class="button-menu" [routerLink]="['/admin/grupos/usuarios',grupo._id]">
+            <mat-icon>account_circle</mat-icon>
+            <span>Usuarios</span>
+          </button>
+          <button mat-menu-item class="button-menu" [routerLink]="['/admin/grupos/proyectos',grupo._id]">
+            <mat-icon>code</mat-icon>
+            <span>Proyectos</span>
+          </button>
+        </ng-container>
       </mat-expansion-panel>
     </mat-accordion>
   </li>

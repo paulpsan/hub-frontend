@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { Component, OnInit, OnChanges } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { UsuarioService } from "../../services/usuario/usuario.service";
+import { HttpService } from "../../services/service.index";
 
 @Component({
   selector: "hub-header",
@@ -18,36 +19,46 @@ export class HeaderComponent implements OnInit, OnChanges {
   navLinks: any[] = [
     {
       label: "Proyectos",
-      path: "/proyectos"
+      path: "/proyectos",
+      admin: false
     },
     {
       label: "Usuarios",
-      path: "/usuarios"
+      path: "/usuarios",
+      admin: false
     },
     {
       label: "Mis Repositorios",
-      path: '/repositorios'
+      path: "/repositorios",
+      admin: false
     },
     {
       label: "Admin",
-      path: '/admin'
-    },
+      path: "/admin/grupos",
+      admin: true
+    }
   ];
 
   constructor(
-    private _authService: AuthService,
+    private _httpService: HttpService,
     public _usuarioService: UsuarioService,
     private router: Router
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
       this.badges = this._usuarioService.isCompleteInfo();
       this.badgeCount = this.badges.length;
-      console.log(this.badges);
+
+      this._httpService
+        .buscarId("usuarios", this.usuario._id)
+        .subscribe(resp => {
+          if (resp.admin || resp.admin_grupo) {
+            this.navLinks[3].admin = false;
+          }
+          this.usuario = resp;
+        });
     });
   }
   logout() {

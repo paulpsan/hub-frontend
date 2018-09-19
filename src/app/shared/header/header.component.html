@@ -9,9 +9,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" *ngFor="let link of navLinks" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="link.path">{{link.label}}</a>
+          <a class="nav-link" *ngIf="!link.admin" [routerLink]="link.path">{{link.label}}</a>
         </li>
-        
+
       </ul>
       <span *ngIf="usuario">
         <ul class="nav navbar-nav navbar-right">

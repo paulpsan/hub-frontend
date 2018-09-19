@@ -10,20 +10,21 @@ export class SidebarComponent implements OnInit {
   step = 0;
   usuario;
   grupo;
-  constructor(private _usuarioService: UsuarioService,
-    private _httpService: HttpService,
-  ) {
-
-  }
+  constructor(
+    private _usuarioService: UsuarioService,
+    private _httpService: HttpService
+  ) {}
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
       this.usuario = respUsuario;
-      this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
-        this.grupo = resp.Grupos[0];
-        console.log(this.grupo);
-      })
+      this._httpService
+        .buscarId("usuarios", this.usuario._id)
+        .subscribe(resp => {
+          this.grupo = resp.Grupos[0];
+          this.usuario = resp;
+          console.log(this.grupo);
+        });
     });
-
   }
 }
