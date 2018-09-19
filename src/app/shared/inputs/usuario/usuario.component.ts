@@ -74,10 +74,12 @@ export class UsuarioComponent implements OnInit {
       nombre: usuario[0].nombre,
       usuarioGitlab: usuario[0].usuarioGitlab,
       access_level: this.userForm.controls["permiso"].value,
-      nombre_permiso: this.permisosUsuario.find(permiso => 
+      nombre_permiso: this.permisosUsuario.find(permiso =>
         permiso.access == this.userForm.controls["permiso"].value
       ).nombre
     }
+    this.userForm.reset();
     this.emitUser.emit(usuarioEmit);
+
   }
 }

@@ -23,7 +23,6 @@ export class SidebarComponent implements OnInit {
         .subscribe(resp => {
           this.grupo = resp.Grupos[0];
           this.usuario = resp;
-          console.log(this.grupo);
         });
     });
   }

@@ -62,10 +62,11 @@ export class SolicitudesComponent implements OnInit {
   setAdmin(solicitud) {
     solicitud.request = "start";
     solicitud.change = false;
+    solicitud.estado = "aprobado";
     this._httpService.editar("solicitudes", solicitud).subscribe(
       resp => {
+        solicitud = resp
         solicitud.request = "ok";
-        solicitud.estado = "aprobado";
       },
       err => {
         console.log(err);

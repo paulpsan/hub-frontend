@@ -21,6 +21,7 @@ import {
 import { ComunModule } from "../../common/comun.module";
 import { ListarComponent } from "./listar/listar.component";
 import { NuevoComponent } from './nuevo/nuevo.component';
+import { PlantillaComponent } from './proyecto/plantilla.component';
 import { ImportarComponent } from './importar/importar.component';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { ImportarComponent } from './importar/importar.component';
     ListarComponent,
     NuevoComponent,
     ImportarComponent,
+    PlantillaComponent
 
   ],
   imports: [

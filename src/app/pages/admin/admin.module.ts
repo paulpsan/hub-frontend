@@ -18,6 +18,7 @@ import { EditarComponent } from './grupos/crear-editar/editar.component';
 import { ProyectosGrupoComponent } from './grupos/proyectos-grupo/proyectos-grupo.component';
 import { UsuariosGrupoComponent } from './grupos/usuarios-grupo/usuarios-grupo.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
+import { UsuariosProyectoComponent } from './grupos/proyectos-grupo/usuarios-proyecto/usuarios-proyecto.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { SolicitudesComponent } from './solicitudes/solicitudes.component';
     EditarComponent,
     ProyectosGrupoComponent,
     UsuariosGrupoComponent,
-    SolicitudesComponent
+    SolicitudesComponent,
+    UsuariosProyectoComponent
   ]
 })
 export class AdminModule { }

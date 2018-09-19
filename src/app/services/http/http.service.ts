@@ -16,7 +16,7 @@ export class HttpService {
 
   obtener(tipo: string) {
     return this._http
-      .get(this.url + tipo)
+      .get(this.url + tipo + '?tsp=' + Date.now())
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
   // obtiene y busca datos de forma general
@@ -35,7 +35,7 @@ export class HttpService {
 
   obtenerUsuarios(tipo: string, repo: any, token: any): Observable<any> {
     return this._http
-      .post(this.url + tipo + '/usuarios/' + repo.id, { repo, token })
+      .post(this.url + tipo + '/usuarios/' + repo.id + '?tsp=' + Date.now(), { repo, token })
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
@@ -65,7 +65,7 @@ export class HttpService {
   }
   get(tipo: string) {
     return this._http
-      .get(this.url + tipo)
+      .get(this.url + tipo + '?tsp=' + Date.now())
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
   post(tipo: string, objeto: any): Observable<any> {

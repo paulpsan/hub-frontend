@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpService, UsuarioService, MessageDataService } from '../../../../services/service.index';
-import { SnackbarComponent } from '../../../../shared/snackbar/snackbar.component';
+import { HttpService, UsuarioService, MessageDataService } from '../../../../../services/service.index';
+import { SnackbarComponent } from '../../../../../shared/snackbar/snackbar.component';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
-  selector: 'hub-usuarios-grupo',
-  templateUrl: './usuarios-grupo.component.html',
-  styleUrls: ['./usuarios-grupo.component.css']
+  selector: 'hub-usuarios-proyecto',
+  templateUrl: './usuarios-proyecto.component.html',
+  styleUrls: ['./usuarios-proyecto.component.css']
 })
-export class UsuariosGrupoComponent implements OnInit {
+export class UsuariosProyectoComponent implements OnInit {
+
   id: any;
   userForm: FormGroup;
-  grupo;
+  proyecto;
   usuario;
   usuariosSearch;
 
@@ -40,8 +41,8 @@ export class UsuariosGrupoComponent implements OnInit {
     // this._usuarioService.usuario$.subscribe(respUsuario => {
     //   this.usuario = respUsuario;
     //   console.log(this.usuario);
-    //   this._httpService.buscarId("grupos", this.usuario._id).subscribe(grupo => {
-    //     this.grupo = grupo
+    //   this._httpService.buscarId("grupos", this.usuario._id).subscribe(proyecto => {
+    //     this.proyecto = proyecto
     //   })
     // });
     this.userForm = new FormGroup({
@@ -56,13 +57,13 @@ export class UsuariosGrupoComponent implements OnInit {
     });
   }
   obtenerDatos() {
-    this._httpService.obtener(`grupos/${this.id}/usuarios`).subscribe(resp => {
-      this.grupo = resp
-      this.grupo.Usuarios.map(usuario => {
-        usuario.request = '';
-        usuario.change = false;
-        return usuario
-      })
+    this._httpService.obtener(`proyectos/${this.id}`).subscribe(resp => {
+      this.proyecto = resp
+      // this.proyecto.Usuarios.map(usuario => {
+      //   usuario.request = '';
+      //   usuario.change = false;
+      //   return usuario
+      // })
       console.log(resp);
     })
   }
@@ -72,10 +73,10 @@ export class UsuariosGrupoComponent implements OnInit {
     usuario.change = false;
     let data = {
       fk_usuario: usuario._id,
-      fk_grupo: this.grupo._id,
-      access_level: usuario.UsuarioGrupo.access_level,
+      fk_proyecto: this.proyecto._id,
+      access_level: usuario.UsuarioProyecto.access_level,
       usuarioGitlab: usuario.usuarioGitlab,
-      grupoGitlab: this.grupo.id_gitlab,
+      proyectoGitlab: this.proyecto.proyectoGitlab,
       nombre: this.permisosUsuario.find(permiso =>
         permiso.access == usuario.UsuarioGrupo.access_level
       ).nombre
@@ -91,8 +92,8 @@ export class UsuariosGrupoComponent implements OnInit {
   }
   addUser(event) {
     console.log(event);
-    event.idGrupoGitlab = this.grupo.id_gitlab
-    event.idGrupo = this.grupo._id
+    event.idGrupoGitlab = this.proyecto.id_gitlab
+    event.idGrupo = this.proyecto._id
     this._httpService.post(`grupos/${this.id}/usuarios`, event).subscribe(resp => {
       const objMessage = {
         text: "Se adiciono exitosamente",
@@ -128,9 +129,9 @@ export class UsuariosGrupoComponent implements OnInit {
       usuario.change = false;
       let data = {
         fk_usuario: usuario._id,
-        fk_grupo: this.grupo._id,
+        fk_grupo: this.proyecto._id,
         usuarioGitlab: usuario.usuarioGitlab,
-        grupoGitlab: this.grupo.id_gitlab,
+        grupoGitlab: this.proyecto.id_gitlab,
       }
       console.log(data);
       this._httpService.post(`grupos/usuario/${usuario._id}`, data).subscribe(result => {
@@ -144,4 +145,5 @@ export class UsuariosGrupoComponent implements OnInit {
     }
 
   }
+
 }

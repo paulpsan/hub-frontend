@@ -11,14 +11,13 @@ import { MatSnackBar } from '@angular/material';
 export class ProyectosGrupoComponent implements OnInit {
   id: any;
   usuario;
-  proyecto;
-  permisosUsuario = [
-    { nombre: "propietario", rol: "owner", access: "50" },
-    { nombre: "mantenedor", rol: "maintainer", access: "40" },
-    { nombre: "desarrollador", rol: "developer", access: "30" },
-    { nombre: "reportero", rol: "reporter", access: "20" },
-    { nombre: "invitado", rol: "guest", access: "10" },
-  ]
+  proyectos;
+  grupo;
+  permisosProyecto = [
+    { nombre: "privado", value: "private" },
+    { nombre: "interno", value: "internal" },
+    { nombre: "publico", value: "public" }
+  ];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -36,7 +35,9 @@ export class ProyectosGrupoComponent implements OnInit {
   }
   obtenerDatos() {
     this._httpService.obtener(`grupos/${this.id}/proyectos`).subscribe(resp => {
-      
+      this.grupo = resp
+      if (resp.Proyectos.length >= 1)
+        this.proyectos = resp.Proyectos
       console.log(resp);
     })
   }

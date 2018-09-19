@@ -16,6 +16,7 @@ export class ProyectoComponent implements OnInit {
   id: number;
   private sub: any;
   proyecto: Proyecto;
+  public esNuevo: boolean = true;
   show: boolean = false;
   lenguajes: boolean = false;
   pieChartData = [];
@@ -41,16 +42,19 @@ export class ProyectoComponent implements OnInit {
   obtenerProyecto() {
     this._httpService.buscarId("proyectos", this.id).subscribe(async result => {
       this.proyecto = result;
-      this.show = true;
-      this.cargarLenguajes(this.proyecto.datos);
-      this.config$ = {
-        legend: "Commits",
-        xAxisLabel: "Fecha",
-        yAxisLabel: "Commits",
-        series: "total"
-      };
-      this.dataRepo$ = await this.renderGraph(this.proyecto.fk_repositorio);
-      this.dataCalendar$ = this.dataRepo$.heatMap;
+      if (this.proyecto.datos) {
+        this.esNuevo = false
+        this.show = true;
+        this.cargarLenguajes(this.proyecto.datos);
+        this.config$ = {
+          legend: "Commits",
+          xAxisLabel: "Fecha",
+          yAxisLabel: "Commits",
+          series: "total"
+        };
+        this.dataRepo$ = await this.renderGraph(this.proyecto.fk_repositorio);
+        this.dataCalendar$ = this.dataRepo$.heatMap;
+      }
       console.log(this.proyecto);
     });
   }
@@ -88,7 +92,7 @@ export class ProyectoComponent implements OnInit {
         this.pieChartLabels.push(lenguaje);
         this.pieChartData.push(100);
         this.lenguajes = true;
-      } 
+      }
     }
   }
 

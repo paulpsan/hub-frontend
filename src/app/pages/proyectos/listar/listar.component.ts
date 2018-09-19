@@ -25,7 +25,6 @@ export class ListarComponent implements OnInit {
   public mostrarToggle: boolean = false;
   public idSelect;
   public paginacion;
-
   public buscar = "";
   public ordenar;
   public pagina = 1;

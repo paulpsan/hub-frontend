@@ -19,104 +19,108 @@
       </button>
     </div>
   </div>
-
-  <div class="card bg-light contenedor_proyectos" *ngFor="let proyecto of proyectos">
-    <div class="card-header">
-      <span class="titulo_proyecto" (click)="irProyecto(proyecto)">{{proyecto.nombre}}</span>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-1">
-          <!-- <img *ngIf="proyecto.tipo=='github'" src="assets/" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
-          <!-- <img src="{{proyecto.avatar}}" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
-          <img [src]="proyecto.avatar |imagen:'proyecto'" alt="{{proyecto.tipo}}" style="width: 50px !important">
-        </div>
-        <div class="col-md-5">
-          <p matLine>{{proyecto.descripcion}}
-          </p>
-        </div>
-        <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-5 title-description">
-              <i class="fa fa-user-circle"></i>
-              <span> Usuarios: </span>
-            </div>
-            <div class="col-md-7">
-              <!-- {{proyecto.usuarios}} -->
-              <span *ngFor="let usuario of proyecto.usuarios">
-                <a [routerLink]="[ '/usuarios/',usuario._id  ]">{{usuario.nombre}} </a>
-              </span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5 title-description">
-              <i class="fa fa-code"></i>
-              <span>Commits: </span>
-            </div>
-            <div class="col-md-7">
-              <span>{{proyecto.commits.length}}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5 title-description">
-              <i class="fa fa-calendar"></i>
-              <span>Fecha Creacion: </span>
-            </div>
-            <div class="col-md-7">
-              <span>{{proyecto.fecha_creacion | fecha}}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5 title-description">
-              <i class="fa fa-calendar"></i>
-              <span> Ultima actividad: </span>
-            </div>
-            <div class="col-md-7">
-              <span>{{proyecto.fecha_modificacion |fecha}}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5 title-description">
-              <i class="fa fa-gitlab"></i>
-              <span>Url:</span>
-            </div>
-            <div class="col-md-7" style=" word-wrap: break-word;">
-              <a href="{{proyecto.urlRepositorio}}" target="#">{{proyecto.urlRepositorio}}</a>
-            </div>
-          </div>
-
-        </div>
+  <ng-container *ngIf="proyectos">
+    <div class="card bg-light contenedor_proyectos" *ngFor="let proyecto of proyectos">
+      <div class="card-header">
+        <span class="titulo_proyecto" (click)="irProyecto(proyecto)">{{proyecto.nombre}}</span>
       </div>
-    </div>
-    <div class="card-footer">
-      <div class="row">
-        <div class="col-md-8">
-          <div class="row">
-            <div class="col-md-6 title-description">
-              <span>Categoria: </span>
-            </div>
-            <div class="col-md-6 title-description">
-              <span>Licencias: </span>
-            </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-1">
+            <!-- <img *ngIf="proyecto.tipo=='github'" src="assets/" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
+            <!-- <img src="{{proyecto.avatar}}" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
+            <img [src]="proyecto.avatar |imagen:'proyecto'" alt="{{proyecto.tipo}}" style="width: 50px !important">
           </div>
-        </div>
-        <div class="col-md-4">
-          <div class="row">
-            <div class="col-md-5 title-description">
-              <span>Clasificación</span>
+          <div class="col-md-5">
+            <p matLine>{{proyecto.descripcion}}
+            </p>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-5 title-description">
+                <i class="fa fa-user-circle"></i>
+                <span> Usuarios: </span>
+              </div>
+              <div class="col-md-7">
+                <!-- {{proyecto.usuarios}} -->
+                <span *ngFor="let usuario of proyecto.usuarios">
+                  <a [routerLink]="[ '/usuarios/',usuario._id  ]">{{usuario.nombre}} </a>
+                </span>
+              </div>
             </div>
-            <div>
-              <a *ngFor="let item of starList; let i=index ">
-                <i *ngIf="i < proyecto.clasificacion.valor" class="fa" [ngClass]="{'fa-star':true}"></i>
-                <i *ngIf="i >= proyecto.clasificacion.valor" class="fa" [ngClass]="{'fa-star-o':true}"></i>
-              </a>
+            <div class="row">
+              <div class="col-md-5 title-description">
+                <i class="fa fa-code"></i>
+                <span>Commits: </span>
+              </div>
+              <div class="col-md-7" *ngIf="proyecto.commits">
+                <span>{{proyecto.commits.length}}</span>
+              </div>
             </div>
+            <div class="row">
+              <div class="col-md-5 title-description">
+                <i class="fa fa-calendar"></i>
+                <span>Fecha Creacion: </span>
+              </div>
+              <div class="col-md-7">
+                <span>{{proyecto.fecha_creacion | fecha}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5 title-description">
+                <i class="fa fa-calendar"></i>
+                <span> Ultima actividad: </span>
+              </div>
+              <div class="col-md-7">
+                <span>{{proyecto.fecha_modificacion |fecha}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5 title-description">
+                <i class="fa fa-gitlab"></i>
+                <span>Url:</span>
+              </div>
+              <div class="col-md-7" style=" word-wrap: break-word;">
+                <a href="{{proyecto.urlRepositorio}}" target="#">{{proyecto.urlRepositorio}}</a>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6 title-description">
+                <span>Categoria: </span>
+                <mat-chip-list *ngFor="let categoria of proyecto.categorias">
+                  <mat-chip>{{categoria.nombre}}</mat-chip>
+                </mat-chip-list>
+              </div>
+              <div class="col-md-6 title-description">
+                <span>Licencias: </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-5 title-description">
+                <span>Clasificación</span>
+              </div>
+              <div>
+                <a *ngFor="let item of starList; let i=index ">
+                  <i *ngIf="i < proyecto.clasificacion.valor" class="fa" [ngClass]="{'fa-star':true}"></i>
+                  <i *ngIf="i >= proyecto.clasificacion.valor" class="fa" [ngClass]="{'fa-star-o':true}"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <mat-paginator #paginator [length]="total" [pageIndex]="pagina" [pageSize]="limite" [pageSizeOptions]="pageSizeOptions"
-    (page)="obtenerDatos($event)">
-  </mat-paginator>
+    <mat-paginator #paginator [length]="total" [pageIndex]="pagina" [pageSize]="limite" [pageSizeOptions]="pageSizeOptions"
+      (page)="obtenerDatos($event)">
+    </mat-paginator>
+  </ng-container>
 </div>

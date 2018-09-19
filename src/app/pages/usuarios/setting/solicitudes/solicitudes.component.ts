@@ -67,10 +67,15 @@ export class SolicitudesComponent implements OnInit {
         this.estado = false;
       },
       err => {
+        console.log(err);
         const objMessage = {
-          text: err,
+          text: err.message,
           type: "Info"
         };
+        if (err.error.errors) {
+          objMessage.text = "Ya esta Solicitado esa URL"
+        }
+
         this._messageDataService.changeMessage(objMessage);
         this.snackBar.openFromComponent(SnackbarComponent, {
           horizontalPosition: "right",

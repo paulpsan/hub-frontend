@@ -31,9 +31,11 @@ export class GruposComponent implements OnInit {
     });
     //obtener por idUsuario
 
-    this._httpService.obtener("grupos").subscribe(
+    this._httpService.obtener("grupos/usuarios/" + this.usuario._id).subscribe(
       (result: any) => {
-        this.grupoSearch = result.datos;
+        this._httpService.buscarId("grupos", result.fk_grupo).subscribe(res => {
+          this.grupoSearch = [res];
+        })
       },
       err => {
         console.log(err);

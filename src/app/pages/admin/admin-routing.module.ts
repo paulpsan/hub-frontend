@@ -8,6 +8,7 @@ import { EditarComponent } from './grupos/crear-editar/editar.component';
 import { UsuariosGrupoComponent } from './grupos/usuarios-grupo/usuarios-grupo.component';
 import { ProyectosGrupoComponent } from './grupos/proyectos-grupo/proyectos-grupo.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
+import { UsuariosProyectoComponent } from './grupos/proyectos-grupo/usuarios-proyecto/usuarios-proyecto.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
       { path: "grupos/nuevo", component: CrearComponent },
       { path: "grupos/editar", component: EditarComponent },
       { path: "grupos/usuarios/:id", component: UsuariosGrupoComponent },
-      { path: "grupos/proyectos/:id", component: ProyectosGrupoComponent }
+      { path: "grupos/proyectos/:id", component: ProyectosGrupoComponent },
+      { path: "grupos/proyectos/usuarios/:id", component: UsuariosProyectoComponent }
     ]
   }
 ];

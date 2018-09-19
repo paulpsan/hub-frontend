@@ -1,4 +1,4 @@
-<div class="container-fluid p-0" *ngIf='show'>
+<div class="container-fluid p-0" *ngIf='!esNuevo'>
   <div class="col titulo_proyecto">
     <div class="row justify-content-between">
       <div class="col-3">
@@ -166,11 +166,11 @@
           <span class="subtitle-repo">Commits</span>
 
           <div class="mt-3">
-              <button mat-raised-button (click)="changeGraph('total')">General</button>
-              <!-- <button mat-raised-button (click)="changeGraph('años')">Año</button> -->
-              <button mat-raised-button (click)="changeGraph('mes')">Mes</button>
-              <line-chart class="chart-commit" [config]="config$" [data]="dataRepo$"></line-chart>
-            </div>
+            <button mat-raised-button (click)="changeGraph('total')">General</button>
+            <!-- <button mat-raised-button (click)="changeGraph('años')">Año</button> -->
+            <button mat-raised-button (click)="changeGraph('mes')">Mes</button>
+            <line-chart class="chart-commit" [config]="config$" [data]="dataRepo$"></line-chart>
+          </div>
 
         </div>
       </div>
@@ -189,7 +189,7 @@
   <div class="mb-3">
     <h4 class="title-repo pl-3">Historial de Desarrollo:</h4>
     <div class="card-deck justify-content-md-center">
-      <div class="card col-xl-10" >
+      <div class="card col-xl-10">
         <div class="card-body">
           <span class="subtitle-repo">Commits por repositorio</span>
           <div class="">
@@ -207,4 +207,9 @@
       </chart-lenguajes>
     </div>
   </div> -->
+</div>
+<div *ngIf='esNuevo'>
+  <hub-nuevo-plantilla [proyecto]="proyecto">
+
+  </hub-nuevo-plantilla>
 </div>

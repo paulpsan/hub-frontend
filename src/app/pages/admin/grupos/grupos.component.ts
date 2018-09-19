@@ -30,7 +30,7 @@ export class GruposComponent implements OnInit {
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
@@ -41,11 +41,12 @@ export class GruposComponent implements OnInit {
   obtenerDatos(event?: PageEvent) {
     this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
       this.usuario = resp;
-      this._httpService
-        .buscarId("grupos", resp.Grupos[0]._id)
-        .subscribe(resp => {
-          this.grupos.push(resp);
-        });
+      if (this.usuario.Grupos.length > 0)
+        this._httpService
+          .buscarId("grupos", resp.Grupos[0]._id)
+          .subscribe(resp => {
+            this.grupos.push(resp);
+          });
     });
   }
   changeSelect(event, grupo) {
@@ -68,5 +69,5 @@ export class GruposComponent implements OnInit {
     );
   }
 
-  eliminar(usuario) {}
+  eliminar(usuario) { }
 }
