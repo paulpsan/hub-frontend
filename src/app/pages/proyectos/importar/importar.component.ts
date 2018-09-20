@@ -28,6 +28,7 @@ export class ImportarComponent implements OnInit {
   imagenSubir: File;
   imagenTemp: any;
   itemSelect;
+  grupo
   usuario;
   request;
   dataLoading;
@@ -80,12 +81,10 @@ export class ImportarComponent implements OnInit {
       institucion: new FormControl("")
     });
     this.proyForm.controls["nombre"].valueChanges.subscribe(value => {
-      this.proyForm.controls["urlRepositorio"].setValue(
-        `${environment.gitlabAdmin.domain}/${this.usuario.login}/${value}`
-      );
-      console.log(value);
+      this.setUrl(value)
     });
   }
+
   setValuesRepo(event: MatSelectChange) {
     this.itemSelect = event.value;
     this.proyForm.setValue({
@@ -139,7 +138,7 @@ export class ImportarComponent implements OnInit {
         this.usuarios,
         datos.commits
       );
-
+      proyecto.grupo = this.grupo || ""
       console.log(proyecto);
       this._httpService.post("proyectos?import=true", proyecto).subscribe(response => {
         this.snackBar.dismiss();
@@ -185,7 +184,7 @@ export class ImportarComponent implements OnInit {
       }, err => {
         console.log(err);
         let objMessage = {}
-        if (err.error.message.path[0]== 'has already been taken') {
+        if (err.error.message.path[0] == 'has already been taken') {
           console.log(typeof err.message);
           objMessage = {
             text: "El nombre del proyecto ya existe",
@@ -217,5 +216,21 @@ export class ImportarComponent implements OnInit {
   setUsuarios(usuarios: any) {
     console.log(usuarios);
     this.usuarios = usuarios;
+  }
+  setGrupo(grupo) {
+    console.log(grupo);
+    this.grupo = grupo;
+    this.setUrl(this.proyForm.controls["nombre"].value)
+  }
+  setUrl(value) {
+    if (this.grupo) {
+      this.proyForm.controls["urlRepositorio"].setValue(
+        `${environment.gitlabAdmin.domain}/${this.grupo.path}/${value}`
+      );
+    } else {
+      this.proyForm.controls["urlRepositorio"].setValue(
+        `${environment.gitlabAdmin.domain}/${this.usuario.login}/${value}`
+      );
+    }
   }
 }

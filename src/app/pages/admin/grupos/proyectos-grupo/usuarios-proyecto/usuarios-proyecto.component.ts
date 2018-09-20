@@ -36,7 +36,7 @@ export class UsuariosProyectoComponent implements OnInit {
     private _usuarioService: UsuarioService,
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
-  ) {}
+  ) { }
   ngOnInit() {
     // this._usuarioService.usuario$.subscribe(respUsuario => {
     //   this.usuario = respUsuario;
@@ -92,9 +92,9 @@ export class UsuariosProyectoComponent implements OnInit {
   }
   addUser(event) {
     console.log(event);
-    event.idGrupoGitlab = this.proyecto.id_gitlab;
-    event.idGrupo = this.proyecto._id;
-    this._httpService.post(`grupos/${this.id}/usuarios`, event).subscribe(
+    event.proyectoGitlab = this.proyecto.proyectoGitlab;
+    event.idProyecto = this.proyecto._id;
+    this._httpService.post(`proyectos/${this.id}/usuarios`, event).subscribe(
       resp => {
         const objMessage = {
           text: "Se adiciono exitosamente",

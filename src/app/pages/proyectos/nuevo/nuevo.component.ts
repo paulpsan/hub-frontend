@@ -26,9 +26,11 @@ export class NuevoComponent implements OnInit {
   nuevoForm: FormGroup;
   imagenSubir: File;
   imagenTemp: any;
+  itemSelect;
   grupo;
   usuario;
   request;
+  dataLoading;
   usuarios: any[];
   categorias: any[];
   repositorios;
@@ -44,7 +46,12 @@ export class NuevoComponent implements OnInit {
     private _subirArchivoService: SubirArchivoService,
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
-  ) { }
+  ) {
+    this.dataLoading = {
+      content: 'Cargando .........',
+      icon: false,
+    }
+  }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {

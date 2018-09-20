@@ -18,7 +18,7 @@
           <th>Descripción</th>
           <th>Path</th>
           <th>Institución</th>
-          <th style="width:80px">Estado</th>
+          <th style="width:120px">Estado</th>
           <th style="width:120px">Fecha de creación</th>
           <th style="width:80px">Acción</th>
         </tr>
@@ -44,7 +44,14 @@
             <p mat-line> {{solicitud.institucion }} </p>
           </td>
           <td>
-            <p mat-line> {{solicitud.estado }} </p>
+            <mat-chip-list>
+              <div *ngIf="solicitud.estado=='solicitado'">
+                <mat-chip color="accent" selected="true">{{solicitud.estado }} </mat-chip>
+              </div>
+              <div *ngIf="solicitud.estado=='aprobado'">
+                <mat-chip color="primary" selected="true">{{solicitud.estado }} </mat-chip>
+              </div>
+            </mat-chip-list>
           </td>
           <td>
             <p mat-line> {{solicitud.fecha_creacion |date}} </p>

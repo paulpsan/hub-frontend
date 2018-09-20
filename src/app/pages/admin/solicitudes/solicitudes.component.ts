@@ -67,6 +67,17 @@ export class SolicitudesComponent implements OnInit {
       resp => {
         solicitud = resp
         solicitud.request = "ok";
+        const objMessage = {
+          text: "El Usuario ha sido Aprobado para ser Titular",
+          type: "Info"
+        };
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: "right",
+          verticalPosition: "top",
+          panelClass: "background-success",
+          duration: 5000
+        });
       },
       err => {
         console.log(err);
