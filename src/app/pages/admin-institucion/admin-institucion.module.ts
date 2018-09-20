@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AdminRoutingModule } from './admin-routing.module';
+import { AdminRoutingModule } from './admin-institucion-routing.module';
 import { MaterialModule } from '../../material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComunModule } from '../../common/comun.module';
@@ -11,15 +11,14 @@ import { SettingModule } from '../usuarios/setting/setting.module';
 import { SharedModule } from '../../shared/shared.module';
 import { PipesModule } from '../../pipes/pipes.module';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import { AdminComponent } from './admin.component';
-import { GruposComponent } from './institucion/grupos/grupos.component';
-import { CrearComponent } from './institucion/grupos/crear-editar/crear.component';
-import { EditarComponent } from './institucion/grupos/crear-editar/editar.component';
-import { ProyectosGrupoComponent } from './institucion/grupos/proyectos-grupo/proyectos-grupo.component';
-import { UsuariosGrupoComponent } from './institucion/grupos/usuarios-grupo/usuarios-grupo.component';
+import { AdminInstitucionComponent } from './admin-institucion.component';
+import { GruposComponent } from './grupos/grupos.component';
+import { CrearComponent } from './grupos/crear-editar/crear.component';
+import { EditarComponent } from './grupos/crear-editar/editar.component';
+import { ProyectosGrupoComponent } from './grupos/proyectos-grupo/proyectos-grupo.component';
+import { UsuariosGrupoComponent } from './grupos/usuarios-grupo/usuarios-grupo.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
-import { UsuariosProyectoComponent } from './institucion/grupos/proyectos-grupo/usuarios-proyecto/usuarios-proyecto.component';
-import { AdminGruposComponent } from './grupos/admin-grupos.component';
+import { UsuariosProyectoComponent } from './grupos/proyectos-grupo/usuarios-proyecto/usuarios-proyecto.component';
 
 @NgModule({
   imports: [
@@ -35,16 +34,15 @@ import { AdminGruposComponent } from './grupos/admin-grupos.component';
     PipesModule,
   ],
   declarations: [
-    AdminComponent,
+    AdminInstitucionComponent,
     UsuariosComponent,
-    AdminGruposComponent,
     GruposComponent,
     CrearComponent,
     EditarComponent,
     ProyectosGrupoComponent,
     UsuariosGrupoComponent,
     SolicitudesComponent,
-    UsuariosProyectoComponent,
+    UsuariosProyectoComponent
   ]
 })
-export class AdminModule { }
+export class AdminInstitucionModule { }

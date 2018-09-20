@@ -19,9 +19,7 @@
           </p>
         </mat-list-item>
       </div>
-      <div>
-        <label for="" class="title-repo">Proyectos</label>
-      </div>
+
       <div class="col-md-8 col-lg-12" style="text-align: end">
         <span>Buscar:</span>
         <mat-form-field class="">
@@ -32,6 +30,9 @@
         </mat-form-field>
       </div>
     </ng-container>
+  </div>
+  <div>
+    <label for="" class="title-repo">Listado de Proyectos por grupo:</label>
   </div>
   <br>
   <div class="row" *ngIf="proyectos">
@@ -56,7 +57,7 @@
           </td>
           <td>
             <p mat-line>
-              <a [routerLink]="[ '/admin/grupos/proyectos/usuarios',proyecto._id ]">Usuarios</a>
+              <a [routerLink]="[ '/admin-institucion/grupos/proyectos/usuarios',proyecto._id ]">Usuarios</a>
             </p>
           </td>
           <td>

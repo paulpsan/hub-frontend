@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'repositorios',
-    component:RepositoriosComponent,
+    component: RepositoriosComponent,
     // component: ProyectosComponent,
     canActivate: [AuthGuard]
   },
@@ -26,7 +26,13 @@ const routes: Routes = [
     loadChildren: './admin/admin.module#AdminModule',
     // component:AdminComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  // {
+  //   path: 'admin-institucion',
+  //   loadChildren: './admin-institucion/admin-institucion.module#AdminInstitucionModule',
+  //   // component:AdminComponent,
+  //   canActivate: [AuthGuard]
+  // }
 ];
 
 export const PagesRoutingModule = RouterModule.forChild(routes);

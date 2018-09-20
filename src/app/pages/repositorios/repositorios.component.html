@@ -1,22 +1,80 @@
 <hub-header></hub-header>
 <div class="container">
   <hub-loading *ngIf="showData" [data]="dataLoading"></hub-loading>
-  <mat-card *ngIf="!showData" class="m-1">
+  <mat-card class="m-1">
     <mat-card-content class="">
-      <div *ngIf="!showRepo" class="row">
-        <div class="col">
+      <div class="row">
+        <div *ngIf="expression" class="col-12">
           <div class="text-center text-success">
             Usted no cuenta con Repositorios
           </div>
         </div>
+        <div class="col-12">
+          <h4>Sus proyectos en el repositorio estatal son:</h4>
+        </div>
+        <div class="col-12">
+          <div class="row" *ngIf="proyectos">
+            <table class="table table-responsive">
+              <thead class="thead-inverse">
+                <tr>
+                  <th style="width:200px">Proyecto</th>
+                  <th>Descripción</th>
+                  <th style="width:80px">Permiso</th>
+                  <th style="width:80px">Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let proyecto of proyectos">
+                  <td scope="row">
+                    <a href="proyecto.urlRepositorio">
+                      {{proyecto.path}}/{{proyecto.nombre}}
+                    </a><br>
+                    <mat-chip>{{proyecto.UsuarioProyecto.nombre_permiso}}</mat-chip>
+                  </td>
+                  <td>
+                    <p mat-line> {{proyecto.descripcion }} </p>
+                  </td>
+                  <td class="text-center">
+
+                    <mat-chip>{{proyecto.visibilidad}}</mat-chip>
+                    <!-- <mat-form-field class="col-12">
+                      <mat-select (selectionChange)="proyecto.change=true;" [(value)]="proyecto.visibilidad">
+                        <mat-option *ngFor="let permiso of permisosProyecto" [value]="permiso.value">
+                          {{ permiso.nombre }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field> -->
+                  </td>
+                  <td *ngIf="proyecto.path!==usuario.login">
+                    <div class="row justify-content-center">
+                      <div *ngIf="proyecto.change">
+                        <button mat-icon-button (click)="guardar(proyecto)" color="primary">
+                          <mat-icon mat-list-icon>save</mat-icon>
+                        </button>
+                      </div>
+                      <hub-button-loading [request]="proyecto.request">
+                      </hub-button-loading>
+
+                      <button mat-button (click)="salir(proyecto)" color="warn">
+                        Salir
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
       </div>
     </mat-card-content>
+
     <mat-card-content>
       <div class="row justify-content-between mb-3">
         <div class="col">
           <button mat-mini-fab [routerLink]="[ '/usuarios/ajustes']" [queryParams]="{ index: '1'}" color="primary">
             <mat-icon>add</mat-icon>
-          </button> Adicione Repositorios
+          </button> Adicione Repositorios de GitHub, Gitlab, Bitbucket
         </div>
         <div class="col-md-4" *ngIf="showRepo">
           <!-- <button mat-button (click)="showAll()" color="primary">

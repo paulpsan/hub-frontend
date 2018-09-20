@@ -91,96 +91,111 @@ export class NuevoComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.nuevoForm.valid) {
-      let proyecto: Proyecto;
-      proyecto = new Proyecto(
-        null,
-        this.nuevoForm.controls["nombre"].value,
-        this.nuevoForm.controls["descripcion"].value,
-        "private",
-        this.nuevoForm.controls["urlRepositorio"].value,
-        null,
-        this.usuario._id,
-        this.usuario,
-        "",
-        "",
-        "",
-        { datos: [], valor: 0 },
-        this.categorias,
-        ["licencias"],
-        this.usuarios
-      );
-      proyecto.grupo = this.grupo || ""
-      console.log(proyecto);
-      this._httpService
-        .adicionar("proyectos?nuevo=true", proyecto)
-        .subscribe(response => {
-          this.snackBar.dismiss();
-          const objMessage = {
-            text: "El proyecto fue creado exitosamente",
-            type: "Info",
-          }
-          this._messageDataService.changeMessage(objMessage);
-          this.snackBar.openFromComponent(SnackbarComponent, {
-            horizontalPosition: 'right',
-            verticalPosition: "top",
-            panelClass: "background-success",
-            duration: 5000
-          });
-          this.request = false
+    if (this.nuevoForm.controls["nombre"].value.split(" ").length > 1) {
+      const objMessage = {
+        text: "El nombre del proyecto es invalido",
+        type: "Info",
+      }
+      this._messageDataService.changeMessage(objMessage);
+      this.snackBar.openFromComponent(SnackbarComponent, {
+        horizontalPosition: 'right',
+        verticalPosition: "top",
+        panelClass: "background-warning",
+        duration: 5000
+      });
+      this.nuevoForm.controls["nombre"].setValue("");
+    } else {
+      if (this.nuevoForm.valid) {
+        let proyecto: Proyecto;
+        proyecto = new Proyecto(
+          null,
+          this.nuevoForm.controls["nombre"].value,
+          this.nuevoForm.controls["descripcion"].value,
+          "private",
+          this.nuevoForm.controls["urlRepositorio"].value,
+          null,
+          this.usuario._id,
+          this.usuario,
+          "",
+          "",
+          "",
+          { datos: [], valor: 0 },
+          this.categorias,
+          ["licencias"],
+          this.usuarios
+        );
+        proyecto.grupo = this.grupo || ""
+        console.log(proyecto);
+        this._httpService
+          .adicionar("proyectos?nuevo=true", proyecto)
+          .subscribe(response => {
+            this.snackBar.dismiss();
+            const objMessage = {
+              text: "El proyecto fue creado exitosamente",
+              type: "Info",
+            }
+            this._messageDataService.changeMessage(objMessage);
+            this.snackBar.openFromComponent(SnackbarComponent, {
+              horizontalPosition: 'right',
+              verticalPosition: "top",
+              panelClass: "background-success",
+              duration: 5000
+            });
+            this.request = false
 
-          if (!response.mensaje) {
-            if (this.imagenTemp) {
-              this._subirArchivoService
-                .subirArchivo(
-                  this.imagenSubir,
-                  "proyectos",
-                  response.proyecto._id
-                )
-                .then((resp: any) => {
-                  console.log(resp);
-                  const objPatch = {
-                    avatar: resp.proyecto.avatar
-                  };
-                  this._httpService
-                    .patch("proyectos", response.proyecto._id, objPatch)
-                    .subscribe(() => {
-                      this.router.navigate(["/proyectos"]);
-                    });
-                });
+            if (!response.mensaje) {
+              if (this.imagenTemp) {
+                this._subirArchivoService
+                  .subirArchivo(
+                    this.imagenSubir,
+                    "proyectos",
+                    response.proyecto._id
+                  )
+                  .then((resp: any) => {
+                    console.log(resp);
+                    const objPatch = {
+                      avatar: resp.proyecto.avatar
+                    };
+                    this._httpService
+                      .patch("proyectos", response.proyecto._id, objPatch)
+                      .subscribe(() => {
+                        this.router.navigate(["/proyectos"]);
+                      });
+                  });
+              } else {
+                this.nuevoForm.reset();
+                this.router.navigate(["/proyectos"]);
+              }
             } else {
-              this.nuevoForm.reset();
-              this.router.navigate(["/proyectos"]);
+              console.log("error ");
             }
-          } else {
-            console.log("error ");
-          }
-        }, err => {
-          console.log(err);
-          let objMessage = {}
-          if (err.error.message.path[0] == 'has already been taken') {
-            console.log(typeof err.message);
-            objMessage = {
-              text: "El nombre del proyecto ya existe",
-              type: "Info",
+          }, err => {
+            console.log(err);
+            let objMessage = {}
+            if (err.error.message.path[0] == 'has already been taken') {
+              console.log(typeof err.message);
+              objMessage = {
+                text: "El nombre del proyecto ya existe",
+                type: "Info",
+              }
+            } else {
+              objMessage = {
+                text: err.message,
+                type: "Info",
+              }
             }
-          } else {
-            objMessage = {
-              text: err.message,
-              type: "Info",
-            }
-          }
 
-          this._messageDataService.changeMessage(objMessage);
-          this.snackBar.openFromComponent(SnackbarComponent, {
-            horizontalPosition: 'right',
-            verticalPosition: "top",
-            panelClass: "background-warning",
-            duration: 5000
+            this._messageDataService.changeMessage(objMessage);
+            this.snackBar.openFromComponent(SnackbarComponent, {
+              horizontalPosition: 'right',
+              verticalPosition: "top",
+              panelClass: "background-warning",
+              duration: 5000
+            });
+            this.request = false
+            console.log(err);
           });
-          this.request = false
-          console.log(err);
-        });
+      }
     }
   }
   setCategorias(categorias: any) {

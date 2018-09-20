@@ -1,7 +1,11 @@
 .red {
-    background-color: rgb(231, 210, 210);
-  }
-  .icon-center {
-    text-align: center;
-  }
-  
+  background-color: rgb(231, 210, 210);
+}
+
+.icon-center {
+  text-align: center;
+}
+
+mat-chip {
+  background-color: #f3f3f3 !important;
+}

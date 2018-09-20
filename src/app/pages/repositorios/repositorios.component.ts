@@ -42,6 +42,8 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
   datos: boolean = false;
   commits: boolean = false
 
+  proyectos;
+
   @Output() siguiente = new EventEmitter<any>();
   @ViewChild(DataTableDirective) dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -94,6 +96,19 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
         }
       }
     })
+
+    this._httpService.obtener(`usuarios/${this.id}/proyectos`).subscribe(resp => {
+      if (resp.Proyectos.length >= 1) {
+        this.proyectos = resp.Proyectos;
+
+        this.proyectos = this.proyectos.map(proy => {
+          proy.path = proy.urlRepositorio.split('/')[3]
+          return proy
+        })
+        console.log(this.proyectos);
+      }
+    });
+
   }
   next(object) {
     this.siguiente.emit(object);
@@ -318,5 +333,8 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
       default:
         break;
     }
+  }
+  salir(proyecto) {
+
   }
 }

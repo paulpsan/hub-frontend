@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-2" style="text-align: left">
+      <button mat-button routerLink="/proyectos/nuevo" color="primary">
+        <mat-icon mat-list-icon>add</mat-icon>Nuevo
+      </button>
+    </div>
+    <ng-container *ngIf="!proyectos">
+      <h4>Usted no cuenta con proyectos</h4>
+    </ng-container>
+    <ng-container *ngIf="proyectos">
+      <div class="col-12" style="text-align: center">
+        <mat-list-item>
+          <h4 class="title-repo" mat-line>
+            Nombre de Grupo: {{grupo.nombre}}
+          </h4>
+          <p mat-line>
+            Path: {{grupo.path}}
+          </p>
+        </mat-list-item>
+      </div>
+      <div>
+        <label for="" class="title-repo">Proyectos</label>
+      </div>
+      <div class="col-md-8 col-lg-12" style="text-align: end">
+        <span>Buscar:</span>
+        <mat-form-field class="">
+          <input matInput [(ngModel)]="buscar" type="text" placeholder="Buscar Proyectos" (keyup)="obtenerDatos()" />
+          <button mat-button matSuffix mat-icon-button aria-label="Search" (click)="obtenerDatos()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </div>
+  <br>
+  <div class="row" *ngIf="proyectos">
+    <table class="table table-responsive">
+      <thead class="thead-inverse">
+        <tr>
+          <th style="width:200px">Proyecto</th>
+          <th>Descripción</th>
+          <th style="width:120px">Usuarios</th>
+          <th style="width:150px">Dirección del Proyecto </th>
+          <th style="width:80px">Permisos</th>
+          <th style="width:80px">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let proyecto of proyectos">
+          <td scope="row">
+            <h4 mat-line>{{proyecto.nombre}}</h4>
+          </td>
+          <td>
+            <p mat-line> {{proyecto.descripcion }} </p>
+          </td>
+          <td>
+            <p mat-line>
+              <a [routerLink]="[ '/admin/institucion/grupos/proyectos/usuarios',proyecto._id ]">Usuarios</a>
+            </p>
+          </td>
+          <td>
+            <p mat-line> {{proyecto.urlRepositorio }} </p>
+          </td>
+          <td class="p-0">
+            <mat-form-field class="col-12">
+              <mat-select (selectionChange)="proyecto.change=true;" [(value)]="proyecto.visibilidad">
+                <mat-option *ngFor="let permiso of permisosProyecto" [value]="permiso.value">
+                  {{ permiso.nombre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>
+            <div class="row justify-content-center">
+              <div *ngIf="proyecto.change">
+                <button mat-icon-button (click)="guardar(proyecto)" color="primary">
+                  <mat-icon mat-list-icon>save</mat-icon>
+                </button>
+              </div>
+              <hub-button-loading [request]="proyecto.request">
+              </hub-button-loading>
+              <button mat-icon-button (click)="eliminar(proyecto)" color="warn">
+                <mat-icon mat-list-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator *ngIf="proyecto" #paginator [length]="total" [pageIndex]="pagina" [pageSize]="limite"
+    [pageSizeOptions]="pageSizeOptions" (page)="obtenerDatos($event)">
+  </mat-paginator>
+</div>

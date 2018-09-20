@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="text-center">
+    <h4>Grupo </h4>
+  </div>
+  <div class="row">
+    <!-- <div class="col-md-2" style="text-align: left">
+      <button mat-button routerLink="nuevo" color="primary">
+        <mat-icon mat-list-icon>add</mat-icon>Nuevo
+      </button>
+    </div> -->
+    <!-- <div class="col-md-8" style="text-align: center">
+      <span>Buscar:</span>
+      <mat-form-field class="">
+        <input matInput [(ngModel)]="buscar" type="text" placeholder="Buscar Personas" (keyup)="obtenerDatos()" />
+        <button mat-button matSuffix mat-icon-button aria-label="Search" (click)="obtenerDatos()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div> -->
+  </div>
+  <table class="table table-responsive">
+    <thead class="thead-inverse">
+      <tr>
+        <th style="width:200px">Nombre Grupo</th>
+        <th style="width:200px">Url</th>
+        <th style="width:100px">Nro. de Usuarios</th>
+        <th style="width:100px">Nro. de Proyectos</th>
+        <th style="width:100px">Fecha de Creación</th>
+        <th style="width:100px">Permiso</th>
+        <th style="width:100px">Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let grupo of grupos">
+        <td scope="row">
+          <h4 mat-line>{{grupo.nombre}}</h4>
+        </td>
+        <td>
+          <p mat-line> {{grupo.path }} </p>
+        </td>
+        <td>
+          <p mat-line> {{grupo.Usuarios.length }}
+            <a [routerLink]="[ 'usuarios',grupo._id ]">Usuarios</a>
+          </p>
+        </td>
+        <td>
+          <p mat-line> {{grupo.Proyectos.length }} <a [routerLink]="[ 'proyectos',grupo._id]">Proyectos</a></p>
+        </td>
+        <td>
+          <p mat-line> {{grupo.fecha_creacion |date }} </p>
+        </td>
+        <td class="p-0">
+          <mat-form-field class="col-12">
+            <mat-select (selectionChange)="grupo.change=true;" [(value)]="grupo.visibilidad">
+              <mat-option *ngFor="let permiso of permisosGrupo" [value]="permiso.value">
+                {{ permiso.nombre }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <div class="row justify-content-center">
+            <div *ngIf="grupo.change">
+              <button mat-icon-button (click)="guardar(grupo)" color="primary">
+                <mat-icon mat-list-icon>save</mat-icon>
+              </button>
+            </div>
+            <hub-button-loading [request]="grupo.request">
+            </hub-button-loading>
+            <ng-container *ngIf="usuario.admin">
+              <button mat-icon-button (click)="eliminar(usuario)" color="warn">
+                <mat-icon mat-list-icon>delete</mat-icon>
+              </button>
+            </ng-container>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <mat-paginator #paginator [length]="total" [pageIndex]="pagina" [pageSize]="limite" [pageSizeOptions]="pageSizeOptions"
+    (page)="obtenerDatos($event)">
+  </mat-paginator>
+</div>

@@ -14,6 +14,9 @@
               <div class="form-group">
                 <mat-form-field class="col">
                   <input matInput placeholder="Nombre de Proyecto (*)" formControlName="nombre">
+                  <mat-hint>
+                    Nombre no debe contener espacios, ejemplo: mi-nuevo-proyecto
+                  </mat-hint>
                   <mat-error *ngIf="nuevoForm.controls['nombre'].hasError('required')">
                     Nombre es
                     <strong>requerido</strong>

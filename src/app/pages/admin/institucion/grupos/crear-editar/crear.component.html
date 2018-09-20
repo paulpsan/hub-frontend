@@ -1,0 +1,159 @@
+<div class="container">
+  <div class="row justify-content-md-center m-1">
+    <div class="card card-catalogo bg-light col-md-6 col-sm-12" style="padding: 0;">
+      <div class="card-header card-header-catalogo">
+        <span class="titulo-catalogo">
+          Crear Nuevo Grupo
+        </span>
+      </div>
+      <div class="card-body">
+        <form novalidate [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+          <fieldset>
+            <ng-container>
+              <div class="form-group">
+                <mat-form-field class="col">
+                  <input matInput placeholder="Nombre del grupo (*)" formControlName="nombre">
+                  <mat-hint>
+                    Introduzca el Nombre de grupo
+                  </mat-hint>
+                  <mat-error *ngIf="groupForm.controls['nombre'].hasError('required')">
+                    Nombre es
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <div class="container">
+                  <div class="row">
+                    <mat-form-field class="col-auto pr-0">
+                      <input matInput placeholder="http://gitlab.dev.com:30081/" disabled>
+                      <mat-hint>
+                        La direccion ejemplo del grupo sera http://gitlab.dev.com:30081/miGrupo
+                      </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field class="col pl-0">
+                      <input matInput placeholder="Path del grupo (*)" formControlName="path">
+                      <mat-error *ngIf="groupForm.controls['path'].hasError('required')">
+                        Path es
+                        <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+              </div>
+              <!-- <div class="form-group">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <img class="col-4 col-sm-4 col-md-12" *ngIf="!imagenTemp" [src]="itemSelect.avatar |imagen:'proyecto'"
+                        style="height: 75px;">
+                      <img class="col-4 col-sm-4 col-md-12" *ngIf="imagenTemp" [src]="imagenTemp" style="height: 75px;">
+                    </div>
+                    <div class="col-md-6">
+                      <div>
+                        <label for="">Selecione una imagen</label>
+                      </div>
+                      <button mat-button type="button" (click)="fileToUpload.click()" color="primary">
+                        <mat-icon mat-list-icon>add_photo_alternate</mat-icon>
+                        Imagen
+                      </button>
+                      <input #fileToUpload (change)="seleccionImage($event.target.files[0])" type="file" style="display:none;">
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+
+              <div class="form-group">
+                <mat-form-field class="col">
+                  <textarea matInput placeholder="Descripcion(*)" formControlName="descripcion"></textarea>
+                  <mat-hint>
+                    Detalle una descripción del grupo centrado en las caracteristicas
+                    <br> Máximo 800 caracteres
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <div class="container">
+                  <div *ngIf="usuarios.length!==0">
+                    <label for="">Usuarios</label>
+                    <table class="table">
+                      <thead class="thead-inverse">
+                        <tr>
+                          <th>Usuario</th>
+                          <th>Permiso</th>
+                          <th>Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let usuario of usuarios; let i=index">
+                          <td scope="row">{{usuario.nombre}}</td>
+                          <td>{{usuario.permiso}}</td>
+                          <td class="p-0" *ngIf="i!=0">
+                            <button mat-icon-button (click)="delUser(usuario)" color="warn">
+                              <mat-icon mat-list-icon>delete</mat-icon>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <mat-form-field class="col">
+                      <input matInput placeholder="Usuario" [matAutocomplete]="auto" formControlName="usuario">
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let item of usuariosSearch" [value]="item.nombre">
+                          {{ item.nombre }}
+                        </mat-option>
+                      </mat-autocomplete>
+                      <mat-hint>
+                        Buscar un usuario
+                      </mat-hint>
+
+                    </mat-form-field>
+                    <mat-form-field class="col-4">
+                      <mat-select placeholder="Permiso(*)" formControlName="permiso">
+                        <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso">
+                          {{ permiso.nombre }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="groupForm.hasError('required')">Escoja una opción</mat-error>
+                    </mat-form-field>
+                    <button mat-icon-button color="primary" type="button" (click)="addUser()" matTooltip="Adiciona Usuario"
+                      [disabled]="groupForm.controls['usuario'].value==''|| groupForm.controls['permiso'].value==''">
+                      <mat-icon aria-label="addicona">add</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <mat-form-field class="col">
+                  <mat-select placeholder="Visibilidad(*)" formControlName="visibilidad">
+                    <mat-option *ngFor="let permiso of permisosGrupo" [value]="permiso">
+                      {{ permiso.nombre }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="groupForm.hasError('required')">Escoja una opción</mat-error>
+                </mat-form-field>
+              </div>
+            </ng-container>
+
+          </fieldset>
+          <div class="row justify-content-center">
+            <button mat-button [disabled]="!groupForm.valid" type="submit" color="primary">
+              <mat-icon mat-list-icon>done</mat-icon>
+              Guardar
+            </button>
+            <button mat-button routerLink="/admin/grupos" color="warn">
+              <mat-icon mat-list-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
