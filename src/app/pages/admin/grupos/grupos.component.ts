@@ -30,7 +30,7 @@ export class GruposComponent implements OnInit {
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
@@ -45,7 +45,7 @@ export class GruposComponent implements OnInit {
         this._httpService
           .buscarId("grupos", resp.Grupos[0]._id)
           .subscribe(resp => {
-            this.grupos.push(resp);
+            this.grupos = [resp];
           });
     });
   }
@@ -61,13 +61,15 @@ export class GruposComponent implements OnInit {
       result => {
         console.log(result);
         grupo.request = "ok";
+        this.obtenerDatos();
       },
       err => {
         console.log(err);
         grupo.request = "error";
+        this.obtenerDatos();
       }
     );
   }
 
-  eliminar(usuario) { }
+  eliminar(usuario) {}
 }

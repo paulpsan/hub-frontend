@@ -3,6 +3,7 @@ export class Proyecto {
     public _id: string,
     public nombre: string,
     public descripcion: string,
+    public visibilidad: string,
     public urlRepositorio: string,
     public fk_repositorio: number,
     public fk_usuario: number,

@@ -125,6 +125,7 @@ export class ImportarComponent implements OnInit {
         null,
         this.proyForm.controls["nombre"].value,
         this.proyForm.controls["descripcion"].value,
+        "private",
         this.proyForm.controls["urlRepositorio"].value,
         datos._id,
         this.usuario._id,

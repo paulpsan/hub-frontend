@@ -47,9 +47,9 @@
               <span> Usuarios: </span>
             </div>
             <div class="col-md-7">
-              <!-- <span *ngFor="let usuario of proyecto.usuarios">
-                <a href="{{usuario.web_url}}" target="#">{{usuario.nombre}} ,</a>
-              </span> -->
+              <span *ngFor="let usuario of proyecto.Usuarios">
+                <a [routerLink]="[ '/usuarios/',usuario._id  ]">{{usuario.nombre}} ,</a>
+              </span>
             </div>
           </div>
           <div class="row">
@@ -122,7 +122,7 @@
 
             cd existing_repo<br>
             git remote rename origin old-origin<br>
-            git remote add origin http://gitlab.dev.com:30081/adsib-grupo/preuba.git<br>
+            git remote add origin {{proyecto.urlRepositorio}}.git<br>
             git push -u origin --all<br>
             git push -u origin --tags<br>
           </div>

@@ -2,8 +2,13 @@
   <mat-form-field class="col-md-4 col-12">
     <input matInput placeholder="Usuario" [matAutocomplete]="auto" formControlName="nombre">
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let item of usuariosSearch" [value]="item.nombre">
-        {{ item.nombre }}
+      <mat-option *ngFor="let item of usuariosSearch" [value]="item.nombre" style="line-height: 18px;">
+        <p class="">
+          {{ item.nombre }} <br>
+          <span style="font-size: 12px">
+            {{ item.email}}
+          </span>
+        </p>
       </mat-option>
     </mat-autocomplete>
     <mat-hint>

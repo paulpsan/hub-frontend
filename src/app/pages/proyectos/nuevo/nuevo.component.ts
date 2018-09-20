@@ -90,6 +90,7 @@ export class NuevoComponent implements OnInit {
         null,
         this.nuevoForm.controls["nombre"].value,
         this.nuevoForm.controls["descripcion"].value,
+        "private",
         this.nuevoForm.controls["urlRepositorio"].value,
         null,
         this.usuario._id,

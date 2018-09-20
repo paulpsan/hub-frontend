@@ -55,7 +55,7 @@
             <p mat-line> {{proyecto.descripcion }} </p>
           </td>
           <td>
-            <p mat-line> {{proyecto.usuarios.length }}
+            <p mat-line>
               <a [routerLink]="[ '/admin/grupos/proyectos/usuarios',proyecto._id ]">Usuarios</a>
             </p>
           </td>
@@ -64,7 +64,7 @@
           </td>
           <td class="p-0">
             <mat-form-field class="col-12">
-              <mat-select (selectionChange)="proyecto.change=true;" [(value)]="proyecto.ProyectoGrupo.visibilidad">
+              <mat-select (selectionChange)="proyecto.change=true;" [(value)]="proyecto.visibilidad">
                 <mat-option *ngFor="let permiso of permisosProyecto" [value]="permiso.value">
                   {{ permiso.nombre }}
                 </mat-option>

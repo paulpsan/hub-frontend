@@ -1,13 +1,16 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { HttpService, MessageDataService } from '../../../services/service.index';
-import { MatSnackBar } from '@angular/material';
-import { SnackbarComponent } from '../../snackbar/snackbar.component';
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import {
+  HttpService,
+  MessageDataService
+} from "../../../services/service.index";
+import { MatSnackBar } from "@angular/material";
+import { SnackbarComponent } from "../../snackbar/snackbar.component";
 
 @Component({
-  selector: 'hub-input-usuario',
-  templateUrl: './usuario.component.html',
-  styleUrls: ['./usuario.component.css']
+  selector: "hub-input-usuario",
+  templateUrl: "./usuario.component.html",
+  styleUrls: ["./usuario.component.css"]
 })
 export class UsuarioComponent implements OnInit {
   userForm: FormGroup;
@@ -18,20 +21,20 @@ export class UsuarioComponent implements OnInit {
     { nombre: "mantenedor", rol: "maintainer", access: "40" },
     { nombre: "desarrollador", rol: "developer", access: "30" },
     { nombre: "reportero", rol: "reporter", access: "20" },
-    { nombre: "invitado", rol: "guest", access: "10" },
-  ]
-  @Output() emitUser = new EventEmitter<any>();
+    { nombre: "invitado", rol: "guest", access: "10" }
+  ];
+  @Output()
+  emitUser = new EventEmitter<any>();
   constructor(
     private _httpService: HttpService,
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
-
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userForm = new FormGroup({
-      nombre: new FormControl('', Validators.required),
-      permiso: new FormControl('', Validators.required)
+      nombre: new FormControl("", Validators.required),
+      permiso: new FormControl("", Validators.required)
     });
     this.userForm.controls["nombre"].valueChanges.subscribe(resp => {
       let pagData = {
@@ -51,35 +54,34 @@ export class UsuarioComponent implements OnInit {
     });
   }
   save(event) {
-    let usuario = this.usuariosSearch.map(user => {
-      if (user.nombre == this.userForm.controls["nombre"].value) {
-        return user
-      }
-    })
-    if (!usuario[0]) {
+    let usuario = this.usuariosSearch.find(user => {
+      return user.nombre == this.userForm.controls["nombre"].value;
+    });
+    console.log(usuario);
+    if (!usuario) {
       const objMessage = {
         text: "No existe el usuario.",
-        type: "Advertencia",
-      }
+        type: "Advertencia"
+      };
       this._messageDataService.changeMessage(objMessage);
       this.snackBar.openFromComponent(SnackbarComponent, {
-        horizontalPosition: 'right',
+        horizontalPosition: "right",
         verticalPosition: "top",
         panelClass: "background-warning",
         duration: 5000
       });
-    }
-    let usuarioEmit = {
-      _id: usuario[0]._id,
-      nombre: usuario[0].nombre,
-      usuarioGitlab: usuario[0].usuarioGitlab,
-      access_level: this.userForm.controls["permiso"].value,
-      nombre_permiso: this.permisosUsuario.find(permiso =>
-        permiso.access == this.userForm.controls["permiso"].value
-      ).nombre
+    } else {
+      let usuarioEmit = {
+        _id: usuario._id,
+        nombre: usuario.nombre,
+        usuarioGitlab: usuario.usuarioGitlab,
+        access_level: this.userForm.controls["permiso"].value,
+        nombre_permiso: this.permisosUsuario.find(
+          permiso => permiso.access == this.userForm.controls["permiso"].value
+        ).nombre
+      };
+      this.emitUser.emit(usuarioEmit);
     }
     this.userForm.reset();
-    this.emitUser.emit(usuarioEmit);
-
   }
 }
