@@ -1,39 +1,43 @@
 <ul class="nav">
   <!-- Main menu -->
   <li class="current">
+    <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
+      <mat-expansion-panel-header>
+        <mat-icon>build</mat-icon>
+        <span class="ml-2">
+          Administracion de Grupo
+        </span>
+      </mat-expansion-panel-header>
 
-    <ng-container *ngIf="grupo">
-      <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
-        <mat-expansion-panel-header [routerLink]="['/admin/institucion/grupos']">
-          <mat-icon>group</mat-icon>
-          <span class="ml-2">
-            Grupo
-          </span>
-        </mat-expansion-panel-header>
-        <div class="row">
-          <button mat-menu-item class="button-menu" [routerLink]="['/admin/institucion/grupos/usuarios',grupo._id]">
-            <mat-icon>account_circle</mat-icon>
-            <span>Usuarios</span>
-          </button>
-        </div>
-      </mat-expansion-panel>
-      <mat-divider>
-      </mat-divider>
-      <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
-        <mat-expansion-panel-header [routerLink]="['/admin/institucion/grupos/proyectos',grupo._id]">
-          <mat-icon>code</mat-icon>
-          <span class="ml-2">
-            Proyectos
-          </span>
-        </mat-expansion-panel-header>
-        <!-- <ng-container *ngIf="grupo">
-            <button mat-menu-item class="button-menu" [routerLink]="['/admin/grupos/usuarios',grupo._id]">
+      <ng-container *ngIf="grupo">
+        <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
+          <mat-expansion-panel-header [routerLink]="['/admin/institucion/grupos']">
+            <mat-icon>group</mat-icon>
+            <span class="ml-2">
+              Grupo
+            </span>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <button mat-menu-item class="button-menu" [routerLink]="['/admin/institucion/grupos/usuarios',grupo._id]">
               <mat-icon>account_circle</mat-icon>
               <span>Usuarios</span>
             </button>
-          </ng-container> -->
-      </mat-expansion-panel>
-    </ng-container>
+          </div>
+        </mat-expansion-panel>
+        <mat-divider>
+        </mat-divider>
+        <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
+          <mat-expansion-panel-header [routerLink]="['/admin/institucion/grupos/proyectos',grupo._id]">
+            <mat-icon>code</mat-icon>
+            <span class="ml-2">
+              Proyectos
+            </span>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-expansion-panel>
+
+
     <mat-divider>
     </mat-divider>
     <ng-container *ngIf="usuario.admin">

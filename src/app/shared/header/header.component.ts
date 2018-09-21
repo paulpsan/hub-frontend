@@ -34,16 +34,17 @@ export class HeaderComponent implements OnInit, OnChanges {
     },
     {
       label: "Admin",
-      path: "/admin/institucion/grupos",
+      path: "",
       admin: true
     }
   ];
+
 
   constructor(
     private _httpService: HttpService,
     public _usuarioService: UsuarioService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
@@ -54,7 +55,12 @@ export class HeaderComponent implements OnInit, OnChanges {
       this._httpService
         .buscarId("usuarios", this.usuario._id)
         .subscribe(resp => {
-          if (resp.admin || resp.admin_grupo) {
+          if (resp.admin) {
+            this.navLinks[3].path = 'admin/solicitudes';
+            this.navLinks[3].admin = false;
+          }
+          if (resp.admin_grupo) {
+            this.navLinks[3].path = '/admin/institucion/grupos';
             this.navLinks[3].admin = false;
           }
           this.usuario = resp;
