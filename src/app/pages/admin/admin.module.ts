@@ -20,6 +20,7 @@ import { UsuariosGrupoComponent } from './institucion/grupos/usuarios-grupo/usua
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { UsuariosProyectoComponent } from './institucion/grupos/proyectos-grupo/usuarios-proyecto/usuarios-proyecto.component';
 import { AdminGruposComponent } from './grupos/admin-grupos.component';
+import { ProyectosComponent } from './proyectos/proyectos.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { AdminGruposComponent } from './grupos/admin-grupos.component';
     UsuariosGrupoComponent,
     SolicitudesComponent,
     UsuariosProyectoComponent,
+    ProyectosComponent,
   ]
 })
 export class AdminModule { }

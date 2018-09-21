@@ -10,7 +10,7 @@
         </p>
       </mat-list-item>
     </div>
-    <div>
+    <div class="col">
       <label for="" class="title-repo">Nuevo</label>
     </div>
     <hub-input-usuario class="col-12" (emitUser)="addUser($event)">
@@ -26,6 +26,9 @@
         </button>
       </mat-form-field>
     </div>
+  </div>
+  <div>
+    <label for="" class="title-repo">Listado de Usuaros por Proyecto:</label>
   </div>
   <br>
   <div class="row" *ngIf="proyecto">
@@ -55,12 +58,12 @@
           </td>
           <td class="p-0">
             <mat-form-field class="col-12">
-                <mat-select (selectionChange)="usuario.change=true;" [(value)]="usuario.UsuarioProyecto.access_level">
-                  <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso.access">
-                    {{ permiso.nombre }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+              <mat-select (selectionChange)="usuario.change=true;" [(value)]="usuario.UsuarioProyecto.access_level">
+                <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso.access">
+                  {{ permiso.nombre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </td>
           <td>
             <div class="row justify-content-center">

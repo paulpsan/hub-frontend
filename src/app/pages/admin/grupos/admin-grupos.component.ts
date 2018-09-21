@@ -30,7 +30,7 @@ export class AdminGruposComponent implements OnInit {
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
@@ -39,14 +39,32 @@ export class AdminGruposComponent implements OnInit {
     });
   }
   obtenerDatos(event?: PageEvent) {
+    let pagData;
+    if (event == null) {
+      pagData = {
+        ordenar: "estado",
+        pagina: 1,
+        limite: 10
+      };
+    } else {
+      pagData = {
+        ordenar: "estado",
+        pagina: event.pageIndex + 1,
+        limite: event.pageSize
+      };
+    }
+    if (this.buscar != "") {
+      pagData.buscar = this.buscar;
+    }
+    this._httpService.obtenerPaginado("grupos", pagData).subscribe(resp => {
+      this.respuesta = resp;
+      this.total = this.respuesta.paginacion.total;
+      this.pagina = this.respuesta.paginacion.paginaActual - 1;
+      this.limite = this.respuesta.paginacion.limite;
+      this.grupos = this.respuesta.datos;
+    });
     this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
       this.usuario = resp;
-      if (this.usuario.Grupos.length > 0)
-        this._httpService
-          .buscarId("grupos", resp.Grupos[0]._id)
-          .subscribe(resp => {
-            this.grupos = [resp];
-          });
     });
   }
   changeSelect(event, grupo) {
@@ -71,5 +89,5 @@ export class AdminGruposComponent implements OnInit {
     );
   }
 
-  eliminar(usuario) { }
+  eliminar(usuario) {}
 }

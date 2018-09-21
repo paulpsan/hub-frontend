@@ -4,11 +4,11 @@ import { HttpService, UsuarioService } from "../../../services/service.index";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: "hub-grupos",
-  templateUrl: "./grupos.component.html",
-  styleUrls: ["./grupos.component.css"]
+  selector: "hub-proyectos",
+  templateUrl: "./proyectos.component.html",
+  styleUrls: ["./proyectos.component.css"]
 })
-export class GruposComponent implements OnInit {
+export class ProyectosComponent implements OnInit {
   public usuario;
   public respuesta: any;
   public title = "Star Rating";
@@ -20,8 +20,8 @@ export class GruposComponent implements OnInit {
   public total;
   public pageSizeOptions = [5, 10, 25, 100];
   public pageEvent: PageEvent;
-  public grupos = [];
-  permisosGrupo = [
+  public proyectos = [];
+  permisosProyecto = [
     { nombre: "privado", value: "private" },
     { nombre: "interno", value: "internal" },
     { nombre: "publico", value: "public" }
@@ -39,33 +39,51 @@ export class GruposComponent implements OnInit {
     });
   }
   obtenerDatos(event?: PageEvent) {
+    let pagData;
+    if (event == null) {
+      pagData = {
+        ordenar: "estado",
+        pagina: 1,
+        limite: 10
+      };
+    } else {
+      pagData = {
+        ordenar: "estado",
+        pagina: event.pageIndex + 1,
+        limite: event.pageSize
+      };
+    }
+    if (this.buscar != "") {
+      pagData.buscar = this.buscar;
+    }
+    this._httpService.obtenerPaginado("proyectos", pagData).subscribe(resp => {
+      this.respuesta = resp;
+      this.total = this.respuesta.paginacion.total;
+      this.pagina = this.respuesta.paginacion.paginaActual - 1;
+      this.limite = this.respuesta.paginacion.limite;
+      this.proyectos = this.respuesta.datos;
+    });
     this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
       this.usuario = resp;
-      if (this.usuario.Grupos.length > 0)
-        this._httpService
-          .buscarId("grupos", resp.Grupos[0]._id)
-          .subscribe(resp => {
-            this.grupos = [resp];
-          });
     });
   }
-  changeSelect(event, grupo) {
+  changeSelect(event, proyecto) {
     console.log(event);
-    grupo.change = true;
+    proyecto.change = true;
   }
-  guardar(grupo) {
-    console.log(grupo);
-    grupo.request = "start";
-    grupo.change = false;
-    this._httpService.editar("grupos", grupo).subscribe(
+  guardar(proyecto) {
+    console.log(proyecto);
+    proyecto.request = "start";
+    proyecto.change = false;
+    this._httpService.editar("proyectos", proyecto).subscribe(
       result => {
         console.log(result);
-        grupo.request = "ok";
+        proyecto.request = "ok";
         this.obtenerDatos();
       },
       err => {
         console.log(err);
-        grupo.request = "error";
+        proyecto.request = "error";
         this.obtenerDatos();
       }
     );

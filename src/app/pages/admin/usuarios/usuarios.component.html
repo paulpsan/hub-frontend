@@ -10,12 +10,16 @@
       </mat-form-field>
     </div>
   </div>
+  <div>
+    <label for="" class="title-repo">Listado de Usuarios:</label>
+  </div>
   <table class="table table-responsive">
     <thead class="thead-inverse">
       <tr>
-        <th style="width:250px">Usuario</th>
-        <th style="width:150px">Username</th>
-        <th style="width:150px">Fecha de Creación</th>
+        <th style="width:150px">Usuario</th>
+        <th style="width:100px">Username</th>
+        <th style="width:100px">Correo</th>
+        <th style="width:80px">Fecha de Creación</th>
         <th style="width:120px">Administración de grupo</th>
       </tr>
     </thead>
@@ -28,19 +32,15 @@
           <p mat-line> {{usuario.login }} </p>
         </td>
         <td>
+          <p mat-line> {{usuario.email }} </p>
+        </td>
+        <td>
           <p mat-line> {{usuario.fecha_creacion |date }} </p>
         </td>
         <td>
-          <div class="row justify-content-center">
-            <mat-slide-toggle class="" (change)="setAdmin($event,usuario)" [color]="primary" [checked]="usuario.admin_group">
-            </mat-slide-toggle>
-            <div *ngIf="usuario.request=='start'">
-              <i class="fa fa-spinner fa-spin" style="font-size:20px;"></i>
-            </div>
-            <div *ngIf="usuario.request=='finish'">
-              <i class="fa fa-check" style="font-size:20px;"></i>
-            </div>
-          </div>
+          <button mat-icon-button (click)="eliminar(usuario)" color="warn">
+            <mat-icon mat-list-icon>delete</mat-icon>
+          </button>
         </td>
       </tr>
     </tbody>

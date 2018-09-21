@@ -3,7 +3,7 @@
   <li class="current">
 
     <ng-container *ngIf="grupo">
-      <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin || usuario.admin_grupo">
+      <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
         <mat-expansion-panel-header [routerLink]="['/admin/institucion/grupos']">
           <mat-icon>group</mat-icon>
           <span class="ml-2">
@@ -19,7 +19,7 @@
       </mat-expansion-panel>
       <mat-divider>
       </mat-divider>
-      <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin || usuario.admin_grupo">
+      <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
         <mat-expansion-panel-header [routerLink]="['/admin/institucion/grupos/proyectos',grupo._id]">
           <mat-icon>code</mat-icon>
           <span class="ml-2">

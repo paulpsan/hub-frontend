@@ -125,6 +125,7 @@ export class NuevoComponent implements OnInit {
           this.usuarios
         );
         proyecto.grupo = this.grupo || ""
+        this.request = true;
         console.log(proyecto);
         this._httpService
           .adicionar("proyectos?nuevo=true", proyecto)

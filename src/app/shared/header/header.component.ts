@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     },
     {
       label: "Admin",
-      path: "/admin-institucion/grupos",
+      path: "/admin/institucion/grupos",
       admin: true
     }
   ];
@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     private _httpService: HttpService,
     public _usuarioService: UsuarioService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
