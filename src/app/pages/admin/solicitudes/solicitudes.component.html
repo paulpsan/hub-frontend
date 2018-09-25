@@ -54,6 +54,9 @@
               <div *ngIf="solicitud.estado=='aprobado'">
                 <mat-chip color="primary" selected="true">{{solicitud.estado }} </mat-chip>
               </div>
+              <div *ngIf="solicitud.estado=='rechazado'">
+                  <mat-chip color="warn" selected="true">{{solicitud.estado }} </mat-chip>
+                </div>
             </mat-chip-list>
           </td>
           <td>
@@ -62,11 +65,14 @@
           <td>
             <div class="row justify-content-center">
               <ng-container *ngIf="solicitud.estado!='aprobado'">
-                <button mat-button (click)="setAdmin(solicitud)" color="primary">
+                <button mat-button (click)="aprobar(solicitud)" color="primary">
                   Aprobar
                 </button>
                 <hub-button-loading style="margin-top: -8px" [request]="solicitud.request">
                 </hub-button-loading>
+                <button mat-button (click)="rechazar(solicitud)" color="primary">
+                  Rechazar
+                </button>
               </ng-container>
             </div>
           </td>

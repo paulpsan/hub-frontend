@@ -56,7 +56,7 @@ export class HeaderComponent implements OnInit, OnChanges {
         .buscarId("usuarios", this.usuario._id)
         .subscribe(resp => {
           if (resp.admin) {
-            this.navLinks[3].path = 'admin/solicitudes';
+            this.navLinks[3].path = '/admin/solicitudes';
             this.navLinks[3].admin = false;
           }
           if (resp.admin_grupo) {

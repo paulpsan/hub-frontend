@@ -59,16 +59,58 @@ export class SolicitudesComponent implements OnInit {
       }
     );
   }
-  setAdmin(solicitud) {
+  aprobar(solicitud) {
     solicitud.request = "start";
     solicitud.change = false;
-    solicitud.estado = "aprobado";
-    this._httpService.editar("solicitudes", solicitud).subscribe(
-      resp => {
-        solicitud = resp
+    solicitud.estado = "aprobado"
+    this._httpService.post(`solicitudes/${solicitud._id}`, solicitud).subscribe(
+      (resp: any) => {
+        solicitud.estado = resp.estado;
         solicitud.request = "ok";
+        console.log(solicitud);
         const objMessage = {
           text: "El Usuario ha sido Aprobado para ser Titular",
+          type: "Info"
+        };
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: "right",
+          verticalPosition: "top",
+          panelClass: "background-success",
+          duration: 5000
+        });
+      },
+      err => {
+        console.log(err);
+        const objMessage = {
+          text: err.error.message,
+          type: "Info"
+        };
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: "right",
+          verticalPosition: "top",
+          panelClass: "background-warning",
+          duration: 5000
+        });
+        solicitud.request = "error";
+        solicitud.estado = "solicitado"
+
+        console.log(err);
+      }
+    );
+  }
+  rechazar(solicitud) {
+    solicitud.request = "start";
+    solicitud.change = false;
+    solicitud.estado = "rechazado"
+
+    this._httpService.editar("solicitudes", solicitud).subscribe(
+      (resp: any) => {
+        solicitud.estado = resp.estado;
+        solicitud.request = "ok";
+        const objMessage = {
+          text: "La Solicitud del Usuario ha sido rechazado",
           type: "Info"
         };
         this._messageDataService.changeMessage(objMessage);

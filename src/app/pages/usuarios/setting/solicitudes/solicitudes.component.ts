@@ -49,48 +49,65 @@ export class SolicitudesComponent implements OnInit {
       cargo: this.solicitudFrom.controls["cargo"].value,
       estado: "solicitado"
     };
-    this._httpService.post("solicitudes", data).subscribe(
-      (result: any) => {
-        console.log(result);
-        const objMessage = {
-          text: "Su solicitud se realizo exitosamente,''",
-          type: "Info"
-        };
-        this._messageDataService.changeMessage(objMessage);
-        this.snackBar.openFromComponent(SnackbarComponent, {
-          horizontalPosition: "right",
-          verticalPosition: "top",
-          panelClass: "background-success",
-          duration: 5000
-        });
-        this.getSolicitud();
-        this.estado = false;
-      },
-      err => {
-        console.log(err);
-        const objMessage = {
-          text: err.message,
-          type: "Info"
-        };
-        if (err.error.errors) {
-          objMessage.text = "Ya esta Solicitado esa URL"
-        }
+    let noValido = / /;
+    if (!noValido.test(data.path)) {
+      this._httpService.post("solicitudes", data).subscribe(
+        (result: any) => {
+          console.log(result);
+          const objMessage = {
+            text: "Su solicitud se realizo exitosamente,''",
+            type: "Info"
+          };
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            panelClass: "background-success",
+            duration: 5000
+          });
+          this.getSolicitud();
+          this.estado = false;
+        },
+        err => {
+          console.log(err);
+          const objMessage = {
+            text: err.message,
+            type: "Info"
+          };
+          if (err.error) {
+            objMessage.text = err.error.message
+          }
 
-        this._messageDataService.changeMessage(objMessage);
-        this.snackBar.openFromComponent(SnackbarComponent, {
-          horizontalPosition: "right",
-          verticalPosition: "top",
-          panelClass: "background-warning",
-          duration: 5000
-        });
-        console.log(err);
-      }
-    );
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            panelClass: "background-warning",
+            duration: 5000
+          });
+          console.log(err);
+        }
+      );
+    } else {
+      const objMessage = {
+        text: "El Path no debe contener espacios",
+        type: "Info"
+      };
+      this._messageDataService.changeMessage(objMessage);
+      this.snackBar.openFromComponent(SnackbarComponent, {
+        horizontalPosition: "right",
+        verticalPosition: "top",
+        panelClass: "background-warning",
+        duration: 5000
+      });
+      this.solicitudFrom.controls['path'].setValue("");
+    }
   }
   getSolicitud() {
     this._httpService
       .buscarId("solicitudes", this.usuario._id)
       .subscribe(resp => {
+        console.log(resp.length);
         this.solicitud = resp;
       }, err => {
         console.log(err);
