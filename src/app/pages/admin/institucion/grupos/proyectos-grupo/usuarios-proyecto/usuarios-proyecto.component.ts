@@ -73,11 +73,10 @@ export class UsuariosProyectoComponent implements OnInit {
       fk_usuario: usuario._id,
       fk_proyecto: this.proyecto._id,
       access_level: usuario.UsuarioProyecto.access_level,
-      usuarioGitlab: usuario.usuarioGitlab,
-      proyectoGitlab: this.proyecto.proyectoGitlab
+
     };
     console.log(data);
-    this._httpService.patch(`proyectos/usuarios`, usuario._id, data).subscribe(
+    this._httpService.patch(`proyectos/${this.id}/usuarios`, usuario._id, data).subscribe(
       result => {
         usuario.request = "ok";
         console.log(result);
@@ -134,7 +133,7 @@ export class UsuariosProyectoComponent implements OnInit {
         proyectoGitlab: this.proyecto.proyectoGitlab
       };
       console.log(data);
-      this._httpService.post(`proyectos/usuario/${usuario._id}`, data).subscribe(
+      this._httpService.delete(`proyectos/${this.proyecto._id}/usuarios/${usuario._id}`).subscribe(
         result => {
           usuario.request = "ok";
           this.obtenerDatos();
