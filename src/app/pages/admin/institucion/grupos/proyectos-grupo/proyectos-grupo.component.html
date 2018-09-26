@@ -10,18 +10,17 @@
     </ng-container>
     <ng-container *ngIf="proyectos">
       <div class="col-12" style="text-align: center">
-        <mat-list-item>
+        <mat-list-item *ngIf="grupo">
           <h4 class="title-repo" mat-line>
             Nombre de Grupo: {{grupo.nombre}}
           </h4>
           <p mat-line>
-            Path: {{grupo.path}}
+            Path: {{grupo.path}} <br>
+            Visibilidad: {{grupo.visibilidad}}
           </p>
         </mat-list-item>
       </div>
-      <div>
-        <label for="" class="title-repo">Proyectos</label>
-      </div>
+
       <div class="col-md-8 col-lg-12" style="text-align: end">
         <span>Buscar:</span>
         <mat-form-field class="">
@@ -59,11 +58,12 @@
           </td>
           <td>
             <p mat-line>
-              <a [routerLink]="[ '/admin/institucion/grupos/proyectos/usuarios',proyecto._id ]">Usuarios</a>
+              <a [routerLink]="[ '/admin/institucion/grupos/proyectos/usuarios',proyecto._id ]">{{proyecto.Usuarios.length}}
+                Usuarios</a>
             </p>
           </td>
           <td>
-            <p mat-line> {{proyecto.urlRepositorio }} </p>
+            <p mat-line> {{proyecto.path }} </p>
           </td>
           <td class="p-0">
             <mat-form-field class="col-12">

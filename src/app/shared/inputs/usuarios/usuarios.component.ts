@@ -32,13 +32,13 @@ export class UsuariosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.usuarios.push({
-      _id: this.usuario._id,
-      nombre: this.usuario.nombre,
-      usuarioGitlab: this.usuario.usuarioGitlab,
-      url: `${environment.gitlabAdmin.domain}/${this.usuario.login}`
-    })
-    this.onUsuarios.emit(this.usuarios)
+    // this.usuarios.push({
+    //   _id: this.usuario._id,
+    //   nombre: this.usuario.nombre,
+    //   usuarioGitlab: this.usuario.usuarioGitlab,
+    //   url: `${environment.gitlabAdmin.domain}/${this.usuario.login}`
+    // })
+    // this.onUsuarios.emit(this.usuarios)
 
     // this.filteredOptions = this.myControl.valueChanges
     //   .pipe(
@@ -68,7 +68,7 @@ export class UsuariosComponent implements OnInit {
   add(event): void {
     let input = event.input;
     let value = event.value;
-    if (this.usuarios.indexOf(value.nombre) !== -1) {
+    if (this.usuarios.indexOf(value.nombre) !== -1 && this.usuario.nombre != value) {
       if ((value.nombre || '').trim() && !this.usuarios.find(usuario => {
         return usuario.nombre === value.nombre
       })) {
@@ -101,7 +101,7 @@ export class UsuariosComponent implements OnInit {
     let value = option.value;
     if ((value.nombre || '').trim() && !this.usuarios.find(usuario => {
       return usuario.nombre === value.nombre
-    })) {
+    }) && this.usuario.nombre != value.nombre) {
       this.usuarios.push({
         nombre: value.nombre,
         _id: value._id,

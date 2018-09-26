@@ -28,6 +28,7 @@ export class NuevoComponent implements OnInit {
   imagenTemp: any;
   itemSelect;
   grupo;
+  dominio;
   usuario;
   request;
   dataLoading;
@@ -47,6 +48,7 @@ export class NuevoComponent implements OnInit {
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
   ) {
+    this.dominio = environment.gitlabAdmin.domain
     this.dataLoading = {
       content: 'Cargando .........',
       icon: false,
@@ -61,7 +63,7 @@ export class NuevoComponent implements OnInit {
     this.nuevoForm = new FormGroup({
       nombre: new FormControl("", Validators.required),
       descripcion: new FormControl("", Validators.required),
-      urlRepositorio: new FormControl({ value: "", disabled: true }, Validators.required),
+      urlRepositorio: new FormControl("", Validators.required),
     });
     this.nuevoForm.controls["nombre"].valueChanges.subscribe(value => {
       this.setUrl(value)
@@ -111,7 +113,7 @@ export class NuevoComponent implements OnInit {
           null,
           this.nuevoForm.controls["nombre"].value,
           this.nuevoForm.controls["descripcion"].value,
-          "private",
+          "public",
           this.nuevoForm.controls["urlRepositorio"].value,
           null,
           this.usuario._id,
@@ -127,8 +129,9 @@ export class NuevoComponent implements OnInit {
         proyecto.grupo = this.grupo || ""
         this.request = true;
         console.log(proyecto);
+        let url = this.grupo ? `grupos/${this.grupo._id}/proyectos` : `proyectos`;
         this._httpService
-          .adicionar("proyectos?nuevo=true", proyecto)
+          .adicionar(url, proyecto)
           .subscribe(response => {
             this.snackBar.dismiss();
             const objMessage = {
@@ -169,11 +172,14 @@ export class NuevoComponent implements OnInit {
               }
             } else {
               console.log("error ");
+              this.request = false
+
             }
           }, err => {
             console.log(err);
+            this.request = false
             let objMessage = {}
-            if (err.error.message.path[0] == 'has already been taken') {
+            if (err.error.message.path) {
               console.log(typeof err.message);
               objMessage = {
                 text: "El nombre del proyecto ya existe",
@@ -181,7 +187,7 @@ export class NuevoComponent implements OnInit {
               }
             } else {
               objMessage = {
-                text: err.message,
+                text: err.error.message,
                 type: "Info",
               }
             }
@@ -193,7 +199,6 @@ export class NuevoComponent implements OnInit {
               panelClass: "background-warning",
               duration: 5000
             });
-            this.request = false
             console.log(err);
           });
       }
@@ -202,8 +207,8 @@ export class NuevoComponent implements OnInit {
   setCategorias(categorias: any) {
     this.categorias = categorias;
   }
-  setUsuarios(usuario: any) {
-    this.usuarios = usuario;
+  setUsuarios(usuarios: any) {
+    this.usuarios = usuarios;
   }
   setGrupo(grupo) {
     console.log(grupo);
@@ -214,11 +219,11 @@ export class NuevoComponent implements OnInit {
   setUrl(value) {
     if (this.grupo) {
       this.nuevoForm.controls["urlRepositorio"].setValue(
-        `${environment.gitlabAdmin.domain}/${this.grupo.path}/${value}`
+        `${this.grupo.path}/${value}`
       );
     } else {
       this.nuevoForm.controls["urlRepositorio"].setValue(
-        `${environment.gitlabAdmin.domain}/${this.usuario.login}/${value}`
+        `${this.usuario.login}/${value}`
       );
     }
   }

@@ -28,7 +28,7 @@
           <span class="titulo-catalogo">Verificacion de Correo Electronico</span>
         </div>
       </div>
-      <div class="col-md-auto" *ngIf="!message">
+      <div *ngIf="!message" class="text-center">
         <i class="fa fa-spinner fa-spin" style="font-size:35px; margin-top: 5px"></i>
       </div>
       <div *ngIf="message" class="titulo-verificacion" [ngClass]="{red: messageWarning==true}">

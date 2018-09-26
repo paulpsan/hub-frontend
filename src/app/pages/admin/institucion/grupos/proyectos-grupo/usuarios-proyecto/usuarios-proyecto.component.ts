@@ -23,8 +23,6 @@ export class UsuariosProyectoComponent implements OnInit {
 
   edit: boolean = false;
   permisosUsuario = [
-    { nombre: "propietario", rol: "owner", access: "50" },
-    { nombre: "mantenedor", rol: "maintainer", access: "40" },
     { nombre: "desarrollador", rol: "developer", access: "30" },
     { nombre: "reportero", rol: "reporter", access: "20" },
     { nombre: "invitado", rol: "guest", access: "10" }

@@ -17,8 +17,8 @@ export class UsuarioComponent implements OnInit {
   usuariosSearch;
   usuario;
   permisosUsuario = [
-    { nombre: "propietario", rol: "owner", access: "50" },
-    { nombre: "mantenedor", rol: "maintainer", access: "40" },
+    // { nombre: "propietario", rol: "owner", access: "50" },
+    // { nombre: "mantenedor", rol: "maintainer", access: "40" },
     { nombre: "desarrollador", rol: "developer", access: "30" },
     { nombre: "reportero", rol: "reporter", access: "20" },
     { nombre: "invitado", rol: "guest", access: "10" }
@@ -29,7 +29,7 @@ export class UsuarioComponent implements OnInit {
     private _httpService: HttpService,
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.userForm = new FormGroup({

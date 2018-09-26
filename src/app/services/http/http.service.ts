@@ -78,5 +78,9 @@ export class HttpService {
       .patch(this.url + tipo + '/' + id, objeto)
       .catch((error: any) => Observable.throw(error || 'Server error'));
   }
-
+  delete(tipo: string) {
+    return this._http
+      .delete(this.url + tipo)
+      .catch((error: any) => Observable.throw(error || 'Server error'));
+  }
 }

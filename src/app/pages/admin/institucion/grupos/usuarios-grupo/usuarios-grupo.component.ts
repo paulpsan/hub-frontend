@@ -19,8 +19,8 @@ export class UsuariosGrupoComponent implements OnInit {
 
   edit: boolean = false;
   permisosUsuario = [
-    { nombre: "propietario", rol: "owner", access: "50" },
-    { nombre: "mantenedor", rol: "maintainer", access: "40" },
+    // { nombre: "propietario", rol: "owner", access: "50" },
+    // { nombre: "mantenedor", rol: "maintainer", access: "40" },
     { nombre: "desarrollador", rol: "developer", access: "30" },
     { nombre: "reportero", rol: "reporter", access: "20" },
     { nombre: "invitado", rol: "guest", access: "10" },
@@ -81,7 +81,7 @@ export class UsuariosGrupoComponent implements OnInit {
       ).nombre
     }
     console.log(data);
-    this._httpService.patch(`grupos/usuario`, usuario._id, data).subscribe(result => {
+    this._httpService.patch(`grupos/${this.grupo._id}/usuarios`, usuario._id, data).subscribe(result => {
       usuario.request = 'ok';
       console.log(result);
     }, err => {
@@ -126,14 +126,7 @@ export class UsuariosGrupoComponent implements OnInit {
     if (confirm("Esta seguro de eliminar al usuario: " + usuario.nombre)) {
       usuario.request = 'start';
       usuario.change = false;
-      let data = {
-        fk_usuario: usuario._id,
-        fk_grupo: this.grupo._id,
-        usuarioGitlab: usuario.usuarioGitlab,
-        grupoGitlab: this.grupo.id_gitlab,
-      }
-      console.log(data);
-      this._httpService.post(`grupos/usuario/${usuario._id}`, data).subscribe(result => {
+      this._httpService.delete(`grupos/${this.id}/usuarios/${usuario._id}`).subscribe(result => {
         usuario.request = 'ok';
         this.obtenerDatos()
         console.log(result);

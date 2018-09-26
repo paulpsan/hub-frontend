@@ -8,6 +8,7 @@ import {
 import { MatSnackBar } from "@angular/material";
 import { SnackbarComponent } from "../../../../shared/snackbar/snackbar.component";
 import { Router } from "@angular/router";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: "hub-solicitudes",
@@ -18,6 +19,7 @@ export class SolicitudesComponent implements OnInit {
   solicitudFrom: FormGroup;
   usuario;
   solicitud;
+  dominio;
   estado: boolean = false;
   constructor(
     private router: Router,
@@ -25,7 +27,10 @@ export class SolicitudesComponent implements OnInit {
     private _usuarioService: UsuarioService,
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
-  ) { }
+  ) {
+    this.dominio=environment.gitlabAdmin.domain
+
+   }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
