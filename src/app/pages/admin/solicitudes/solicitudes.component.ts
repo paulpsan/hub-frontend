@@ -60,6 +60,7 @@ export class SolicitudesComponent implements OnInit {
     );
   }
   aprobar(solicitud) {
+    let obj=solicitud;
     solicitud.request = "start";
     solicitud.change = false;
     solicitud.estado = "aprobado"

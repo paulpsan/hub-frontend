@@ -39,32 +39,30 @@ export class HeaderComponent implements OnInit, OnChanges {
     }
   ];
 
-
   constructor(
     private _httpService: HttpService,
     public _usuarioService: UsuarioService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
       this.badges = this._usuarioService.isCompleteInfo();
       this.badgeCount = this.badges.length;
-
-      this._httpService
-        .buscarId("usuarios", this.usuario._id)
-        .subscribe(resp => {
-          if (resp.admin) {
-            this.navLinks[3].path = '/admin/solicitudes';
-            this.navLinks[3].admin = false;
-          }
-          if (resp.admin_grupo) {
-            this.navLinks[3].path = '/admin/institucion/grupos';
-            this.navLinks[3].admin = false;
-          }
-          this.usuario = resp;
-        });
+    });
+    this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
+      console.log(resp);
+      this._usuarioService.guardarStorage(resp, localStorage.getItem("token"));
+      if (resp.admin) {
+        this.navLinks[3].path = "/admin/solicitudes";
+        this.navLinks[3].admin = false;
+      }
+      if (resp.admin_grupo) {
+        this.navLinks[3].path = "/admin/institucion/grupos";
+        this.navLinks[3].admin = false;
+      }
+      this.usuario = resp;
     });
   }
   logout() {

@@ -29,7 +29,7 @@ export class UsuarioService {
       }
     });
   }
-  guardarStorage(usuario: Usuario, token?: string) {
+  guardarStorage(usuario, token?: string) {
     localStorage.setItem("token", token);
     localStorage.setItem("usuario", JSON.stringify(usuario));
     this.usuario.next(usuario);

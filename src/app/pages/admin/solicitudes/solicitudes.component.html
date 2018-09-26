@@ -47,7 +47,7 @@
             <p mat-line> {{solicitud.institucion }} </p>
           </td>
           <td>
-            <mat-chip-list>
+            <mat-chip-list *ngIf="solicitud.request!='start'">
               <div *ngIf="solicitud.estado=='solicitado'">
                 <mat-chip color="accent" selected="true">{{solicitud.estado }} </mat-chip>
               </div>
@@ -55,8 +55,8 @@
                 <mat-chip color="primary" selected="true">{{solicitud.estado }} </mat-chip>
               </div>
               <div *ngIf="solicitud.estado=='rechazado'">
-                  <mat-chip color="warn" selected="true">{{solicitud.estado }} </mat-chip>
-                </div>
+                <mat-chip color="warn" selected="true">{{solicitud.estado }} </mat-chip>
+              </div>
             </mat-chip-list>
           </td>
           <td>
@@ -64,13 +64,13 @@
           </td>
           <td>
             <div class="row justify-content-center">
-              <ng-container *ngIf="solicitud.estado!='aprobado'">
-                <button mat-button (click)="aprobar(solicitud)" color="primary">
+              <ng-container>
+                <button mat-button (click)="aprobar(solicitud)" color="primary" [disabled]="solicitud.estado=='aprobado'">
                   Aprobar
                 </button>
                 <hub-button-loading style="margin-top: -8px" [request]="solicitud.request">
                 </hub-button-loading>
-                <button mat-button (click)="rechazar(solicitud)" color="primary">
+                <button mat-button (click)="rechazar(solicitud)" color="primary" [disabled]="solicitud.estado=='aprobado'">
                   Rechazar
                 </button>
               </ng-container>

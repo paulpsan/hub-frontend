@@ -15,7 +15,6 @@ export class ButtonLoadingComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    console.log(this.request);
     if (this.request == 'ok') {
       setTimeout(() => {
         this.request = '';
