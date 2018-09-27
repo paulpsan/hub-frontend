@@ -45,7 +45,7 @@ export class UsuariosComponent implements OnInit {
     if (this.buscar != "") {
       pagData.buscar = this.buscar;
     }
-    this._httpService.obtenerPaginado("usuarios", pagData).subscribe(
+    this._httpService.obtenerPaginado("usuarios/admin", pagData).subscribe(
       result => {
         this.respuesta = result;
         this.total = this.respuesta.paginacion.total;
@@ -71,5 +71,49 @@ export class UsuariosComponent implements OnInit {
         usuario.request = ""
       }, 3000);
     })
+  }
+  salirGrupo(usuario, grupo) {
+    if (confirm("Esta seguro de eliminar al usuario: " + usuario.nombre + " del grupo " + grupo.nombre)) {
+      grupo.request = 'start';
+      grupo.change = false;
+      this._httpService.delete(`grupos/${grupo._id}/usuarios/${usuario._id}`).subscribe(result => {
+        grupo.request = 'ok';
+        this.obtenerDatos()
+        console.log(result);
+      }, err => {
+        console.log(err);
+        grupo.request = 'error'
+      })
+    }
+  }
+  bloqueadoUsuario(usuario) {
+    if (confirm("Esta seguro de bloquear al usuario: " + usuario.nombre)) {
+      usuario.request = 'start';
+      usuario.change = false;
+      this._httpService.post(`usuarios/${usuario._id}/bloquear`, usuario).subscribe(result => {
+        usuario.request = 'ok';
+        this.obtenerDatos()
+        console.log(result);
+      }, err => {
+        console.log(err);
+        usuario.request = 'error'
+        this.obtenerDatos()
+      })
+    }
+  }
+  desbloquearUsuario(usuario) {
+    if (confirm("Esta seguro de desbloquear al usuario: " + usuario.nombre)) {
+      usuario.request = 'start';
+      usuario.change = false;
+      this._httpService.post(`usuarios/${usuario._id}/desbloquear`, usuario).subscribe(result => {
+        usuario.request = 'ok';
+        this.obtenerDatos()
+        console.log(result);
+      }, err => {
+        console.log(err);
+        usuario.request = 'error'
+        this.obtenerDatos()
+      })
+    }
   }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { PageEvent } from "@angular/material";
-import { HttpService, UsuarioService } from "../../../services/service.index";
+import { PageEvent, MatSnackBar } from "@angular/material";
+import { HttpService, UsuarioService, MessageDataService } from "../../../services/service.index";
 import { Router } from "@angular/router";
+import { SnackbarComponent } from "../../../shared/snackbar/snackbar.component";
 
 @Component({
   selector: "hub-proyectos",
@@ -29,8 +30,10 @@ export class ProyectosComponent implements OnInit {
   constructor(
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private _messageDataService: MessageDataService
+  ) { }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
@@ -63,9 +66,9 @@ export class ProyectosComponent implements OnInit {
       this.limite = this.respuesta.paginacion.limite;
       this.proyectos = this.respuesta.datos;
     });
-    this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
-      this.usuario = resp;
-    });
+    // this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
+    //   this.usuario = resp;
+    // });
   }
   changeSelect(event, proyecto) {
     console.log(event);
@@ -75,7 +78,9 @@ export class ProyectosComponent implements OnInit {
     console.log(proyecto);
     proyecto.request = "start";
     proyecto.change = false;
-    this._httpService.editar("proyectos", proyecto).subscribe(
+    let url = proyecto.Grupos.length >= 1 ? `grupos/${proyecto.Grupos[0]._id}/proyectos` : `proyectos`
+
+    this._httpService.editar(url, proyecto).subscribe(
       result => {
         console.log(result);
         proyecto.request = "ok";
@@ -84,10 +89,55 @@ export class ProyectosComponent implements OnInit {
       err => {
         console.log(err);
         proyecto.request = "error";
+        console.log(err);
+        const objMessage = {
+          text: err.error.message,
+          type: "Info"
+        };
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: "right",
+          verticalPosition: "top",
+          panelClass: "background-warning",
+          duration: 5000
+        });
         this.obtenerDatos();
       }
     );
   }
 
-  eliminar(usuario) {}
+  eliminar(proyecto) {
+    if (confirm("Esta seguro de eliminar el Proyecto: " + proyecto.nombre)) {
+      console.log(proyecto);
+      proyecto.request = "start";
+      proyecto.change = false;
+
+      let url = proyecto.Grupos.length >= 1 ? `grupos/${proyecto.Grupos[0]._id}/proyectos` : `proyectos`
+      console.log(url);
+      this._httpService.eliminarId(url, proyecto._id).subscribe(
+        result => {
+          console.log(result);
+          proyecto.request = "ok";
+          this.obtenerDatos();
+        },
+        err => {
+          console.log(err);
+          proyecto.request = "error";
+          const objMessage = {
+            text: err.error.message,
+            type: "Info"
+          };
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            panelClass: "background-warning",
+            duration: 5000
+          });
+
+          this.obtenerDatos();
+        }
+      );
+    }
+  }
 }

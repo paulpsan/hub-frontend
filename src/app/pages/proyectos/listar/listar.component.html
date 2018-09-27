@@ -43,7 +43,7 @@
               </div>
               <div class="col-md-7">
                 <!-- {{proyecto.usuarios}} -->
-                <span *ngFor="let usuario of proyecto.usuarios">
+                <span *ngFor="let usuario of proyecto.Usuarios">
                   <a [routerLink]="[ '/usuarios/',usuario._id  ]">{{usuario.nombre}} </a>
                 </span>
               </div>
@@ -93,7 +93,7 @@
           <div class="col-md-8">
             <div class="row">
               <div class="col-md-6 title-description">
-                <span>Categoria: </span>
+                <span>Categorias: </span>
                 <mat-chip-list *ngFor="let categoria of proyecto.categorias">
                   <mat-chip>{{categoria.nombre}}</mat-chip>
                 </mat-chip-list>

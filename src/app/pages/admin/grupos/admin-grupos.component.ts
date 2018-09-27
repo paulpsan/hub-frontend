@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { PageEvent } from "@angular/material";
-import { HttpService, UsuarioService } from "../../../services/service.index";
+import { PageEvent, MatSnackBar } from "@angular/material";
+import { HttpService, UsuarioService, MessageDataService } from "../../../services/service.index";
 import { Router } from "@angular/router";
+import { SnackbarComponent } from "../../../shared/snackbar/snackbar.component";
 
 @Component({
   selector: "hub-admin-grupos",
@@ -29,8 +30,10 @@ export class AdminGruposComponent implements OnInit {
   constructor(
     private _httpService: HttpService,
     private _usuarioService: UsuarioService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private _messageDataService: MessageDataService
+  ) { }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
@@ -84,10 +87,51 @@ export class AdminGruposComponent implements OnInit {
       err => {
         console.log(err);
         grupo.request = "error";
+        const objMessage = {
+          text: err.error.message,
+          type: "Info"
+        };
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: "right",
+          verticalPosition: "top",
+          panelClass: "background-warning",
+          duration: 5000
+        });
         this.obtenerDatos();
       }
     );
   }
 
-  eliminar(usuario) {}
+  eliminar(grupo) {
+    if (confirm("Esta seguro de eliminar el Proyecto: " + grupo.nombre)) {
+      console.log(grupo);
+      grupo.request = "start";
+      grupo.change = false;
+      this._httpService.eliminarId(`grupos`, grupo._id).subscribe(
+        result => {
+          console.log(result);
+          grupo.request = "ok";
+          this.obtenerDatos();
+        },
+        err => {
+          console.log(err);
+          grupo.request = "error";
+          const objMessage = {
+            text: err.error.message,
+            type: "Info"
+          };
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            panelClass: "background-warning",
+            duration: 5000
+          });
+
+          this.obtenerDatos();
+        }
+      );
+    }
+  }
 }

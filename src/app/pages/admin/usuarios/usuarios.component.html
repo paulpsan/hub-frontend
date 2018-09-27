@@ -36,9 +36,12 @@
         <td>
           <div class="row" *ngFor="let grupo of usuario.Grupos">
             <p mat-line> {{grupo.path }} </p>
-            <button class="text-left" mat-icon-button (click)="eliminar(usuario)" color="warn" style="margin-top: -10px">
+            <button class="text-left" mat-icon-button (click)="salirGrupo(usuario,grupo)" color="warn" style="margin-top: -10px"
+              matTooltip="Salir del grupo">
               <mat-icon mat-list-icon>exit_to_app</mat-icon>
             </button>
+            <hub-button-loading [request]="grupo.request">
+            </hub-button-loading>
           </div>
         </td>
         <td>
@@ -59,11 +62,19 @@
         <td>
           <p mat-line> {{usuario.fecha_creacion |date }} </p>
         </td>
-        <td class="p-0" *ngIf="!usuario.admin">
-          <button mat-icon-button (click)="eliminar(usuario)" color="warn">
-            <mat-icon mat-list-icon>block</mat-icon>
-            bloquear
-          </button>
+        <td class="p-0">
+          <ng-container *ngIf="usuario.estado=='habilitado'">
+            <button mat-icon-button (click)="bloqueadoUsuario(usuario)" color="warn">
+              <mat-icon mat-list-icon>block</mat-icon>
+              bloquear
+            </button>
+          </ng-container>
+          <ng-container *ngIf="usuario.estado=='bloqueado'">
+            <button mat-icon-button (click)= "desbloquearUsuario(usuario)" color="warn">
+                <mat-icon mat-list-icon>block</mat-icon>
+                desbloquear
+              </button>
+          </ng-container>
         </td>
       </tr>
     </tbody>

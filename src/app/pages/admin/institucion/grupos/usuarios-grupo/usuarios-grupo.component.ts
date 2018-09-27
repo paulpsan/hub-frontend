@@ -135,6 +135,5 @@ export class UsuariosGrupoComponent implements OnInit {
         usuario.request = 'error'
       })
     }
-
   }
 }

@@ -6,6 +6,7 @@ import {
   MessageDataService
 } from "../../../../../services/service.index";
 import { MatSnackBar } from "@angular/material";
+import { SnackbarComponent } from "../../../../../shared/snackbar/snackbar.component";
 
 @Component({
   selector: "hub-proyectos-grupo",
@@ -76,10 +77,36 @@ export class ProyectosGrupoComponent implements OnInit {
       }
     );
   }
-  addUser(event) {
-    console.log(event);
-  }
-  eliminar(event) {
-    console.log(event);
+
+  eliminar(proyecto) {
+    if (confirm("Esta seguro de eliminar el Proyecto: " + proyecto.nombre)) {
+      console.log(proyecto);
+      proyecto.request = "start";
+      proyecto.change = false;
+      this._httpService.eliminarId(`grupos/${this.grupo._id}/proyectos`, proyecto._id).subscribe(
+        result => {
+          console.log(result);
+          proyecto.request = "ok";
+          this.obtenerDatos();
+        },
+        err => {
+          console.log(err);
+          proyecto.request = "error";
+          const objMessage = {
+            text: err.error.message,
+            type: "Info"
+          };
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            panelClass: "background-warning",
+            duration: 5000
+          });
+
+          this.obtenerDatos();
+        }
+      );
+    }
   }
 }

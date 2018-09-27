@@ -17,7 +17,7 @@ import { CrearComponent } from './institucion/grupos/crear-editar/crear.componen
 import { EditarComponent } from './institucion/grupos/crear-editar/editar.component';
 import { ProyectosGrupoComponent } from './institucion/grupos/proyectos-grupo/proyectos-grupo.component';
 import { UsuariosGrupoComponent } from './institucion/grupos/usuarios-grupo/usuarios-grupo.component';
-import { SolicitudesComponent } from './solicitudes/solicitudes.component';
+import { SolicitudesComponent, ModalTextSolicitud } from './solicitudes/solicitudes.component';
 import { UsuariosProyectoComponent } from './institucion/grupos/proyectos-grupo/usuarios-proyecto/usuarios-proyecto.component';
 import { AdminGruposComponent } from './grupos/admin-grupos.component';
 import { ProyectosComponent } from './proyectos/proyectos.component';
@@ -45,8 +45,11 @@ import { ProyectosComponent } from './proyectos/proyectos.component';
     ProyectosGrupoComponent,
     UsuariosGrupoComponent,
     SolicitudesComponent,
+    ModalTextSolicitud,
     UsuariosProyectoComponent,
     ProyectosComponent,
-  ]
+  ],
+  entryComponents: [ModalTextSolicitud]
+
 })
 export class AdminModule { }

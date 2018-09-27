@@ -29,6 +29,7 @@ export class ImportarComponent implements OnInit {
   imagenTemp: any;
   itemSelect;
   grupo
+  dominio;
   usuario;
   request;
   dataLoading;
@@ -48,6 +49,7 @@ export class ImportarComponent implements OnInit {
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
   ) {
+    this.dominio = environment.gitlabAdmin.domain
     this.dataLoading = {
       content: 'Cargando .........',
       icon: false,
@@ -116,97 +118,112 @@ export class ImportarComponent implements OnInit {
   }
 
   onSubmit() {
-    this.request = true;
-    if (this.proyForm.valid) {
-      const datos = this.itemSelect;
-      let proyecto: Proyecto;
-      proyecto = new Proyecto(
-        null,
-        this.proyForm.controls["nombre"].value,
-        this.proyForm.controls["descripcion"].value,
-        "private",
-        this.proyForm.controls["urlRepositorio"].value,
-        datos._id,
-        this.usuario._id,
-        this.usuario,
-        datos.avatar,
-        datos.tipo,
-        this.itemSelect.html_url,
-        { datos: [], valor: 0 },
-        this.categorias,
-        ["licencias"],
-        this.usuarios,
-        datos.commits
-      );
-      proyecto.grupo = this.grupo || ""
-      console.log(proyecto);
-      this._httpService.post("proyectos?import=true", proyecto).subscribe(response => {
-        this.snackBar.dismiss();
-        const objMessage = {
-          text: "El proyecto fue creado exitosamente",
-          type: "Info",
-        }
-        this._messageDataService.changeMessage(objMessage);
-        this.snackBar.openFromComponent(SnackbarComponent, {
-          horizontalPosition: 'right',
-          verticalPosition: "top",
-          panelClass: "background-success",
-          duration: 5000
-        });
-        this.request = false
-
-        if (!response.mensaje) {
-          if (this.imagenTemp) {
-            this._subirArchivoService
-              .subirArchivo(
-                this.imagenSubir,
-                "proyectos",
-                response.proyecto._id
-              )
-              .then((resp: any) => {
-                console.log(resp);
-                const objPatch = {
-                  avatar: resp.proyecto.avatar
-                };
-                this._httpService
-                  .patch("proyectos", response.proyecto._id, objPatch)
-                  .subscribe(() => {
-                    this.router.navigate(["/proyectos"]);
-                  });
-              });
-          } else {
-            this.proyForm.reset();
-            this.router.navigate(["/proyectos"]);
-          }
-        } else {
-          console.log("error ");
-        }
-      }, err => {
-        console.log(err);
-        let objMessage = {}
-        if (err.error.message.path[0] == 'has already been taken') {
-          console.log(typeof err.message);
-          objMessage = {
-            text: "El nombre del proyecto ya existe",
-            type: "Info",
-          }
-        } else {
-          objMessage = {
-            text: err.message,
-            type: "Info",
-          }
-        }
-
-        this._messageDataService.changeMessage(objMessage);
-        this.snackBar.openFromComponent(SnackbarComponent, {
-          horizontalPosition: 'right',
-          verticalPosition: "top",
-          panelClass: "background-warning",
-          duration: 5000
-        });
-        this.request = false
-        console.log(err);
+    if (this.proyForm.controls["nombre"].value.split(" ").length > 1) {
+      const objMessage = {
+        text: "El nombre del proyecto es invalido",
+        type: "Info",
+      }
+      this._messageDataService.changeMessage(objMessage);
+      this.snackBar.openFromComponent(SnackbarComponent, {
+        horizontalPosition: 'right',
+        verticalPosition: "top",
+        panelClass: "background-warning",
+        duration: 5000
       });
+      this.proyForm.controls["nombre"].setValue("");
+    } else {
+      this.request = true;
+      if (this.proyForm.valid) {
+        const datos = this.itemSelect;
+        let proyecto: Proyecto;
+        proyecto = new Proyecto(
+          null,
+          this.proyForm.controls["nombre"].value,
+          this.proyForm.controls["descripcion"].value,
+          "public",
+          this.proyForm.controls["urlRepositorio"].value,
+          datos._id,
+          this.usuario._id,
+          this.usuario,
+          datos.avatar,
+          datos.tipo,
+          this.itemSelect.html_url,
+          { datos: [], valor: 0 },
+          this.categorias,
+          ["licencias"],
+          this.usuarios,
+          datos.commits
+        );
+        proyecto.grupo = this.grupo || ""
+        console.log(proyecto);
+        this._httpService.post("proyectos?import=true", proyecto).subscribe(response => {
+          this.snackBar.dismiss();
+          const objMessage = {
+            text: "El proyecto fue creado exitosamente",
+            type: "Info",
+          }
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: 'right',
+            verticalPosition: "top",
+            panelClass: "background-success",
+            duration: 5000
+          });
+          this.request = false
+
+          if (!response.mensaje) {
+            if (this.imagenTemp) {
+              this._subirArchivoService
+                .subirArchivo(
+                  this.imagenSubir,
+                  "proyectos",
+                  response.proyecto._id
+                )
+                .then((resp: any) => {
+                  console.log(resp);
+                  const objPatch = {
+                    avatar: resp.proyecto.avatar
+                  };
+                  this._httpService
+                    .patch("proyectos", response.proyecto._id, objPatch)
+                    .subscribe(() => {
+                      this.router.navigate(["/proyectos"]);
+                    });
+                });
+            } else {
+              this.proyForm.reset();
+              this.router.navigate(["/proyectos"]);
+            }
+          } else {
+            console.log("error ");
+          }
+        }, err => {
+          console.log(err);
+          let objMessage = {}
+          if (err.error.message.path[0] == 'has already been taken') {
+            console.log(typeof err.message);
+            objMessage = {
+              text: "El nombre del proyecto ya existe",
+              type: "Info",
+            }
+          } else {
+            objMessage = {
+              text: err.message,
+              type: "Info",
+            }
+          }
+
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: 'right',
+            verticalPosition: "top",
+            panelClass: "background-warning",
+            duration: 5000
+          });
+          this.request = false
+          console.log(err);
+        });
+      }
     }
   }
 
@@ -225,11 +242,11 @@ export class ImportarComponent implements OnInit {
   setUrl(value) {
     if (this.grupo) {
       this.proyForm.controls["urlRepositorio"].setValue(
-        `${environment.gitlabAdmin.domain}/${this.grupo.path}/${value}`
+        `${this.grupo.path}/${value}`
       );
     } else {
       this.proyForm.controls["urlRepositorio"].setValue(
-        `${environment.gitlabAdmin.domain}/${this.usuario.login}/${value}`
+        `${this.usuario.login}/${value}`
       );
     }
   }
