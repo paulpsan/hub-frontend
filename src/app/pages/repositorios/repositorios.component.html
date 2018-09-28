@@ -19,6 +19,7 @@
                 <tr>
                   <th style="width:200px">Proyecto</th>
                   <th>Descripción</th>
+                  <!-- <th>Grupo</th> -->
                   <th style="width:80px">Permiso</th>
                   <th style="width:80px">Acción</th>
                 </tr>
@@ -26,38 +27,55 @@
               <tbody>
                 <tr *ngFor="let proyecto of proyectos">
                   <td scope="row">
-                    <a href="proyecto.urlRepositorio">
-                      {{proyecto.path}}/{{proyecto.nombre}}
+                    <a href="{{dominio}}/{{proyecto.path}}">
+                      {{proyecto.path}}
                     </a><br>
-                    <mat-chip>{{proyecto.UsuarioProyecto.nombre_permiso}}</mat-chip>
+                    <!-- <mat-chip>{{proyecto.UsuarioProyecto.nombre_permiso}}</mat-chip> -->
                   </td>
                   <td>
                     <p mat-line> {{proyecto.descripcion }} </p>
                   </td>
+                  <!-- <td>
+                    <ng-container class="col" *ngIf="proyecto.Grupos.length>=1">
+                      <p mat-line> {{proyecto.Grupos[0].nombre }} </p>
+                      <button class="text-left" mat-icon-button (click)="salir(proyecto)" color="warn" style="margin-top: -10px"
+                        matTooltip="Salir del grupo">
+                        <mat-icon mat-list-icon>exit_to_app</mat-icon>
+                      </button>
+                    </ng-container>
+                  </td> -->
                   <td class="text-center">
+                    <ng-container *ngIf="proyecto.Grupos.length==0">
 
-                    <mat-chip>{{proyecto.visibilidad}}</mat-chip>
-                    <!-- <mat-form-field class="col-12">
-                      <mat-select (selectionChange)="proyecto.change=true;" [(value)]="proyecto.visibilidad">
-                        <mat-option *ngFor="let permiso of permisosProyecto" [value]="permiso.value">
-                          {{ permiso.nombre }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field> -->
+                      <mat-form-field class="col-12">
+                        <mat-select (selectionChange)="proyecto.change=true;" [(value)]="proyecto.visibilidad">
+                          <mat-option *ngFor="let permiso of permisosProyecto" [value]="permiso.value">
+                            {{ permiso.nombre }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngIf="proyecto.Grupos.length>=1">
+                      <mat-chip>{{proyecto.visibilidad}}</mat-chip>
+                    </ng-container>
+
                   </td>
                   <td *ngIf="proyecto.path!==usuario.login">
                     <div class="row justify-content-center">
-                      <div *ngIf="proyecto.change">
+                      <div class="col" *ngIf="proyecto.change">
                         <button mat-icon-button (click)="guardar(proyecto)" color="primary">
                           <mat-icon mat-list-icon>save</mat-icon>
                         </button>
                       </div>
-                      <hub-button-loading [request]="proyecto.request">
+                      <hub-button-loading class="col" [request]="proyecto.request">
                       </hub-button-loading>
+                      <ng-container class="col">
+                        <button mat-button (click)="eliminar(proyecto)" color="warn">
+                          eliminar
+                        </button>
+                      </ng-container>
 
-                      <button mat-button (click)="salir(proyecto)" color="warn">
-                        Salir
-                      </button>
                     </div>
                   </td>
                 </tr>
