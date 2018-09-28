@@ -1,12 +1,13 @@
-import { Component, NgModule, OnInit } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { Component, NgModule, OnInit } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
 // import {BrowserAnimationsModule} from '@angular/platform-browser-animations';
-import { Usuario } from '../../../models/usuario';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpService } from '../../../services/http/http.service';
-import { Subject } from 'rxjs';
-import * as moment from 'moment';
-import { resolve } from 'dns';
+import { Usuario } from "../../../models/usuario";
+import { ActivatedRoute, Router } from "@angular/router";
+import { HttpService } from "../../../services/http/http.service";
+import { Subject } from "rxjs";
+import * as moment from "moment";
+import { resolve } from "dns";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "hub-usuario",
@@ -25,8 +26,8 @@ export class UsuarioComponent implements OnInit {
   repositorios;
   token;
   lenguajes = [];
-  pieChartData =[];
-  pieChartLabels=[];
+  pieChartData = [];
+  pieChartLabels = [];
   primerCommit;
   UltimoCommit;
   dataCalendar$;
@@ -36,6 +37,8 @@ export class UsuarioComponent implements OnInit {
   config$;
   usuarioRepositorio;
   repoSelect;
+  proyectos;
+  dominio;
   isPropietario = false;
   showUsuario = false;
   showUsuarios = false;
@@ -53,7 +56,9 @@ export class UsuarioComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _httpService: HttpService
-  ) { }
+  ) {
+    this.dominio = environment.gitlabAdmin.domain;
+  }
 
   ngOnInit() {
     moment.locale("es");
@@ -88,6 +93,12 @@ export class UsuarioComponent implements OnInit {
             : false;
 
         this._httpService
+          .obtener("usuarios/" + this.id + "/proyectos")
+          .subscribe(resp => {
+            this.proyectos = resp;
+          });
+
+        this._httpService
           .obtener("repositorios/" + this.id + "/usuarios?visibilidad=true")
           .subscribe(async resp => {
             const objRepo = [];
@@ -107,10 +118,7 @@ export class UsuarioComponent implements OnInit {
                 yAxisLabel: "Commits",
                 series: "total"
               };
-              this.data$ = await this.renderGraph(
-                "user",
-                this.usuario
-              );
+              this.data$ = await this.renderGraph("user", this.usuario);
               console.log(this.data$);
               this.dataCalendar$ = this.data$.heatMap;
               this.showCommits = this.data$.total.length >= 2 ? true : false;
@@ -130,8 +138,8 @@ export class UsuarioComponent implements OnInit {
   }
   // Repositorio seleccionado
   async detalleRepositorio(repositorio, tipo) {
-    this.showCommitsRepo=false;
-    this._httpService.obtener("repositorios" + repositorio._id)
+    this.showCommitsRepo = false;
+    this._httpService.obtener("repositorios" + repositorio._id);
     this._httpService
       .obtener("commits/" + repositorio._id)
       .subscribe(respCommits => {
@@ -153,14 +161,11 @@ export class UsuarioComponent implements OnInit {
       yAxisLabel: "Commits",
       series: "total"
     };
-    this.dataRepo$ = await this.renderGraph(
-      "repo",
-      repositorio
-    );
+    this.dataRepo$ = await this.renderGraph("repo", repositorio);
     this.showCommitsRepo = this.dataRepo$.total.length >= 2 ? true : false;
 
-    this.showMonth = (this.dataRepo$.mes.length >= 2) ? true : false;
-    this.showYear = (this.dataRepo$.años.length >= 2) ? true : false;
+    this.showMonth = this.dataRepo$.mes.length >= 2 ? true : false;
+    this.showYear = this.dataRepo$.años.length >= 2 ? true : false;
   }
   // Calcula el primer commit del repositorio
   getPrimerCommit(commits) {
@@ -185,10 +190,9 @@ export class UsuarioComponent implements OnInit {
     console.log(dataLenguaje.datos);
     setTimeout(() => {
       const lenguaje = dataLenguaje.datos;
-      this.pieChartLabels=[];
-      this.pieChartData=[];
+      this.pieChartLabels = [];
+      this.pieChartData = [];
       if (typeof lenguaje == "object") {
-
         const leng = JSON.stringify(lenguaje);
         const array = leng.split(",");
         const lengRepositorios = [];
@@ -206,18 +210,17 @@ export class UsuarioComponent implements OnInit {
               this.pieChartData.push(0);
             }
           }
-        this.showLenguajes = true;
+          this.showLenguajes = true;
         }
-      }else{
+      } else {
         console.log(lenguaje);
-      if (typeof lenguaje == "string" && lenguaje!=="") {
-        this.pieChartLabels.push(lenguaje);
-        this.pieChartData.push(100);
-        this.showLenguajes = true;
-      } else{
-        this.showLenguajes = false;
-
-      }
+        if (typeof lenguaje == "string" && lenguaje !== "") {
+          this.pieChartLabels.push(lenguaje);
+          this.pieChartData.push(100);
+          this.showLenguajes = true;
+        } else {
+          this.showLenguajes = false;
+        }
       }
     }, 200);
   }
@@ -233,7 +236,7 @@ export class UsuarioComponent implements OnInit {
     }
     const hash = {};
     // elimina repetidos
-    datos = datos.filter(function (current) {
+    datos = datos.filter(function(current) {
       const exists = !hash[current.name] || false;
       hash[current.name] = true;
       return exists;
@@ -268,19 +271,17 @@ export class UsuarioComponent implements OnInit {
   getDataGraph(tipo: string, data) {
     return new Promise((resolve, reject) => {
       let url = {
-        user: '/usuarios/graficos',
-        repo: '/repositorio/graficos'
-      }
-      this._httpService
-        .obtener("commits/" + data._id + url[tipo])
-        .subscribe(
-          resp => {
-            resolve(resp);
-          },
-          err => {
-            reject(err);
-          }
-        );
+        user: "/usuarios/graficos",
+        repo: "/repositorio/graficos"
+      };
+      this._httpService.obtener("commits/" + data._id + url[tipo]).subscribe(
+        resp => {
+          resolve(resp);
+        },
+        err => {
+          reject(err);
+        }
+      );
     });
   }
 
@@ -301,7 +302,9 @@ export class UsuarioComponent implements OnInit {
       xAxisLabel: "Fecha",
       yAxisLabel: "Commits",
       series: serie
-    }
-    config == 'config' ? this.config$ = objectConfig : this.configRepo$ = objectConfig;
+    };
+    config == "config"
+      ? (this.config$ = objectConfig)
+      : (this.configRepo$ = objectConfig);
   }
 }

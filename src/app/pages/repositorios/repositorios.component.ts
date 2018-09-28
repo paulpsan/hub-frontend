@@ -15,14 +15,19 @@ import { environment } from "../../../environments/environment";
 import { HttpService } from "../../services/http/http.service";
 import { UsuarioService } from "../../services/usuario/usuario.service";
 import { Subject } from "rxjs";
-import { SubirArchivoService, LoadDataService } from "../../services/service.index";
+import {
+  SubirArchivoService,
+  LoadDataService,
+  MessageDataService
+} from "../../services/service.index";
 import { DataTableDirective } from "angular-datatables";
-
+import { MatSnackBar } from "@angular/material";
+import { SnackbarComponent } from "../../shared/snackbar/snackbar.component";
 
 @Component({
-  selector: 'hub-repositorios',
-  templateUrl: './repositorios.component.html',
-  styleUrls: ['./repositorios.component.css']
+  selector: "hub-repositorios",
+  templateUrl: "./repositorios.component.html",
+  styleUrls: ["./repositorios.component.css"]
 })
 export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
   id: number;
@@ -40,12 +45,18 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
   checked: boolean = false;
   usuario;
   datos: boolean = false;
-  commits: boolean = false
-
+  commits: boolean = false;
   proyectos;
-
-  @Output() siguiente = new EventEmitter<any>();
-  @ViewChild(DataTableDirective) dtElement: DataTableDirective;
+  dominio;
+  permisosProyecto = [
+    { nombre: "privado", value: "private" },
+    { nombre: "interno", value: "internal" },
+    { nombre: "publico", value: "public" }
+  ];
+  @Output()
+  siguiente = new EventEmitter<any>();
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   imagenSubir: File;
@@ -58,16 +69,19 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
     private _usuarioService: UsuarioService,
     private _subirArchivoService: SubirArchivoService,
     private _loadDataService: LoadDataService,
+    private snackBar: MatSnackBar,
+    private _messageDataService: MessageDataService
   ) {
+    this.dominio = environment.gitlabAdmin.domain;
+
     this.dataLoading = {
-      content: 'Cargando los datos del Usuario..............',
-      type: 'info'
-    }
+      content: "Cargando los datos del Usuario..............",
+      type: "info"
+    };
   }
 
   ngOnInit() {
     this._loadDataService.loadData$.subscribe(resp => {
-      console.log(resp);
       if (resp) {
         this.showData = false;
         this._usuarioService.usuario$.subscribe(repUsuario => {
@@ -76,7 +90,6 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
           if (this.usuario.gitlab) this.cuentas.push("gitlab");
           if (this.usuario.bitbucket) this.cuentas.push("bitbucket");
         });
-        console.log(this.usuario);
         this.urlImg = environment.url;
         this.id = this.usuario._id;
         this.userForm = new FormGroup({
@@ -95,21 +108,25 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
           this.getRepositorios();
         }
       }
-    })
-
-    this._httpService.obtener(`usuarios/${this.id}/proyectos`).subscribe(resp => {
-      if (resp.Proyectos.length >= 1) {
-        this.proyectos = resp.Proyectos;
-
-        this.proyectos = this.proyectos.map(proy => {
-          proy.path = proy.urlRepositorio.split('/')[3]
-          return proy
-        })
-        console.log(this.proyectos);
-      }
     });
-
+    this.getProyectos();
   }
+  getProyectos() {
+    this._httpService
+      .obtener(`usuarios/${this.id}/proyectos`)
+      .subscribe(resp => {
+        if (resp.length >= 1) {
+          this.proyectos = resp;
+
+          // this.proyectos = this.proyectos.map(proy => {
+          //   proy.path = proy.urlRepositorio.split('/')[3]
+          //   return proy
+          // })
+          console.log(this.proyectos);
+        }
+      });
+  }
+
   next(object) {
     this.siguiente.emit(object);
   }
@@ -117,7 +134,6 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
     GLOBAL.dtOptions.order = [[3, "asc"]];
     this.dtOptions = GLOBAL.dtOptions;
     // this.repositorios = [];
-    console.log(this.dtOptions);
     this._httpService
       .obtener("repositorios/" + this.id + "/usuarios")
       .subscribe(
@@ -126,10 +142,8 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
           this.repoCopy = JSON.parse(JSON.stringify(repositorios.datos));
           this.showRepo = this.repositorios.length !== 0 ? true : false;
           this.repositorios.map(repositorio => {
-            return repositorio.request = ""
-          })
-          console.log(this.repositorios, this.showRepo);
-
+            return (repositorio.request = "");
+          });
 
           // this.id = usuario._id;
           // this.userForm.patchValue({
@@ -230,44 +244,37 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   changeVisibility(project) {
-    project.visibilidad = !project.visibilidad
-
+    project.visibilidad = !project.visibilidad;
   }
   changeAll(event) {
     console.log(event);
     this.checked = !this.checked;
   }
   changeRow(event, project) {
-    this.datos = false
-    this.commits = false
+    this.datos = false;
+    this.commits = false;
 
     project.visibilidad = event.checked;
-    project.request = 'start';
+    project.request = "start";
     console.log(project);
-    this._httpService
-      .editar("repositorios", project)
-      .subscribe((repo: any) => {
-        this._httpService
-          .post("commits", project)
-          .subscribe(response => {
-            console.log(response);
-            this.commits = true
-            project.request = this.datos ? 'finish' : 'start';
-            setTimeout(() => {
-              project.request = '';
-            }, 5000);
-          });
+    this._httpService.editar("repositorios", project).subscribe((repo: any) => {
+      this._httpService.post("commits", project).subscribe(response => {
+        console.log(response);
+        this.commits = true;
+        project.request = this.datos ? "finish" : "start";
+        setTimeout(() => {
+          project.request = "";
+        }, 5000);
       });
+    });
     if (project.visibilidad == true) {
-      this._httpService
-        .post("repositorios/datos", project)
-        .subscribe(resp => {
-          this.datos = true
-          project.request = this.commits ? 'finish' : 'start';
-          setTimeout(() => {
-            project.request = '';
-          }, 5000);
-        });
+      this._httpService.post("repositorios/datos", project).subscribe(resp => {
+        this.datos = true;
+        project.request = this.commits ? "finish" : "start";
+        setTimeout(() => {
+          project.request = "";
+        }, 5000);
+      });
     }
   }
 
@@ -275,8 +282,6 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
     for (const repo of this.repositorios) {
       repo.visibilidad = true;
     }
-
-
   }
   hideAll() {
     for (const repo of this.repositorios) {
@@ -335,6 +340,93 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
   salir(proyecto) {
+    if (
+      confirm("Esta seguro de salir del grupo " + proyecto.Grupos[0].nombre)
+    ) {
+      proyecto.request = "start";
+      proyecto.change = false;
+      this._httpService
+        .delete(`grupos/${proyecto.Grupos[0]._id}/usuarios/${this.usuario._id}`)
+        .subscribe(
+          result => {
+            this.getProyectos();
+            proyecto.request = "ok";
+          },
+          err => {
+            this.getProyectos();
+            proyecto.request = "error";
+          }
+        );
+    }
+  }
+  guardar(proyecto) {
+    console.log(proyecto);
+    proyecto.request = "start";
+    proyecto.change = false;
+    let url =
+      proyecto.Grupos.length >= 1
+        ? `grupos/${proyecto.Grupos[0]._id}/proyectos`
+        : `proyectos`;
 
+    this._httpService.editar(url, proyecto).subscribe(
+      result => {
+        console.log(result);
+        proyecto.request = "ok";
+        this.getProyectos();
+      },
+      err => {
+        console.log(err);
+        proyecto.request = "error";
+        console.log(err);
+        const objMessage = {
+          text: err.error.message,
+          type: "Info"
+        };
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: "right",
+          verticalPosition: "top",
+          panelClass: "background-warning",
+          duration: 5000
+        });
+        this.getProyectos();
+      }
+    );
+  }
+  eliminar(proyecto) {
+    if (confirm("Esta seguro de eliminar el Proyecto: " + proyecto.nombre)) {
+      console.log(proyecto);
+      proyecto.request = "start";
+      proyecto.change = false;
+
+      let url =
+        proyecto.Grupos.length >= 1
+          ? `grupos/${proyecto.Grupos[0]._id}/proyectos`
+          : `proyectos`;
+      console.log(url);
+      this._httpService.eliminarId(url, proyecto._id).subscribe(
+        result => {
+          console.log(result);
+          proyecto.request = "ok";
+        this.getProyectos();
+        },
+        err => {
+          console.log(err);
+          proyecto.request = "error";
+          const objMessage = {
+            text: err.error.message,
+            type: "Info"
+          };
+          this._messageDataService.changeMessage(objMessage);
+          this.snackBar.openFromComponent(SnackbarComponent, {
+            horizontalPosition: "right",
+            verticalPosition: "top",
+            panelClass: "background-warning",
+            duration: 5000
+          });
+          this.getProyectos();
+        }
+      );
+    }
   }
 }

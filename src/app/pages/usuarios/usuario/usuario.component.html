@@ -109,7 +109,32 @@
       <div class="card-deck">
         <div class="card">
           <div class="card-body">
-            <h4 class="title-repo">Repositorios</h4>
+            <h4 class="title-repo">Proyectos en Repositorio Estatal</h4>
+            <!-- <table class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'"> -->
+            <table datatable [dtOptions]="dtOptions" class="table table-hover table-inverse table-responsive">
+              <thead class="thead-inverse">
+                <tr>
+                  <th></th>
+                  <th>Repositorios</th>
+                  <th>Url</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let proyecto of proyectos" style="cursor: pointer">
+                  <td scope="row">
+                    <img [src]="proyecto.avatar" alt="" height="30" width="30"> </td>
+                  <td>
+                    <a target="#">{{proyecto.nombre}} </a>
+                  </td>
+                  <td>
+                    <a href="{{dominio}}/{{proyecto.path}}" target="#">{{dominio}}/{{proyecto.path}} </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+
+            <h4 class="title-repo">Proyectos en Repositorios Externos</h4>
             <!-- <table class="table table-hover table-inverse table-responsive" *ngIf="usuario.tipo!='local'"> -->
             <table datatable [dtOptions]="dtOptions" class="table table-hover table-inverse table-responsive">
               <thead class="thead-inverse">
@@ -167,27 +192,32 @@
                 <tbody>
                   <tr>
                     <td>
-                      <mat-icon class="hub-mat-icon">code</mat-icon>Primer commit:</td>
+                      <mat-icon class="hub-mat-icon">code</mat-icon>Primer commit:
+                    </td>
                     <td>{{primerCommit | date:'medium'}}</td>
                   </tr>
                   <tr>
                     <td>
-                      <mat-icon class="hub-mat-icon">code</mat-icon> Reciente Commit:</td>
+                      <mat-icon class="hub-mat-icon">code</mat-icon> Reciente Commit:
+                    </td>
                     <td>{{UltimoCommit | date:'medium'}}</td>
                   </tr>
                   <tr>
                     <td>
-                      <mat-icon class="hub-mat-icon">code</mat-icon>Total Commit:</td>
+                      <mat-icon class="hub-mat-icon">code</mat-icon>Total Commit:
+                    </td>
                     <td>{{commitsRepoTotal}}</td>
                   </tr>
                   <tr>
                     <td>
-                      <mat-icon class="hub-mat-icon">error_outline</mat-icon>Total Issues:</td>
+                      <mat-icon class="hub-mat-icon">error_outline</mat-icon>Total Issues:
+                    </td>
                     <td>{{repoSelect.issues.total}}</td>
                   </tr>
                   <tr>
                     <td>
-                      <mat-icon fontIcon="fa-code-fork" class="fa fa-lg"></mat-icon>Total forks:</td>
+                      <mat-icon fontIcon="fa-code-fork" class="fa fa-lg"></mat-icon>Total forks:
+                    </td>
                     <td>{{repoSelect.forks.total}}</td>
                   </tr>
                   <tr>
@@ -209,6 +239,7 @@
         </div>
       </div>
     </div>
+
     <div *ngIf="showLenguajes ||showCommitsRepo">
       <h4 class="title-repo">Commits</h4>
       <div class="row">
