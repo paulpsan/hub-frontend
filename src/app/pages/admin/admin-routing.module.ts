@@ -11,6 +11,7 @@ import { ProyectosGrupoComponent } from './institucion/grupos/proyectos-grupo/pr
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { UsuariosProyectoComponent } from './institucion/grupos/proyectos-grupo/usuarios-proyecto/usuarios-proyecto.component';
 import { AdminGruposComponent } from './grupos/admin-grupos.component';
+import { TransferirComponent } from './institucion/grupos/transferir/transferir.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
       { path: "institucion/grupos/nuevo", component: CrearComponent },
       { path: "institucion/grupos/editar", component: EditarComponent },
       {
+        path: "institucion/grupos/transferir/:id",
+        component: TransferirComponent
+      },
+      {
         path: "institucion/grupos/usuarios/:id",
         component: UsuariosGrupoComponent
       },
@@ -38,21 +43,6 @@ const routes: Routes = [
       }
     ]
   }
-  // {
-  //   path: "institucion",
-  //   component: InstitucionComponent,
-  //   children: [
-  //     { path: "", component: UsuariosComponent },
-  //     { path: "usuarios", component: UsuariosComponent },
-  //     { path: "grupos", component: GruposComponent },
-  //     { path: "solicitudes", component: SolicitudesComponent },
-  //     { path: "grupos/nuevo", component: CrearComponent },
-  //     { path: "grupos/editar", component: EditarComponent },
-  //     { path: "grupos/usuarios/:id", component: UsuariosGrupoComponent },
-  //     { path: "grupos/proyectos/:id", component: ProyectosGrupoComponent },
-  //     { path: "grupos/proyectos/usuarios/:id", component: UsuariosProyectoComponent }
-  //   ]
-  // },
 ];
 
 @NgModule({

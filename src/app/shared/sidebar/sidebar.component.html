@@ -40,6 +40,15 @@
       </mat-divider>
     </mat-expansion-panel>
 
+    <mat-expansion-panel class="panel-hub pt-3" hideToggle="true" *ngIf="usuario.admin_grupo" [routerLink]="['/admin/institucion/grupos/transferir',grupo._id]">
+      <mat-expansion-panel-header>
+        <mat-icon>swap_horiz</mat-icon>
+        <span class="ml-2">
+          Transferir Titularidad de Grupo
+        </span>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
     <ng-container *ngIf="usuario.admin">
       <mat-expansion-panel class="panel-hub" hideToggle="true" [expanded]="true">
         <mat-expansion-panel-header>

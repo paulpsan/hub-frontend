@@ -69,11 +69,11 @@
               bloquear
             </button>
           </ng-container>
-          <ng-container *ngIf="usuario.estado=='bloqueado'">
-            <button mat-icon-button (click)= "desbloquearUsuario(usuario)" color="warn">
-                <mat-icon mat-list-icon>block</mat-icon>
-                desbloquear
-              </button>
+          <ng-container *ngIf="usuario.estado!=='habilitado'">
+            <button mat-icon-button (click)="desbloquearUsuario(usuario)" color="primary">
+              <mat-icon mat-list-icon>check</mat-icon>
+              desbloquear
+            </button>
           </ng-container>
         </td>
       </tr>

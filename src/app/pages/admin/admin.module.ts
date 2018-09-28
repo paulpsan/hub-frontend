@@ -21,6 +21,7 @@ import { SolicitudesComponent, ModalTextSolicitud } from './solicitudes/solicitu
 import { UsuariosProyectoComponent } from './institucion/grupos/proyectos-grupo/usuarios-proyecto/usuarios-proyecto.component';
 import { AdminGruposComponent } from './grupos/admin-grupos.component';
 import { ProyectosComponent } from './proyectos/proyectos.component';
+import { TransferirComponent } from './institucion/grupos/transferir/transferir.component';
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { ProyectosComponent } from './proyectos/proyectos.component';
     ModalTextSolicitud,
     UsuariosProyectoComponent,
     ProyectosComponent,
+    TransferirComponent,
   ],
   entryComponents: [ModalTextSolicitud]
 

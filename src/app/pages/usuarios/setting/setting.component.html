@@ -12,12 +12,12 @@
       <hub-cuenta *ngIf="!showTabs">
       </hub-cuenta>
     </mat-tab>
-    <mat-tab label="Eliminar Cuenta" [disabled]="showTabs">
+    <!-- <mat-tab label="Eliminar Cuenta" [disabled]="showTabs">
       <hub-eliminar [usuario]="usuario" *ngIf="!showTabs">
       </hub-eliminar>
-    </mat-tab>
+    </mat-tab> -->
     <mat-tab label="Solicitar Titularidad de Institución" [disabled]="showTabs">
-      <hub-solicitudes *ngIf="selectedIndex==3">
+      <hub-solicitudes *ngIf="selectedIndex==2">
       </hub-solicitudes>
     </mat-tab>
   </mat-tab-group>

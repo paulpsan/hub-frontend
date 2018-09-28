@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12" style="text-align: center">
+      <div>
+        <label for="" class="title-repo">Buscar Usuario del grupo:</label>
+      </div>
+      <form novalidate [formGroup]="userForm">
+        <mat-form-field class="col-md-4 col-12">
+          <input matInput placeholder="Usuario" [matAutocomplete]="auto" formControlName="nombre">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let item of usuariosSearch" [value]="item.nombre" style="line-height: 18px;">
+              <p class="">
+                {{ item.nombre }} <br>
+                <span style="font-size: 12px">
+                  {{ item.email}}
+                </span>
+              </p>
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint>
+            Buscar un usuario
+          </mat-hint>
+        </mat-form-field>
+        <button mat-button color="primary" type="button" (click)="selectUser()" [disabled]="!userForm.valid" matTooltip="Selecciona Usuario">
+          <mat-icon aria-label="Seleccionar">add</mat-icon>Seleccionar
+        </button>
+      </form>
+    </div>
+    <div class="col-12" *ngIf="usuarioTransferir">
+      <div>
+        <label for="" class="title-repo">Usuario a transferir:</label>
+      </div>
+      <table class="table table-responsive">
+        <thead class="thead-inverse">
+          <tr>
+            <th style="width:250px">Usuario</th>
+            <th style="width:150px">Username</th>
+            <th style="width:150px">Correo</th>
+            <th style="width:120px">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="row">
+              <h4 mat-line>{{usuarioTransferir.nombre}}</h4>
+              <p>
+                {{usuarioTransferir.descripcion}}
+              </p>
+            </td>
+            <td>
+              <p mat-line> {{usuarioTransferir.login }} </p>
+            </td>
+            <td>
+              <p mat-line> {{usuarioTransferir.email }} </p>
+            </td>
+            <td>
+              <div class="row justify-content-center">
+                <hub-button-loading [request]="usuarioTransferir.request">
+                </hub-button-loading>
+                <button mat-icon-button (click)="transferir()" color="primary">
+                  <mat-icon mat-list-icon>swap_horiz</mat-icon>Transferir
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
