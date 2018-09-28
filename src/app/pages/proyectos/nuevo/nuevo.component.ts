@@ -127,6 +127,7 @@ export class NuevoComponent implements OnInit {
           this.usuarios
         );
         proyecto.grupo = this.grupo || ""
+        proyecto.es_grupo = this.grupo ? true : false;
         this.request = true;
         console.log(proyecto);
         let url = this.grupo ? `grupos/${this.grupo._id}/proyectos` : `proyectos`;

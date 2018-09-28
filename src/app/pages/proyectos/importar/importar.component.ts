@@ -155,6 +155,7 @@ export class ImportarComponent implements OnInit {
           datos.commits
         );
         proyecto.grupo = this.grupo || ""
+        proyecto.es_grupo = this.grupo ? true : false;
         console.log(proyecto);
         this._httpService.post("proyectos?import=true", proyecto).subscribe(response => {
           this.snackBar.dismiss();

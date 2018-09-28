@@ -46,6 +46,7 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
   usuario;
   datos: boolean = false;
   commits: boolean = false;
+  grupos;
   proyectos;
   dominio;
   permisosProyecto = [
@@ -86,6 +87,9 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
         this.showData = false;
         this._usuarioService.usuario$.subscribe(repUsuario => {
           this.usuario = repUsuario;
+          this.grupos = this.usuario.Grupos;
+          this.proyectos = this.usuario.Proyectos;
+          console.log(this.usuario);
           if (this.usuario.github) this.cuentas.push("github");
           if (this.usuario.gitlab) this.cuentas.push("gitlab");
           if (this.usuario.bitbucket) this.cuentas.push("bitbucket");
@@ -109,7 +113,7 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
         }
       }
     });
-    this.getProyectos();
+    // this.getProyectos();
   }
   getProyectos() {
     this._httpService
@@ -126,6 +130,7 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
         }
       });
   }
+
 
   next(object) {
     this.siguiente.emit(object);
@@ -334,27 +339,27 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
           "&state=" +
           environment.bitbucket.state;
         break;
-
       default:
         break;
     }
   }
-  salir(proyecto) {
+
+  salir(grupo) {
     if (
-      confirm("Esta seguro de salir del grupo " + proyecto.Grupos[0].nombre)
+      confirm("Esta seguro de salir del grupo " + grupo.nombre)
     ) {
-      proyecto.request = "start";
-      proyecto.change = false;
+      grupo.request = "start";
+      grupo.change = false;
       this._httpService
-        .delete(`grupos/${proyecto.Grupos[0]._id}/usuarios/${this.usuario._id}`)
+        .delete(`grupos/${grupo._id}/usuarios/${this.usuario._id}`)
         .subscribe(
           result => {
             this.getProyectos();
-            proyecto.request = "ok";
+            grupo.request = "ok";
           },
           err => {
             this.getProyectos();
-            proyecto.request = "error";
+            grupo.request = "error";
           }
         );
     }
@@ -408,7 +413,7 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
         result => {
           console.log(result);
           proyecto.request = "ok";
-        this.getProyectos();
+          this.getProyectos();
         },
         err => {
           console.log(err);
