@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { PageEvent, MatSnackBar } from "@angular/material";
-import { HttpService, UsuarioService, MessageDataService } from "../../../services/service.index";
+import {
+  HttpService,
+  UsuarioService,
+  MessageDataService
+} from "../../../services/service.index";
 import { Router } from "@angular/router";
 import { SnackbarComponent } from "../../../shared/snackbar/snackbar.component";
 
@@ -33,7 +37,7 @@ export class AdminGruposComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
@@ -65,9 +69,6 @@ export class AdminGruposComponent implements OnInit {
       this.pagina = this.respuesta.paginacion.paginaActual - 1;
       this.limite = this.respuesta.paginacion.limite;
       this.grupos = this.respuesta.datos;
-    });
-    this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
-      this.usuario = resp;
     });
   }
   changeSelect(event, grupo) {
