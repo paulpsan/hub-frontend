@@ -9,103 +9,13 @@
             Usted no cuenta con Repositorios
           </div>
         </div>
-        <div class="col-6">
-          <div class="title-description">
-            <h4>Sus Proyectos en el repositorio estatal son:</h4>
-          </div>
-          <div class="col-12">
-            <div class="row" *ngIf="proyectos">
-              <table class="table table-responsive">
-                <thead class="thead-inverse">
-                  <tr>
-                    <th>Proyecto</th>
-                    <th>Descripción</th>
-                    <th>Visibilidad</th>
-                    <th>Acción</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let proyecto of proyectos">
-                    <td scope="row">
-                      <a href="{{dominio}}/{{proyecto.path}}">
-                        {{proyecto.path}}
-                      </a><br>
-                    </td>
-                    <td>
-                      <p mat-line> {{proyecto.descripcion }} </p>
-                    </td>
-                    <td class="text-center">
-                      <ng-container>
-                        {{proyecto.visibilidad}}
-                      </ng-container>
-                    </td>
-                    <td class="p-0" *ngIf="!proyecto.es_grupo">
-                      <div class="row justify-content-center">
-                        <ng-container class="col">
-                          <button mat-button (click)="editar(proyecto)" color="primary" matTooltip="Editar Proyecto">
-                            <mat-icon mat-list-icon>edit</mat-icon>
-                          </button>
-                        </ng-container>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-          </div>
-
-        </div>
-        <div class="col-6">
-          <div class="title-description">
-            <h4>Sus Grupos en el repositorio estatal son:</h4>
-          </div>
-          <div class="col-12">
-            <div class="row" *ngIf="proyectos">
-              <table class="table table-responsive">
-                <thead class="thead-inverse">
-                  <tr>
-                    <th>Grupo</th>
-                    <th>path</th>
-                    <th>Visibilidad</th>
-                    <th>Acción</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let grupo of grupos">
-                    <td scope="row">
-                      <a href="{{dominio}}/{{grupo.path}}">
-                        {{grupo.nombre}}
-                      </a><br>
-                      <!-- <mat-chip>{{proyecto.UsuarioProyecto.nombre_permiso}}</mat-chip> -->
-                    </td>
-                    <td>
-                      <p mat-line> {{grupo.descripcion }} </p>
-                    </td>
-                    <td class="text-center">
-                      <p mat-line> {{grupo.visibilidad}} </p>
-                    </td>
-                    <td>
-                      <div class="row justify-content-center">
-                        <div class="col">
-                          <button class="text-left" mat-icon-button (click)="salir(grupo)" color="warn" style="margin-top: -10px"
-                            matTooltip="Salir del grupo">
-                            <mat-icon mat-list-icon>exit_to_app</mat-icon>Salir
-                          </button>
-                        </div>
-                        <!-- <hub-button-loading class="col" [request]="proyecto.request">
-                        </hub-button-loading> -->
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-
       </div>
+
+      <hub-proyectos-personales>
+
+      </hub-proyectos-personales>
+
+
     </mat-card-content>
 
     <mat-card-content>

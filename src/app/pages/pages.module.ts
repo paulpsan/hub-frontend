@@ -11,10 +11,15 @@ import { RepositoriosComponent } from './repositorios/repositorios.component';
 import { SettingModule } from "./usuarios/setting/setting.module";
 import { SharedModule } from "../shared/shared.module";
 import { PipesModule } from "../pipes/pipes.module";
+import { ProyectosComponent } from './repositorios/proyectos/proyectos.component';
+import { EditarComponent } from './repositorios/proyectos/editar/editar.component';
 
 @NgModule({
   declarations: [
-  RepositoriosComponent],
+  RepositoriosComponent,
+  ProyectosComponent,
+  EditarComponent,
+],
   imports: [
     CommonModule,
     FormsModule,

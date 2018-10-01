@@ -92,7 +92,7 @@ export class ImportarComponent implements OnInit {
     this.proyForm.setValue({
       nombre: this.itemSelect.nombre,
       descripcion: this.itemSelect.descripcion,
-      urlRepositorio: `${environment.gitlabAdmin.domain}/${
+      urlRepositorio: `${
         this.usuario.login
         }/${this.itemSelect.nombre}`,
       institucion: ""

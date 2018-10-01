@@ -9,7 +9,7 @@ export const GLOBAL = {
   dtOptions: {
     order: [[0, "desc"]],
     pagingType: "full_numbers",
-    pageLength: 10,
+    lengthMenu: [[5, 10, 50, -1], [5, 10, 50, "All"]],
     language: {
       search: "Buscar",
       lengthMenu: "Mostrar _MENU_ entradas",

@@ -13,13 +13,29 @@ export class SidebarComponent implements OnInit {
   constructor(
     private _usuarioService: UsuarioService,
     private _httpService: HttpService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
       this.usuario = respUsuario;
-      if (respUsuario.Grupos) this.grupo = respUsuario.Grupos[0];
+
+      this.obtenerGrupo();
+      // if (respUsuario.Grupos >= 1) {
+      //   this.grupo = respUsuario.Grupos[0];
+      // }
       console.log(this.grupo);
     });
+  }
+  obtenerGrupo() {
+    this._httpService
+      .get(`usuarios/${this.usuario._id}/grupos`)
+      .subscribe(
+        result => {
+          console.log(this.grupo);
+          this.grupo = result.length >= 1 ? result : undefined;
+        },
+        err => {
+        }
+      );
   }
 }

@@ -343,27 +343,6 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
         break;
     }
   }
-
-  salir(grupo) {
-    if (
-      confirm("Esta seguro de salir del grupo " + grupo.nombre)
-    ) {
-      grupo.request = "start";
-      grupo.change = false;
-      this._httpService
-        .delete(`grupos/${grupo._id}/usuarios/${this.usuario._id}`)
-        .subscribe(
-          result => {
-            this.getProyectos();
-            grupo.request = "ok";
-          },
-          err => {
-            this.getProyectos();
-            grupo.request = "error";
-          }
-        );
-    }
-  }
   guardar(proyecto) {
     console.log(proyecto);
     proyecto.request = "start";
