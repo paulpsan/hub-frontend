@@ -36,9 +36,21 @@ export class NuevoComponent implements OnInit {
   categorias: any[];
   repositorios;
   showRepos = false;
-
+  showEntidades = false;
+  avanzado = false;
   importar: boolean = false;
-
+  data = {
+    sistemasOperativos: "",
+    lenguajes: "",
+    baseDatos: "",
+    dependencias: "",
+    alcances: "",
+    reglasDesarrollo: "",
+    reglasContribucion: "",
+    funcionalidades: "",
+    comunicacion: "",
+    errores: "",
+  };
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -64,6 +76,7 @@ export class NuevoComponent implements OnInit {
       nombre: new FormControl("", Validators.required),
       descripcion: new FormControl("", Validators.required),
       urlRepositorio: new FormControl("", Validators.required),
+      version: new FormControl("", Validators.required),
     });
     this.nuevoForm.controls["nombre"].valueChanges.subscribe(value => {
       this.setUrl(value)
@@ -108,29 +121,36 @@ export class NuevoComponent implements OnInit {
       this.nuevoForm.controls["nombre"].setValue("");
     } else {
       if (this.nuevoForm.valid) {
-        let proyecto: Proyecto;
-        proyecto = new Proyecto(
-          null,
-          this.nuevoForm.controls["nombre"].value,
-          this.nuevoForm.controls["descripcion"].value,
-          "public",
-          this.nuevoForm.controls["urlRepositorio"].value,
-          null,
-          this.usuario._id,
-          this.usuario,
-          "",
-          "",
-          "",
-          { datos: [], valor: 0 },
-          this.categorias,
-          ["licencias"],
-          this.usuarios
-        );
-        proyecto.grupo = this.grupo || ""
-        proyecto.es_grupo = this.grupo ? true : false;
+        let proyecto = {
+          nombre: this.nuevoForm.controls["nombre"].value,
+          descripcion: this.nuevoForm.controls["descripcion"].value,
+          visibilidad: "public",
+          path: this.nuevoForm.controls["urlRepositorio"].value,
+          version: this.nuevoForm.controls["version"].value,
+          fk_usuario: this.usuario._id,
+          usuario: this.usuario,
+          avatar: "",
+          clasificacion: { datos: [], valor: 0 },
+          categorias: this.categorias,
+          usuarios: this.usuarios,
+          grupo: this.grupo || "",
+          es_grupo: this.grupo ? true : false,
+          sistemas_operativos: this.data.sistemasOperativos,
+          lenguajes: this.data.lenguajes,
+          base_datos: this.data.baseDatos,
+          dependencias: this.data.dependencias,
+          alcances: this.data.alcances,
+          reglas_desarrollo: this.data.reglasDesarrollo,
+          reglas_contribucion: this.data.reglasContribucion,
+          funcionalidades: this.data.funcionalidades,
+          comunicacion: this.data.comunicacion,
+          errores: this.data.errores,
+        }
+
         this.request = true;
         console.log(proyecto);
         let url = this.grupo ? `grupos/${this.grupo._id}/proyectos` : `proyectos`;
+
         this._httpService
           .adicionar(url, proyecto)
           .subscribe(response => {
@@ -215,6 +235,8 @@ export class NuevoComponent implements OnInit {
     console.log(grupo);
     this.grupo = grupo;
     this.setUrl(this.nuevoForm.controls["nombre"].value)
+
+    this.showEntidades = grupo ? true : false;
   }
 
   setUrl(value) {

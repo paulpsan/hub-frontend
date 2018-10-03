@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'hub-formulario-proyecto',
@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormularioComponent implements OnInit {
 
+  @Input() entidades;
+  @Input() avanzadas;
+  @Input() data;
   constructor() { }
 
   ngOnInit() {

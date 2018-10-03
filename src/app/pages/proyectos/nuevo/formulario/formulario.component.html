@@ -1,5 +1,90 @@
-<div class="col">
-  <mat-checkbox>
-  </mat-checkbox>
-  <a class="enlaces titulo">Agregar Licencia LPG-BOLIVIA</a>
-</div>
+<fieldset *ngIf="entidades">
+  <label class="form-label">Entidades Publicas</label>
+
+  <div class="form-group">
+    <mat-form-field class="col">
+      <input matInput placeholder="Objetivo y alcance del proyecto" [(ngModel)]="data.alcances">
+      <mat-hint>
+        Objetivo y alcance del proyecto
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="col">
+      <input matInput placeholder="Reglas para el desarrollo" [(ngModel)]="data.reglasDesarrollo">
+      <mat-hint>
+        Reglas para el desarrollo
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="col">
+      <input matInput placeholder="Reglas para la contribución" [(ngModel)]="data.reglasContribucion">
+      <mat-hint>
+        Reglas para la contribución
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="col">
+      <input matInput placeholder="Listado de funcionalidades" [(ngModel)]="data.funcionalidades">
+      <mat-hint>
+        Listado de funcionalidades
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="col">
+      <input matInput placeholder="Herramientas de comunicación" [(ngModel)]="data.comunicacion">
+      <mat-hint>
+        Herramientas de comunicación (listas de correo, email, chat, etc)
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="col">
+      <input matInput placeholder="Canales de reporte de errores" [(ngModel)]="data.errores">
+      <mat-hint>
+        Canales de reporte de errores
+      </mat-hint>
+    </mat-form-field>
+  </div>
+
+</fieldset>
+
+<fieldset *ngIf="avanzadas">
+  <label class="form-label">Avanzadas</label>
+
+  <div class="form-group">
+    <mat-form-field class="col">
+      <input matInput placeholder="Sistemas Operativos" [(ngModel)]="data.sistemasOperativos">
+      <mat-hint>
+        Sistemas Operativos compatibles con el proyecto
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="col">
+      <input matInput placeholder="Lenguajes de programación" [(ngModel)]="data.lenguajes">
+      <mat-hint>
+        Lenguajes de programación usados en el proyecto
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="col">
+      <input matInput placeholder="Base de Datos" [(ngModel)]="data.baseDatos">
+      <mat-hint>
+        Mencione el motor de base de datos en el proyecto
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="col">
+      <input matInput placeholder="Detalle de Dependencias" [(ngModel)]="data.dependencias">
+      <mat-hint>
+        Detalle las de Dependencias del proyecto
+      </mat-hint>
+    </mat-form-field>
+  </div>
+</fieldset>

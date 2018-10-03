@@ -81,7 +81,7 @@
                 <span>Url:</span>
               </div>
               <div class="col-md-7" style=" word-wrap: break-word;">
-                <a href="{{proyecto.urlRepositorio}}" target="#">{{proyecto.urlRepositorio}}</a>
+                <a href="{{proyecto.urlRepositorio}}" target="#">{{dominio}}/{{proyecto.path}}</a>
               </div>
             </div>
 
@@ -98,8 +98,11 @@
                   <mat-chip>{{categoria.nombre}}</mat-chip>
                 </mat-chip-list>
               </div>
-              <div class="col-md-6 title-description">
-                <span>Licencias: </span>
+              <div class="col-md-6 title-description" *ngIf="proyecto.licencias">
+                <span>Licencia: </span>
+                <a href="{{dominio}}/{{proyecto.path}}" target="#">
+                  {{proyecto.licencias.nombre}}
+                </a>
               </div>
             </div>
           </div>

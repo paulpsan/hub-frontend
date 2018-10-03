@@ -1,23 +1,24 @@
-import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService, UsuarioService, SubirArchivoService, LoadDataService, MessageDataService } from '../../../services/service.index';
 import { MatSnackBar } from '@angular/material';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { GLOBAL } from '../../../services/global';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'hub-proyectos-personales',
   templateUrl: './proyectos.component.html',
   styleUrls: ['./proyectos.component.css']
 })
-export class ProyectosComponent implements OnInit {
+export class ProyectosComponent implements OnInit, OnDestroy {
 
   usuario;
   usuarios;
   proyectos;
   grupos;
-
+  dominio;
   siguiente = new EventEmitter<any>();
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -48,6 +49,8 @@ export class ProyectosComponent implements OnInit {
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
   ) {
+    this.dominio = environment.gitlabAdmin.domain
+
   }
 
   ngOnInit() {
@@ -58,7 +61,6 @@ export class ProyectosComponent implements OnInit {
       if (this.usuario.Grupos)
         this.grupos = this.usuario.Grupos.length >= 1 ? this.usuario.Grupos : undefined;
       this.obtenerProyectos();
-      this.dtTrigger.next();
     });
   }
   obtenerProyectos() {
@@ -67,15 +69,19 @@ export class ProyectosComponent implements OnInit {
       .subscribe(
         result => {
           this.proyectos = result.length >= 1 ? result : undefined;
+          this.dtTrigger.next();
         },
         err => {
         }
-      );
+        );
   }
   editar(proyecto) {
     this.router.navigate(["repositorios/editar", proyecto._id])
   }
-
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
   salir(grupo) {
     if (
       confirm("Esta seguro de salir del grupo " + grupo.nombre)

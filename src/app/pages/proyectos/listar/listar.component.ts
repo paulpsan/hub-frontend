@@ -14,6 +14,7 @@ import "rxjs";
 import { Proyecto } from "../../../models/proyecto";
 import { HttpService } from "../../../services/http/http.service";
 import { ProyectosService } from "../../../services/proyecto/proyectos.service";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "hub-listar",
@@ -32,7 +33,7 @@ export class ListarComponent implements OnInit {
   public total;
   public pageSizeOptions = [5, 10, 25, 100];
   public pageEvent: PageEvent;
-
+  public dominio;
   proyectos: any[];
   starList: boolean[] = [true, true, true, true, true]; // create a list which contains status of 5 stars
 
@@ -42,6 +43,7 @@ export class ListarComponent implements OnInit {
     private dialog: MatDialog,
     private _httpService: HttpService
   ) {
+    this.dominio = environment.gitlabAdmin.domain
     this.paginacion = {
       pagina: "1",
       limite: "2"

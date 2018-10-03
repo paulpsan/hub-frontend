@@ -1,121 +1,335 @@
 <hub-header></hub-header>
 <div class="container">
   <div class="row justify-content-md-center m-1">
-    <div class="card card-catalogo bg-light col-md-6 col-sm-12" style="padding: 0;">
+    <div class="card card-catalogo bg-light col-sm-12 p-0">
       <div class="card-header card-header-catalogo">
         <span class="titulo-catalogo">
           Editar Proyecto
         </span>
       </div>
-      <div class="card-body">
+      <div class="container">
         <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
-          <span class="enlaces titulo" (click)="showBasico=!showBasico"><i class="fa fa-pencil"></i> Proyecto Básico</span>
-          <p class="" *ngIf="!showBasico">Nombre del proyecto, Descripcion, Url del proyecto
-          </p>
-
-          <fieldset *ngIf="showBasico">
-            <div class="form-group">
-              <label class="col-form-label">Nombre de Proyecto</label>
-              <br>
-              <mat-form-field class="col">
-                <input matInput placeholder="" formControlName='nombre'>
-              </mat-form-field>
-              <p>
-                Este nombre debe ser único en todos los proyectos
-              </p>
-            </div>
-
-            <div class="form-group">
-              <label class="col-form-label ">Dirección del proyecto URL</label>
-              <br>
-              <mat-form-field class="col">
-                <input matInput placeholder="" formControlName="path">
-              </mat-form-field>
-              <p>
-                Este debe contener el path del proyecto Addicionar
-              </p>
-            </div>
-            <div class="form-group">
-              <label class="col-form-label">Descripcion</label>
-              <br>
-              <mat-form-field class="col">
-                <textarea matInput placeholder="" formControlName="descripcion"></textarea>
-              </mat-form-field>
-              <p>
-                Detalle una descripción del proyecto centrado en las caracteristicas <br> Máximo 800 caracteres
-              </p>
-            </div>
-          </fieldset>
-          <!-- <span class="enlaces titulo" (click)="showLogo=!showLogo"><i class="fa fa-picture-o"></i> Logotipo</span>
-          <p *ngIf="!showLogo">Logotipo mostrado en el proyecto
-          </p>
-          <fieldset *ngIf="showLogo">
-            <div class="col-md-2">
-              <div class="form-group">
-                <label class="col-form-label required">Logo Actual</label>
-                <br>
-              </div>
-            </div>
-            <div class="col-md-10">
-              <div class="form-group">
-                <label class="col-form-label ">Carga el archivo</label>
-                <br>
-                <input type="file" placeholder="">
-                <p>
-                  Este debe contener el path del proyecto Addicionar
+          <div class="row">
+            <div class="col">
+              <div class="card-body">
+                <span class="enlaces titulo" (click)="showBasico=!showBasico"><i class="fa fa-pencil"></i> Proyecto
+                  Básico</span>
+                <p class="" *ngIf="!showBasico">Nombre del proyecto, Descripción, Path,Visibilidad, Version,
                 </p>
-                <br>
-                <mat-form-field class="">
-                  <input matInput placeholder="Cargar Logo por URL">
-                </mat-form-field>
+
+                <fieldset *ngIf="showBasico">
+                  <div class="form-group">
+                    <label class="form-label">Nombre de Proyecto</label>
+                    <mat-form-field class="col">
+                      <input matInput placeholder="" formControlName='nombre'>
+                      <mat-hint>
+                        Este nombre debe ser único en todos los proyectos
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label ">Dirección del proyecto URL</label>
+                    <mat-form-field class="col">
+                      <span matPrefix>{{dominio}}/</span>
+                      <input matInput placeholder="" formControlName="path">
+                      <mat-hint>
+                        Esta dirección debe ser único
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <mat-form-field class="col">
+                      <textarea matInput placeholder="" formControlName="descripcion"></textarea>
+                      <mat-hint>
+                        Detalle una descripción del proyecto centrado en las características <br> Máximo 800 caracteres
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Visibilidad</label>
+                    <mat-form-field class="col-12">
+                      <mat-select (selectionChange)="proyecto.change=true;" [(value)]="proyecto.visibilidad">
+                        <mat-option *ngFor="let permiso of permisosProyecto" [value]="permiso.value">
+                          {{ permiso.nombre }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-hint>
+                        Detalle una descripción del proyecto centrado en las características <br> Máximo 800 caracteres
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label ">Version Actual del Software</label>
+                    <mat-form-field class="col">
+                      <input matInput placeholder="" formControlName="version">
+                      <mat-hint>
+                        Version actual del software
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label ">Licencia del Software</label>
+                    <mat-form-field class="col">
+                      <input matInput placeholder="" disabled value="LGPBolivia">
+                      <mat-hint>
+                        Licencia del software
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                </fieldset>
+                <!-- <span class="enlaces titulo" (click)="showLogo=!showLogo"><i class="fa fa-picture-o"></i> Logotipo</span>
+                  <p *ngIf="!showLogo">Logotipo mostrado en el proyecto
+                  </p>
+                  <fieldset *ngIf="showLogo">
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label class="col-form-label required">Logo Actual</label>
+                      </div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-group">
+                        <label class="col-form-label ">Carga el archivo</label>
+                        <input type="file" placeholder="">
+                        <p>
+                          Este debe contener el path del proyecto Addicionar
+                        </p>
+                        <mat-form-field class="">
+                          <input matInput placeholder="Cargar Logo por URL">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </fieldset> -->
+                <span class="enlaces titulo" (click)="showCategorias=!showCategorias"><i class="fa fa-file-text-o"></i>
+                  Categorias</span>
+                <p *ngIf="!showCategorias">Categorías seleccionadas por el Usuario
+                </p>
+                <fieldset *ngIf="showCategorias">
+                  <div class="form-group">
+                    <label class="form-label ">Categorias </label>
+                    <!-- aqui mostrar el array de licencias -->
+                    <div>
+
+                    </div>
+                  </div>
+                </fieldset>
+                <span class="enlaces titulo" (click)="showUsuarios=!showUsuarios"><i class="fa fa-file-text-o"></i>
+                  Usuarios</span>
+                <p *ngIf="!showUsuarios">Usuarios Adicionados en el proyecto
+                </p>
+                <fieldset *ngIf="showUsuarios">
+                  <div class="form-group">
+                    <label class="form-label ">
+                      Usuarios
+                    </label>
+                    <!-- aqui mostrar el array de licencias -->
+                    <div>
+
+                      <table class="table table-responsive">
+                        <thead class="thead-inverse">
+                          <tr>
+                            <th style="width:250px">Usuario</th>
+                            <th style="width:150px">Permisos</th>
+                            <th style="width:120px">Acción</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let usuario of proyecto.Usuarios">
+                            <td scope="row">
+                              <p class="text-primary m-0" mat-line>{{usuario.nombre}}</p>
+                              <p class="m-0" mat-line> {{usuario.login }} </p>
+                              <p class="m-0" mat-line> {{usuario.email }} </p>
+                            </td>
+                            <td class="p-0">
+                              <mat-form-field class="col-12">
+                                <mat-select (selectionChange)="usuario.change=true;" [(value)]="usuario.UsuarioProyecto.access_level">
+                                  <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso.access">
+                                    {{ permiso.nombre }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </td>
+                            <td>
+                              <div class="row justify-content-center">
+                                <div *ngIf="usuario.change">
+                                  <button mat-icon-button type="button" (click)="guardarUsuario(usuario)" color="primary">
+                                    <mat-icon mat-list-icon>save</mat-icon>
+                                  </button>
+                                </div>
+                                <hub-button-loading [request]="usuario.request">
+                                </hub-button-loading>
+                                <div *ngIf="expression">
+                                  <button mat-icon-button type="button" (click)="eliminarUsuario(usuario)" color="warn">
+                                    <mat-icon mat-list-icon>delete</mat-icon>
+                                  </button>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+
+                    </div>
+                  </div>
+                </fieldset>
+
+              </div>
+
+            </div>
+            <div class="col" *ngIf="proyecto">
+              <div class="card-body">
+                <ng-container *ngIf="proyecto.es_grupo">
+                  <span class="enlaces titulo" (click)="showEntidades=!showEntidades"><i class="fa fa-pencil"></i>Información
+                    Para Entidades Publicas</span>
+                  <p class="" *ngIf="!showEntidades">Objetivo y alcance del proyecto,
+                    Reglas para el desarrollo,
+                    Reglas para la contribución, etc .....
+                    <!-- Reglas de la comunidad,
+                    Listado de funcionalidades
+                    Herramientas de comunicación (listas de correo, email, chat, etc)
+                    Canales de reporte de errores -->
+                  </p>
+
+                  <fieldset *ngIf="showEntidades">
+                    <div class="form-group">
+                      <label class="form-label">Objetivo y alcance del proyecto</label>
+                      <mat-form-field class="col">
+                        <input matInput placeholder="" formControlName="alcances">
+                        <mat-hint>
+                          Objetivo y alcance del proyecto
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Reglas para el desarrollo</label>
+                      <mat-form-field class="col">
+                        <input matInput placeholder="" formControlName="reglasDesarrollo">
+                        <mat-hint>
+                          Reglas para el desarrollo
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Reglas para la contribución</label>
+                      <mat-form-field class="col">
+                        <input matInput placeholder="" formControlName="reglasContribucion">
+                        <mat-hint>
+                          Reglas para la contribución
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Listado de funcionalidades</label>
+                      <mat-form-field class="col">
+                        <input matInput placeholder="" formControlName="funcionalidades">
+                        <mat-hint>
+                          Listado de funcionalidades
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label"> Herramientas de comunicación</label>
+                      <mat-form-field class="col">
+                        <input matInput placeholder="" formControlName="comunicacion">
+                        <mat-hint>
+                          Herramientas de comunicación (listas de correo, email, chat, etc)
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Canales de reporte de errores</label>
+                      <mat-form-field class="col">
+                        <input matInput placeholder="" formControlName="errores">
+                        <mat-hint>
+                          Canales de reporte de errores
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+
+                  </fieldset>
+
+                </ng-container>
+
+                <span class="enlaces titulo" (click)="showAvanzado=!showAvanzado"><i class="fa fa-pencil"></i>
+                  Avanzado</span>
+                <p class="" *ngIf="!showAvanzado">Sistemas Operativos, Lenguajes de programación, Base de
+                  Datos,Detalle
+                  de dependencias
+                </p>
+
+                <fieldset *ngIf="showAvanzado">
+                  <div class="form-group">
+                    <label class="form-label">Sistemas Operativos</label>
+                    <mat-form-field class="col">
+                      <input matInput placeholder="" formControlName="sistemasOperativos">
+                      <mat-hint>
+                        Sistemas Operativos compatibles con el proyecto
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Lenguajes de programación</label>
+                    <mat-form-field class="col">
+                      <input matInput placeholder="" formControlName="lenguajes">
+                      <mat-hint>
+                        Lenguajes de programación usados en el proyecto
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Base de Datos</label>
+                    <mat-form-field class="col">
+                      <input matInput placeholder="" formControlName="baseDAtos">
+                      <mat-hint>
+                        Mencione el motor de base de datos en el proyecto
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Detalle de Dependencias</label>
+                    <mat-form-field class="col">
+                      <input matInput placeholder="" formControlName="dependencias">
+                      <mat-hint>
+                        Detalle las de Dependencias del proyecto
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                </fieldset>
+                <span class="enlaces eliminar" (click)="showEliminar=!showEliminar"><i class="fa fa-file-text-o"></i>
+                  Eliminar</span>
+                <p *ngIf="!showEliminar">Eliminación del proyecto
+                </p>
+                <fieldset *ngIf="showEliminar">
+                  <div class="form-group">
+                    <label class="form-label ">Eliminacion del proyecto </label>
+                    <!-- aqui mostrar el array de licencias -->
+                    <div>
+                      <span> {{proyecto.nombre}}</span>
+                      <button mat-button color="warn" type="button" (click)="eliminar()">
+                        <mat-icon mat-list-icon>delete</mat-icon>
+                      </button>
+                      <hub-button-loading [request]="proyecto.request">
+                      </hub-button-loading>
+                    </div>
+                  </div>
+                </fieldset>
               </div>
             </div>
-          </fieldset> -->
-          <span class="enlaces titulo" (click)="showLicencias=!showLicencias"><i class="fa fa-file-text-o"></i>
-            Categorias</span>
-          <p *ngIf="!showLicencias">Categorías seleccionadas por el Usuario
-          </p>
-          <fieldset *ngIf="showLicencias">
-            <div class="form-group">
-              <label class="col-form-label ">Licencias Declaradas </label>
-              <!-- aqui mostrar el array de licencias -->
-              <div>
-                <span> GNU Licence</span>
-                <button mat-button color="warn" disabled>
-                  <mat-icon mat-list-icon>delete</mat-icon>
-                </button>
-              </div>
-            </div>
-          </fieldset>
-          <span class="enlaces titulo" (click)="showLicencias=!showLicencias"><i class="fa fa-file-text-o"></i>
-            Usuarios</span>
-          <p *ngIf="!showLicencias">Usuarios Adicionados en el proyecto
-          </p>
-          <fieldset *ngIf="showLicencias">
-            <div class="form-group">
-              <label class="col-form-label ">Licencias Declaradas </label>
-              <!-- aqui mostrar el array de licencias -->
-              <div>
-                <span> GNU Licence</span>
-                <button mat-button color="warn" disabled>
-                  <mat-icon mat-list-icon>delete</mat-icon>
-                </button>
-              </div>
-            </div>
-          </fieldset>
-          <button mat-button [disabled]="!projectForm.valid" type="submit" color="primary">
-            <mat-icon mat-list-icon>done</mat-icon>
-            Guardar
-          </button>
-          <button mat-button color="warn">
-            <mat-icon mat-list-icon>cancel</mat-icon>
-            Cancelar
-          </button>
+          </div>
+          <div class="row justify-content-md-center p-2">
+            <button mat-button [disabled]="!projectForm.valid" type="submit" color="primary">
+              <mat-icon mat-list-icon>done</mat-icon>
+              Guardar
+            </button>
+            <button mat-button type="button" [routerLink]="[ '/repositorios' ]" color="warn">
+              <mat-icon mat-list-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+          </div>
         </form>
       </div>
     </div>
-  </div>
-  <div class="col-md-8 col-md-offset-2 well">
-
   </div>
 </div>

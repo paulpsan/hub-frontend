@@ -1,110 +1,142 @@
 <div class="container">
-  <div class="row justify-content-md-center m-1">
-    <div class="card card-catalogo bg-light col-md-6 col-sm-12" style="padding: 0;">
+  <div class="row justify-content-md-center  m-1">
+    <div class="card card-catalogo bg-light col-md-6 p-0" [ngClass]="{'col-md-12': avanzado||showEntidades}">
       <div class="card-header card-header-catalogo">
         <span class="titulo-catalogo">
           Crear Nuevo Proyecto
         </span>
       </div>
-      <div class="card-body">
-
+      <div class="container">
         <form novalidate [formGroup]="nuevoForm" (ngSubmit)="onSubmit()">
-          <fieldset>
-            <ng-container>
-              <div class="form-group">
-                <mat-form-field class="col">
-                  <input matInput placeholder="Nombre de Proyecto (*)" formControlName="nombre">
-                  <mat-hint>
-                    Nombre no debe contener espacios, ejemplo: mi-nuevo-proyecto
-                  </mat-hint>
-                  <mat-error *ngIf="nuevoForm.controls['nombre'].hasError('required')">
-                    Nombre es
-                    <strong>requerido</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
+          <div class="row">
+            <div class="col">
+              <div class="card-body">
+                <fieldset>
+                  <ng-container>
+                    <div class="form-group">
+                      <mat-form-field class="col">
+                        <input matInput placeholder="Nombre de Proyecto (*)" formControlName="nombre">
+                        <mat-hint>
+                          Nombre no debe contener espacios, ejemplo: mi-nuevo-proyecto
+                        </mat-hint>
+                        <mat-error *ngIf="nuevoForm.controls['nombre'].hasError('required')">
+                          Nombre es
+                          <strong>requerido</strong>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
 
-              <div class="form-group">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-md-4" *ngIf="imagenTemp">
-                      <img class="col-4 col-sm-4 col-md-12" [src]="imagenTemp" style="height: 75px;">
-                    </div>
-                    <div class="col-md-6">
-                      <div>
-                        <label for="">Selecione una imagen</label>
+                    <div class="form-group">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-md-4" *ngIf="imagenTemp">
+                            <img class="col-4 col-sm-4 col-md-12" [src]="imagenTemp" style="height: 75px;">
+                          </div>
+                          <div class="col-md-6">
+                            <div>
+                              <label for="">Selecione una imagen</label>
+                            </div>
+                            <div class="row">
+                              <button mat-button type="button" (click)="fileToUpload.click()" color="primary">
+                                <mat-icon mat-list-icon>add_photo_alternate</mat-icon>
+                                Imagen
+                              </button>
+                              <ng-container *ngIf="imagenTemp">
+                                <button mat-button type="button" (click)="deleteImage()" color="warn">
+                                  <mat-icon mat-list-icon>delete</mat-icon>
+                                  borrar
+                                </button>
+                              </ng-container>
+                            </div>
+                            <input #fileToUpload (change)="seleccionImage($event.target.files[0])" type="file" style="display:none;">
+                          </div>
+                        </div>
                       </div>
-                      <div class="row">
-                        <button mat-button type="button" (click)="fileToUpload.click()" color="primary">
-                          <mat-icon mat-list-icon>add_photo_alternate</mat-icon>
-                          Imagen
-                        </button>
-                        <ng-container *ngIf="imagenTemp">
-                          <button mat-button type="button" (click)="deleteImage()" color="warn">
-                            <mat-icon mat-list-icon>delete</mat-icon>
-                            borrar
-                          </button>
-                        </ng-container>
-                      </div>
-                      <input #fileToUpload (change)="seleccionImage($event.target.files[0])" type="file" style="display:none;">
                     </div>
-                  </div>
+
+
+                    <div class="form-group">
+                      <!-- <label class="col-form-label ">Descripcion</label>
+                        <br> -->
+                      <mat-form-field class="col">
+                        <textarea matInput placeholder="Descripcion(*)" formControlName="descripcion"></textarea>
+                        <mat-hint>
+                          Detalle una descripción del proyecto centrado en las caracteristicas
+                          <br> Máximo 800 caracteres
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="form-group">
+                      <!-- <label class="col-form-label ">Categorias</label>
+                        <br> -->
+                      <!-- //aqui -->
+                      <hub-input-categorias (onCategorias)="setCategorias($event)">
+
+                      </hub-input-categorias>
+                    </div>
+                    <div class="form-group">
+                      <!-- <label class="col-form-label ">Usuarios</label>
+                        <br> -->
+                      <hub-input-usuarios [usuario]="usuario" (onUsuarios)="setUsuarios($event)">
+
+                      </hub-input-usuarios>
+                    </div>
+                    <div class="form-group" *ngIf="usuario.admin_grupo">
+                      <hub-input-grupos [usuario]="usuario" (emitGrupo)="setGrupo($event)">
+                      </hub-input-grupos>
+                    </div>
+                    <div class="form-group">
+                      <!-- <label class="col-form-label ">Dirección del proyecto</label>
+                            <br> -->
+                      <mat-form-field class="col">
+                        <span matPrefix>{{dominio}}/</span>
+                        <input matInput placeholder="Direccion URL" formControlName="urlRepositorio">
+                        <mat-hint>
+                          Su proyecto estará publicado en esta dirección
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                      <mat-form-field class="col">
+                        <input matInput placeholder="Version de Proyecto (*)" formControlName="version">
+                        <mat-hint>
+                          Version: Ejemplo: V0.0.1
+                        </mat-hint>
+                        <mat-error *ngIf="nuevoForm.controls['version'].hasError('required')">
+                          Version es
+                          <strong>requerido</strong>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                      <mat-checkbox [disabled]="true" [checked]="true">
+                      </mat-checkbox>
+                      <a class="">Licencia LPG-BOLIVIA</a>
+                    </div>
+
+                  </ng-container>
+                </fieldset>
+                <div class="col text-right">
+                  <mat-checkbox class="enlaces" (change)="avanzado=!avanzado">
+                    Opciones avanzadas
+                  </mat-checkbox>
                 </div>
-              </div>
 
+              </div>
+            </div>
+            <div class="col" *ngIf="avanzado||showEntidades">
+              <div class="card-body">
+                <ng-container>
+                  <hub-formulario-proyecto [entidades]="showEntidades" [avanzadas]="avanzado" [(data)]="data">
 
-              <div class="form-group">
-                <!-- <label class="col-form-label ">Descripcion</label>
-              <br> -->
-                <mat-form-field class="col">
-                  <textarea matInput placeholder="Descripcion(*)" formControlName="descripcion"></textarea>
-                  <mat-hint>
-                    Detalle una descripción del proyecto centrado en las caracteristicas
-                    <br> Máximo 800 caracteres
-                  </mat-hint>
-                </mat-form-field>
+                  </hub-formulario-proyecto>
+                </ng-container>
               </div>
-
-              <div class="form-group">
-                <!-- <label class="col-form-label ">Categorias</label>
-              <br> -->
-                <!-- //aqui -->
-                <hub-input-categorias (onCategorias)="setCategorias($event)">
-
-                </hub-input-categorias>
-              </div>
-              <div class="form-group">
-                <!-- <label class="col-form-label ">Usuarios</label>
-              <br> -->
-                <hub-input-usuarios [usuario]="usuario" (onUsuarios)="setUsuarios($event)">
-
-                </hub-input-usuarios>
-              </div>
-              <div class="form-group" *ngIf="usuario.admin_grupo">
-                <hub-input-grupos [usuario]="usuario" (emitGrupo)="setGrupo($event)">
-                </hub-input-grupos>
-              </div>
-              <div class="form-group">
-                <!-- <label class="col-form-label ">Dirección del proyecto</label>
-                  <br> -->
-                <mat-form-field class="col">
-                  <span matPrefix>{{dominio}}/</span>
-                  <input matInput placeholder="Direccion URL" formControlName="urlRepositorio">
-                  <mat-hint>
-                    Su proyecto estará publicado en esta dirección
-                  </mat-hint>
-                </mat-form-field>
-              </div>
-            </ng-container>
-          </fieldset>
-          <div (click)="avanzado=!avanzado">
-            Opciones avanzadas
+            </div>
           </div>
-          <ng-container *ngIf="avanzado">
-              <hub-formulario-proyecto>
 
-              </hub-formulario-proyecto>
-          </ng-container>
 
 
 

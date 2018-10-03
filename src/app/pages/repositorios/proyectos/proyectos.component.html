@@ -5,7 +5,7 @@
     </div>
     <div class="col-auto col-12">
       <div class="table-responsive-md">
-        <table datatable [dtOptions]="dtOptions" class="table">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table">
           <thead class="thead-inverse">
             <tr>
               <th style="width: 150px">Proyecto</th>
@@ -27,7 +27,7 @@
                   {{proyecto.visibilidad}}
                 </ng-container>
               </td>
-              <td class="p-0" *ngIf="!proyecto.es_grupo">
+              <td class="p-0">
                 <div class="row justify-content-center">
                   <ng-container class="col">
                     <button mat-icon-button (click)="editar(proyecto)" color="primary" matTooltip="Editar Proyecto">
