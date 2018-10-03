@@ -23,6 +23,7 @@ import { ListarComponent } from "./listar/listar.component";
 import { NuevoComponent } from './nuevo/nuevo.component';
 import { PlantillaComponent } from './proyecto/plantilla.component';
 import { ImportarComponent } from './importar/importar.component';
+import { FormularioComponent } from './nuevo/formulario/formulario.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ImportarComponent } from './importar/importar.component';
     ListarComponent,
     NuevoComponent,
     ImportarComponent,
-    PlantillaComponent
+    PlantillaComponent,
+    FormularioComponent
 
   ],
   imports: [

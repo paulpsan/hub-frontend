@@ -16,7 +16,7 @@ export const environment = {
     clientId: 'deafb08eb71ea00e531c',
     clientSecret: '10fe3d839e76615964b8d52ebfe7219169825f57',
     state: 'github',
-    callbackURL: 'http://localhost:4200/inicio'
+    callbackURL: 'http://localhost:4200/auth'
   },
   gitlab: {
     domain: 'https://gitlab.com/oauth/authorize?client_id=',
@@ -25,7 +25,7 @@ export const environment = {
     clientSecret:
       '99cca0cab45bf79a844763ec81db38e34915cbb8e8a5f6006a097707c4278d5b',
     state: 'gitlab',
-    callbackURL: 'http://localhost:4200/inicio'
+    callbackURL: 'http://localhost:4200/auth'
   },
   gitlabGeo: {
     domain: 'https://gitlab.geo.gob.bo/oauth/authorize?client_id=',
@@ -34,13 +34,13 @@ export const environment = {
     clientSecret:
       '272f3ddd82f15bb561c9cc34e44bfda2183100d4eb127a63dcc3529c181c1ac9',
     state: 'gitlabGeo',
-    callbackURL: 'http://localhost:4200/inicio'
+    callbackURL: 'http://localhost:4200/auth'
   },
   bitbucket: {
     domain: 'https://bitbucket.org/site/oauth2/authorize?client_id=',
     clientId: 'UEp5BUWsGZH9jAE962',
     clientSecret: 'EPQf3yDRYtY5dGFS3BRndWHwTG6M9uMx',
     state: 'bitbucket',
-    callbackURL: 'http://localhost:4200/inicio'
+    callbackURL: 'http://localhost:4200/auth'
   }
 };

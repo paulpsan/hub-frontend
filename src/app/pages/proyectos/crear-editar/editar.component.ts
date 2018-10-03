@@ -13,9 +13,9 @@ import { Proyecto } from "../../../models/proyecto";
 export class EditarComponent implements OnInit {
   id: number;
   acciones: string;
-  private prueba:string='prueba';
+  private prueba: string = 'prueba';
   private sub: any;
-  private proyecto:Proyecto;
+  private proyecto: Proyecto;
   showBasico: boolean = false;
   showLogo: boolean = false;
   showLicencias: boolean = false;
@@ -26,7 +26,7 @@ export class EditarComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _httpService: HttpService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -35,28 +35,28 @@ export class EditarComponent implements OnInit {
 
     this.obtenerProyecto();
     this.userForm = new FormGroup({
-      nombre:new FormControl(),
-      direccion : new FormControl(''),
-      descripcion :new FormControl(),
-      logotipo :new FormControl(),
+      nombre: new FormControl(),
+      direccion: new FormControl(''),
+      descripcion: new FormControl(),
+      logotipo: new FormControl(),
       // licencias :new FormControl(),
 
       // nombre: new FormControl('', Validators.required)
     });
   }
-  obtenerProyecto(){
-    this._httpService.buscarId('proyectos',this.id).subscribe(
-      result=>{
-        this.proyecto=result;
+  obtenerProyecto() {
+    this._httpService.buscarId('proyectos', this.id).subscribe(
+      result => {
+        this.proyecto = result;
         this.cargarDatos();
       }
     )
   }
-  cargarDatos(){
+  cargarDatos() {
     console.log(this.proyecto);
     this.userForm.setValue({
-      nombre:this.proyecto.nombre,
-      descripcion:this.proyecto.descripcion
+      nombre: this.proyecto.nombre,
+      descripcion: this.proyecto.descripcion
       // licencias:this.proyecto.licencia
     });
   }
@@ -71,7 +71,7 @@ export class EditarComponent implements OnInit {
       this.router.navigate(["/proyectos"]);
     }
   }
-  eliminarLicencia(){
+  eliminarLicencia() {
 
   }
 }

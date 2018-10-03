@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../common/guard/auth.guard';
 import { RepositoriosComponent } from './repositorios/repositorios.component';
+import { EditarComponent } from './repositorios/proyectos/editar/editar.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
     path: 'repositorios',
     component: RepositoriosComponent,
     // component: ProyectosComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "repositorios/editar/:id",
+    component: EditarComponent,
     canActivate: [AuthGuard]
   },
   {

@@ -31,8 +31,16 @@ export class SidebarComponent implements OnInit {
       .get(`usuarios/${this.usuario._id}/grupos`)
       .subscribe(
         result => {
+          let grupos = result;
+          // let grupos = result.length >= 1 ? result : undefined;
+          console.log(result);
+          this.grupo = grupos.find(grupo => {
+            return grupo.Usuarios.find(usuario => {
+              return usuario.UsuarioGrupo.admin = true
+            })
+          })
           console.log(this.grupo);
-          this.grupo = result.length >= 1 ? result : undefined;
+
         },
         err => {
         }

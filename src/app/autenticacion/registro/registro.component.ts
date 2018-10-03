@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Inject } from "@angular/core";
 import {
   FormControl,
   FormGroup,
@@ -6,16 +6,14 @@ import {
   FormBuilder
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { Usuario } from "../../models/usuario";
 import { HttpService } from "../../services/http/http.service";
 import { CustomValidators, ConfirmValidParentMatcher, errorMessages, regExps } from "./CustomValidators";
 import { environment } from "../../../environments/environment"
 import { GitlabService } from "../../services/gitlab/gitlab.service";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { SnackbarComponent } from '../../shared/snackbar/snackbar.component';
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from "@angular/material";
 import { MessageDataService } from "../../services/service.index";
-import { timeout } from "q";
 
 @Component({
   selector: "hub-registro",
@@ -35,7 +33,7 @@ export class RegistroComponent implements OnInit {
   dataLoading;
   captchaIcon: SafeHtml;
   sanitize: DomSanitizer;
-  request:boolean=false;
+  request: boolean = false;
   registroFormGroup: FormGroup;
   passFormGroup: FormGroup;
   emailFromGroup: FormGroup;
@@ -54,7 +52,8 @@ export class RegistroComponent implements OnInit {
     private _gitlabService: GitlabService,
     private sanitizer: DomSanitizer,
     private snackBar: MatSnackBar,
-    private _messageDataService: MessageDataService
+    private _messageDataService: MessageDataService,
+    private dialog: MatDialog
 
 
   ) {
@@ -64,7 +63,7 @@ export class RegistroComponent implements OnInit {
     this.gitlab = environment.createGitlab;
     this.dataLoading = {
       content: 'Cargando .........',
-      icon:false,
+      icon: false,
     }
   }
 
@@ -95,7 +94,8 @@ export class RegistroComponent implements OnInit {
       username: ["", Validators.required],
       passFormGroup: this.passFormGroup,
       emailFromGroup: this.emailFromGroup,
-      captcha: ["", Validators.required]
+      captcha: ["", Validators.required],
+      terms: ['', Validators.requiredTrue]
     });
   }
   get email() {
@@ -184,7 +184,6 @@ export class RegistroComponent implements OnInit {
           panelClass: "background-success",
           duration: 5000
         });
-        this.registroFormGroup.reset();
         setTimeout(() => {
           this.router.navigate(["/auth/login"]);
         }, 2000);
@@ -210,6 +209,36 @@ export class RegistroComponent implements OnInit {
         console.log(err);
       });
   }
+  openTerminos() {
 
+    let dialogRef = this.dialog.open(ModalTerminos, {
+      // height: '820px',
+      // width: '920px',
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+}
+@Component({
+  selector: "modal-terminos",
+  templateUrl: "modal-terminos.html"
+})
+export class ModalTerminos {
+  pdfSrc: string = '/assets/pdf/Formulario.pdf';
+  dataLoading: any = {
+    title: ""
+  };
+  constructor(
+    public dialogRef: MatDialogRef<ModalTerminos>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    // this.dataLoading.title = "cargando"
+  }
+  loading() {
+    this.dataLoading = undefined;
+  }
+  cancelarClick(): void {
+    this.dialogRef.close();
+  }
 }

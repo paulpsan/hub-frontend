@@ -97,6 +97,17 @@
               </div>
             </ng-container>
           </fieldset>
+          <div (click)="avanzado=!avanzado">
+            Opciones avanzadas
+          </div>
+          <ng-container *ngIf="avanzado">
+              <hub-formulario-proyecto>
+
+              </hub-formulario-proyecto>
+          </ng-container>
+
+
+
           <div class="row justify-content-center" *ngIf="!request">
             <button mat-button [disabled]="!nuevoForm.valid" type="submit" color="primary">
               <mat-icon mat-list-icon>done</mat-icon>

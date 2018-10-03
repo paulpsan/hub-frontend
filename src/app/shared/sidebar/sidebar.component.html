@@ -1,15 +1,15 @@
 <ul class="nav">
   <!-- Main menu -->
   <li class="current">
-    <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo" [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-icon>build</mat-icon>
-        <span class="ml-2">
-          Administracion de Grupo
-        </span>
-      </mat-expansion-panel-header>
+    <ng-container *ngIf="grupo">
+      <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-icon>build</mat-icon>
+          <span class="ml-2">
+            Administracion de Grupo
+          </span>
+        </mat-expansion-panel-header>
 
-      <ng-container *ngIf="grupo">
         <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
           <mat-expansion-panel-header [routerLink]="['/admin/institucion/grupos']">
             <mat-icon>group</mat-icon>
@@ -34,20 +34,20 @@
             </span>
           </mat-expansion-panel-header>
         </mat-expansion-panel>
-      </ng-container>
 
-      <mat-divider>
-      </mat-divider>
-    </mat-expansion-panel>
+        <mat-divider>
+        </mat-divider>
+      </mat-expansion-panel>
 
-    <mat-expansion-panel class="panel-hub pt-3" hideToggle="true" *ngIf="usuario.admin_grupo" [routerLink]="['/admin/institucion/grupos/transferir',grupo._id]">
-      <mat-expansion-panel-header>
-        <mat-icon>swap_horiz</mat-icon>
-        <span class="ml-2">
-          Transferir Titularidad de Grupo
-        </span>
-      </mat-expansion-panel-header>
-    </mat-expansion-panel>
+      <mat-expansion-panel class="panel-hub pt-3" hideToggle="true" *ngIf="usuario.admin_grupo" [routerLink]="['/admin/institucion/grupos/transferir',grupo._id]">
+        <mat-expansion-panel-header>
+          <mat-icon>swap_horiz</mat-icon>
+          <span class="ml-2">
+            Transferir Titularidad de Grupo
+          </span>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </ng-container>
 
     <ng-container *ngIf="usuario.admin">
       <mat-expansion-panel class="panel-hub" hideToggle="true" [expanded]="true">

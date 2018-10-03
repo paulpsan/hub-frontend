@@ -73,7 +73,7 @@ export class ProyectosComponent implements OnInit {
       );
   }
   editar(proyecto) {
-    this.router.navigateByUrl("repositorios/editar", proyecto._id)
+    this.router.navigate(["repositorios/editar", proyecto._id])
   }
 
   salir(grupo) {

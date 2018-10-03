@@ -5,8 +5,10 @@ import { RegistroComponent } from './registro/registro.component';
 import { ResetComponent } from './reset/reset.component';
 import { RecuperarComponent } from './recuperar/recuperar.component';
 import { VerificacionComponent } from './verificacion/verificacion.component';
+import { AutenticacionComponent } from './autenticacion.component';
 
 const routes: Routes = [
+  { path: "", component: AutenticacionComponent },
   { path: "login", component: LoginComponent },
   { path: "registro", component: RegistroComponent },
   { path: "reset", component: ResetComponent },

@@ -1,12 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { LoginService } from "../../services/login/login.service";
 import { HttpService } from "../../services/http/http.service";
-import { MatSnackBar, MatDialog } from "@angular/material";
-import { Usuario } from "../../models/usuario";
-import { UsuarioService } from "../../services/service.index";
-import { LoadDataService } from "../../services/data/load-data.service";
-import { DialogLoadingComponent } from "../../shared/dialog/dialog-loading.component";
+import { MatSnackBar, MatDialog, PageEvent } from "@angular/material";
 let qs = require("querystringify");
 @Component({
   selector: "hub-inicio",
@@ -14,169 +9,106 @@ let qs = require("querystringify");
   styleUrls: ["./inicio.component.css"]
 })
 export class InicioComponent implements OnInit {
-  public action;
-  public type;
-  public params;
-  public dataLoading;
-  public usuario: Usuario;
-  public cargando: Boolean = true;
+  public respuesta: any;
+  public mostrarToggle: boolean = false;
+  public idSelect;
+  public paginacion;
+  public buscar = "";
+  public ordenar;
+  public pagina = 1;
+  public limite = 10;
+  public total;
+  public pageSizeOptions = [5, 10, 25, 100];
+  public pageEvent: PageEvent;
+
+  proyectos: any[];
+  starList: boolean[] = [true, true, true, true, true]; // create a list which contains status of 5 stars
 
   constructor(
     private router: Router,
-    private _loginService: LoginService,
-    private _httpService: HttpService,
-    private _usuarioService: UsuarioService,
-    public snackBar: MatSnackBar,
-    public _loadDataService: LoadDataService,
-    public dialog: MatDialog
+    private _httpService: HttpService
   ) {
-    this.dataLoading = {
-      title: 'Bienvenido al Catalogo de Software Libre',
-      content: 'Cargando los datos del Usuario..............',
-      icon:true,
-      type: 'info'
-    }
+    this.paginacion = {
+      pagina: "1",
+      limite: "2"
+    };
   }
-
   ngOnInit() {
-    this.action = localStorage.getItem("action");
-    this.type = localStorage.getItem("type");
-    this._usuarioService.usuario$.subscribe(repUsuario => {
-      this.usuario = repUsuario;
-    });
-
-    let url = this.router.url;
-    if (url !== "/inicio") {
-      let urlCallback = url.split("?");
-      this.params = qs.parse(urlCallback[1]);
-      console.log(url);
-      if (this.action && this.params.code) {
-        let objPost = {
-          code: this.params.code,
-          type: this.params.state,
-          usuario: this.usuario
-        };
-        switch (this.action) {
-          case "add":
-            this._usuarioService
-              .addUserOauth(this.type, objPost)
-              .then(resp => {
-                console.log(resp);
-                if (!resp) {
-                  this.router.navigate(["/login"]);
-                } else {
-                  this.router.navigate(["/usuarios/ajustes"]);
-                  this.cargarDatos(
-                    "repositorios/oauth",
-                    this.params.state,
-                    this.usuario
-                  );
-                }
-              })
-              .catch(err => {
-                console.log(err);
-              });
-            break;
-          case "login":
-            this._loginService
-              .loginUserOauth(this.type, objPost)
-              .subscribe(resp => {
-                if (resp.error || !resp.usuario) {
-                  this.router.navigate(["/auth/login"]);
-                } else {
-                  console.log(resp);
-                  this._usuarioService.guardarStorage(resp.usuario, resp.token);
-                  this.router.navigate(["/usuarios/ajustes"]);
-                  this.cargarDatos(
-                    "repositorios/oauth",
-                    this.params.state,
-                    resp.usuario
-                  );
-                }
-              });
-            break;
-          case "refresh":
-            console.log(this.action, this.type);
-            this._loginService
-              .refreshToken(this.type, this.usuario, this.params.state)
-              .subscribe(resp => {
-                this.cargarDatos(
-                  "repositorios/oauth",
-                  this.params.state,
-                  resp.usuario
-                ).then(resp => {
-                  if (resp) {
-                    this.router.navigate(["/usuarios/ajustes"], {
-                      queryParams: { index: 1 }
-                    });
-                  }
-                });
-              });
-            break;
-          default:
-            this.router.navigate(["/auth/login"]);
-            break;
-        }
-      } else {
-        this.router.navigate(["/usuarios/ajustes"]);
+    this.obtenerDatos();
+  }
+  obtenerProyectos() {
+    this._httpService.obtener("proyectos/public").subscribe(
+      result => {
+        this.respuesta = result;
+        this.proyectos = this.respuesta.datos;
+        console.log(this.proyectos);
+      },
+      err => {
+        console.log(err);
       }
+    );
+  }
+  obtenerDatos(event?: PageEvent) {
+    let pagData;
+    if (event == null) {
+      pagData = {
+        ordenar: "nombre",
+        pagina: 1,
+        limite: 10
+      };
     } else {
-      this.router.navigate(["/auth/login"]);
+      pagData = {
+        ordenar: "nombre",
+        pagina: event.pageIndex + 1,
+        limite: event.pageSize
+      };
+    }
+    if (this.buscar != "") {
+      pagData.buscar = this.buscar;
+    }
+    this._httpService.obtenerPaginado("publicos", pagData).subscribe(
+      result => {
+        this.respuesta = result;
+        this.proyectos = this.respuesta.datos;
+        this.total = this.respuesta.paginacion.total;
+        this.pagina = this.respuesta.paginacion.paginaActual - 1;
+        this.limite = this.respuesta.paginacion.limite;
+        console.log(this.proyectos);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  // obtenerProyectosPag(){
+  //   console.log(this.paginacion.pagina);
+  //   this._httpService.obtenerPaginado('proyectos',this.paginacion).subscribe(
+  //     result =>{
+  //       this.respuesta=result;
+  //       this.proyectos=this.respuesta.datos;
+  //       console.log (this.respuesta.datos);
+  //     },
+  //     err =>{
+  //       console.log(err);
+  //     }
+  //   )
+  // }
+  mostrar(proyecto) {
+    this.idSelect = proyecto._id;
+    this.mostrarToggle = !this.mostrarToggle;
+  }
+
+  irProyecto(proyecto) {
+    if (proyecto) {
+      this.router.navigate(["/proyectos", proyecto._id]);
     }
   }
 
-  estaActualizado(resp) {
-    return resp.usuario.fecha_creacion === resp.usuario.fecha_modificacion
-      ? true
-      : false;
+  importar() {
+    this.router.navigate(["/proyectos/importar"]);
   }
-  actualizaUsuario(usuario, token, tipo) {
-    this._usuarioService
-      .actualizarUsuario(usuario)
-      .then(response => {
-        if (response) {
-          this.router.navigate(["/usuarios/ajustes"]);
-          this.cargarDatos("repositorios/oauth", tipo, this.usuario);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  cargarDatos(url, tipo, usuario) {
-    return new Promise((resolve, reject) => {
-      this._loadDataService.startRequest();
-      let snackBarRef = this.snackBar.open(
-        "Bienvenido se estan guardando los datos referentes a su cuenta por favor espere un momento!!",
-        "",
-        {
-          panelClass: "background-alert"
-        }
-      );
-      this._httpService
-        .post(url, {
-          tipo: tipo,
-          usuario: usuario
-        })
-        .subscribe(
-          resp => {
-            this._loadDataService.finishRequest();
-            snackBarRef.dismiss();
-            this.snackBarSuccess();
-            resolve(true);
-          },
-          err => {
-            reject(false);
-          }
-        );
-    });
-  }
-
-  snackBarSuccess() {
-    this.snackBar.open("Sus datos se guardaron exitosamente!", "", {
-      panelClass: "background-success",
-      duration: 2000
-    });
+  nuevo() {
+    this.router.navigate(["/proyectos/nuevo"]);
   }
 }

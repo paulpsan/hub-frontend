@@ -16,7 +16,7 @@
           <tbody>
             <tr *ngFor="let proyecto of proyectos">
               <td scope="row">
-                <a href="{{dominio}}/{{proyecto.path}}">
+                <a target="#" href="{{dominio}}/{{proyecto.path}}">
                   {{proyecto.path}}
                 </a><br>
                 <p class="mb-0" mat-line> {{proyecto.descripcion }} </p>
@@ -60,9 +60,14 @@
           <tbody>
             <tr *ngFor="let grupo of grupos">
               <td scope="row">
-                <a href="{{dominio}}/{{grupo.path}}">
-                  {{grupo.nombre}}
-                </a><br>
+                <div class="container">
+                  <div class="row">
+                    <a target="#" href="{{dominio}}/{{grupo.path}}">
+                      {{grupo.nombre}}
+                    </a>
+
+                  </div>
+                </div>
                 <p class="mb-0" mat-line> {{grupo.descripcion }} </p>
 
                 <!-- <mat-chip>{{proyecto.UsuarioProyecto.nombre_permiso}}</mat-chip> -->
@@ -72,11 +77,18 @@
               </td>
               <td>
                 <div class="row justify-content-center">
-                  <div class="col">
+                  <mat-chip-list *ngIf="grupo.UsuarioGrupo.admin==true" class="">
+                    <mat-chip class="p-1" selected="true" [color]="primary">
+                      Administrador
+                    </mat-chip>
+                  </mat-chip-list>
+                  <div class="col" *ngIf="grupo.UsuarioGrupo.admin!=true">
                     <button class="text-left" mat-icon-button (click)="salir(grupo)" color="warn" style="margin-top: -10px"
                       matTooltip="Salir del grupo">
                       <mat-icon mat-list-icon>exit_to_app</mat-icon>Salir
                     </button>
+                    <hub-button-loading [request]="grupo.request">
+                    </hub-button-loading>
                   </div>
                   <!-- <hub-button-loading class="col" [request]="proyecto.request">
                   </hub-button-loading> -->
