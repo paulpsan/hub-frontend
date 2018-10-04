@@ -12,6 +12,9 @@ import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { UsuariosProyectoComponent } from './institucion/grupos/proyectos-grupo/usuarios-proyecto/usuarios-proyecto.component';
 import { AdminGruposComponent } from './grupos/admin-grupos.component';
 import { TransferirComponent } from './institucion/grupos/transferir/transferir.component';
+import { AdminUsuariosProyectoComponent } from './proyectos/admin-usuarios-proyecto/admin-usuarios-proyecto.component';
+import { AdminUsuariosGrupoComponent } from './grupos/admin-usuarios-grupo/admin-usuarios-grupo.component';
+import { AdminProyectosGrupoComponent } from './grupos/admin-proyectos-grupo/admin-proyectos-grupo.component';
 
 const routes: Routes = [
   {
@@ -20,25 +23,25 @@ const routes: Routes = [
     children: [
       { path: "usuarios", component: UsuariosComponent },
       { path: "proyectos", component: ProyectosComponent },
+      { path: "proyectos/usuarios/:id", component: AdminUsuariosProyectoComponent },
       { path: "solicitudes", component: SolicitudesComponent },
       { path: "grupos", component: AdminGruposComponent },
+      { path: "grupos/usuarios/:id", component: AdminUsuariosGrupoComponent },
+      { path: "grupos/proyectos/:id", component: AdminProyectosGrupoComponent },
       { path: "institucion/grupos", component: GruposComponent },
       { path: "institucion/grupos/nuevo", component: CrearComponent },
       { path: "institucion/grupos/editar", component: EditarComponent },
-      {
-        path: "institucion/grupos/transferir/:id",
-        component: TransferirComponent
-      },
+      { path: "institucion/transferir/:id", component: TransferirComponent },
       {
         path: "institucion/grupos/usuarios/:id",
         component: UsuariosGrupoComponent
       },
       {
-        path: "institucion/grupos/proyectos/:id",
+        path: "institucion/proyectos/:id",
         component: ProyectosGrupoComponent
       },
       {
-        path: "institucion/grupos/proyectos/usuarios/:id",
+        path: "institucion/proyectos/usuarios/:id",
         component: UsuariosProyectoComponent
       }
     ]

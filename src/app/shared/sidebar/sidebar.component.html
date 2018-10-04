@@ -1,83 +1,90 @@
-<ul class="nav">
-  <!-- Main menu -->
-  <li class="current">
-    <ng-container *ngIf="grupo">
-      <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo" [expanded]="true">
-        <mat-expansion-panel-header>
-          <mat-icon>build</mat-icon>
-          <span class="ml-2">
-            Administracion de Grupo
-          </span>
-        </mat-expansion-panel-header>
+<ng-container *ngIf="grupo">
+  <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-icon>build</mat-icon>
+      <span class="ml-2">
+        Administracion de Grupo
+      </span>
+    </mat-expansion-panel-header>
 
+    <div class="row" *ngIf="usuario.admin_grupo">
+      <button mat-button class="button-menu" [routerLink]="['/admin/institucion/grupos']" routerLinkActive="active">
+        <mat-icon>group</mat-icon>
+        <span>Grupo</span>
+      </button>
+    </div>
+    <!-- 
         <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
-          <mat-expansion-panel-header [routerLink]="['/admin/institucion/grupos']">
+          <mat-expansion-panel-header [routerLink]="['/admin/institucion/grupos']" routerLinkActive="active">
             <mat-icon>group</mat-icon>
             <span class="ml-2">
               Grupo
             </span>
           </mat-expansion-panel-header>
-          <div class="row">
-            <button mat-menu-item class="button-menu" [routerLink]="['/admin/institucion/grupos/usuarios',grupo._id]">
-              <mat-icon>account_circle</mat-icon>
-              <span>Usuarios</span>
-            </button>
-          </div>
-        </mat-expansion-panel>
-        <mat-divider>
-        </mat-divider>
-        <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
-          <mat-expansion-panel-header [routerLink]="['/admin/institucion/grupos/proyectos',grupo._id]">
+        </mat-expansion-panel> -->
+
+    <div class="row" *ngIf="usuario.admin_grupo">
+      <button mat-button class="button-menu" [routerLink]="['/admin/institucion/proyectos',grupo._id]" routerLinkActive="active">
+        <mat-icon>code</mat-icon>
+        <span>Proyectos</span>
+      </button>
+    </div>
+    <div class="row" *ngIf="usuario.admin_grupo">
+      <button mat-button class="button-menu" [routerLink]="['/admin/institucion/transferir',grupo._id]"
+        routerLinkActive="active">
+        <mat-icon>swap_horiz</mat-icon>
+        Transferir
+
+      </button>
+    </div>
+
+    <!-- <mat-expansion-panel class="panel-hub" hideToggle="true" *ngIf="usuario.admin_grupo">
+          <mat-expansion-panel-header [routerLink]="['/admin/institucion/proyectos',grupo._id]" routerLinkActive="active">
             <mat-icon>code</mat-icon>
             <span class="ml-2">
               Proyectos
             </span>
           </mat-expansion-panel-header>
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
+  </mat-expansion-panel>
 
-        <mat-divider>
-        </mat-divider>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel class="panel-hub pt-3" hideToggle="true" *ngIf="usuario.admin_grupo" [routerLink]="['/admin/institucion/grupos/transferir',grupo._id]">
+  <!-- <mat-expansion-panel class="panel-hub pt-3" hideToggle="true" *ngIf="usuario.admin_grupo" [routerLink]="['/admin/institucion/grupos/transferir',grupo._id]"
+        routerLinkActive="active">
         <mat-expansion-panel-header>
           <mat-icon>swap_horiz</mat-icon>
           <span class="ml-2">
             Transferir Titularidad de Grupo
           </span>
         </mat-expansion-panel-header>
-      </mat-expansion-panel>
-    </ng-container>
+      </mat-expansion-panel> -->
+</ng-container>
 
-    <ng-container *ngIf="usuario.admin">
-      <mat-expansion-panel class="panel-hub" hideToggle="true" [expanded]="true">
-        <mat-expansion-panel-header>
-          <mat-icon>build</mat-icon>
-          <span class="ml-2">
-            Administracion
-          </span>
-        </mat-expansion-panel-header>
-        <div class="row">
-          <button mat-menu-item class="button-menu" [routerLink]="['/admin/solicitudes']">
-            <mat-icon>announcement</mat-icon>
-            <span>Solicitudes</span>
-          </button>
-          <button mat-menu-item class="button-menu" [routerLink]="['/admin/usuarios']">
-            <mat-icon>account_circle</mat-icon>
-            <span>Usuarios</span>
-          </button>
-          <button mat-menu-item class="button-menu" [routerLink]="['/admin/grupos']">
-            <mat-icon>group</mat-icon>
-            <span>Grupos</span>
-          </button>
-          <button mat-menu-item class="button-menu" [routerLink]="['/admin/proyectos']">
-            <mat-icon>code</mat-icon>
-            <span>Proyectos</span>
-          </button>
-        </div>
-      </mat-expansion-panel>
+<ng-container *ngIf="usuario.admin">
+  <mat-expansion-panel class="panel-hub" hideToggle="true" style="width: 250px" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-icon>build</mat-icon>
+      <span class="ml-2">
+        Administracion
+      </span>
+    </mat-expansion-panel-header>
+    <div class="row">
+      <button mat-button class="button-menu" [routerLink]="['/admin/solicitudes']" routerLinkActive="active">
+        <mat-icon>announcement</mat-icon>
+        <span>Solicitudes</span>
+      </button>
+      <button mat-button class="button-menu" [routerLink]="['/admin/usuarios']" routerLinkActive="active">
+        <mat-icon>account_circle</mat-icon>
+        <span>Usuarios</span>
+      </button>
+      <button mat-button class="button-menu" [routerLink]="['/admin/grupos']" routerLinkActive="active">
+        <mat-icon>group</mat-icon>
+        <span>Grupos</span>
+      </button>
+      <button mat-button class="button-menu" [routerLink]="['/admin/proyectos']" routerLinkActive="active">
+        <mat-icon>code</mat-icon>
+        <span>Proyectos</span>
+      </button>
+    </div>
+  </mat-expansion-panel>
 
-    </ng-container>
-
-  </li>
-</ul>
+</ng-container>

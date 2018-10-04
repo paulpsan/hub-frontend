@@ -141,7 +141,7 @@
                               <p class="m-0" mat-line> {{usuario.login }} </p>
                               <p class="m-0" mat-line> {{usuario.email }} </p>
                             </td>
-                            <td class="p-0">
+                            <td class="p-0" *ngIf="usuario.UsuarioProyecto.access_level!=='40'">
                               <mat-form-field class="col-12">
                                 <mat-select (selectionChange)="usuario.change=true;" [(value)]="usuario.UsuarioProyecto.access_level">
                                   <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso.access">
@@ -149,6 +149,9 @@
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
+                            </td>
+                            <td *ngIf="usuario.UsuarioProyecto.access_level=='40'">
+                              <p class="m-0" mat-line>Propietario</p>
                             </td>
                             <td>
                               <div class="row justify-content-center">
@@ -159,7 +162,7 @@
                                 </div>
                                 <hub-button-loading [request]="usuario.request">
                                 </hub-button-loading>
-                                <div *ngIf="expression">
+                                <div *ngIf="usuario.UsuarioProyecto.access_level!=='40'">
                                   <button mat-icon-button type="button" (click)="eliminarUsuario(usuario)" color="warn">
                                     <mat-icon mat-list-icon>delete</mat-icon>
                                   </button>
@@ -169,8 +172,6 @@
                           </tr>
                         </tbody>
                       </table>
-
-
                     </div>
                   </div>
                 </fieldset>
@@ -253,7 +254,7 @@
                 </ng-container>
 
                 <span class="enlaces titulo" (click)="showAvanzado=!showAvanzado"><i class="fa fa-pencil"></i>
-                  Avanzado</span>
+                  Especificaciones Técnicas </span>
                 <p class="" *ngIf="!showAvanzado">Sistemas Operativos, Lenguajes de programación, Base de
                   Datos,Detalle
                   de dependencias
@@ -315,6 +316,11 @@
                     </div>
                   </div>
                 </fieldset>
+
+                <span class="enlaces titulo"><i class="fa fa-download"></i>
+                  Descargar </span>
+                <p class="" >Se Descargara el Documento para la presentación en el Senapi
+                </p>
               </div>
             </div>
           </div>

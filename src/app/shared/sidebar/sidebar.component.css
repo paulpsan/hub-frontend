@@ -6,6 +6,23 @@
 .mat-expansion-panel-spacing {
   margin: 0px !important;
 }
+
 .mat-expansion-panel-body {
   padding: 0px !important;
+}
+
+.active {
+  color: #3B1C1F;
+  font-weight: bold;
+}
+
+.button-menu {
+  width: 100%;
+  text-align: left;
+  padding-left: 40px;
+  white-space: normal;
+}
+
+button:focus {
+  outline: 0
 }
