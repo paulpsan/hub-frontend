@@ -24,7 +24,7 @@
       <div class="col-md-8 col-lg-12" style="text-align: end">
         <span>Buscar:</span>
         <mat-form-field class="">
-          <input matInput [(ngModel)]="buscar" type="text" placeholder="Buscar Proyectos" (keyup)="obtenerDatos()" />
+          <input matInput [(ngModel)]="buscar" type="text" placeholder="Buscar Proyectos" (keyup.enter)="obtenerDatos()" />
           <button mat-button matSuffix mat-icon-button aria-label="Search" (click)="obtenerDatos()">
             <mat-icon>search</mat-icon>
           </button>

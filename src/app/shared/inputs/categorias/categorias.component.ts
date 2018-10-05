@@ -1,10 +1,11 @@
-import { Component, OnInit, ElementRef, EventEmitter,ViewChild, Output } from '@angular/core';
+import { Component, OnInit, ElementRef, EventEmitter, ViewChild, Output, Input } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
+import { HttpService } from '../../../services/service.index';
 
 @Component({
   selector: 'hub-input-categorias',
@@ -17,21 +18,20 @@ export class CategoriasComponent implements OnInit {
   removable: boolean = true;
   addOnBlur: boolean = true;
   myControl = new FormControl();
-  categorias = []; //variable resultado
-  @Output() onCategorias = new EventEmitter <any> ();
+  @Input() categorias;
+  categoriasResult = []; //variable resultado
+  @Output() onCategorias = new EventEmitter<any>();
 
 
   filteredOptions: Observable<string[]>;
-  items = ['correspondencia', 'control de personal', 'inventarios', 'contabilidad'
-    // { nombre: 'correspondencia' },
-    // { nombre: 'control de personal' },
-    // { nombre: 'inventarios' },
-    // { nombre: 'contabilidad' },
-  ]
+
   separatorKeysCodes = [ENTER, COMMA];
   @ViewChild('categoriaInput') categoriaInput: ElementRef;
 
-  constructor() {
+  constructor(
+    private _httpService: HttpService,
+
+  ) {
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -40,19 +40,29 @@ export class CategoriasComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._httpService
+      .get(`categorias`)
+      .subscribe(
+        (result: any) => {
+          this.categoriasResult = result.datos.length >= 1 ? result.datos : undefined;
+          console.log(this.categoriasResult);
+        },
+        err => {
+        }
+      );
   }
 
-  filter(val: string): string[] {
+  filter(val: string) {
     if (val !== null) {
-      return this.items.filter(option =>
-        option.toLowerCase().indexOf(val.toLowerCase()) === 0);
+      return this.categoriasResult.filter(option =>
+        option.nombre.indexOf(val) === 0);
     }
   }
 
   add(event: MatChipInputEvent): void {
     let input = event.input;
     let value = event.value;
-    if (this.items.indexOf(value) !== -1) {
+    if (this.categorias.indexOf(value) !== -1) {
       if ((value || '').trim()) {
         this.categorias.push({ nombre: value.trim() });
         this.onCategorias.emit(this.categorias)
@@ -76,12 +86,12 @@ export class CategoriasComponent implements OnInit {
   addSelect(event) {
     let option = event.option;
     let value = option.value;
-    if ((value || '').trim()) {
-      this.categorias.push({ nombre: value.trim() });
+    console.log(value);
+    if (this.categorias.indexOf(value) == -1) {
+      this.categorias.push(value);
     }
     this.categoriaInput.nativeElement.value = "";
     this.myControl.setValue(null);
-    console.log(this.filteredOptions);
     this.onCategorias.emit(this.categorias)
   }
 }

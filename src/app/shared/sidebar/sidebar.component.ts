@@ -10,6 +10,7 @@ export class SidebarComponent implements OnInit {
   step = 0;
   usuario;
   grupo;
+  
   constructor(
     private _usuarioService: UsuarioService,
     private _httpService: HttpService

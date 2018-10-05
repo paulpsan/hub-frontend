@@ -125,7 +125,8 @@ export class EditarComponent implements OnInit {
         funcionalidades: this.projectForm.controls["funcionalidades"].value,
         comunicacion: this.projectForm.controls["comunicacion"].value,
         errores: this.projectForm.controls["errores"].value,
-        visibilidad: this.proyecto.visibilidad
+        visibilidad: this.proyecto.visibilidad,
+        categorias: this.proyecto.categorias
       };
       this._httpService.editar("proyectos", proyecto).subscribe(resp => {
         console.log(resp);
@@ -229,6 +230,44 @@ export class EditarComponent implements OnInit {
       },
       err => {
         console.log(err);
+      }
+    );
+  }
+  setCategorias(event) {
+    console.log(event);
+    this.proyecto.categorias = event;
+  }
+
+  addUser(event) {
+    console.log(event);
+    event.idProyecto = this.proyecto._id;
+    this._httpService.post(`proyectos/${this.id}/usuarios`, event).subscribe(
+      resp => {
+        const objMessage = {
+          text: "Se adiciono exitosamente",
+          type: "Info"
+        };
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: "right",
+          verticalPosition: "top",
+          panelClass: "background-success",
+          duration: 5000
+        });
+        this.obtenerProyecto();
+      },
+      err => {
+        const objMessage = {
+          text: err.error.message,
+          type: "Info"
+        };
+        this._messageDataService.changeMessage(objMessage);
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          horizontalPosition: "right",
+          verticalPosition: "top",
+          panelClass: "background-warning",
+          duration: 5000
+        });
       }
     );
   }

@@ -19,6 +19,7 @@ export class ProyectosComponent implements OnInit, OnDestroy {
   proyectos;
   grupos;
   dominio;
+  subscription;
   siguiente = new EventEmitter<any>();
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -55,7 +56,7 @@ export class ProyectosComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this._usuarioService.usuario$.subscribe(repUsuario => {
+    this.subscription = this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
       console.log(this.usuario);
       if (this.usuario.Grupos)
@@ -73,13 +74,15 @@ export class ProyectosComponent implements OnInit, OnDestroy {
         },
         err => {
         }
-        );
+      );
   }
   editar(proyecto) {
     this.router.navigate(["repositorios/editar", proyecto._id])
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
+    console.log("soy yo");
+    this.subscription.unsubscribe();
     this.dtTrigger.unsubscribe();
   }
   salir(grupo) {

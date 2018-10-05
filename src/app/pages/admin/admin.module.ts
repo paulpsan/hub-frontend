@@ -25,6 +25,7 @@ import { TransferirComponent } from './institucion/grupos/transferir/transferir.
 import { AdminUsuariosGrupoComponent } from './grupos/admin-usuarios-grupo/admin-usuarios-grupo.component';
 import { AdminUsuariosProyectoComponent } from './proyectos/admin-usuarios-proyecto/admin-usuarios-proyecto.component';
 import { AdminProyectosGrupoComponent } from './grupos/admin-proyectos-grupo/admin-proyectos-grupo.component';
+import { CategoriasComponent } from './categorias/categorias.component';
 
 @NgModule({
   imports: [
@@ -56,6 +57,8 @@ import { AdminProyectosGrupoComponent } from './grupos/admin-proyectos-grupo/adm
     AdminUsuariosProyectoComponent,
     ProyectosComponent,
     TransferirComponent,
+    CategoriasComponent,
+
   ],
   entryComponents: [ModalTextSolicitud]
 

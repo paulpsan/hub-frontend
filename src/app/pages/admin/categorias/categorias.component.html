@@ -1,0 +1,90 @@
+<div class="container" *ngIf="categorias">
+  <div class="row">
+    <div class="col-12">
+      <label for="" class="title-repo">Nuevo</label>
+    </div>
+    <div class="col">
+      <form novalidate [formGroup]="categoriaForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <mat-form-field class="col-auto">
+            <input matInput formControlName="nombre" type="text" placeholder="Nombre de la categoria" required />
+            <mat-hint>
+              Introduzca el Nombre de grupo
+            </mat-hint>
+          </mat-form-field>
+          <mat-form-field class="col-auto">
+            <textarea matInput matTextareaAutosize matAutosizeMinRows=1 class="p-0" formControlName="descripcion"
+              placeholder="Descripcion" required></textarea>
+            <mat-hint>
+              Descripcion de la categoría
+            </mat-hint>
+          </mat-form-field>
+          <ng-container>
+            <ng-container *ngIf="edit">
+              <button mat-icon-button [disabled]="!categoriaForm.valid" type="button" (click)="save()" color="primary">
+                <mat-icon mat-list-icon>save</mat-icon>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="new">
+              <button mat-icon-button [disabled]="!categoriaForm.valid" type="submit" color="primary">
+                <mat-icon mat-list-icon>add</mat-icon>
+              </button>
+            </ng-container>
+          </ng-container>
+        </div>
+      </form>
+    </div>
+
+
+    <div class="col-md-8 col-lg-12" style="text-align: end">
+      <span>Buscar:</span>
+      <mat-form-field class="">
+        <input matInput [(ngModel)]="buscar" type="text" placeholder="Buscar Personas" (keyup.enter)="obtenerDatos()" />
+        <button mat-button matSuffix mat-icon-button aria-label="Search" (click)="obtenerDatos()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+  <div>
+    <label for="" class="title-repo">Listado de Categorias:</label>
+  </div>
+  <br>
+  <div class="row">
+    <table class="table table-responsive">
+      <thead class="thead-inverse">
+        <tr>
+          <th style="width:250px">Nombre</th>
+          <th style="width:150px">Descripción</th>
+          <th style="width:120px">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let categoria of categorias">
+          <td scope="row">
+            <h4 mat-line>{{categoria.nombre}}</h4>
+          </td>
+          <td>
+            <p mat-line> {{categoria.descripcion}} </p>
+          </td>
+          <td>
+            <div class="row justify-content-center">
+
+              <button mat-icon-button (click)="editar(categoria)" color="primary">
+                <mat-icon mat-list-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="eliminar(categoria)" color="warn">
+                <mat-icon mat-list-icon>delete</mat-icon>
+              </button>
+              <hub-button-loading [request]="categoria.request">
+              </hub-button-loading>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator #paginator [length]="total" [pageIndex]="pagina" [pageSize]="limite" [pageSizeOptions]="pageSizeOptions"
+    (page)="obtenerDatos($event)">
+  </mat-paginator>
+</div>

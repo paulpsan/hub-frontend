@@ -7,8 +7,11 @@
           Editar Proyecto
         </span>
       </div>
-      <div class="container">
-        <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+      <div class="container" *ngIf="proyecto">
+        <form [formGroup]="projectForm">
+          <div class="row justify-content-center">
+            <label for="" class="title-repo"> proyecto: {{proyecto.nombre}}</label>
+          </div>
           <div class="row">
             <div class="col">
               <div class="card-body">
@@ -107,10 +110,10 @@
                 </p>
                 <fieldset *ngIf="showCategorias">
                   <div class="form-group">
-                    <label class="form-label ">Categorias </label>
                     <!-- aqui mostrar el array de licencias -->
                     <div>
-
+                      <hub-input-categorias [categorias]="proyecto.categorias" (onCategorias)="setCategorias($event)">
+                      </hub-input-categorias>
                     </div>
                   </div>
                 </fieldset>
@@ -120,10 +123,9 @@
                 </p>
                 <fieldset *ngIf="showUsuarios">
                   <div class="form-group">
-                    <label class="form-label ">
-                      Usuarios
-                    </label>
-                    <!-- aqui mostrar el array de licencias -->
+                    <hub-input-usuario (emitUser)="addUser($event)">
+                    </hub-input-usuario>
+                    <br>
                     <div>
 
                       <table class="table table-responsive">
@@ -137,7 +139,7 @@
                         <tbody>
                           <tr *ngFor="let usuario of proyecto.Usuarios">
                             <td scope="row">
-                              <p class="text-primary m-0" mat-line>{{usuario.nombre}}</p>
+                              <p class="m-0" style="font-weight: bold" mat-line>{{usuario.nombre}}</p>
                               <p class="m-0" mat-line> {{usuario.login }} </p>
                               <p class="m-0" mat-line> {{usuario.email }} </p>
                             </td>
@@ -197,7 +199,7 @@
                     <div class="form-group">
                       <label class="form-label">Objetivo y alcance del proyecto</label>
                       <mat-form-field class="col">
-                        <input matInput placeholder="" formControlName="alcances">
+                        <textarea matInput placeholder="" matTextareaAutosize minRows=1 formControlName="alcances"> </textarea>
                         <mat-hint>
                           Objetivo y alcance del proyecto
                         </mat-hint>
@@ -206,7 +208,7 @@
                     <div class="form-group">
                       <label class="form-label">Reglas para el desarrollo</label>
                       <mat-form-field class="col">
-                        <input matInput placeholder="" formControlName="reglasDesarrollo">
+                        <textarea matInput placeholder="" matTextareaAutosize minRows=1 formControlName="reglasDesarrollo"></textarea>
                         <mat-hint>
                           Reglas para el desarrollo
                         </mat-hint>
@@ -215,7 +217,7 @@
                     <div class="form-group">
                       <label class="form-label">Reglas para la contribución</label>
                       <mat-form-field class="col">
-                        <input matInput placeholder="" formControlName="reglasContribucion">
+                        <textarea matInput placeholder="" matTextareaAutosize minRows=1 formControlName="reglasContribucion"></textarea>
                         <mat-hint>
                           Reglas para la contribución
                         </mat-hint>
@@ -224,7 +226,7 @@
                     <div class="form-group">
                       <label class="form-label">Listado de funcionalidades</label>
                       <mat-form-field class="col">
-                        <input matInput placeholder="" formControlName="funcionalidades">
+                        <textarea matInput placeholder="" matTextareaAutosize minRows=1 formControlName="funcionalidades"></textarea>
                         <mat-hint>
                           Listado de funcionalidades
                         </mat-hint>
@@ -233,7 +235,7 @@
                     <div class="form-group">
                       <label class="form-label"> Herramientas de comunicación</label>
                       <mat-form-field class="col">
-                        <input matInput placeholder="" formControlName="comunicacion">
+                        <textarea matInput placeholder="" matTextareaAutosize minRows=1 formControlName="comunicacion"></textarea>
                         <mat-hint>
                           Herramientas de comunicación (listas de correo, email, chat, etc)
                         </mat-hint>
@@ -242,7 +244,7 @@
                     <div class="form-group">
                       <label class="form-label">Canales de reporte de errores</label>
                       <mat-form-field class="col">
-                        <input matInput placeholder="" formControlName="errores">
+                        <textarea matInput placeholder="" matTextareaAutosize minRows=1 formControlName="errores"></textarea>
                         <mat-hint>
                           Canales de reporte de errores
                         </mat-hint>
@@ -264,7 +266,7 @@
                   <div class="form-group">
                     <label class="form-label">Sistemas Operativos</label>
                     <mat-form-field class="col">
-                      <input matInput placeholder="" formControlName="sistemasOperativos">
+                      <textarea matInput placeholder="" matTextareaAutosize minRows=1 formControlName="sistemasOperativos"></textarea>
                       <mat-hint>
                         Sistemas Operativos compatibles con el proyecto
                       </mat-hint>
@@ -273,7 +275,7 @@
                   <div class="form-group">
                     <label class="form-label">Lenguajes de programación</label>
                     <mat-form-field class="col">
-                      <input matInput placeholder="" formControlName="lenguajes">
+                      <textarea matInput placeholder="" matTextareaAutosize minRows=1 formControlName="lenguajes"></textarea>
                       <mat-hint>
                         Lenguajes de programación usados en el proyecto
                       </mat-hint>
@@ -282,7 +284,7 @@
                   <div class="form-group">
                     <label class="form-label">Base de Datos</label>
                     <mat-form-field class="col">
-                      <input matInput placeholder="" formControlName="baseDAtos">
+                      <textarea matInput placeholder="" matTextareaAutosize minRows=1 formControlName="baseDAtos"></textarea>
                       <mat-hint>
                         Mencione el motor de base de datos en el proyecto
                       </mat-hint>
@@ -291,7 +293,7 @@
                   <div class="form-group">
                     <label class="form-label">Detalle de Dependencias</label>
                     <mat-form-field class="col">
-                      <input matInput placeholder="" formControlName="dependencias">
+                      <textarea matInput placeholder="" matTextareaAutosize minRows=1 formControlName="dependencias"></textarea>
                       <mat-hint>
                         Detalle las de Dependencias del proyecto
                       </mat-hint>
@@ -319,13 +321,13 @@
 
                 <span class="enlaces titulo" (click)="download()"><i class="fa fa-download"></i>
                   Descargar </span>
-                <p class="" >Se Descargara el Documento para la presentación en el Senapi
+                <p class="">Se Descargara el Documento para la presentación en el Senapi
                 </p>
               </div>
             </div>
           </div>
           <div class="row justify-content-md-center p-2">
-            <button mat-button [disabled]="!projectForm.valid" type="submit" color="primary">
+            <button mat-button [disabled]="!projectForm.valid" type="button" (click)="onSubmit()" color="primary">
               <mat-icon mat-list-icon>done</mat-icon>
               Guardar
             </button>

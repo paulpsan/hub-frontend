@@ -3,7 +3,7 @@
     <div class="col-md-8" style="text-align: center">
       <span>Buscar:</span>
       <mat-form-field class="example-form-field">
-        <input matInput [(ngModel)]="buscar" type="text" placeholder="Nombre del Proyecto" (keyup)="obtenerDatos()" />
+        <input matInput [(ngModel)]="buscar" type="text" placeholder="Nombre del Proyecto" (keyup.enter)="obtenerDatos()" />
         <!-- <input matInput type="text" placeholder="Buscar" [(ngModel)]="buscar"/> -->
         <button mat-button matSuffix mat-icon-button aria-label="Search" (click)="obtenerDatos()">
           <mat-icon>search</mat-icon>

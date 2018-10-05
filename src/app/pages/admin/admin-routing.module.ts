@@ -15,12 +15,14 @@ import { TransferirComponent } from './institucion/grupos/transferir/transferir.
 import { AdminUsuariosProyectoComponent } from './proyectos/admin-usuarios-proyecto/admin-usuarios-proyecto.component';
 import { AdminUsuariosGrupoComponent } from './grupos/admin-usuarios-grupo/admin-usuarios-grupo.component';
 import { AdminProyectosGrupoComponent } from './grupos/admin-proyectos-grupo/admin-proyectos-grupo.component';
+import { CategoriasComponent } from './categorias/categorias.component';
 
 const routes: Routes = [
   {
     path: "",
     component: AdminComponent,
     children: [
+      { path: 'categorias', component: CategoriasComponent, },
       { path: "usuarios", component: UsuariosComponent },
       { path: "proyectos", component: ProyectosComponent },
       { path: "proyectos/usuarios/:id", component: AdminUsuariosProyectoComponent },

@@ -1,30 +1,36 @@
 <form novalidate [formGroup]="userForm">
-  <mat-form-field class="col-md-4 col-12">
-    <input matInput placeholder="Usuario" [matAutocomplete]="auto" formControlName="nombre">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let item of usuariosSearch" [value]="item.nombre" style="line-height: 18px;">
-        <p class="">
-          {{ item.nombre }} <br>
-          <span style="font-size: 12px">
-            {{ item.email}}
-          </span>
-        </p>
-      </mat-option>
-    </mat-autocomplete>
-    <mat-hint>
-      Buscar un usuario
-    </mat-hint>
+  <div class="row">
+    <div class="col-auto">
+      <mat-form-field>
+        <input matInput placeholder="Usuario" [matAutocomplete]="auto" formControlName="nombre">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let item of usuariosSearch" [value]="item.nombre" style="line-height: 18px;">
+            <p class="">
+              {{ item.nombre }} <br>
+              <span style="font-size: 12px">
+                {{ item.email}}
+              </span>
+            </p>
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint>
+          Buscar un usuario
+        </mat-hint>
 
-  </mat-form-field>
-  <mat-form-field class="col-md-2 col-12">
-    <mat-select placeholder="Permiso(*)" formControlName="permiso">
-      <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso.access">
-        {{ permiso.nombre }}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="userForm.hasError('required')">Escoja una opción</mat-error>
-  </mat-form-field>
-  <button mat-icon-button color="primary" type="button" (click)="save()" [disabled]="!userForm.valid" matTooltip="Adiciona Usuario">
-    <mat-icon aria-label="addicona">add</mat-icon>
-  </button>
+      </mat-form-field>
+    </div>
+    <div class="col-auto">
+      <mat-form-field>
+        <mat-select placeholder="Permiso(*)" formControlName="permiso">
+          <mat-option *ngFor="let permiso of permisosUsuario" [value]="permiso.access">
+            {{ permiso.nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="userForm.hasError('required')">Escoja una opción</mat-error>
+      </mat-form-field>
+      <button mat-icon-button color="primary" type="button" (click)="save()" [disabled]="!userForm.valid" matTooltip="Adiciona Usuario">
+        <mat-icon aria-label="addicona">add</mat-icon>
+      </button>
+    </div>
+  </div>
 </form>
