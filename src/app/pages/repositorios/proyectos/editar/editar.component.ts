@@ -1,23 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpService, MessageDataService } from '../../../../services/service.index';
-import { environment } from '../../../../../environments/environment';
-import { MatSnackBar } from '@angular/material';
-import { SnackbarComponent } from '../../../../shared/snackbar/snackbar.component';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import {
+  HttpService,
+  MessageDataService
+} from "../../../../services/service.index";
+import { environment } from "../../../../../environments/environment";
+import { MatSnackBar } from "@angular/material";
+import { SnackbarComponent } from "../../../../shared/snackbar/snackbar.component";
 
 @Component({
-  selector: 'hub-editar',
-  templateUrl: './editar.component.html',
-  styleUrls: ['./editar.component.css']
+  selector: "hub-editar",
+  templateUrl: "./editar.component.html",
+  styleUrls: ["./editar.component.css"]
 })
 export class EditarComponent implements OnInit {
   id: number;
   acciones: string;
-  private prueba: string = 'prueba';
+  private prueba: string = "prueba";
   private sub: any;
   private proyecto;
-  dominio
+  dominio;
   showBasico: boolean = false;
   showLogo: boolean = false;
   showLicencias: boolean = false;
@@ -32,8 +35,8 @@ export class EditarComponent implements OnInit {
     // { nombre: "mantenedor", rol: "maintainer", access: "40" },
     { nombre: "desarrollador", rol: "developer", access: "30" },
     { nombre: "reportero", rol: "reporter", access: "20" },
-    { nombre: "invitado", rol: "guest", access: "10" },
-  ]
+    { nombre: "invitado", rol: "guest", access: "10" }
+  ];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -41,11 +44,11 @@ export class EditarComponent implements OnInit {
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
   ) {
-    this.dominio = environment.gitlabAdmin.domain
+    this.dominio = environment.gitlabAdmin.domain;
   }
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.id = params['id'];
+      this.id = params["id"];
     });
     this.obtenerProyecto();
     this.projectForm = new FormGroup({
@@ -55,7 +58,7 @@ export class EditarComponent implements OnInit {
       // categorias: new FormControl(''),
       // usuarios: new FormControl(''),
       // grupo: new FormControl(''),
-      path: new FormControl({ value: '', disabled: true }),
+      path: new FormControl({ value: "", disabled: true }),
       version: new FormControl(),
       // visibilidad: new FormControl("", Validators.required),
 
@@ -68,19 +71,17 @@ export class EditarComponent implements OnInit {
       reglasContribucion: new FormControl(),
       funcionalidades: new FormControl(),
       comunicacion: new FormControl(),
-      errores: new FormControl(),
+      errores: new FormControl()
 
       // nombre: new FormControl('', Validators.required)
     });
   }
   obtenerProyecto() {
-    this._httpService.buscarId('proyectos', this.id).subscribe(
-      result => {
-        console.log(result);
-        this.proyecto = result;
-        this.cargarDatos();
-      }
-    )
+    this._httpService.buscarId("proyectos", this.id).subscribe(result => {
+      console.log(result);
+      this.proyecto = result;
+      this.cargarDatos();
+    });
   }
   cargarDatos() {
     console.log(this.proyecto);
@@ -98,8 +99,7 @@ export class EditarComponent implements OnInit {
       reglasContribucion: this.proyecto.reglas_contribucion || "",
       funcionalidades: this.proyecto.funcionalidades || "",
       comunicacion: this.proyecto.comunicacion || "",
-      errores: this.proyecto.errores || "",
-
+      errores: this.proyecto.errores || ""
 
       // visibilidad: this.proyecto.visibilidad
       // licencias:this.proyecto.licencia
@@ -113,13 +113,15 @@ export class EditarComponent implements OnInit {
         descripcion: this.projectForm.controls["descripcion"].value,
         path: this.projectForm.controls["path"].value,
         version: this.projectForm.controls["version"].value,
-        sistemas_operativos: this.projectForm.controls["sistemasOperativos"].value,
+        sistemas_operativos: this.projectForm.controls["sistemasOperativos"]
+          .value,
         lenguajes: this.projectForm.controls["lenguajes"].value,
         base_datos: this.projectForm.controls["baseDAtos"].value,
         dependencias: this.projectForm.controls["dependencias"].value,
         alcances: this.projectForm.controls["alcances"].value,
         reglas_desarrollo: this.projectForm.controls["reglasDesarrollo"].value,
-        reglas_contribucion: this.projectForm.controls["reglasContribucion"].value,
+        reglas_contribucion: this.projectForm.controls["reglasContribucion"]
+          .value,
         funcionalidades: this.projectForm.controls["funcionalidades"].value,
         comunicacion: this.projectForm.controls["comunicacion"].value,
         errores: this.projectForm.controls["errores"].value,
@@ -132,7 +134,9 @@ export class EditarComponent implements OnInit {
     }
   }
   eliminar() {
-    if (confirm("Esta seguro de eliminar el Proyecto: " + this.proyecto.nombre)) {
+    if (
+      confirm("Esta seguro de eliminar el Proyecto: " + this.proyecto.nombre)
+    ) {
       console.log(this.proyecto);
       this.proyecto.request = "start";
       this.proyecto.change = false;
@@ -171,16 +175,18 @@ export class EditarComponent implements OnInit {
         proyectoGitlab: this.proyecto.proyectoGitlab
       };
       console.log(data);
-      this._httpService.delete(`proyectos/${this.proyecto._id}/usuarios/${usuario._id}`).subscribe(
-        result => {
-          usuario.request = "ok";
-          this.obtenerProyecto()
-        },
-        err => {
-          console.log(err);
-          usuario.request = "error";
-        }
-      );
+      this._httpService
+        .delete(`proyectos/${this.proyecto._id}/usuarios/${usuario._id}`)
+        .subscribe(
+          result => {
+            usuario.request = "ok";
+            this.obtenerProyecto();
+          },
+          err => {
+            console.log(err);
+            usuario.request = "error";
+          }
+        );
     }
   }
   guardarUsuario(usuario) {
@@ -190,18 +196,39 @@ export class EditarComponent implements OnInit {
     let data = {
       fk_usuario: usuario._id,
       fk_proyecto: this.proyecto._id,
-      access_level: usuario.UsuarioProyecto.access_level,
-
+      access_level: usuario.UsuarioProyecto.access_level
     };
     console.log(data);
-    this._httpService.patch(`proyectos/${this.id}/usuarios`, usuario._id, data).subscribe(
-      result => {
-        usuario.request = "ok";
-        console.log(result);
+    this._httpService
+      .patch(`proyectos/${this.id}/usuarios`, usuario._id, data)
+      .subscribe(
+        result => {
+          usuario.request = "ok";
+          console.log(result);
+        },
+        err => {
+          console.log(err);
+          usuario.request = "error";
+        }
+      );
+  }
+  download() {
+    this._httpService.getDocument(`proyectos/${this.id}/documento`).subscribe(
+      res => {
+        console.log("start download:", res);
+        var newBlob = new Blob([res], { type: "application/pdf" });
+        var url = window.URL.createObjectURL(newBlob);
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.setAttribute("style", "display: none");
+        a.href = url;
+        a.download = "documento.pdf";
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
       },
       err => {
         console.log(err);
-        usuario.request = "error";
       }
     );
   }
