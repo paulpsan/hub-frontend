@@ -71,7 +71,7 @@
           <fieldset>
             <div class="form-group">
               <mat-form-field class="col">
-                <input matInput placeholder="email" formControlName="email">
+                <input matInput placeholder="Email o Username" formControlName="email">
                 <mat-error *ngIf="loginForm.controls['email'].hasError('email') && !loginForm.controls['email'].hasError('required')">
                   Ingrese un email valido
                 </mat-error>
