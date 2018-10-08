@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { PageEvent, MatSnackBar } from "@angular/material";
 import {
   HttpService,
@@ -13,7 +13,7 @@ import { SnackbarComponent } from "../../../shared/snackbar/snackbar.component";
   templateUrl: "./admin-grupos.component.html",
   styleUrls: ["./admin-grupos.component.css"]
 })
-export class AdminGruposComponent implements OnInit {
+export class AdminGruposComponent implements OnInit, OnDestroy {
   public usuario;
   public respuesta: any;
   public title = "Star Rating";
@@ -26,6 +26,7 @@ export class AdminGruposComponent implements OnInit {
   public pageSizeOptions = [5, 10, 25, 100];
   public pageEvent: PageEvent;
   public grupos = [];
+  subscription;
   permisosGrupo = [
     { nombre: "privado", value: "private" },
     { nombre: "interno", value: "internal" },
@@ -40,7 +41,7 @@ export class AdminGruposComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this._usuarioService.usuario$.subscribe(respUsuario => {
+    this.subscription = this._usuarioService.usuario$.subscribe(respUsuario => {
       this.usuario = respUsuario;
       this.obtenerDatos();
     });
@@ -134,5 +135,8 @@ export class AdminGruposComponent implements OnInit {
         }
       );
     }
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

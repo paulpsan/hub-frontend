@@ -28,18 +28,30 @@ export class ImportarComponent implements OnInit {
   imagenSubir: File;
   imagenTemp: any;
   itemSelect;
-  grupo
+  grupo;
   dominio;
   usuario;
   request;
   dataLoading;
   repositorios;
+  categorias: any[] = [];
   usuarios: any[];
-  categorias: any[];
   showRepos = false;
-
+  showEntidades = false;
+  avanzado = false;
   importar: boolean = false;
-
+  data = {
+    sistemasOperativos: "",
+    lenguajes: "",
+    baseDatos: "",
+    dependencias: "",
+    alcances: "",
+    reglasDesarrollo: "",
+    reglasContribucion: "",
+    funcionalidades: "",
+    comunicacion: "",
+    errores: ""
+  };
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -49,11 +61,11 @@ export class ImportarComponent implements OnInit {
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
   ) {
-    this.dominio = environment.gitlabAdmin.domain
+    this.dominio = environment.gitlabAdmin.domain;
     this.dataLoading = {
-      content: 'Cargando .........',
-      icon: false,
-    }
+      content: "Cargando .........",
+      icon: false
+    };
   }
 
   ngOnInit() {
@@ -80,10 +92,10 @@ export class ImportarComponent implements OnInit {
       nombre: new FormControl("", Validators.required),
       descripcion: new FormControl("", Validators.required),
       urlRepositorio: new FormControl("", Validators.required),
-      institucion: new FormControl("")
+      version: new FormControl("", Validators.required)
     });
     this.proyForm.controls["nombre"].valueChanges.subscribe(value => {
-      this.setUrl(value)
+      this.setUrl(value);
     });
   }
 
@@ -92,12 +104,12 @@ export class ImportarComponent implements OnInit {
     this.proyForm.setValue({
       nombre: this.itemSelect.nombre,
       descripcion: this.itemSelect.descripcion,
-      urlRepositorio: `${
-        this.usuario.login
-        }/${this.itemSelect.nombre}`,
-      institucion: ""
+      urlRepositorio: `${this.usuario.login}/${this.itemSelect.nombre}`,
+      version: ""
     });
-    console.log(event);
+    this.proyForm.controls["nombre"].valueChanges.subscribe(value => {
+      this.setUrl(value);
+    });
   }
 
   seleccionImage(archivo: File) {
@@ -121,11 +133,11 @@ export class ImportarComponent implements OnInit {
     if (this.proyForm.controls["nombre"].value.split(" ").length > 1) {
       const objMessage = {
         text: "El nombre del proyecto es invalido",
-        type: "Info",
-      }
+        type: "Info"
+      };
       this._messageDataService.changeMessage(objMessage);
       this.snackBar.openFromComponent(SnackbarComponent, {
-        horizontalPosition: 'right',
+        horizontalPosition: "right",
         verticalPosition: "top",
         panelClass: "background-warning",
         duration: 5000
@@ -135,99 +147,113 @@ export class ImportarComponent implements OnInit {
       this.request = true;
       if (this.proyForm.valid) {
         const datos = this.itemSelect;
-        let proyecto: Proyecto;
-        proyecto = new Proyecto(
-          null,
-          this.proyForm.controls["nombre"].value,
-          this.proyForm.controls["descripcion"].value,
-          "public",
-          this.proyForm.controls["urlRepositorio"].value,
-          datos._id,
-          this.usuario._id,
-          this.usuario,
-          datos.avatar,
-          datos.tipo,
-          this.itemSelect.html_url,
-          { datos: [], valor: 0 },
-          this.categorias,
-          ["licencias"],
-          this.usuarios,
-          datos.commits
-        );
-        proyecto.grupo = this.grupo || ""
-        proyecto.es_grupo = this.grupo ? true : false;
+        let proyecto = {
+          nombre: this.proyForm.controls["nombre"].value,
+          descripcion: this.proyForm.controls["descripcion"].value,
+          visibilidad: "public",
+          path: this.proyForm.controls["urlRepositorio"].value,
+          version: this.proyForm.controls["version"].value,
+          fk_usuario: this.usuario._id,
+          usuario: this.usuario,
+          avatar: "",
+          origenUrl:this.itemSelect.html_url
+          clasificacion: { datos: [], valor: 0 },
+          categorias: this.categorias,
+          usuarios: this.usuarios,
+          grupo: this.grupo || "",
+          es_grupo: this.grupo ? true : false,
+          sistemas_operativos: this.data.sistemasOperativos,
+          lenguajes: this.data.lenguajes,
+          base_datos: this.data.baseDatos,
+          dependencias: this.data.dependencias,
+          alcances: this.data.alcances,
+          reglas_desarrollo: this.data.reglasDesarrollo,
+          reglas_contribucion: this.data.reglasContribucion,
+          funcionalidades: this.data.funcionalidades,
+          comunicacion: this.data.comunicacion,
+          errores: this.data.errores
+        };
+        this.request = true;
         console.log(proyecto);
-        this._httpService.post("proyectos?import=true", proyecto).subscribe(response => {
-          this.snackBar.dismiss();
-          const objMessage = {
-            text: "El proyecto fue creado exitosamente",
-            type: "Info",
-          }
-          this._messageDataService.changeMessage(objMessage);
-          this.snackBar.openFromComponent(SnackbarComponent, {
-            horizontalPosition: 'right',
-            verticalPosition: "top",
-            panelClass: "background-success",
-            duration: 5000
-          });
-          this.request = false
+        let url = this.grupo ? `grupos/${this.grupo._id}/proyectos?import=true` : `proyectos?import=true`;
+        console.log(proyecto);
+        this._httpService.adicionar(url, proyecto).subscribe(
+          response => {
+            this.snackBar.dismiss();
+            const objMessage = {
+              text: "El proyecto fue creado exitosamente",
+              type: "Info"
+            };
+            this._messageDataService.changeMessage(objMessage);
+            this.snackBar.openFromComponent(SnackbarComponent, {
+              horizontalPosition: "right",
+              verticalPosition: "top",
+              panelClass: "background-success",
+              duration: 5000
+            });
+            this.request = false;
 
-          if (!response.mensaje) {
-            if (this.imagenTemp) {
-              this._subirArchivoService
-                .subirArchivo(
-                  this.imagenSubir,
-                  "proyectos",
-                  response.proyecto._id
-                )
-                .then((resp: any) => {
-                  console.log(resp);
-                  const objPatch = {
-                    avatar: resp.proyecto.avatar
-                  };
-                  this._httpService
-                    .patch("proyectos", response.proyecto._id, objPatch)
-                    .subscribe(() => {
-                      this.router.navigate(["/proyectos"]);
-                    });
-                });
+            if (!response.mensaje) {
+              if (this.imagenTemp) {
+                this._subirArchivoService
+                  .subirArchivo(
+                    this.imagenSubir,
+                    "proyectos",
+                    response.proyecto._id
+                  )
+                  .then((resp: any) => {
+                    console.log(resp);
+                    const objPatch = {
+                      avatar: resp.proyecto.avatar
+                    };
+                    this._httpService
+                      .patch("proyectos", response.proyecto._id, objPatch)
+                      .subscribe(() => {
+                        this.router.navigate(["/proyectos"]);
+                      });
+                  });
+              } else {
+                this.proyForm.reset();
+                this.router.navigate(["/proyectos"]);
+              }
             } else {
-              this.proyForm.reset();
-              this.router.navigate(["/proyectos"]);
+              console.log("error ");
             }
-          } else {
-            console.log("error ");
-          }
-        }, err => {
-          console.log(err);
-          let objMessage = {}
-          if (err.error.message.path[0] == 'has already been taken') {
-            console.log(typeof err.message);
-            objMessage = {
-              text: "El nombre del proyecto ya existe",
-              type: "Info",
+          },
+          err => {
+            console.log(err);
+            let objMessage = {};
+            if (err.error.message.path[0] == "has already been taken") {
+              console.log(typeof err.message);
+              objMessage = {
+                text: "El nombre del proyecto ya existe",
+                type: "Info"
+              };
+            } else {
+              objMessage = {
+                text: err.message,
+                type: "Info"
+              };
             }
-          } else {
-            objMessage = {
-              text: err.message,
-              type: "Info",
-            }
-          }
 
-          this._messageDataService.changeMessage(objMessage);
-          this.snackBar.openFromComponent(SnackbarComponent, {
-            horizontalPosition: 'right',
-            verticalPosition: "top",
-            panelClass: "background-warning",
-            duration: 5000
-          });
-          this.request = false
-          console.log(err);
-        });
+            this._messageDataService.changeMessage(objMessage);
+            this.snackBar.openFromComponent(SnackbarComponent, {
+              horizontalPosition: "right",
+              verticalPosition: "top",
+              panelClass: "background-warning",
+              duration: 5000
+            });
+            this.request = false;
+            console.log(err);
+          }
+        );
       }
     }
   }
-
+  deleteImage() {
+    this.imagenTemp = null;
+    this.imagenSubir = null;
+  }
   setCategorias(categorias: any) {
     this.categorias = categorias;
   }
@@ -238,7 +264,8 @@ export class ImportarComponent implements OnInit {
   setGrupo(grupo) {
     console.log(grupo);
     this.grupo = grupo;
-    this.setUrl(this.proyForm.controls["nombre"].value)
+    this.setUrl(this.proyForm.controls["nombre"].value);
+    this.showEntidades = grupo ? true : false;
   }
   setUrl(value) {
     if (this.grupo) {

@@ -46,6 +46,9 @@
         <tr *ngFor="let usuario of grupo.Usuarios">
           <td scope="row">
             <h4 mat-line>{{usuario.nombre}}</h4>
+            <p *ngIf="usuario.admin_grupo">
+              Administrador
+            </p>
             <p>
               {{usuario.descripcion}}
             </p>

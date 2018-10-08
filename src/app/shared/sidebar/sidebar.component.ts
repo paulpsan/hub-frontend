@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { UsuarioService, HttpService } from "../../services/service.index";
 
 @Component({
@@ -6,45 +6,42 @@ import { UsuarioService, HttpService } from "../../services/service.index";
   templateUrl: "./sidebar.component.html",
   styleUrls: ["./sidebar.component.css"]
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   step = 0;
   usuario;
   grupo;
-  
+  subscription;
+
   constructor(
     private _usuarioService: UsuarioService,
     private _httpService: HttpService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this._usuarioService.usuario$.subscribe(respUsuario => {
+    this.subscription = this._usuarioService.usuario$.subscribe(respUsuario => {
       this.usuario = respUsuario;
-
-      this.obtenerGrupo();
-      // if (respUsuario.Grupos >= 1) {
-      //   this.grupo = respUsuario.Grupos[0];
-      // }
       console.log(this.grupo);
     });
+    this.obtenerGrupo();
   }
   obtenerGrupo() {
-    this._httpService
-      .get(`usuarios/${this.usuario._id}/grupos`)
-      .subscribe(
-        result => {
-          let grupos = result;
-          // let grupos = result.length >= 1 ? result : undefined;
-          console.log(result);
-          this.grupo = grupos.find(grupo => {
-            return grupo.Usuarios.find(usuario => {
-              return usuario.UsuarioGrupo.admin = true
-            })
-          })
-          console.log(this.grupo);
-
-        },
-        err => {
-        }
-      );
+    if (this.usuario) {
+      this.grupo = this.usuario.Grupos.find(grupo => {
+        return (
+          grupo.UsuarioGrupo.admin == true &&
+          grupo.UsuarioGrupo.fk_usuario == this.usuario._id
+        );
+      });
+      if (this.grupo) {
+        this._httpService.buscarId("grupos", this.grupo._id).subscribe(resp => {
+          this.grupo = resp;
+        });
+      }
+    } else {
+      this.ngOnInit();
+    }
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

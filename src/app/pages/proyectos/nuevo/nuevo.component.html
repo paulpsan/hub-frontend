@@ -71,7 +71,7 @@
                       <!-- <label class="col-form-label ">Categorias</label>
                         <br> -->
                       <!-- //aqui -->
-                      <hub-input-categorias (onCategorias)="setCategorias($event)">
+                      <hub-input-categorias [categorias]="categorias" (onCategorias)="setCategorias($event)">
 
                       </hub-input-categorias>
                     </div>
@@ -136,10 +136,6 @@
               </div>
             </div>
           </div>
-
-
-
-
           <div class="row justify-content-center" *ngIf="!request">
             <button mat-button [disabled]="!nuevoForm.valid" type="submit" color="primary">
               <mat-icon mat-list-icon>done</mat-icon>

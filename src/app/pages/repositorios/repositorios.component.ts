@@ -32,6 +32,7 @@ import { SnackbarComponent } from "../../shared/snackbar/snackbar.component";
 export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
   id: number;
   acciones: string;
+  subscription;
   repositorios;
   repoCopy;
   dataLoading;
@@ -84,16 +85,19 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
   ngOnInit() {
     this._loadDataService.loadData$.subscribe(resp => {
       if (resp) {
+        console.log("dataService");
         this.showData = false;
-        this._usuarioService.usuario$.subscribe(repUsuario => {
-          this.usuario = repUsuario;
-          this.grupos = this.usuario.Grupos;
-          this.proyectos = this.usuario.Proyectos;
-          console.log(this.usuario);
-          if (this.usuario.github) this.cuentas.push("github");
-          if (this.usuario.gitlab) this.cuentas.push("gitlab");
-          if (this.usuario.bitbucket) this.cuentas.push("bitbucket");
-        });
+        this.subscription = this._usuarioService.usuario$.subscribe(
+          repUsuario => {
+            this.usuario = repUsuario;
+            this.grupos = this.usuario.Grupos;
+            this.proyectos = this.usuario.Proyectos;
+            console.log(this.usuario);
+            if (this.usuario.github) this.cuentas.push("github");
+            if (this.usuario.gitlab) this.cuentas.push("gitlab");
+            if (this.usuario.bitbucket) this.cuentas.push("bitbucket");
+          }
+        );
         this.urlImg = environment.url;
         this.id = this.usuario._id;
         this.userForm = new FormGroup({
@@ -130,7 +134,6 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
         }
       });
   }
-
 
   next(object) {
     this.siguiente.emit(object);
@@ -181,6 +184,7 @@ export class RepositoriosComponent implements AfterViewInit, OnDestroy, OnInit {
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
+    this.subscription.unsubscribe();
     this.dtTrigger.unsubscribe();
   }
   selectImage(archivo: File) {

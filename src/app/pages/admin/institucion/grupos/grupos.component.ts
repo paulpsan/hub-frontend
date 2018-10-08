@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { PageEvent, MatSnackBar } from "@angular/material";
-import { HttpService, UsuarioService, MessageDataService } from "../../../../services/service.index";
+import {
+  HttpService,
+  UsuarioService,
+  MessageDataService
+} from "../../../../services/service.index";
 import { Router } from "@angular/router";
 import { SnackbarComponent } from "../../../../shared/snackbar/snackbar.component";
 
@@ -22,6 +26,7 @@ export class GruposComponent implements OnInit {
   public pageSizeOptions = [5, 10, 25, 100];
   public pageEvent: PageEvent;
   public grupos = [];
+  public grupo: any;
   permisosGrupo = [
     { nombre: "privado", value: "private" },
     { nombre: "interno", value: "internal" },
@@ -33,24 +38,30 @@ export class GruposComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
       this.usuario = respUsuario;
-      this.obtenerDatos();
     });
+    this.obtenerGrupo();
   }
-  obtenerDatos(event?: PageEvent) {
-    this._httpService.buscarId("usuarios", this.usuario._id).subscribe(resp => {
-      this.usuario = resp;
-      if (this.usuario.Grupos.length > 0)
-        this._httpService
-          .buscarId("grupos", resp.Grupos[0]._id)
-          .subscribe(resp => {
-            this.grupos = [resp];
-          });
-    });
+  obtenerGrupo() {
+    if (this.usuario) {
+      this.grupo = this.usuario.Grupos.find(grupo => {
+        return (
+          grupo.UsuarioGrupo.admin == true &&
+          grupo.UsuarioGrupo.fk_usuario == this.usuario._id
+        );
+      });
+      if(this.grupo){
+        this._httpService.buscarId("grupos", this.grupo._id).subscribe(resp => {
+          this.grupos = [resp];
+        });
+      }
+    } else {
+      this.ngOnInit();
+    }
   }
   changeSelect(event, grupo) {
     console.log(event);
@@ -64,7 +75,7 @@ export class GruposComponent implements OnInit {
       result => {
         console.log(result);
         grupo.request = "ok";
-        this.obtenerDatos();
+        this.obtenerGrupo();
       },
       err => {
         console.log(err);
@@ -80,10 +91,10 @@ export class GruposComponent implements OnInit {
           panelClass: "background-warning",
           duration: 5000
         });
-        this.obtenerDatos();
+        this.obtenerGrupo();
       }
     );
   }
 
-  eliminar(usuario) { }
+  eliminar(usuario) {}
 }

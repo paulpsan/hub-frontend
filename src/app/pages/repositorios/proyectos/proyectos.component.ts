@@ -61,8 +61,8 @@ export class ProyectosComponent implements OnInit, OnDestroy {
       console.log(this.usuario);
       if (this.usuario.Grupos)
         this.grupos = this.usuario.Grupos.length >= 1 ? this.usuario.Grupos : undefined;
+      });
       this.obtenerProyectos();
-    });
   }
   obtenerProyectos() {
     this._httpService

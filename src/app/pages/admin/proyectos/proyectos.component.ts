@@ -38,8 +38,8 @@ export class ProyectosComponent implements OnInit {
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(respUsuario => {
       this.usuario = respUsuario;
-      this.obtenerDatos();
     });
+    this.obtenerDatos();
   }
   obtenerDatos(event?: PageEvent) {
     let pagData;

@@ -72,6 +72,9 @@
               <button mat-icon-button (click)="eliminar(grupo)" color="warn">
                 <mat-icon mat-list-icon>delete</mat-icon>
               </button>
+              <button mat-icon-button [routerLink]="['/admin/institucion/transferir',grupo._id]" matTooltip="Transferir titularidad" color="primary">
+                <mat-icon mat-list-icon>swap_horiz</mat-icon>
+              </button>
             </ng-container>
           </div>
         </td>

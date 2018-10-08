@@ -33,7 +33,7 @@ export class NuevoComponent implements OnInit {
   request;
   dataLoading;
   usuarios: any[];
-  categorias: any[];
+  categorias: any[]=[];
   repositorios;
   showRepos = false;
   showEntidades = false;
