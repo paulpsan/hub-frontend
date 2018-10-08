@@ -17,9 +17,9 @@ import { SnackbarComponent } from "../../../../shared/snackbar/snackbar.componen
 export class EditarComponent implements OnInit {
   id: number;
   acciones: string;
-  private prueba: string = "prueba";
-  private sub: any;
-  private proyecto;
+  prueba: string = "prueba";
+  sub: any;
+  proyecto;
   dominio;
   showBasico: boolean = false;
   showLogo: boolean = false;

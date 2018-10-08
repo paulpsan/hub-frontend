@@ -156,7 +156,7 @@ export class ImportarComponent implements OnInit {
           fk_usuario: this.usuario._id,
           usuario: this.usuario,
           avatar: "",
-          origenUrl:this.itemSelect.html_url
+          origenUrl:this.itemSelect.html_url,
           clasificacion: { datos: [], valor: 0 },
           categorias: this.categorias,
           usuarios: this.usuarios,

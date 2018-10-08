@@ -11,13 +11,14 @@ import { MatDialog } from "@angular/material";
 export class PieChartComponent {
   @Input() data;
   @Input() configRepo;
+  chartType;
   datos: any[];
   view: any[] = [600, 400];
   colorScheme = {
     domain: ["#3b1c1f", "#A10A28", "#C7B42C", "#AAAAAA"]
   };
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     console.log(this.datos, this.configRepo);

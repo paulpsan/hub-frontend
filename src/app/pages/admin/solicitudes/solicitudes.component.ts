@@ -24,13 +24,14 @@ export class SolicitudesComponent implements OnInit {
   public ordenar;
   public pagina = 1;
   public limite = 10;
+  public pageSizeOptions = [5, 10, 25, 100];
   public total;
   constructor(
     private _httpService: HttpService,
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.obtenerDatos();
@@ -177,7 +178,7 @@ export class ModalTextSolicitud {
   constructor(
     public dialogRef: MatDialogRef<ModalTextSolicitud>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) { }
 
   cancelarClick(): void {
     this.dialogRef.close();

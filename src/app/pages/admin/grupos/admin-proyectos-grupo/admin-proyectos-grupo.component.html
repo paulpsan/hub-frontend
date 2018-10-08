@@ -92,7 +92,7 @@
       </tbody>
     </table>
   </div>
-  <mat-paginator *ngIf="proyecto" #paginator [length]="total" [pageIndex]="pagina" [pageSize]="limite"
+  <mat-paginator *ngIf="proyectos" #paginator [length]="total" [pageIndex]="pagina" [pageSize]="limite"
     [pageSizeOptions]="pageSizeOptions" (page)="obtenerDatos($event)">
   </mat-paginator>
 </div>

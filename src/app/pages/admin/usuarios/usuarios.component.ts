@@ -47,6 +47,7 @@ export class UsuariosComponent implements OnInit {
     }
     this._httpService.obtenerPaginado("usuarios/admin", pagData).subscribe(
       result => {
+        console.log(result);
         this.respuesta = result;
         this.total = this.respuesta.paginacion.total;
         this.pagina = this.respuesta.paginacion.paginaActual - 1;
@@ -55,7 +56,6 @@ export class UsuariosComponent implements OnInit {
         this.usuarios.map(usuarios => {
           return usuarios.request = ""
         })
-
       },
       err => {
         console.log(err);

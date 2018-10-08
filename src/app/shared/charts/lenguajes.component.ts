@@ -9,7 +9,7 @@ export class LenguajesComponent {
   @Input() pieChartLabels: string[] = [];
   @Input() pieChartData: number[] = [];
   pieChartType: string = "pie";
-  private optionsPieChart: any = {
+  optionsPieChart: any = {
     legend: { position: 'right' }
   }
   ngOnInit() { }

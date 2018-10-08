@@ -53,7 +53,7 @@ export class UsuarioComponent implements OnInit {
       );
     });
   }
-  save(event) {
+  guardar() {
     let usuario = this.usuariosSearch.find(user => {
       return user.nombre == this.userForm.controls["nombre"].value;
     });
@@ -83,5 +83,8 @@ export class UsuarioComponent implements OnInit {
       this.emitUser.emit(usuarioEmit);
     }
     this.userForm.reset();
+  }
+  onSubmit() {
+
   }
 }

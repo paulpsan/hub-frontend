@@ -28,7 +28,7 @@
         </mat-select>
         <mat-error *ngIf="userForm.hasError('required')">Escoja una opción</mat-error>
       </mat-form-field>
-      <button mat-icon-button color="primary" type="button" (click)="save()" [disabled]="!userForm.valid" matTooltip="Adiciona Usuario">
+      <button mat-icon-button color="primary" type="button" (click)="guardar()" [disabled]="!userForm.valid" matTooltip="Adiciona Usuario">
         <mat-icon aria-label="addicona">add</mat-icon>
       </button>
     </div>
