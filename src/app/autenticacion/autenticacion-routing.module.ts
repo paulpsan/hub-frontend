@@ -8,7 +8,7 @@ import { VerificacionComponent } from './verificacion/verificacion.component';
 import { AutenticacionComponent } from './autenticacion.component';
 
 const routes: Routes = [
-  { path: "", component: AutenticacionComponent },
+  { path: "importar", component: AutenticacionComponent },
   { path: "login", component: LoginComponent },
   { path: "registro", component: RegistroComponent },
   { path: "reset", component: ResetComponent },
