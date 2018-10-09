@@ -39,6 +39,8 @@ export class UsuarioComponent implements OnInit {
   repoSelect;
   proyectos;
   dominio;
+  detalleProy = false
+  detalleRepo = false;
   isPropietario = false;
   showUsuario = false;
   showUsuarios = false;
@@ -147,6 +149,8 @@ export class UsuarioComponent implements OnInit {
     this._httpService
       .obtener("commits/" + repositorio._id)
       .subscribe(respCommits => {
+        this.detalleProy = false;
+        this.detalleRepo = true;
         this.commits = respCommits;
         this.showLenguajes = false;
         this.repoSelect = repositorio;
@@ -171,6 +175,46 @@ export class UsuarioComponent implements OnInit {
     this.showMonth = this.dataRepo$.mes.length >= 2 ? true : false;
     this.showYear = this.dataRepo$.años.length >= 2 ? true : false;
   }
+
+  async detalleProyecto(proy) {
+    console.log(proy);
+    this.showCommitsRepo = false;
+    this._httpService
+      .obtener("commits/" + proy._id)
+      .subscribe(respCommits => {
+        this.detalleProy = true
+        this.detalleRepo = false;
+        console.log(respCommits);
+        this.commits = respCommits;
+        this.showLenguajes = false;
+        this.repoSelect = proy;
+        this.commitsRepoTotal = this.commits.length;
+        this.getPrimerCommit(this.commits);
+        this.getUltimoCommit(this.commits);
+        // this.dataLenguajes$ = repositorio.lenguajes;
+        // console.log(repositorio);
+        if (proy.datos) {
+          this.cargarLenguajes(proy.datos.lenguajes, this.usuario.tipo);
+          this.showUsuarios = true;
+        }
+      });
+
+    this.configRepo$ = {
+      legend: "Commits",
+      xAxisLabel: "Fecha",
+      yAxisLabel: "Commits",
+      series: "total"
+    };
+    this.dataRepo$ = await this.renderGraph("repo", proy);
+    console.log(this.dataRepo$);
+    if(this.dataRepo$){
+      this.showCommitsRepo = this.dataRepo$.total.length >= 2 ? true : false;
+      this.showMonth = this.dataRepo$.mes.length >= 2 ? true : false;
+      this.showYear = this.dataRepo$.años.length >= 2 ? true : false;
+    }
+  }
+
+
   // Calcula el primer commit del repositorio
   getPrimerCommit(commits) {
     const tamano = commits.length;
@@ -240,7 +284,7 @@ export class UsuarioComponent implements OnInit {
     }
     const hash = {};
     // elimina repetidos
-    datos = datos.filter(function(current) {
+    datos = datos.filter(function (current) {
       const exists = !hash[current.name] || false;
       hash[current.name] = true;
       return exists;

@@ -225,7 +225,7 @@ export class RegistroComponent implements OnInit {
   templateUrl: "modal-terminos.html"
 })
 export class ModalTerminos {
-  pdfSrc: string = '/assets/pdf/Formulario.pdf';
+  pdfSrc: string = '/assets/pdf/TerminosServicio.pdf';
   dataLoading: any = {
     title: ""
   };

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpService } from "../../../services/http/http.service";
@@ -8,7 +8,7 @@ import {
   SubirArchivoService,
   MessageDataService
 } from "../../../services/service.index";
-import { MatSelectChange, MatSnackBar } from "@angular/material";
+import { MatSelectChange, MatSnackBar, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import * as _ from "lodash";
 import { environment } from "../../../../environments/environment";
 import { SnackbarComponent } from "../../../shared/snackbar/snackbar.component";
@@ -58,7 +58,8 @@ export class NuevoComponent implements OnInit {
     private _usuarioService: UsuarioService,
     private _subirArchivoService: SubirArchivoService,
     private snackBar: MatSnackBar,
-    private _messageDataService: MessageDataService
+    private _messageDataService: MessageDataService,
+    private dialog: MatDialog
   ) {
     this.dominio = environment.gitlabAdmin.domain;
     this.dataLoading = {
@@ -169,31 +170,34 @@ export class NuevoComponent implements OnInit {
             this.request = false;
 
             if (!response.mensaje) {
+              this._httpService.post(`proyectos/${response.proyecto._id}/licencias`, this.usuario).subscribe();
               //cargamos datos de commits del proyecto
-              
-
-              if (this.imagenTemp) {
-                this._subirArchivoService
-                  .subirArchivo(
-                    this.imagenSubir,
-                    "proyectos",
-                    response.proyecto._id
-                  )
-                  .then((resp: any) => {
-                    console.log(resp);
-                    const objPatch = {
-                      avatar: resp.proyecto.avatar
-                    };
-                    this._httpService
-                      .patch("proyectos", response.proyecto._id, objPatch)
-                      .subscribe(() => {
-                        this.router.navigate(["/proyectos"]);
+              this._httpService.get(`proyectos/${response.proyecto._id}/gitlab`).subscribe(
+                () => {
+                  if (this.imagenTemp) {
+                    this._subirArchivoService
+                      .subirArchivo(
+                        this.imagenSubir,
+                        "proyectos",
+                        response.proyecto._id
+                      )
+                      .then((resp: any) => {
+                        console.log(resp);
+                        const objPatch = {
+                          avatar: resp.proyecto.avatar
+                        };
+                        this._httpService
+                          .patch("proyectos", response.proyecto._id, objPatch)
+                          .subscribe(() => {
+                            this.router.navigate(["/proyectos"]);
+                          });
                       });
-                  });
-              } else {
-                this.nuevoForm.reset();
-                this.router.navigate(["/proyectos"]);
-              }
+                  } else {
+                    this.nuevoForm.reset();
+                    this.router.navigate(["/proyectos"]);
+                  }
+                })
+
             } else {
               console.log("error ");
               this.request = false;
@@ -253,5 +257,38 @@ export class NuevoComponent implements OnInit {
         `${this.usuario.login}/${value}`
       );
     }
+  }
+
+  openLicencia() {
+
+    let dialogRef = this.dialog.open(ModalLicencia, {
+      // height: '820px',
+      // width: '920px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+}
+@Component({
+  selector: "modal-licencia",
+  templateUrl: "modal-licencia.html"
+})
+export class ModalLicencia {
+  pdfSrc: string = '/assets/pdf/Licencia.pdf';
+  dataLoading: any = {
+    title: ""
+  };
+  constructor(
+    public dialogRef: MatDialogRef<ModalLicencia>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    // this.dataLoading.title = "cargando"
+  }
+  loading() {
+    this.dataLoading = undefined;
+  }
+  cancelarClick(): void {
+    this.dialogRef.close();
   }
 }

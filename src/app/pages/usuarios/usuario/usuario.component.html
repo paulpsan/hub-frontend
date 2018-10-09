@@ -121,7 +121,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let proyecto of proyectos" style="cursor: pointer">
+                <tr *ngFor="let proyecto of proyectos" style="cursor: pointer" (click)="detalleProyecto(proyecto)">
                   <td scope="row">
                     <img [src]="proyecto.avatar" alt="" height="30" width="30"> </td>
                   <td>
@@ -135,9 +135,9 @@
             </table>
           </div>
         </div>
-        <div class="card" *ngIf="showUsuarios">
+        <div class="card" *ngIf="detalleProy">
           <div class="card-body">
-            <h4 class="title-repo">Repositorio</h4>
+            <h4 class="title-repo">Proyecto</h4>
             <h5 class="subtitle-repo">Nombre: {{repoSelect.nombre}}</h5>
             <table class="table table-hover table-inverse table-responsive">
               <thead class="thead-inverse">
@@ -148,13 +148,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let value of usuarioRepositorio">
+                <tr *ngFor="let usuario of repoSelect.Usuarios">
                   <td scope="row">
-                    <img src="{{value.avatar_autor}}" alt="" height="30" width="30">
+                    <img src="{{usuario.avatar}}" alt="" height="30" width="30">
                   </td>
-                  <td>{{value.autor}}</td>
+                  <td>{{usuario.nombre}}</td>
                   <td>
-                    <a href="{{value.web_url_autor}}" target="#">{{value.web_url_autor}}</a>
+                    <a href="{{dominio}}/{{usuario.login}}" target="#">{{dominio}}/{{usuario.login}}</a>
                   </td>
                 </tr>
               </tbody>
@@ -181,30 +181,33 @@
                     </td>
                     <td>{{commitsRepoTotal}}</td>
                   </tr>
-                  <tr>
-                    <td>
-                      <mat-icon class="hub-mat-icon">error_outline</mat-icon>Total Issues:
-                    </td>
-                    <td>{{repoSelect.issues.total}}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <mat-icon fontIcon="fa-code-fork" class="fa fa-lg"></mat-icon>Total forks:
-                    </td>
-                    <td>{{repoSelect.forks.total}}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <mat-icon fontIcon="fa-download" class="fa fa-lg"></mat-icon>Total Download:
-                    </td>
-                    <td>{{repoSelect.downloads.total}}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <mat-icon fontIcon="fa-star-o" class="fa fa-lg"></mat-icon>Total stars:
-                    </td>
-                    <td>{{repoSelect.stars.total}}</td>
-                  </tr>
+                  <ng-container *ngIf="repoSelect.datos">
+                    <tr>
+                      <td>
+                        <mat-icon class="hub-mat-icon">error_outline</mat-icon>Total Issues:
+                      </td>
+                      <td>{{repoSelect.datos.issues.total}}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <mat-icon fontIcon="fa-code-fork" class="fa fa-lg"></mat-icon>Total forks:
+                      </td>
+                      <td>{{repoSelect.datos.forks.total}}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <mat-icon fontIcon="fa-download" class="fa fa-lg"></mat-icon>Total Download:
+                      </td>
+                      <td>{{repoSelect.datos.downloads.total}}</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <mat-icon fontIcon="fa-star-o" class="fa fa-lg"></mat-icon>Total stars:
+                      </td>
+                      <td>{{repoSelect.datos.stars.total}}</td>
+                    </tr>
+                  </ng-container>
+
                 </tbody>
               </table>
             </div>
@@ -245,7 +248,7 @@
             </div>
           </div>
         </div>
-        <div class="card" *ngIf="showUsuarios">
+        <div class="card" *ngIf="detalleRepo">
           <div class="card-body">
             <h4 class="title-repo">Repositorio</h4>
             <h5 class="subtitle-repo">Nombre: {{repoSelect.nombre}}</h5>
@@ -355,7 +358,7 @@
       </div>
     </ng-container>
 
-    <ng-container class="mb-3" *ngIf="showRepositorios">
+    <ng-container class="mb-3">
       <h4 class="title-repo">Historial de Desarrollo:</h4>
       <div class="card-deck">
         <div class="card" *ngIf="data$">

@@ -20,14 +20,16 @@ import {
 } from "./proyecto/proyecto.component";
 import { ComunModule } from "../../common/comun.module";
 import { ListarComponent } from "./listar/listar.component";
-import { NuevoComponent } from './nuevo/nuevo.component';
+import { NuevoComponent, ModalLicencia } from './nuevo/nuevo.component';
 import { PlantillaComponent } from './proyecto/plantilla.component';
 import { ImportarComponent } from './importar/importar.component';
 import { FormularioComponent } from './nuevo/formulario/formulario.component';
+import { PdfViewerModule } from "ng2-pdf-viewer";
 
 @NgModule({
   declarations: [
     ModalEliminarProyecto,
+    ModalLicencia,
     CrearComponent,
     EditarComponent,
     ProyectosComponent,
@@ -46,6 +48,7 @@ import { FormularioComponent } from './nuevo/formulario/formulario.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    PdfViewerModule,
     ComunModule,
     SharedModule,
     PipesModule
@@ -60,6 +63,6 @@ import { FormularioComponent } from './nuevo/formulario/formulario.component';
     ProyectosService,
     HttpService
   ],
-  entryComponents: [ModalEliminarProyecto]
+  entryComponents: [ModalEliminarProyecto, ModalLicencia]
 })
-export class ProyectosModule {}
+export class ProyectosModule { }

@@ -6,6 +6,7 @@ import { Chart } from "chart.js";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { Component, OnInit, Inject } from "@angular/core";
 import * as moment from "moment";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "hub-proyecto",
@@ -19,6 +20,7 @@ export class ProyectoComponent implements OnInit {
   public esNuevo: boolean = true;
   show: boolean = false;
   lenguajes: boolean = false;
+  dominio
   pieChartData = [];
   pieChartLabels = [];
   dataRepo$;
@@ -29,7 +31,9 @@ export class ProyectoComponent implements OnInit {
     private router: Router,
     private _httpService: HttpService,
     private dialog: MatDialog
-  ) { }
+  ) {
+    this.dominio = environment.gitlabAdmin.domain;
+   }
 
   ngOnInit() {
     moment.locale("es");

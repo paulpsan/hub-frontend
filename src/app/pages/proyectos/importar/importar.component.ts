@@ -9,10 +9,11 @@ import {
   SubirArchivoService,
   MessageDataService
 } from "../../../services/service.index";
-import { MatSelectChange, MatSnackBar } from "@angular/material";
+import { MatSelectChange, MatSnackBar, MatDialog } from "@angular/material";
 import * as _ from "lodash";
 import { environment } from "../../../../environments/environment";
 import { SnackbarComponent } from "../../../shared/snackbar/snackbar.component";
+import { ModalLicencia } from "../nuevo/nuevo.component";
 
 @Component({
   selector: "hub-importar",
@@ -59,7 +60,9 @@ export class ImportarComponent implements OnInit {
     private _usuarioService: UsuarioService,
     private _subirArchivoService: SubirArchivoService,
     private snackBar: MatSnackBar,
-    private _messageDataService: MessageDataService
+    private _messageDataService: MessageDataService,
+    private dialog: MatDialog
+
   ) {
     this.dominio = environment.gitlabAdmin.domain;
     this.dataLoading = {
@@ -154,9 +157,10 @@ export class ImportarComponent implements OnInit {
           path: this.proyForm.controls["urlRepositorio"].value,
           version: this.proyForm.controls["version"].value,
           fk_usuario: this.usuario._id,
+          fk_repositorio: this.itemSelect._id,
           usuario: this.usuario,
           avatar: "",
-          origenUrl:this.itemSelect.html_url,
+          origenUrl: this.itemSelect.html_url,
           clasificacion: { datos: [], valor: 0 },
           categorias: this.categorias,
           usuarios: this.usuarios,
@@ -194,28 +198,34 @@ export class ImportarComponent implements OnInit {
             this.request = false;
 
             if (!response.mensaje) {
-              if (this.imagenTemp) {
-                this._subirArchivoService
-                  .subirArchivo(
-                    this.imagenSubir,
-                    "proyectos",
-                    response.proyecto._id
-                  )
-                  .then((resp: any) => {
-                    console.log(resp);
-                    const objPatch = {
-                      avatar: resp.proyecto.avatar
-                    };
-                    this._httpService
-                      .patch("proyectos", response.proyecto._id, objPatch)
-                      .subscribe(() => {
-                        this.router.navigate(["/proyectos"]);
+
+              // this._httpService.post(`proyectos/${response.proyecto._id}/licencias`, this.usuario).subscribe();
+
+              this._httpService.get(`proyectos/${response.proyecto._id}/repositorio`).subscribe(
+                () => {
+                  if (this.imagenTemp) {
+                    this._subirArchivoService
+                      .subirArchivo(
+                        this.imagenSubir,
+                        "proyectos",
+                        response.proyecto._id
+                      )
+                      .then((resp: any) => {
+                        console.log(resp);
+                        const objPatch = {
+                          avatar: resp.proyecto.avatar
+                        };
+                        this._httpService
+                          .patch("proyectos", response.proyecto._id, objPatch)
+                          .subscribe(() => {
+                            this.router.navigate(["/proyectos"]);
+                          });
                       });
-                  });
-              } else {
-                this.proyForm.reset();
-                this.router.navigate(["/proyectos"]);
-              }
+                  } else {
+                    this.proyForm.reset();
+                    this.router.navigate(["/proyectos"]);
+                  }
+                })
             } else {
               console.log("error ");
             }
@@ -277,5 +287,14 @@ export class ImportarComponent implements OnInit {
         `${this.usuario.login}/${value}`
       );
     }
+  }
+  openLicencia() {
+    let dialogRef = this.dialog.open(ModalLicencia, {
+      // height: '820px',
+      // width: '920px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
 }

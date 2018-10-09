@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Licencia LPGBolivia </h1>
+<div mat-dialog-content>
+  <ng-container *ngIf="dataLoading">
+    <hub-loading [data]="dataLoading">
+    </hub-loading>
+  </ng-container>
+  <pdf-viewer [src]="pdfSrc" [autoresize]="true" (after-load-complete)="loading()" style="display: block;"></pdf-viewer>
+</div>
+<div class="container">
+  <div class="row justify-content-md-center mt-2">
+    <button mat-button [mat-dialog-close]="data" tabindex="2" color="primary">Aceptar</button>
+  </div>
+</div>
