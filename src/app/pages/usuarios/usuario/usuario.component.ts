@@ -95,7 +95,9 @@ export class UsuarioComponent implements OnInit {
         this._httpService
           .obtener("usuarios/" + this.id + "/proyectos")
           .subscribe(resp => {
-            this.proyectos = resp;
+            if (resp.length >= 1) {
+              this.proyectos = resp;
+            }
           });
 
         this._httpService
@@ -108,19 +110,21 @@ export class UsuarioComponent implements OnInit {
                 objRepo.push(repo);
               }
             }
-            this.repositorios = objRepo;
+            if (objRepo.length >= 1) {
+              this.repositorios = objRepo;
+            }
             console.log(this.repositorios);
-            if (this.repositorios.length >= 1) {
-              this.totalCommits();
-              this.config$ = {
-                legend: "Commits",
-                xAxisLabel: "Fecha",
-                yAxisLabel: "Commits",
-                series: "total"
-              };
-              this.data$ = await this.renderGraph("user", this.usuario);
-              console.log(this.data$);
-              this.dataCalendar$ = this.data$.heatMap;
+            this.totalCommits();
+            this.config$ = {
+              legend: "Commits",
+              xAxisLabel: "Fecha",
+              yAxisLabel: "Commits",
+              series: "total"
+            };
+            this.data$ = await this.renderGraph("user", this.usuario);
+            console.log(this.data$);
+            if (this.data$) {
+              this.dataCalendar$ = this.data$.heatMap || "";
               this.showCommits = this.data$.total.length >= 2 ? true : false;
             }
           });
@@ -292,6 +296,7 @@ export class UsuarioComponent implements OnInit {
       })
       .catch(err => {
         console.log(err);
+        return null;
       });
     return series;
   }

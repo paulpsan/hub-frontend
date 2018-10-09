@@ -33,7 +33,7 @@ export class NuevoComponent implements OnInit {
   request;
   dataLoading;
   usuarios: any[];
-  categorias: any[]=[];
+  categorias: any[] = [];
   repositorios;
   showRepos = false;
   showEntidades = false;
@@ -49,7 +49,7 @@ export class NuevoComponent implements OnInit {
     reglasContribucion: "",
     funcionalidades: "",
     comunicacion: "",
-    errores: "",
+    errores: ""
   };
   constructor(
     private route: ActivatedRoute,
@@ -60,11 +60,11 @@ export class NuevoComponent implements OnInit {
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
   ) {
-    this.dominio = environment.gitlabAdmin.domain
+    this.dominio = environment.gitlabAdmin.domain;
     this.dataLoading = {
-      content: 'Cargando .........',
-      icon: false,
-    }
+      content: "Cargando .........",
+      icon: false
+    };
   }
 
   ngOnInit() {
@@ -76,13 +76,12 @@ export class NuevoComponent implements OnInit {
       nombre: new FormControl("", Validators.required),
       descripcion: new FormControl("", Validators.required),
       urlRepositorio: new FormControl("", Validators.required),
-      version: new FormControl("", Validators.required),
+      version: new FormControl("", Validators.required)
     });
     this.nuevoForm.controls["nombre"].valueChanges.subscribe(value => {
-      this.setUrl(value)
+      this.setUrl(value);
     });
   }
-
 
   seleccionImage(archivo: File) {
     console.log(this.imagenTemp, this.usuario);
@@ -109,11 +108,11 @@ export class NuevoComponent implements OnInit {
     if (this.nuevoForm.controls["nombre"].value.split(" ").length > 1) {
       const objMessage = {
         text: "El nombre del proyecto es invalido",
-        type: "Info",
-      }
+        type: "Info"
+      };
       this._messageDataService.changeMessage(objMessage);
       this.snackBar.openFromComponent(SnackbarComponent, {
-        horizontalPosition: 'right',
+        horizontalPosition: "right",
         verticalPosition: "top",
         panelClass: "background-warning",
         duration: 5000
@@ -144,31 +143,35 @@ export class NuevoComponent implements OnInit {
           reglas_contribucion: this.data.reglasContribucion,
           funcionalidades: this.data.funcionalidades,
           comunicacion: this.data.comunicacion,
-          errores: this.data.errores,
-        }
+          errores: this.data.errores
+        };
 
         this.request = true;
         console.log(proyecto);
-        let url = this.grupo ? `grupos/${this.grupo._id}/proyectos` : `proyectos`;
+        let url = this.grupo
+          ? `grupos/${this.grupo._id}/proyectos`
+          : `proyectos`;
 
-        this._httpService
-          .adicionar(url, proyecto)
-          .subscribe(response => {
+        this._httpService.adicionar(url, proyecto).subscribe(
+          response => {
             this.snackBar.dismiss();
             const objMessage = {
               text: "El proyecto fue creado exitosamente",
-              type: "Info",
-            }
+              type: "Info"
+            };
             this._messageDataService.changeMessage(objMessage);
             this.snackBar.openFromComponent(SnackbarComponent, {
-              horizontalPosition: 'right',
+              horizontalPosition: "right",
               verticalPosition: "top",
               panelClass: "background-success",
               duration: 5000
             });
-            this.request = false
+            this.request = false;
 
             if (!response.mensaje) {
+              //cargamos datos de commits del proyecto
+              
+
               if (this.imagenTemp) {
                 this._subirArchivoService
                   .subirArchivo(
@@ -193,35 +196,36 @@ export class NuevoComponent implements OnInit {
               }
             } else {
               console.log("error ");
-              this.request = false
-
+              this.request = false;
             }
-          }, err => {
+          },
+          err => {
             console.log(err);
-            this.request = false
-            let objMessage = {}
+            this.request = false;
+            let objMessage = {};
             if (err.error.message.path) {
               console.log(typeof err.message);
               objMessage = {
                 text: "El nombre del proyecto ya existe",
-                type: "Info",
-              }
+                type: "Info"
+              };
             } else {
               objMessage = {
                 text: err.error.message,
-                type: "Info",
-              }
+                type: "Info"
+              };
             }
 
             this._messageDataService.changeMessage(objMessage);
             this.snackBar.openFromComponent(SnackbarComponent, {
-              horizontalPosition: 'right',
+              horizontalPosition: "right",
               verticalPosition: "top",
               panelClass: "background-warning",
               duration: 5000
             });
             console.log(err);
-          });
+          }
+        );
       }
     }
   }
@@ -234,7 +238,7 @@ export class NuevoComponent implements OnInit {
   setGrupo(grupo) {
     console.log(grupo);
     this.grupo = grupo;
-    this.setUrl(this.nuevoForm.controls["nombre"].value)
+    this.setUrl(this.nuevoForm.controls["nombre"].value);
 
     this.showEntidades = grupo ? true : false;
   }

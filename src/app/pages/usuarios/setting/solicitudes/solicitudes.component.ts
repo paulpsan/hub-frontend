@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import {
   HttpService,
@@ -15,12 +15,13 @@ import { environment } from "../../../../../environments/environment";
   templateUrl: "./solicitudes.component.html",
   styleUrls: ["./solicitudes.component.css"]
 })
-export class SolicitudesComponent implements OnInit {
+export class SolicitudesComponent implements OnInit, OnDestroy {
   solicitudFrom: FormGroup;
   usuario;
   solicitud;
   dominio;
   estado: boolean = false;
+  subscription;
   constructor(
     private router: Router,
     private _httpService: HttpService,
@@ -28,12 +29,11 @@ export class SolicitudesComponent implements OnInit {
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
   ) {
-    this.dominio=environment.gitlabAdmin.domain
-
-   }
+    this.dominio = environment.gitlabAdmin.domain;
+  }
 
   ngOnInit() {
-    this._usuarioService.usuario$.subscribe(repUsuario => {
+    this.subscription = this._usuarioService.usuario$.subscribe(repUsuario => {
       this.usuario = repUsuario;
       console.log(this.usuario);
     });
@@ -80,7 +80,7 @@ export class SolicitudesComponent implements OnInit {
             type: "Info"
           };
           if (err.error) {
-            objMessage.text = err.error.message
+            objMessage.text = err.error.message;
           }
 
           this._messageDataService.changeMessage(objMessage);
@@ -105,20 +105,24 @@ export class SolicitudesComponent implements OnInit {
         panelClass: "background-warning",
         duration: 5000
       });
-      this.solicitudFrom.controls['path'].setValue("");
+      this.solicitudFrom.controls["path"].setValue("");
     }
   }
   getSolicitud() {
-    this._httpService
-      .buscarId("solicitudes", this.usuario._id)
-      .subscribe(resp => {
+    this._httpService.buscarId("solicitudes", this.usuario._id).subscribe(
+      resp => {
         console.log(resp.length);
         this.solicitud = resp;
-      }, err => {
+      },
+      err => {
         console.log(err);
         if (err.status == 404) {
           this.solicitud = err.statusText;
         }
-      });
+      }
+    );
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
