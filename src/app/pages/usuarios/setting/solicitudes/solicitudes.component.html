@@ -7,7 +7,7 @@
       <div class="alert alert-info" role="alert">
         Su solicitud esta siendo procesada
       </div>
-    </div> 
+    </div>
     <div class="row justify-content-center mt-3" *ngIf="solicitud.estado=='aprobado'">
       <div class="alert alert-info" role="alert">
         Usted ya adminstra un grupo
@@ -59,8 +59,16 @@
               <input matInput placeholder="Cargo " formControlName="cargo">
               <mat-hint>Ejemplo: Jefe de Infraestructura</mat-hint>
             </mat-form-field>
-
           </div>
+
+          <!-- <div class="form-group">
+              <button mat-button type="button" (click)="fileToUpload.click()" color="primary">
+                <mat-icon mat-list-icon>add_photo_alternate</mat-icon>
+                Subir Documento
+              </button>
+              <input #fileToUpload (change)="seleccionImage($event.target.files[0])" type="file" style="display:none;">
+          </div> -->
+
           <div class="row justify-content-center">
             <button mat-button type="submit" [disabled]="!solicitudFrom.valid" color="primary">
               Enviar

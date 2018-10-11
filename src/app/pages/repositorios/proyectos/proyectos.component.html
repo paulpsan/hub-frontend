@@ -1,19 +1,19 @@
 <div class="row">
-  <div class="col-auto" *ngIf="proyectos">
+  <div class="col" *ngIf="proyectos">
     <div class="title-description">
       <h4>Sus Proyectos en el repositorio estatal son:</h4>
     </div>
-    <div class="col-auto col-12">
+    <div class="col-12">
       <div class="table-responsive-md">
         <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table">
           <thead class="thead-inverse">
             <tr>
               <th style="width: 150px">Proyecto</th>
-              <th>Visibilidad</th>
-              <th>Acción</th>
+              <th style="width: 80px">Visibilidad</th>
+              <th style="width: 80px">Acción</th>
             </tr>
           </thead>
-          <tbody >
+          <tbody>
             <tr *ngFor="let proyecto of proyectos">
               <td scope="row">
                 <a target="#" href="{{dominio}}/{{proyecto.path}}">
@@ -43,7 +43,7 @@
     </div>
 
   </div>
-  <div class="col-auto" *ngIf="grupos">
+  <div class="col" *ngIf="grupos">
     <div class="title-description">
       <h4>Sus Grupos en el repositorio estatal son:</h4>
     </div>
@@ -53,8 +53,8 @@
           <thead class="thead-inverse">
             <tr>
               <th>Grupo</th>
-              <th>Visibilidad</th>
-              <th>Acción</th>
+              <th style="width: 80px">Visibilidad</th>
+              <th style="width: 80px">Acción</th>
             </tr>
           </thead>
           <tbody>

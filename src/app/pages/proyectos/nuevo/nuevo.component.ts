@@ -170,33 +170,34 @@ export class NuevoComponent implements OnInit {
             this.request = false;
 
             if (!response.mensaje) {
-              this._httpService.post(`proyectos/${response.proyecto._id}/licencias`, this.usuario).subscribe();
-              //cargamos datos de commits del proyecto
-              this._httpService.get(`proyectos/${response.proyecto._id}/gitlab`).subscribe(
-                () => {
-                  if (this.imagenTemp) {
-                    this._subirArchivoService
-                      .subirArchivo(
-                        this.imagenSubir,
-                        "proyectos",
-                        response.proyecto._id
-                      )
-                      .then((resp: any) => {
-                        console.log(resp);
-                        const objPatch = {
-                          avatar: resp.proyecto.avatar
-                        };
-                        this._httpService
-                          .patch("proyectos", response.proyecto._id, objPatch)
-                          .subscribe(() => {
-                            this.router.navigate(["/proyectos"]);
-                          });
-                      });
-                  } else {
-                    this.nuevoForm.reset();
-                    this.router.navigate(["/proyectos"]);
-                  }
-                })
+              this._httpService.post(`proyectos/${response.proyecto._id}/licencias`, this.usuario).subscribe(() => {
+                //cargamos datos de commits del proyecto
+                this._httpService.get(`proyectos/${response.proyecto._id}/gitlab`).subscribe(
+                  () => {
+                    if (this.imagenTemp) {
+                      this._subirArchivoService
+                        .subirArchivo(
+                          this.imagenSubir,
+                          "proyectos",
+                          response.proyecto._id
+                        )
+                        .then((resp: any) => {
+                          console.log(resp);
+                          const objPatch = {
+                            avatar: resp.proyecto.avatar
+                          };
+                          this._httpService
+                            .patch("proyectos", response.proyecto._id, objPatch)
+                            .subscribe(() => {
+                              this.router.navigate(["/proyectos"]);
+                            });
+                        });
+                    } else {
+                      this.nuevoForm.reset();
+                      this.router.navigate(["/proyectos"]);
+                    }
+                  })
+              });
 
             } else {
               console.log("error ");
@@ -240,10 +241,9 @@ export class NuevoComponent implements OnInit {
     this.usuarios = usuarios;
   }
   setGrupo(grupo) {
-    console.log(grupo);
     this.grupo = grupo;
+    console.log(this.grupo);
     this.setUrl(this.nuevoForm.controls["nombre"].value);
-
     this.showEntidades = grupo ? true : false;
   }
 

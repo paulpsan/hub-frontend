@@ -2,13 +2,13 @@
   color: rgba(0, 0, 0, 0.54);
 } */
 
-.titulo_proyecto {
+.titulo-proyecto {
   cursor: pointer;
   text-decoration: none;
   text-transform: uppercase;
   color: #3f51b5
 }
 
-.contenedor_proyectos {
+.contenedor-proyectos {
   margin-bottom: 15px;
 }

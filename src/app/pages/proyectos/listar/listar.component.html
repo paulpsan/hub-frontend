@@ -20,28 +20,46 @@
     </div>
   </div>
   <ng-container *ngIf="proyectos">
-    <div class="card bg-light contenedor_proyectos" *ngFor="let proyecto of proyectos">
+    <div class="card bg-light contenedor-proyectos" *ngFor="let proyecto of proyectos">
       <div class="card-header">
-        <span class="titulo_proyecto" (click)="irProyecto(proyecto)">{{proyecto.nombre}}</span>
+        <div class="row">
+          <div class="col">
+            <span class="titulo-proyecto" (click)="irProyecto(proyecto)">{{proyecto.nombre}}</span>
+          </div>
+          <div class="col">
+            <span class="title-description">Titular: </span>
+            <span class="titulo-proyecto" (click)="irProyecto(proyecto)">{{proyecto.titular}}</span>
+          </div>
+        </div>
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-md-1">
-            <!-- <img *ngIf="proyecto.tipo=='github'" src="assets/" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
-            <!-- <img src="{{proyecto.avatar}}" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
-            <img [src]="proyecto.avatar |imagen:'proyecto'" alt="{{proyecto.tipo}}" style="width: 50px !important">
+          <div class="col-sm-5">
+            <div class="row no-gutters">
+              <div class="col-3">
+                <!-- <img *ngIf="proyecto.tipo=='github'" src="assets/" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
+                <!-- <img src="{{proyecto.avatar}}" alt="{{proyecto.tipo}}" style="width: 50px !important"> -->
+                <img [src]="proyecto.avatar |imagen:'proyecto'" alt="{{proyecto.tipo}}" style="width: 50px !important">
+              </div>
+              <div class="col">
+                <p matLine>{{proyecto.descripcion}}
+                </p>
+              </div>
+            </div>
+            <div class="title-description">
+              <span>Categorias: </span>
+              <mat-chip-list *ngFor="let categoria of proyecto.categorias">
+                <mat-chip>{{categoria.nombre}}</mat-chip>
+              </mat-chip-list>
+            </div>
           </div>
-          <div class="col-md-5">
-            <p matLine>{{proyecto.descripcion}}
-            </p>
-          </div>
-          <div class="col-md-6">
+          <div class="col-sm-7">
             <div class="row">
-              <div class="col-md-5 title-description">
+              <div class="col-5 title-description">
                 <i class="fa fa-user-circle"></i>
                 <span> Usuarios: </span>
               </div>
-              <div class="col-md-7">
+              <div class="col-7">
                 <!-- {{proyecto.usuarios}} -->
                 <span *ngFor="let usuario of proyecto.Usuarios">
                   <a [routerLink]="[ '/usuarios/',usuario._id  ]">{{usuario.nombre}} </a>
@@ -49,38 +67,38 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-5 title-description">
+              <div class="col-5 title-description">
                 <i class="fa fa-code"></i>
                 <span>Commits: </span>
               </div>
-              <div class="col-md-7" *ngIf="proyecto.commits">
+              <div class="col-7" *ngIf="proyecto.commits">
                 <span>{{proyecto.commits.length}}</span>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-5 title-description">
+              <div class="col-5 title-description">
                 <i class="fa fa-calendar"></i>
                 <span>Fecha Creacion: </span>
               </div>
-              <div class="col-md-7">
+              <div class="col-7">
                 <span>{{proyecto.fecha_creacion | fecha}}</span>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-5 title-description">
+              <div class="col-5 title-description">
                 <i class="fa fa-calendar"></i>
                 <span> Ultima actividad: </span>
               </div>
-              <div class="col-md-7">
+              <div class="col-7">
                 <span>{{proyecto.fecha_modificacion |fecha}}</span>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-5 title-description">
+              <div class="col-5 title-description">
                 <i class="fa fa-gitlab"></i>
                 <span>Url:</span>
               </div>
-              <div class="col-md-7" style=" word-wrap: break-word;">
+              <div class="col-7" style=" word-wrap: break-word;">
                 <a href="{{dominio}}/{{proyecto.path}}" target="#">{{dominio}}/{{proyecto.path}}</a>
               </div>
             </div>
@@ -92,15 +110,12 @@
         <div class="row">
           <div class="col-md-8">
             <div class="row">
-              <div class="col-md-6 title-description">
-                <span>Categorias: </span>
-                <mat-chip-list *ngFor="let categoria of proyecto.categorias">
-                  <mat-chip>{{categoria.nombre}}</mat-chip>
-                </mat-chip-list>
+              <div class="col">
+                <span class="title-description">Version: </span> {{proyecto.version}}
               </div>
-              <div class="col-md-6 title-description" *ngIf="proyecto.licencias">
-                <span>Licencia: </span>
-                <a href="{{dominio}}/{{proyecto.path}}" target="#">
+              <div class="col" *ngIf="proyecto.licencias">
+                <span class="title-description">Licencia: </span>
+                <a target="#">
                   {{proyecto.licencias.nombre}}
                 </a>
               </div>
@@ -108,10 +123,8 @@
           </div>
           <div class="col-md-4">
             <div class="row">
-              <div class="col-md-5 title-description">
-                <span>Clasificación</span>
-              </div>
-              <div>
+              <div class="col title-description">
+                <span>Clasificación : </span>
                 <a *ngFor="let item of starList; let i=index ">
                   <i *ngIf="i < proyecto.clasificacion.valor" class="fa" [ngClass]="{'fa-star':true}"></i>
                   <i *ngIf="i >= proyecto.clasificacion.valor" class="fa" [ngClass]="{'fa-star-o':true}"></i>

@@ -57,6 +57,9 @@ export class ListarComponent implements OnInit {
       result => {
         this.respuesta = result;
         this.proyectos = this.respuesta.datos;
+        this.proyectos = this.proyectos.map(proyecto => {
+          return proyecto.titular = proyecto.path.replace(proyecto.nombre, '')
+        })
         console.log(this.proyectos);
       },
       err => {
@@ -89,6 +92,10 @@ export class ListarComponent implements OnInit {
         this.total = this.respuesta.paginacion.total;
         this.pagina = this.respuesta.paginacion.paginaActual - 1;
         this.limite = this.respuesta.paginacion.limite;
+        this.proyectos = this.proyectos.map(proyecto => {
+          proyecto.titular = proyecto.path.split('/')[0]
+          return proyecto
+        })
         console.log(this.proyectos);
       },
       err => {

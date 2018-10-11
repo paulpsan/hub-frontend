@@ -1,131 +1,43 @@
-<div class="container-fluid p-0" *ngIf="proyecto">
-  <div class="col titulo_proyecto">
-    <div class="row justify-content-between">
-      <div class="col-3">
-        <i class="fa fa-folder" aria-hidden="true">
-          <span style="text-transform: uppercase;"> {{proyecto.nombre}}</span>
-        </i>
-      </div>
-      <div class="col-1">
-        <i class="fa fa-trash" aria-hidden="true"></i>
-        <span class="enlaces" (click)="eliminarProyecto(proyecto)">Eliminar</span>
-      </div>
-    </div>
-  </div>
+<div class="mb-3">
+  <h4 class="title-repo pl-3">Instrucciones en linea de Comando:</h4>
+  <div class="card-deck justify-content-md-center">
+    <div class="card col-xl-10">
+      <div class="card-body">
+        <h4 class="subtitle-repo">Configuración Global</h4>
+        <div class="pl-5">
+          git config --global user.name "Administrator"<br>
+          git config --global user.email "admin@example.com"<br>
 
-  <div class="col mb-3">
-    <div class="card-deck">
-      <div class="card">
-        <div class="card-header title-card">
-          <span>Resumen</span>
         </div>
+        <h4 class="subtitle-repo">Crear Nuevo Repositorio</h4>
+        <div class="pl-5">
 
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-5 title-description">
-              <i class="fa fa-book"></i>
-              <span> Descripcion: </span>
-            </div>
-            <div class="col-md-7">
-              <span>
-                <span>{{proyecto.descripcion}}</span>
-              </span>
-            </div>
-          </div>
-          <br>
-          <br>
+          git clone {{dominio}}/{{proyecto.path}}.git<br>
+          cd {{proyecto.nombre}}<br>
+          touch README.md<br>
+          git add README.md<br>
+          git commit -m "add README"<br>
+          git push -u origin master<br>
+
         </div>
-      </div>
-      <div class="card">
-        <div class="card-header title-card">
-          <span>Referencia</span>
+        <h4 class="subtitle-repo">Existiendo folder</h4>
+        <div class="pl-5">
+          cd existing_folder<br>
+          git init<br>
+          git remote add origin {{dominio}}/{{proyecto.path}}.git<br>
+          git pull origin master<br>
+          git add .<br>
+          git commit -m "Initial commit"<br>
+          git push -u origin master<br>
         </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-5">
-              <i class="fa fa-user-circle title-description"></i>
-              <span> Usuarios: </span>
-            </div>
-            <div class="col-md-7">
-              <span *ngFor="let usuario of proyecto.Usuarios">
-                <a [routerLink]="[ '/usuarios/',usuario._id  ]">{{usuario.nombre}} ,</a>
-              </span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5 title-description">
-              <i class="fa fa-calendar"></i>
-              <span>Fecha Creacion: </span>
-            </div>
-            <div class="col-md-7">
-              <span>{{proyecto.fecha_creacion |fecha}}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5 title-description">
-              <i class="fa fa-calendar"></i>
-              <span> Ultima actividad: </span>
-            </div>
-            <div class="col-md-7">
-              <span>{{proyecto.fecha_modificacion |fecha}}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-5 title-description">
-              <i class="fa fa-link"></i>
-              <span>Url:</span>
-            </div>
-            <div class="col-md-7" style=" word-wrap: break-word;">
-              <a href="{{proyecto.urlRepositorio}}" target="#">{{proyecto.urlRepositorio}}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        <h4 class="subtitle-repo">Existiendo Git Repositorio</h4>
+        <div class="pl-5">
 
-
-  <div class="mb-3">
-    <h4 class="title-repo pl-3">Instrucciones en linea de Comando:</h4>
-    <div class="card-deck justify-content-md-center">
-      <div class="card col-xl-10">
-        <div class="card-body">
-          <h4 class="subtitle-repo">Configuración Global</h4>
-          <div class="pl-5">
-            git config --global user.name "Administrator"<br>
-            git config --global user.email "admin@example.com"<br>
-
-          </div>
-          <h4 class="subtitle-repo">Crear Nuevo Repositorio</h4>
-          <div class="pl-5">
-
-            git clone {{proyecto.urlRepositorio}}.git<br>
-            cd {{proyecto.nombre}}<br>
-            touch README.md<br>
-            git add README.md<br>
-            git commit -m "add README"<br>
-            git push -u origin master<br>
-
-          </div>
-          <h4 class="subtitle-repo">Existiendo folder</h4>
-          <div class="pl-5">
-
-            cd existing_folder<br>
-            git init<br>
-            git remote add origin {{proyecto.urlRepositorio}}.git<br>
-            git add .<br>
-            git commit -m "Initial commit"<br>
-            git push -u origin master<br>
-          </div>
-          <h4 class="subtitle-repo">Existiendo Git Repositorio</h4>
-          <div class="pl-5">
-
-            cd existing_repo<br>
-            git remote rename origin old-origin<br>
-            git remote add origin {{proyecto.urlRepositorio}}.git<br>
-            git push -u origin --all<br>
-            git push -u origin --tags<br>
-          </div>
+          cd existing_repo<br>
+          git remote rename origin old-origin<br>
+          git remote add origin {{dominio}}/{{proyecto.path}}.git<br>
+          git push -u origin --all<br>
+          git push -u origin --tags<br>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-<div class="container-fluid p-0" *ngIf='!esNuevo'>
+<div class="container-fluid p-0" *ngIf="proyecto">
   <div class="col titulo_proyecto">
     <div class="row justify-content-between">
       <div class="col-3">
@@ -6,10 +6,10 @@
           <span style="text-transform: uppercase;"> {{proyecto.nombre}}</span>
         </i>
       </div>
-      <div class="col-1">
+      <!-- <div class="col-1">
         <i class="fa fa-trash" aria-hidden="true"></i>
-        <!-- <span class="enlaces" (click)="eliminarProyecto(proyecto)">Eliminar</span> -->
-      </div>
+        <span class="enlaces" (click)="eliminarProyecto(proyecto)">Eliminar</span>
+      </div> -->
     </div>
   </div>
 
@@ -116,24 +116,30 @@
       </div>
     </div>
   </div>
+  <ng-container *ngIf='esNuevo'>
+    <hub-nuevo-plantilla [proyecto]="proyecto">
 
-  <div class="col mb-3">
-    <h4 class="title-repo">Licencias</h4>
-    <div class="row justify-content-md-center">
-      <div class="col col-lg-5">
-        <div class="card bg-light">
-          <!-- <div class="card-header">GNU General Public Licence v2.0</div> -->
-          <div class="card-body">
-            <!-- <h4 class="card-title">Light card title</h4> -->
-            <p class="card-text">LPGBolivia </p>
+    </hub-nuevo-plantilla>
+  </ng-container>
+  <ng-container *ngIf='!esNuevo'>
+
+    <div class="col mb-3">
+      <h4 class="title-repo">Licencias</h4>
+      <div class="row justify-content-md-center">
+        <div class="col col-lg-5">
+          <div class="card bg-light">
+            <!-- <div class="card-header">GNU General Public Licence v2.0</div> -->
+            <div class="card-body">
+              <!-- <h4 class="card-title">Light card title</h4> -->
+              <p class="card-text">LPGBolivia </p>
+            </div>
           </div>
         </div>
+
       </div>
-
     </div>
-  </div>
 
-  <!-- <div class="col mb-3">
+    <!-- <div class="col mb-3">
     <h4>Seguridad del Proyecto</h4>
     <div class="card-deck">
       <div class="card">
@@ -155,58 +161,55 @@
     </div>
   </div> -->
 
-  <div class="mb-3 ">
-    <div class="card-deck justify-content-md-center">
+    <div class="mb-3 ">
+      <div class="card-deck justify-content-md-center">
 
-      <div class="card col-xl-6 col-md-12" *ngIf="dataRepo$">
-        <div class="card-body">
-          <span class="subtitle-repo">Commits</span>
+        <div class="card col-xl-6 col-md-12" *ngIf="dataRepo$">
+          <div class="card-body">
+            <span class="subtitle-repo">Commits</span>
 
-          <div class="mt-3">
-            <button mat-raised-button (click)="changeGraph('total')">General</button>
-            <!-- <button mat-raised-button (click)="changeGraph('años')">Año</button> -->
-            <button mat-raised-button (click)="changeGraph('mes')">Mes</button>
-            <line-chart class="chart-commit" [config]="config$" [data]="dataRepo$"></line-chart>
+            <div class="mt-3">
+              <button mat-raised-button (click)="changeGraph('total')">General</button>
+              <!-- <button mat-raised-button (click)="changeGraph('años')">Año</button> -->
+              <button mat-raised-button (click)="changeGraph('mes')">Mes</button>
+              <line-chart class="chart-commit" [config]="config$" [data]="dataRepo$"></line-chart>
+            </div>
+
           </div>
-
         </div>
-      </div>
-      <div class="card col-xl-4 col-md-12" *ngIf="lenguajes">
-        <div class="card-body ">
-          <span class="subtitle-repo">
-            Lenguajes de programacion
-          </span>
-          <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
-          </chart-lenguajes>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="mb-3">
-    <h4 class="title-repo pl-3">Historial de Desarrollo:</h4>
-    <div class="card-deck justify-content-md-center">
-      <div class="card col-xl-10">
-        <div class="card-body">
-          <span class="subtitle-repo">Commits por repositorio</span>
-          <div class="">
-            <heat-map style="grid-template-rows: 20vh;" class="chart-commit" [dataCalendar]="dataCalendar$"></heat-map>
+        <div class="card col-xl-4 col-md-12" *ngIf="lenguajes">
+          <div class="card-body ">
+            <span class="subtitle-repo">
+              Lenguajes de programacion
+            </span>
+            <chart-lenguajes [pieChartLabels]="pieChartLabels" [pieChartData]="pieChartData">
+            </chart-lenguajes>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- <div class="row mb-3 ml-0">
+    <div class="mb-3">
+      <h4 class="title-repo pl-3">Historial de Desarrollo:</h4>
+      <div class="card-deck justify-content-md-center">
+        <div class="card col-xl-10">
+          <div class="card-body">
+            <span class="subtitle-repo">Commits por repositorio</span>
+            <div class="">
+              <heat-map style="grid-template-rows: 20vh;" class="chart-commit" [dataCalendar]="dataCalendar$"></heat-map>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row mb-3 ml-0">
     <div class="col-4 pl-4">
       <h4>Lenguajes de programacion</h4>
       <chart-lenguajes>
       </chart-lenguajes>
     </div>
   </div> -->
-</div>
-<div *ngIf='esNuevo'>
-  <hub-nuevo-plantilla [proyecto]="proyecto">
+  </ng-container>
 
-  </hub-nuevo-plantilla>
 </div>

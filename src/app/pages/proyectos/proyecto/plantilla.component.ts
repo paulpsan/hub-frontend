@@ -19,8 +19,8 @@ import { SnackbarComponent } from "../../../shared/snackbar/snackbar.component";
   styleUrls: ["./plantilla.component.css"]
 })
 export class PlantillaComponent implements OnInit {
-  usuario
-
+  usuario;
+  dominio;
   @Input() proyecto;
   constructor(
     private route: ActivatedRoute,
@@ -30,7 +30,9 @@ export class PlantillaComponent implements OnInit {
     private _subirArchivoService: SubirArchivoService,
     private snackBar: MatSnackBar,
     private _messageDataService: MessageDataService
-  ) { }
+  ) {
+    this.dominio = environment.gitlabAdmin.domain;
+  }
 
   ngOnInit() {
     this._usuarioService.usuario$.subscribe(repUsuario => {
